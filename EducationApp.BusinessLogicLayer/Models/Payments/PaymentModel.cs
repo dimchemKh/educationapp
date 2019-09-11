@@ -6,5 +6,6 @@ namespace EducationApp.BusinessLogicLayer.Models.Payments
 {
     class PaymentModel
     {
+
     }
 }

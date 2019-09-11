@@ -6,5 +6,6 @@ namespace EducationApp.DataAccessLayer.Repositories.Base
 {
     class BaseEFRepository
     {
+        public int Id { get; protected set; }
     }
 }

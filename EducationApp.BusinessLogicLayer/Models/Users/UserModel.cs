@@ -6,5 +6,6 @@ namespace EducationApp.BusinessLogicLayer.Models.Users
 {
     class UserModel
     {
+        
     }
 }

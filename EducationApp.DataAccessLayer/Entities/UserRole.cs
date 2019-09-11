@@ -4,7 +4,9 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
-    class AuthorInProntingEdition
+    public class UserRole
     {
+        public Role RoleId { get; set; }
+        public ApplicationUser UserId { get; set; }
     }
 }

@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Base\" />
-    <Folder Include="Entities\Enums\" />
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
   </ItemGroup>
 
 </Project>
