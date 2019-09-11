@@ -14,4 +14,8 @@
     <ProjectReference Include="..\EducationApp.BusinessLayer\EducationApp.BusinessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middleware\" />
+  </ItemGroup>
+
 </Project>
