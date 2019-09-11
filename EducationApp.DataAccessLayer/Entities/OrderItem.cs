@@ -4,7 +4,13 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
-    class OrderItem
+    public class OrderItem
     {
+        public int Id { get; set; }
+        public int Amount { get; set; }
+        public Enums.Enums.Currency Currency { get; set; }
+        public int Count { get; set; }
+        public PrintingEdition PrintingEditionId { get; set; }
+
     }
 }

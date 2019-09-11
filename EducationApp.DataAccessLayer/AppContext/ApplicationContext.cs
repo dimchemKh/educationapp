@@ -1,10 +1,32 @@
-﻿using System;
+﻿using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Initialization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationApp.DataAccessLayer.AppContext
 {
-    class ApplicationContext : IDentityContext<>
+    public class ApplicationContext : IdentityDbContext<ApplicationUser, Role, long>
     {
+        public new DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<Author> Authors { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PrintingEdition> PrintingEditions { get; set; }
+        public new DbSet<Role> Roles { get; set; }
+
+        public ApplicationContext(DbContextOptions options) : base(options)
+        {
+            Database.EnsureCreated();
+            DbBaseInitializing.Initialize(this); 
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            //builder.Entity<>
+        }
     }
 }

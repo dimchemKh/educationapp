@@ -4,7 +4,10 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
-    class Payment
+    public class Payment
     {
+        public int Id { get; set; }
+        public int TransactionId { get; set; }
+
     }
 }

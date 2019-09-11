@@ -15,4 +15,8 @@
     <Folder Include="Helper\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EducationApp.BusinessLayer\EducationApp.BusinessLayer.csproj" />
+  </ItemGroup>
+
 </Project>
