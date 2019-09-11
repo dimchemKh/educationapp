@@ -1,8 +1,5 @@
-﻿//using EducationApp.DataAccessLayer.Initialization;
-using EducationApp.BusinessLayer;
+﻿using EducationApp.BusinessLayer;
 using EducationApp.BusinessLayer.Common.Interfaces;
-//using EducationApp.DataAccessLayer.AppContext;
-//using EducationApp.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +25,7 @@ namespace EducationApp.PresentationLayer
             Initializer.Init(services, Configuration);
             
 
-            services.AddSingleton<ILogger>();
+            //services.AddSingleton<ILogger>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -45,7 +42,7 @@ namespace EducationApp.PresentationLayer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseMiddleware<BusinessMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();

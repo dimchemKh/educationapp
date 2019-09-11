@@ -21,9 +21,9 @@ namespace EducationApp.DataAccessLayer.AppContext
             Database.EnsureCreated();
             
         }
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
             
-        }
+        //}
     }
 }

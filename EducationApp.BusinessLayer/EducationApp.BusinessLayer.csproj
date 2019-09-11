@@ -13,4 +13,8 @@
     <Folder Include="Models\Authors\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EducationApp.DataAccessLayer\EducationApp.DataAccessLayer.csproj" />
+  </ItemGroup>
+
 </Project>

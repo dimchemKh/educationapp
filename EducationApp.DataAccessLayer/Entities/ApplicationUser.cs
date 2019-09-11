@@ -7,7 +7,7 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class ApplicationUser : IdentityUser<long>
     {
-        public new int Id
+        public new long Id
         {
             get; set;
         }
