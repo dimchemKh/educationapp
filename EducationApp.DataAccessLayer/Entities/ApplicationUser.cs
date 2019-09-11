@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationUser : IdentityUser<long>
     {
         public new int Id
         {

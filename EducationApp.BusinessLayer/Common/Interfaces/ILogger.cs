@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Common.Interfaces
 {
-    interface ILogger
+    public interface ILogger
     {
         void WriteMessage(string message);
     }

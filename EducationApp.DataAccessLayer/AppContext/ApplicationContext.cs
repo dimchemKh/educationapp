@@ -22,7 +22,7 @@ namespace EducationApp.DataAccessLayer.AppContext
         public ApplicationContext(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
-            DbBaseInitializing.Initialize(this); 
+            
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Common
 {
-    class Logger : Interfaces.ILogger
+    public class Logger : Interfaces.ILogger
     {
         public void WriteMessage(string message)
         {
