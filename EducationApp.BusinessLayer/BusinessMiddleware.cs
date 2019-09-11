@@ -25,7 +25,7 @@ namespace EducationApp.BusinessLayer
             }
             catch (Exception ex)
             {
-                await ExceptionFilter(context, ex);                
+                //await ExceptionFilter(context, ex);                
             }
         }
     }

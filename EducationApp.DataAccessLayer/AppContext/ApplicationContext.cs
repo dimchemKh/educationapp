@@ -10,15 +10,12 @@ namespace EducationApp.DataAccessLayer.AppContext
 {
     public class ApplicationContext : IdentityDbContext<ApplicationUser, Role, long>
     {
-        public new DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Author> Authors { get; set; }
-
+        public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; };
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PrintingEdition> PrintingEditions { get; set; }
-        public new DbSet<Role> Roles { get; set; }
-
         public ApplicationContext(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
