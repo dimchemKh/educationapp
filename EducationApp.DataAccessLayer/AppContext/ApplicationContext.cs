@@ -11,7 +11,7 @@ namespace EducationApp.DataAccessLayer.AppContext
     public class ApplicationContext : IdentityDbContext<ApplicationUser, Role, long>
     {
         public DbSet<Author> Authors { get; set; }
-        public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; };
+        public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
