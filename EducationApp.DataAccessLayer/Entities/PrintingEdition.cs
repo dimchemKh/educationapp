@@ -12,8 +12,8 @@ namespace EducationApp.DataAccessLayer.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
-        public int Status { get; set; }
-        public int Currency { get; set; }
+        public Enums.Enums.Status Status { get; set; }
+        public Enums.Enums.Currency Currency { get; set; }
         public Enums.Enums.BookType Type { get; set; }
     }
 }

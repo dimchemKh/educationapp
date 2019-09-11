@@ -41,7 +41,7 @@ namespace EducationApp.PresentationLayer
                 app.UseHsts();
             }
 
-            loggerFactory.AddFile()
+            
 
             app.UseHttpsRedirection();
             app.UseMvc();

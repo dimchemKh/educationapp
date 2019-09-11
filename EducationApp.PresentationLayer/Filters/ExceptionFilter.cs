@@ -9,24 +9,8 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Filters
 {
-    public class ExceptionFilter : IExceptionFilter
+    public class ExceptionFilter
     {
-        public void OnException(ExceptionContext context)
-        {
-            HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
-            var message = "Error";
-
-            var exceptionType = context.Exception.GetType();
-            if (exceptionType is ExceptionFilter) // CustomException
-            {
-                message = context.Exception.Message;
-            }
-
-            context.ExceptionHandled = true;
-            HttpResponse response = context.HttpContext.Response;
-            response.StatusCode = (int)statusCode;
-            response.ContentType = "application/json";
-            context.Result = new ObjectResult(null);
-        }
+        
     }
 }
