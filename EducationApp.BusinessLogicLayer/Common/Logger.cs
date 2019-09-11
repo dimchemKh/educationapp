@@ -4,26 +4,32 @@ using System.IO;
 
 namespace EducationApp.BusinessLogicLayer.Common
 {
-    public class Logger : Interfaces.ILogger
+    public class Logger : ILogger
     {
-        public readonly ILogger<Logger> _logger;
-
-        public Logger(ILogger<Logger> logger)
+        private string _filepath;
+        private object _lock = new object();
+        public Logger(string filepath)
         {
-            _logger = logger;
-            
+            _filepath = filepath;
         }
-        public void WriteMessage(string message)
-        {
-            _logger.LogInformation(message);
 
-            using (StreamWriter writer = new StreamWriter("Logging.txt", false))
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            return true;
+        }
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        {
+            if(formatter != null)
             {
-                writer.WriteLine("Log: \r\n");
-                writer.WriteLine($"{DateTime.Now.ToLongTimeString()}");
-                writer.WriteLine($"{message}");
-                writer.WriteLine("------------------------------");
+                lock (_lock)
+                {
+                    File.AppendAllText(_filepath, formatter(state, exception) + Environment.NewLine);
+                }
             }
+        }
+        public IDisposable BeginScope<TState>(TState state)
+        {
+            return null;
         }
     }
 }

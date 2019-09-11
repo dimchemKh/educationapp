@@ -17,7 +17,7 @@ namespace EducationApp.DataAccessLayer.AppContext
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<>
+            
         }
     }
 }
