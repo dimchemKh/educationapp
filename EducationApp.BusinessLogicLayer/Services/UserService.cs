@@ -7,6 +7,6 @@ namespace EducationApp.BusinessLogicLayer.Services
 {
     public class UserService
     {
-        private readonly ApplicationContext
+        
     }
 }

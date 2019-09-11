@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EducationApp.DataAccessLayer.AppContext
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext 
     {
         public DbSet<Author> Authors { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
@@ -16,12 +16,12 @@ namespace EducationApp.DataAccessLayer.AppContext
         //{
         //    Database.SetInitializer(new Initialization.DataBaseInitialization());
         //}
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<PrintingEdition>(entity =>
-            {
-                entity.Property(e => { e.Name = "sd", e.Status = Enums.Status.Paid})
-            });
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<PrintingEdition>(entity =>
+        //    {
+        //        entity.Property(e => { e.Name = "sd", e.Status = Enums.Status.Paid})
+        //    });
+        //}
     }
 }

@@ -19,7 +19,6 @@ namespace EducationApp.PresentationLayer
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .ConfigureLogging()
+                .UseStartup<Startup>();
     }
 }

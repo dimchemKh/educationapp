@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationApp.BusinessLogicL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationApp.DataAccessLayer", "EducationApp.DataAccessLayer\EducationApp.DataAccessLayer.csproj", "{54941687-9374-4E85-ABD3-D94A05155850}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationApp.PresentationLayer", "EducationApp.PresentationLayer\EducationApp.PresentationLayer.csproj", "{F139DCBB-7D1F-4821-8BD9-A3ECC60C97A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{54941687-9374-4E85-ABD3-D94A05155850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54941687-9374-4E85-ABD3-D94A05155850}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54941687-9374-4E85-ABD3-D94A05155850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F139DCBB-7D1F-4821-8BD9-A3ECC60C97A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F139DCBB-7D1F-4821-8BD9-A3ECC60C97A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F139DCBB-7D1F-4821-8BD9-A3ECC60C97A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F139DCBB-7D1F-4821-8BD9-A3ECC60C97A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
