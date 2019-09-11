@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.DataAccessLayer.Entities
+namespace EducationApp.BusinessLayer.Common
 {
-    class Payment
+    class Logger
     {
     }
 }

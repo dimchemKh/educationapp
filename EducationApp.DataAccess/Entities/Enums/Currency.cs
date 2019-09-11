@@ -10,9 +10,11 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
         {
             None = 0,
             USD = 1,
-            CHF = 2,
-            EUR = 3
+            EUR = 2,
+            GBP = 3,
+            CHF = 4,
+            JPY = 5,
+            UAH = 6
         }
     }
-
 }

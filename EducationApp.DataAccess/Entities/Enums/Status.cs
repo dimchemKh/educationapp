@@ -6,13 +6,11 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
 {
     public partial class Enums
     {
-        public enum Currency
+        public enum Status
         {
             None = 0,
-            USD = 1,
-            CHF = 2,
-            EUR = 3
+            Paid = 1,
+            Unpaid = 2
         }
     }
-
 }

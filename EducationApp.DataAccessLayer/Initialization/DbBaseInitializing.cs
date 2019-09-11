@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.DataAccessLayer.Entities
+namespace EducationApp.DataAccessLayer.Initialization
 {
-    class Payment
+    class DbBaseInitializing
     {
     }
 }
