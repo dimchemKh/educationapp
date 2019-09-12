@@ -11,24 +11,21 @@ namespace EducationApp.DataAccessLayer.Initialization
     {
         private static readonly string[] roles = { "Admin", "User" };
 
-        public static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRoles(RoleManager<Role> roleManager)
         {
-
             foreach (var role in roles)
             {
 
                 if (!await roleManager.RoleExistsAsync(role))
                 {
-                    var create = await roleManager.CreateAsync(new IdentityRole() { Name = role });
+                    var create = await roleManager.CreateAsync(new Role() { Name = role });
 
                     if (!create.Succeeded)
                     {
                         throw new Exception("Fail to create Roles");
                     }
                 }
-
             }
-
         }
     }
 }

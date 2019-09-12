@@ -28,7 +28,7 @@ namespace EducationApp.BusinessLayer
 
             services.AddSingleton<ILogger, Logger>();
         }
-        public static  void Init(IApplicationBuilder app, RoleManager<IdentityRole> roleManager)
+        public static  void Init(IApplicationBuilder app, RoleManager<Role> roleManager)
         {
             RoleInitialization.SeedRoles(roleManager).Wait();
         }

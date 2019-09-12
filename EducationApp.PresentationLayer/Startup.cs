@@ -44,7 +44,7 @@ namespace EducationApp.PresentationLayer
             app.UseStatusCodePages();
             app.UseAuthentication();
 
-            Initializer.Init(app, roleManager);
+            //Initializer.Init(app, roleManager);
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseMvc();

@@ -6,5 +6,9 @@ namespace EducationApp.BusinessLayer.Services
 {
     class AccountService
     {
+        public AccountService()
+        {
+
+        }
     }
 }
