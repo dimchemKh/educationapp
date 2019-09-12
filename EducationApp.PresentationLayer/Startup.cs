@@ -28,7 +28,7 @@ namespace EducationApp.PresentationLayer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -41,10 +41,13 @@ namespace EducationApp.PresentationLayer
             }
 
             app.UseHttpsRedirection();
+
             app.UseStatusCodePages();
+
             app.UseAuthentication();
 
             //Initializer.Init(app, roleManager);
+
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseMvc();

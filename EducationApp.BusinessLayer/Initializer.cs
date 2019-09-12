@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer
 {
@@ -28,10 +29,25 @@ namespace EducationApp.BusinessLayer
 
             services.AddSingleton<ILogger, Logger>();
         }
-        public static  void Init(IApplicationBuilder app, RoleManager<Role> roleManager)
+        //public static  void Init(IApplicationBuilder app, RoleManager<Role> roleManager)
+        //{
+        //    RoleInitialization.SeedRoles(roleManager).Wait();
+        //}
+        public static async Task Init(IServiceScope scope)
         {
-            RoleInitialization.SeedRoles(roleManager).Wait();
+            var services = scope.ServiceProvider;
+
+            try
+            {
+                var user = services.GetRequiredService<UserManager<ApplicationUser>>();
+                var role = services.GetRequiredService<RoleManager<Role>>();
+                await RoleInitialization.InitializeAsync(user, role);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
-        
     }
 }

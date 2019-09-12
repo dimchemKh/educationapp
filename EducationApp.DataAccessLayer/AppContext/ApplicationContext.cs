@@ -9,7 +9,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.AppContext
 {
-    public class ApplicationContext : IdentityDbContext<ApplicationUser, IdentityRole, long>
+    public class ApplicationContext : IdentityDbContext<ApplicationUser, Role, long>
     {
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
@@ -24,7 +24,7 @@ namespace EducationApp.DataAccessLayer.AppContext
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //DbBaseInitializing.Init();
+            base.OnModelCreating(builder);
         }
     }
 }
