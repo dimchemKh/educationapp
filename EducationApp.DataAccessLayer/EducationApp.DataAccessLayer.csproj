@@ -5,13 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190912070536_InitialCreate.cs" />
-    <Compile Remove="Migrations\20190912070536_InitialCreate.Designer.cs" />
+    <Compile Remove="Entities\Base\**" />
+    <Compile Remove="Repository\**" />
+    <EmbeddedResource Remove="Entities\Base\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Entities\Base\**" />
+    <None Remove="Repository\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Base\" />
-    <Folder Include="Repository\" />
+    <Compile Remove="Migrations\20190912070536_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190912070536_InitialCreate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
