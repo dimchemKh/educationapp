@@ -10,7 +10,7 @@ namespace EducationApp.DataAccessLayer.Entities
         public int Amount { get; set; }
         public Enums.Enums.Currency Currency { get; set; }
         public int Count { get; set; }
-        public PrintingEdition PrintingEditionId { get; set; }
+        public PrintingEdition PrintingEditionsId { get; set; }
 
     }
 }

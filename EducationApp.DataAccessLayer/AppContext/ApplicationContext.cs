@@ -1,5 +1,6 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Initialization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.AppContext
 {
-    public class ApplicationContext : IdentityDbContext<ApplicationUser, Role, long>
+    public class ApplicationContext : IdentityDbContext<ApplicationUser, IdentityRole, long>
     {
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
@@ -21,9 +22,9 @@ namespace EducationApp.DataAccessLayer.AppContext
             Database.EnsureCreated();
             
         }
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-            
-        //}
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            //DbBaseInitializing.Init();
+        }
     }
 }

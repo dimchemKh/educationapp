@@ -94,17 +94,17 @@ namespace EducationApp.DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorIdId");
+                    b.Property<int?>("AuthorsIdId");
 
                     b.Property<DateTime>("Data");
 
-                    b.Property<int?>("PrintingEditionIdId");
+                    b.Property<int?>("PrintingEditionsIdId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorIdId");
+                    b.HasIndex("AuthorsIdId");
 
-                    b.HasIndex("PrintingEditionIdId");
+                    b.HasIndex("PrintingEditionsIdId");
 
                     b.ToTable("AuthorInPrintingEditions");
                 });
@@ -119,15 +119,15 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("PaymentIdId");
+                    b.Property<int?>("PaymentsIdId");
 
-                    b.Property<long?>("UserIdId");
+                    b.Property<long?>("UsersIdId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentIdId");
+                    b.HasIndex("PaymentsIdId");
 
-                    b.HasIndex("UserIdId");
+                    b.HasIndex("UsersIdId");
 
                     b.ToTable("Orders");
                 });
@@ -144,11 +144,11 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<int>("Currency");
 
-                    b.Property<int?>("PrintingEditionIdId");
+                    b.Property<int?>("PrintingEditionsIdId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PrintingEditionIdId");
+                    b.HasIndex("PrintingEditionsIdId");
 
                     b.ToTable("OrderItems");
                 });
@@ -301,31 +301,31 @@ namespace EducationApp.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.AuthorInPrintingEdition", b =>
                 {
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.Author", "AuthorId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.Author", "AuthorsId")
                         .WithMany()
-                        .HasForeignKey("AuthorIdId");
+                        .HasForeignKey("AuthorsIdId");
 
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.PrintingEdition", "PrintingEditionId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.PrintingEdition", "PrintingEditionsId")
                         .WithMany()
-                        .HasForeignKey("PrintingEditionIdId");
+                        .HasForeignKey("PrintingEditionsIdId");
                 });
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.Order", b =>
                 {
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.Payment", "PaymentId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.Payment", "PaymentsId")
                         .WithMany()
-                        .HasForeignKey("PaymentIdId");
+                        .HasForeignKey("PaymentsIdId");
 
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.ApplicationUser", "UserId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.ApplicationUser", "UsersId")
                         .WithMany()
-                        .HasForeignKey("UserIdId");
+                        .HasForeignKey("UsersIdId");
                 });
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.OrderItem", b =>
                 {
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.PrintingEdition", "PrintingEditionId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.PrintingEdition", "PrintingEditionsId")
                         .WithMany()
-                        .HasForeignKey("PrintingEditionIdId");
+                        .HasForeignKey("PrintingEditionsIdId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>

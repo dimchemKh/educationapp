@@ -1,10 +1,9 @@
 ﻿using EducationApp.BusinessLayer;
-using EducationApp.BusinessLayer.Common.Interfaces;
+using EducationApp.PresentationLayer.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,16 +21,14 @@ namespace EducationApp.PresentationLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Initializer.Init(services, Configuration);
+            Initializer.InitServices(services, Configuration);           
             
-
-            //services.AddSingleton<ILogger>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -44,7 +41,12 @@ namespace EducationApp.PresentationLayer
             }
 
             app.UseHttpsRedirection();
+            app.UseStatusCodePages();
             app.UseAuthentication();
+
+            Initializer.Init(app, roleManager);
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseMvc();
         }
     }

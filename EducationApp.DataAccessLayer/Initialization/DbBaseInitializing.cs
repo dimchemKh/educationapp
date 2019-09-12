@@ -1,40 +1,22 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationApp.DataAccessLayer.Initialization
 {
-    public class DbBaseInitializing
+    public static class DbBaseInitializing
     {
-        //public static void Initialize(AppContext.ApplicationContext context)
+        //private UserManager<ApplicationUser> _userManager;
+        //private RoleManager<Role> _roleManager;
+
+
+        //public static void Init(RoleManager<Role> _roleManager)
         //{
-        //    var authors = new Author[]
-        //    {
-        //       new Author(){ Name = "Course"},
-        //       new Author(){Name = "Bol"},
-        //       new Author(){Name = "Falkon"}
-        //    };
-        //    foreach (var author in authors)
-        //    {
-        //        context.Add(author);
-        //    }
-
-        //    context.SaveChanges();
-
-        //    var orders = new Order[]
-        //    {
-        //        new Order(){Description = "Lore"},
-        //        new Order(){Description = "Lore1"},
-        //        new Order(){Description = "Lore2"},
-        //        new Order(){Description = "Lore3"}
-        //    };
-        //    foreach (var author in authors)
-        //    {
-        //        context.Add(author);
-        //    }
-
-        //    context.SaveChanges();
+        //    _roleManager.CreateAsync(new Role() { Name = "Admin" });
+        //    _roleManager.CreateAsync(new Role() { Name = "User" });            
         //}
+
     }
 }

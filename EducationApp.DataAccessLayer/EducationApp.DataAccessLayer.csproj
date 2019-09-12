@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190912070536_InitialCreate.cs" />
+    <Compile Remove="Migrations\20190912070536_InitialCreate.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Entities\Base\" />
-    <Folder Include="Migrations\" />
     <Folder Include="Repository\" />
   </ItemGroup>
 
