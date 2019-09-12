@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Initialization
 {
-    public static class RoleInitialization
+    public class RoleInitialization
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+
+        public RoleInitialization(UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
         //private static readonly string[] roles = { "Admin", "User" };
 
         //public static async Task SeedRoles(RoleManager<Role> roleManager)
@@ -25,30 +33,30 @@ namespace EducationApp.DataAccessLayer.Initialization
         //        }
         //    }
         //}
-        public static async Task InitializeAsync(UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager)
+        public async void InitializeAsync(/*UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager*/)
         {
             string adminEmail = "admin@gmail.com";
             string password = "qwerty";
 
-            if (await roleManager.FindByNameAsync("admin") == null)
-            {
-                await roleManager.CreateAsync(new Role() { Name = "admin" });
-            }
-
-            if (await roleManager.FindByNameAsync("user") == null)
-            {
-                await roleManager.CreateAsync(new Role() { Name = "user" });
-            }
-
-            if (await userManager.FindByNameAsync(adminEmail) == null)
+            if (await _roleManager.FindByNameAsync("admin") == null)
+            {         
+                await _roleManager.CreateAsync(new Role() { Name = "admin" });
+            }         
+                      
+            if (await _roleManager.FindByNameAsync("user") == null)
+            {         
+                await _roleManager.CreateAsync(new Role() { Name = "user" });
+            }         
+                      
+            if (await _userManager.FindByNameAsync(adminEmail) == null)
             {
                 ApplicationUser admin = new ApplicationUser { Email = adminEmail, UserName = adminEmail };
 
-                IdentityResult result = await userManager.CreateAsync(admin, password);
+                IdentityResult result = await _userManager.CreateAsync(admin, password);
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, "admin");
+                    await _userManager.AddToRoleAsync(admin, "admin");
                 }
             }
         }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Repository.Base
 {
-    interface BaseEFRepository<T> where T : BaseEntity
+    public interface IBaseEFRepository<T> where T : class
     {
         T GetById(int id);
         IEnumerable<T> List();

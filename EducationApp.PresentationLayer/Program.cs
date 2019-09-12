@@ -23,7 +23,7 @@ namespace EducationApp.PresentationLayer
                 
             using(var scope = host.Services.CreateScope())
             {
-                await Initializer.Init(scope);
+                //await Initializer.Init(scope);
             }   
             
             host.Run();

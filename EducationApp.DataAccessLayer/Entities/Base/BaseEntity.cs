@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities.Base
 {
-    public abstract class BaseEntity
+    public class BaseEntity
     {
 
     }

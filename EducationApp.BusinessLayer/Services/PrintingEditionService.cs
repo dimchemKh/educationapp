@@ -4,7 +4,11 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Services
 {
-    class PrintingEditionService
+    public class PrintingEditionService : Interfaces.IPrintingEditionService
     {
+        public PrintingEditionService()
+        {
+
+        }
     }
 }

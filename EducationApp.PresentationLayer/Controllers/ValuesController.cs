@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EducationApp.DataAccessLayer.Initialization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationApp.PresentationLayer.Controllers
@@ -10,6 +11,10 @@ namespace EducationApp.PresentationLayer.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        public ValuesController(RoleInitialization initializer)
+        {
+            initializer.InitializeAsync();
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

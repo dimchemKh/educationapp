@@ -4,7 +4,8 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Services.Interfaces
 {
-    class IUserService
+    public interface IUserService
     {
+
     }
 }

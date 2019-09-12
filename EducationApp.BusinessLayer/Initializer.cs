@@ -1,5 +1,7 @@
 ﻿using EducationApp.BusinessLayer.Common;
 using EducationApp.BusinessLayer.Common.Interfaces;
+using EducationApp.BusinessLayer.Services;
+using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Initialization;
@@ -28,26 +30,34 @@ namespace EducationApp.BusinessLayer
             //new DataAccessLayer.Initialization.DbBaseInitializing().Init();
 
             services.AddSingleton<ILogger, Logger>();
+
+            //services.AddScoped<IUserService, UserService>();
+
+            services.AddSingleton(typeof(RoleInitialization));
+
+            //services.AddScoped(IPrintingEditionService, PrintingEditionService);
         }
+
         //public static  void Init(IApplicationBuilder app, RoleManager<Role> roleManager)
         //{
         //    RoleInitialization.SeedRoles(roleManager).Wait();
         //}
-        public static async Task Init(IServiceScope scope)
-        {
-            var services = scope.ServiceProvider;
 
-            try
-            {
-                var user = services.GetRequiredService<UserManager<ApplicationUser>>();
-                var role = services.GetRequiredService<RoleManager<Role>>();
-                await RoleInitialization.InitializeAsync(user, role);
-            }
-            catch (Exception)
-            {
+        //public static async Task Init(IServiceScope scope)
+        //{
+        //    var services = scope.ServiceProvider;
 
-                throw;
-            }
-        }
+        //    try
+        //    {
+        //        var user = services.GetRequiredService<UserManager<ApplicationUser>>();
+        //        var role = services.GetRequiredService<RoleManager<Role>>();
+        //        await RoleInitialization.InitializeAsync(user, role);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
     }
 }
