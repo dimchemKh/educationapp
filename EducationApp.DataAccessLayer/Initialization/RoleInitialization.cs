@@ -33,7 +33,7 @@ namespace EducationApp.DataAccessLayer.Initialization
         //        }
         //    }
         //}
-        public async void InitializeAsync(/*UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager*/)
+        public async Task InitializeAsync(/*UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager*/)
         {
             string adminEmail = "admin@gmail.com";
             string password = "qwerty";

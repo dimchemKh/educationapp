@@ -1,8 +1,10 @@
 ﻿using EducationApp.BusinessLayer.Services.Interfaces;
+using EducationApp.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,40 +12,26 @@ namespace EducationApp.PresentationLayer.Controllers
 {
     public class AccountController : Controller
     {
-
-        private readonly IUserService _userService;
-        public AccountController(IUserService userService)
+        private IAccountService _accountService;
+        public AccountController(IAccountService accountService)
         {
-            _userService = userService;
+            _accountService = accountService;
         }
         [HttpGet]
-        public IActionResult Register()
+        public void Index()
         {
-            return View();
+
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Register(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        User user = new User { Email = model.Email, UserName = model.Email, Year = model.Year };
-        //        // добавляем пользователя
-        //        var result = await _userManager.CreateAsync(user, model.Password);
-        //        if (result.Succeeded)
-        //        {
-        //            // установка куки
-        //            await _signInManager.SignInAsync(user, false);
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        else
-        //        {
-        //            foreach (var error in result.Errors)
-        //            {
-        //                ModelState.AddModelError(string.Empty, error.Description);
-        //            }
-        //        }
-        //    }
-        //    return View(model);
-        //}
+
+        [HttpPost]
+        public void Register()
+        {
+            //_accountService.RegisterAsync("Firest", "Last", "Pass");
+        }
+
+        public void Login()
+        {
+
+        }
     }
 }

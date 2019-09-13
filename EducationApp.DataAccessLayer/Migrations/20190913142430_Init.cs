@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EducationApp.DataAccessLayer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,6 +57,8 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    IsRemoved = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -70,6 +72,8 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    IsRemoved = table.Column<bool>(nullable: false),
                     TransactionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -83,10 +87,11 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    IsRemoved = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<int>(nullable: false),
-                    IsRemoved = table.Column<bool>(nullable: false),
                     Status = table.Column<int>(nullable: false),
                     Currency = table.Column<int>(nullable: false),
                     Type = table.Column<int>(nullable: false)
@@ -208,23 +213,25 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    IsRemoved = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    UsersIdId = table.Column<long>(nullable: true),
+                    UserId = table.Column<long>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
-                    PaymentsIdId = table.Column<int>(nullable: true)
+                    PaymentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Payments_PaymentsIdId",
-                        column: x => x.PaymentsIdId,
+                        name: "FK_Orders_Payments_PaymentId",
+                        column: x => x.PaymentId,
                         principalTable: "Payments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_UsersIdId",
-                        column: x => x.UsersIdId,
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -236,22 +243,24 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AuthorsIdId = table.Column<int>(nullable: true),
-                    PrintingEditionsIdId = table.Column<int>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    IsRemoved = table.Column<bool>(nullable: false),
+                    AuthorId = table.Column<int>(nullable: true),
+                    PrintingEditionId = table.Column<int>(nullable: true),
                     Data = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuthorInPrintingEditions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AuthorInPrintingEditions_Authors_AuthorsIdId",
-                        column: x => x.AuthorsIdId,
+                        name: "FK_AuthorInPrintingEditions_Authors_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AuthorInPrintingEditions_PrintingEditions_PrintingEditionsIdId",
-                        column: x => x.PrintingEditionsIdId,
+                        name: "FK_AuthorInPrintingEditions_PrintingEditions_PrintingEditionId",
+                        column: x => x.PrintingEditionId,
                         principalTable: "PrintingEditions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -263,6 +272,8 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    IsRemoved = table.Column<bool>(nullable: false),
                     Amount = table.Column<int>(nullable: false),
                     Currency = table.Column<int>(nullable: false),
                     Count = table.Column<int>(nullable: false),
@@ -277,6 +288,30 @@ namespace EducationApp.DataAccessLayer.Migrations
                         principalTable: "PrintingEditions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Authors",
+                columns: new[] { "Id", "CreationDate", "IsRemoved", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2019, 9, 13, 17, 24, 30, 476, DateTimeKind.Local).AddTicks(4924), false, "Tom Jackson" },
+                    { 2, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(5995), false, "Jack Jill" },
+                    { 3, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6012), false, "Dan Bolson" },
+                    { 4, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6015), false, "Mark Avreliy" },
+                    { 5, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018), false, "Bob Tomhson" },
+                    { 6, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018), false, "Arthur Bang" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PrintingEditions",
+                columns: new[] { "Id", "CreationDate", "Currency", "Description", "IsRemoved", "Name", "Price", "Status", "Type" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(7764), 0, "Text", false, "Babysister", 20, 0, 1 },
+                    { 2, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9184), 0, "Some Text", false, "Butcher", 40, 0, 1 },
+                    { 3, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9201), 0, "Some Descript", false, "Planet after us", 10, 0, 3 },
+                    { 4, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9204), 0, "Some descr", false, "Peppka Shmepka", 30, 0, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -319,14 +354,14 @@ namespace EducationApp.DataAccessLayer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorInPrintingEditions_AuthorsIdId",
+                name: "IX_AuthorInPrintingEditions_AuthorId",
                 table: "AuthorInPrintingEditions",
-                column: "AuthorsIdId");
+                column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorInPrintingEditions_PrintingEditionsIdId",
+                name: "IX_AuthorInPrintingEditions_PrintingEditionId",
                 table: "AuthorInPrintingEditions",
-                column: "PrintingEditionsIdId");
+                column: "PrintingEditionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_PrintingEditionsIdId",
@@ -334,14 +369,14 @@ namespace EducationApp.DataAccessLayer.Migrations
                 column: "PrintingEditionsIdId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_PaymentsIdId",
+                name: "IX_Orders_PaymentId",
                 table: "Orders",
-                column: "PaymentsIdId");
+                column: "PaymentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_UsersIdId",
+                name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "UsersIdId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

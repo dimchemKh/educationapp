@@ -7,7 +7,7 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class OrderItem : BaseEntity
     {
-        public int Id { get; set; }
+        
         public int Amount { get; set; }
         public Enums.Enums.Currency Currency { get; set; }
         public int Count { get; set; }

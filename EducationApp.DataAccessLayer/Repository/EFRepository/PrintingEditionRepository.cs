@@ -1,4 +1,5 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -6,31 +7,15 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
-    class PrintingEditionRepository : Base.IBaseEFRepository<PrintingEdition>
+    class PrintingEditionRepository : IPrintingEditionRepository
     {
-        public void Add(PrintingEdition entity)
-        {
-
-        }
-        public void Delete(PrintingEdition entity)
-        {
-
-        }
-        public void Edit(PrintingEdition entity)
-        {
-
-        }
-        public PrintingEdition GetById(int id)
-        {
-            return null;
-        }
-        public IEnumerable<PrintingEdition> List()
-        {
-            return null;
-        }
-        public IEnumerable<PrintingEdition> List(Expression<Func<PrintingEdition, bool>> predicate)
-        {
-            return null;
-        }
+        public void Add(PrintingEdition entity) => throw new NotImplementedException();
+        public void Delete(PrintingEdition entity) => throw new NotImplementedException();
+        public void Edit(PrintingEdition entity) => throw new NotImplementedException();
+        public PrintingEdition GetById(int id) => throw new NotImplementedException();
+        public IEnumerable<PrintingEdition> GetPrintingEditions() => throw new NotImplementedException();
+        public IEnumerable<PrintingEdition> List() => throw new NotImplementedException();
+        public IEnumerable<PrintingEdition> List(Expression<Func<PrintingEdition, bool>> predicate) => throw new NotImplementedException();
+        public void Save() => throw new NotImplementedException();
     }
 }

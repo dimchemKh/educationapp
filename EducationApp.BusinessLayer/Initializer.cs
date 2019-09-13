@@ -33,7 +33,8 @@ namespace EducationApp.BusinessLayer
 
             //services.AddScoped<IUserService, UserService>();
 
-            services.AddSingleton(typeof(RoleInitialization));
+            services.AddScoped(typeof(RoleInitialization));
+            //services.AddScoped(typeof(IPrintingEditionService));
 
             //services.AddScoped(IPrintingEditionService, PrintingEditionService);
         }

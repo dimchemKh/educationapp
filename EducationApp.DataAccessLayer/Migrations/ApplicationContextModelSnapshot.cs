@@ -81,11 +81,59 @@ namespace EducationApp.DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<bool>("IsRemoved");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 476, DateTimeKind.Local).AddTicks(4924),
+                            IsRemoved = false,
+                            Name = "Tom Jackson"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(5995),
+                            IsRemoved = false,
+                            Name = "Jack Jill"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6012),
+                            IsRemoved = false,
+                            Name = "Dan Bolson"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6015),
+                            IsRemoved = false,
+                            Name = "Mark Avreliy"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018),
+                            IsRemoved = false,
+                            Name = "Bob Tomhson"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018),
+                            IsRemoved = false,
+                            Name = "Arthur Bang"
+                        });
                 });
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.AuthorInPrintingEdition", b =>
@@ -94,17 +142,21 @@ namespace EducationApp.DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AuthorsIdId");
+                    b.Property<int?>("AuthorId");
+
+                    b.Property<DateTime>("CreationDate");
 
                     b.Property<DateTime>("Data");
 
-                    b.Property<int?>("PrintingEditionsIdId");
+                    b.Property<bool>("IsRemoved");
+
+                    b.Property<int?>("PrintingEditionId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorsIdId");
+                    b.HasIndex("AuthorId");
 
-                    b.HasIndex("PrintingEditionsIdId");
+                    b.HasIndex("PrintingEditionId");
 
                     b.ToTable("AuthorInPrintingEditions");
                 });
@@ -115,19 +167,23 @@ namespace EducationApp.DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("PaymentsIdId");
+                    b.Property<bool>("IsRemoved");
 
-                    b.Property<long?>("UsersIdId");
+                    b.Property<int?>("PaymentId");
+
+                    b.Property<long?>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentsIdId");
+                    b.HasIndex("PaymentId");
 
-                    b.HasIndex("UsersIdId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -142,7 +198,11 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<int>("Count");
 
+                    b.Property<DateTime>("CreationDate");
+
                     b.Property<int>("Currency");
+
+                    b.Property<bool>("IsRemoved");
 
                     b.Property<int?>("PrintingEditionsIdId");
 
@@ -159,6 +219,10 @@ namespace EducationApp.DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<bool>("IsRemoved");
+
                     b.Property<int>("TransactionId");
 
                     b.HasKey("Id");
@@ -171,6 +235,8 @@ namespace EducationApp.DataAccessLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationDate");
 
                     b.Property<int>("Currency");
 
@@ -189,6 +255,56 @@ namespace EducationApp.DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PrintingEditions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(7764),
+                            Currency = 0,
+                            Description = "Text",
+                            IsRemoved = false,
+                            Name = "Babysister",
+                            Price = 20,
+                            Status = 0,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9184),
+                            Currency = 0,
+                            Description = "Some Text",
+                            IsRemoved = false,
+                            Name = "Butcher",
+                            Price = 40,
+                            Status = 0,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9201),
+                            Currency = 0,
+                            Description = "Some Descript",
+                            IsRemoved = false,
+                            Name = "Planet after us",
+                            Price = 10,
+                            Status = 0,
+                            Type = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9204),
+                            Currency = 0,
+                            Description = "Some descr",
+                            IsRemoved = false,
+                            Name = "Peppka Shmepka",
+                            Price = 30,
+                            Status = 0,
+                            Type = 2
+                        });
                 });
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.Role", b =>
@@ -301,24 +417,24 @@ namespace EducationApp.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.AuthorInPrintingEdition", b =>
                 {
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.Author", "AuthorsId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.Author", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorsIdId");
+                        .HasForeignKey("AuthorId");
 
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.PrintingEdition", "PrintingEditionsId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.PrintingEdition", "PrintingEdition")
                         .WithMany()
-                        .HasForeignKey("PrintingEditionsIdId");
+                        .HasForeignKey("PrintingEditionId");
                 });
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.Order", b =>
                 {
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.Payment", "PaymentsId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.Payment", "Payment")
                         .WithMany()
-                        .HasForeignKey("PaymentsIdId");
+                        .HasForeignKey("PaymentId");
 
-                    b.HasOne("EducationApp.DataAccessLayer.Entities.ApplicationUser", "UsersId")
+                    b.HasOne("EducationApp.DataAccessLayer.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UsersIdId");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.OrderItem", b =>

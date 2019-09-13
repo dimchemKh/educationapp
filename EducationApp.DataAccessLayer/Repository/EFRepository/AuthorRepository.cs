@@ -1,18 +1,25 @@
-﻿using EducationApp.DataAccessLayer.Entities;
+﻿using EducationApp.DataAccessLayer.AppContext;
+using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Repository.Base;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
-    public class AuthorRepository : Base.IBaseEFRepository<Author>
+    public class AuthorRepository : BaseEFRepository<Author>, IAuthorRepository
     {
-        public void Add(Author entity) => throw new NotImplementedException();
-        public void Delete(Author entity) => throw new NotImplementedException();
-        public void Edit(Author entity) => throw new NotImplementedException();
-        public Author GetById(int id) => throw new NotImplementedException();
-        public IEnumerable<Author> List() => throw new NotImplementedException();
-        public IEnumerable<Author> List(Expression<Func<Author, bool>> predicate) => throw new NotImplementedException();
+        public AuthorRepository(ApplicationContext context) : base(context)
+        {
+            
+        }
+
+        public async Task<Author> GetAuthorByIdAsync(int id)
+        {
+            return await GetByIdAsync(id);
+        }
     }
 }

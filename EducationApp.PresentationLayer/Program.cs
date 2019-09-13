@@ -17,19 +17,21 @@ namespace EducationApp.PresentationLayer
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args);
+            CreateWebHostBuilder(args).Build().Run();
+
+            //var host = CreateWebHostBuilder(args);
                 
-            using(var scope = host.Services.CreateScope())
-            {
-                //await Initializer.Init(scope);
-            }   
+            //using(var scope = host.Services.CreateScope())
+            //{
+            //    //await Initializer.Init(scope);
+            //}   
             
-            host.Run();
+            //host.Run();
         }
 
-        public static IWebHost CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>();
     }
 }

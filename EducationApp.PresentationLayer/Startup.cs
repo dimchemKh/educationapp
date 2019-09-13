@@ -54,9 +54,15 @@ namespace EducationApp.PresentationLayer
 
             app.UseMiddleware<ExceptionMiddleware>();
 
+            //app.UseMvc(routes => 
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Account}/{action=Index}"
+            //        );
+            //});
+
             app.UseMvc();
-
-
         }
     }
 }

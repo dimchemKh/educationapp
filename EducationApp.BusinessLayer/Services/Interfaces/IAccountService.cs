@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Services.Interfaces
 {
-    class IAccountService
+    public interface IAccountService
     {
+
     }
 }
