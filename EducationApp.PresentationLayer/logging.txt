@@ -1,0 +1,301 @@
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 23.6046ms 307 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (27ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (8ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.3271ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 1095.3663ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Request finished in 1158.6066ms 200 application/json; charset=utf-8
+Executed DbCommand (2ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+An exception occurred while iterating over the results of a query for context type 'EducationApp.DataAccessLayer.AppContext.ApplicationContext'.
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Connection processing ended abnormally.
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (26ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (9ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.3285ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed DbCommand (2ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+User (null) password validation failed: PasswordRequiresNonAlphanumeric;PasswordRequiresDigit;PasswordRequiresUpper.
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 1070.0649ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Request finished in 1129.7793ms 200 application/json; charset=utf-8
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.1251ms.
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 31.2607ms 200 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (40ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (35ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.3632ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 1389.3592ms
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 30.7535ms 200 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (18ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.3387ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed DbCommand (2ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 1353.3408ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Request finished in 1469.5319ms 200 application/json; charset=utf-8
+Request starting HTTP/1.1 GET http://localhost:44388/api/values/1  
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.String] Get(Int32) on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed DbCommand (1ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+User (null) password validation failed: PasswordRequiresNonAlphanumeric;PasswordRequiresDigit;PasswordRequiresUpper.
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.3444ms.
+Executing ObjectResult, writing value of type 'System.String'.
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 106.5248ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Request finished in 149.171ms 200 text/plain; charset=utf-8
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 35.7677ms 200 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (18ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.3931ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 1422.9462ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Executed DbCommand (7ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+SOME LOGINFO: 
+Request finished in 1544.3958ms 200 application/json; charset=utf-8
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 35.0114ms 200 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (13ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.4844ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (6ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed DbCommand (3ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 782.3656ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+SOME LOGINFO: 
+Request finished in 922.4097ms 200 application/json; charset=utf-8
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Application startup exception
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 12.154ms 500 
+Connection id "0HLPQL36A2KSM", Request id "0HLPQL36A2KSM:00000001": An unhandled exception was thrown by the application.
+Request finished in 14.08ms 500 text/html; charset=utf-8
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 34.9838ms 200 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (25ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (11ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.8598ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (7ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed DbCommand (3ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 735.6792ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+SOME LOGINFO: 
+Request finished in 893.5582ms 200 application/json; charset=utf-8
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 48.1963ms 200 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (11ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.5191ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (8ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 796.9244ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+Request finished in 42.0329ms 200 
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executed DbCommand (13ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.459ms.
+Executing ObjectResult, writing value of type 'System.String[]'.
+Executed DbCommand (6ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0
+Executed DbCommand (1ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AccessFailedCount], [u].[ConcurrencyStamp], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[LastName], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SecurityStamp], [u].[TwoFactorEnabled], [u].[UserName]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0
+Executed action EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) in 758.6987ms
+Executed endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+SOME LOGINFO: 
+Request finished in 904.4174ms 200 application/json; charset=utf-8
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+Executing endpoint 'EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer)'
+Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller EducationApp.PresentationLayer.Controllers.ValuesController (EducationApp.PresentationLayer).
+Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+Executing action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer) - Validation state: Valid
+Executed action method EducationApp.PresentationLayer.Controllers.ValuesController.Get (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.1638ms.
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 GET http://localhost:44388/api/values  
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0

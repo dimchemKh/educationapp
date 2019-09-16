@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,16 +10,22 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Filter
 {
-    public class ExceptionFilter
+    public class ExceptionFilterAttribute : Attribute, IExceptionFilter
     {
-        public static Task CathingException(HttpContext context, Exception ex)
+        private ILogger _logger;
+        public ExceptionFilterAttribute(ILoggerProvider logger)
         {
-            var code = HttpStatusCode.InternalServerError;
+            _logger = logger.CreateLogger("ExceptionCu8stomLog");
+        }
+        public void OnException(ExceptionContext context)
+        {
+            var name = context.ActionDescriptor.DisplayName;
+            string exceptionMessage = context.Exception.Message;
+            var headers = context.HttpContext.Response.StatusCode;
 
-            var result = JsonConvert.SerializeObject(new { error = ex.Message });
-            context.Response.ContentType = "application/Json";
-            context.Response.StatusCode = (int)code;
-            return context.Response.WriteAsync(result);
+            _logger.LogError($"Name: {name}, exception {exceptionMessage} - headers = {headers.ToString()}");
+
+
         }
     }
 }

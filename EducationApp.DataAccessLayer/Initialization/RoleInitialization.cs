@@ -57,7 +57,7 @@ namespace EducationApp.DataAccessLayer.Initialization
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(admin, "admin");
-                }
+                }                
             }
         }
     }

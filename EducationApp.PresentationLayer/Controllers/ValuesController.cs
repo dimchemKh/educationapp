@@ -4,25 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Initialization;
+using EducationApp.PresentationLayer.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class ValuesController : ControllerBase
     {
         private RoleInitialization _roleInitialization;
         public ValuesController(RoleInitialization initializer)
         {
             _roleInitialization = initializer;
-            InitAsync();
+            //InitAsync();
+            //_roleInitialization.InitializeAsync();
         }
+        [HttpPost("init")]
         public async Task<ActionResult> InitAsync()
         {
            await _roleInitialization.InitializeAsync();
 
-            return Ok();
+            return Ok("yeah");
         }
         // GET api/values
         [HttpGet]

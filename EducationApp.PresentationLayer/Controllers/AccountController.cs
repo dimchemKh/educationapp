@@ -1,5 +1,6 @@
 ﻿using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,28 +11,43 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
-    public class AccountController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AccountController : ControllerBase
     {
         private IAccountService _accountService;
         public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
         }
-        [HttpGet]
-        public void Index()
-        {
 
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Register()
+        //{
+            //if (ModelState.IsValid)
+            //{
+            //    var user = new ApplicationUser {  };
+            //    var result = await UserManager<ApplicationUser>.CreateAsync(user, );
+            //    if (result.Succeeded)
+            //    {
+            //        await SignInManager<ApplicationUser>.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-        [HttpPost]
-        public void Register()
-        {
-            //_accountService.RegisterAsync("Firest", "Last", "Pass");
-        }
+            //        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            //        var callbackUrl = Url.Action("ConfirmEmail", "Account",
+            //           new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            //        await UserManager.SendEmailAsync(user.Id,
+            //           "Confirm your account", "Please confirm your account by clicking <a href=\""
+            //           + callbackUrl + "\">here</a>");
 
-        public void Login()
-        {
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //    AddErrors(result);
+            //}
 
-        }
+            //// If we got this far, something failed, redisplay form
+            //return View(model);
+        //}
     }
 }

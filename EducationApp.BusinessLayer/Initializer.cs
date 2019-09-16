@@ -1,5 +1,6 @@
 ﻿using EducationApp.BusinessLayer.Common;
 using EducationApp.BusinessLayer.Common.Interfaces;
+using EducationApp.BusinessLayer.Helpers;
 using EducationApp.BusinessLayer.Services;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.AppContext;
@@ -10,8 +11,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,38 +30,27 @@ namespace EducationApp.BusinessLayer
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
-            //new DataAccessLayer.Initialization.DbBaseInitializing().Init();
-
-            services.AddSingleton<ILogger, Logger>();
-
-            //services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<ILoggerProvider, LoggerProvider>(sp => new LoggerProvider(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt")));
 
             services.AddScoped(typeof(RoleInitialization));
-            //services.AddScoped(typeof(IPrintingEditionService));
 
-            //services.AddScoped(IPrintingEditionService, PrintingEditionService);
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 6;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = false;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 6;
+                options.Lockout.AllowedForNewUsers = true;
+                
+                options.User.RequireUniqueEmail = true;
+            });
+
+
+            services.AddTransient<EmailHelper>();
         }
-
-        //public static  void Init(IApplicationBuilder app, RoleManager<Role> roleManager)
-        //{
-        //    RoleInitialization.SeedRoles(roleManager).Wait();
-        //}
-
-        //public static async Task Init(IServiceScope scope)
-        //{
-        //    var services = scope.ServiceProvider;
-
-        //    try
-        //    {
-        //        var user = services.GetRequiredService<UserManager<ApplicationUser>>();
-        //        var role = services.GetRequiredService<RoleManager<Role>>();
-        //        await RoleInitialization.InitializeAsync(user, role);
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //}
     }
 }

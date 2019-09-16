@@ -1,16 +1,16 @@
 ﻿using EducationApp.BusinessLayer;
+using EducationApp.BusinessLayer.Common;
 using EducationApp.PresentationLayer.Middleware;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-//https://timschreiber.com/2018/05/08/aspnet-core-identity-with-patterns-3/
-//https://codereview.stackexchange.com/questions/85741/identity-repository-pattern-with-unit-of-work
-//https://codingblast.com/entity-framework-core-generic-repository/
-//https://github.com/aspnet/AspNetCore.Docs/blob/master/aspnetcore/security/authentication/identity/sample/src/ASPNETCore-IdentityDemoComplete/IdentityDemo/Controllers/AccountController.cs
+using Microsoft.Extensions.Logging;
+using System;
+using System.IO;
 
 namespace EducationApp.PresentationLayer
 {
@@ -26,41 +26,46 @@ namespace EducationApp.PresentationLayer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Initializer.InitServices(services, Configuration);           
-            
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;                
+            });
+
+            Initializer.InitServices(services, Configuration);
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //loggerFactory.AddFile(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt"));
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseDirectoryBrowser();
+                app.UseDatabaseErrorPage();
             }
             else
             {
+                app.UseExceptionHandler("/Base/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
-
-            app.UseStatusCodePages();
+            app.UseStaticFiles();
+            //app.UseCookiePolicy();
+            
+            //app.UseStatusCodePages();
 
             app.UseAuthentication();
 
-
             app.UseMiddleware<ExceptionMiddleware>();
-
-            //app.UseMvc(routes => 
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Account}/{action=Index}"
-            //        );
-            //});
 
             app.UseMvc();
         }

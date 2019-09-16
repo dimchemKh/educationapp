@@ -9,17 +9,17 @@ namespace EducationApp.PresentationLayer.Controllers
 {
     public class UserController : Controller
     {
-        private IUserService _userService;
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
+        //private IUserService _userService;
+        //public UserController(IUserService userService)
+        //{
+        //    _userService = userService;
+        //}
 
-        public ActionResult Register()
-        {
-            _userService.Register();
+        //public ActionResult Register()
+        //{
+        //    _userService.Register();
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
     }
 }

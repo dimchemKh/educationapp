@@ -9,12 +9,13 @@ using Newtonsoft.Json;
 using EducationApp.BusinessLayer.Common.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Common;
+using Microsoft.Extensions.Logging;
 
 namespace EducationApp.PresentationLayer.Middleware
 {
     public class ExceptionMiddleware
     {
-        private ILogger _logger;
+        private ILoggerProvider _logger;
         private readonly RequestDelegate _next;
 
         List<HttpStatusCode> codes = new List<HttpStatusCode>()
@@ -26,27 +27,28 @@ namespace EducationApp.PresentationLayer.Middleware
                     HttpStatusCode.NotFound
                 };
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger logger)
+        public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
-            _logger = logger;
+
         }
-        public async Task Invoke(HttpContext context)
-        {          
-           
+        public async Task Invoke(HttpContext context, ILoggerProvider logger)
+        {
+            _logger = logger;
+
             try
             {
-
+                
                 await _next(context);
-
+                _logger.CreateLogger("CustomLOGGER").LogInformation("SOME LOGINFO: ", context.Response.Headers, context.Response.StatusCode);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var responseCode = context.Response?.StatusCode;
+                //var responseCode = context.Response?.StatusCode;
                                 
 
-                _logger.WriteMessage($"{context.Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString())}" +
-                                        $"{context.Request.Host} = { codes.Find(x => (int)x == responseCode)}");                
+                //_logger.WriteMessage($"{context.Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString())}" +
+                //                        $"{context.Request.Host} = { codes.Find(x => (int)x == responseCode)}");                
             }
         }
     }

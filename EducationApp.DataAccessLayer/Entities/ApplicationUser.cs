@@ -9,17 +9,10 @@ namespace EducationApp.DataAccessLayer.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }        
-        public new string Email
+        public override string Email
         {
-            get
-            {
-                return base.Email;
-            }
-
-            set
-            {
-                base.Email = value;
-            }
+            get;
+            set;
         }
 
     }
