@@ -1,6 +1,9 @@
 ﻿using EducationApp.BusinessLayer;
 using EducationApp.BusinessLayer.Common;
+using EducationApp.PresentationLayer.Common;
+using EducationApp.PresentationLayer.Helper;
 using EducationApp.PresentationLayer.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,8 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Text;
 
 namespace EducationApp.PresentationLayer
 {
@@ -34,7 +40,7 @@ namespace EducationApp.PresentationLayer
 
             Initializer.InitServices(services, Configuration);
 
-
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -47,7 +53,6 @@ namespace EducationApp.PresentationLayer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseDirectoryBrowser();
                 app.UseDatabaseErrorPage();
             }
             else
@@ -58,16 +63,20 @@ namespace EducationApp.PresentationLayer
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
-            //app.UseCookiePolicy();
-            
-            //app.UseStatusCodePages();
 
             app.UseAuthentication();
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Account}/{action=Index}/{id?}");
+            });
         }
     }
+    
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EducationApp.DataAccessLayer.Entities.Base;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,5 @@ namespace EducationApp.DataAccessLayer.Entities
             get;
             set;
         }
-
     }
 }

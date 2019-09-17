@@ -14,5 +14,6 @@ namespace EducationApp.DataAccessLayer.Entities
         public Enums.Enums.Status Status { get; set; }
         public Enums.Enums.Currency Currency { get; set; }
         public Enums.Enums.Type Type { get; set; }
+
     }
 }

@@ -33,10 +33,10 @@ namespace EducationApp.DataAccessLayer.Initialization
         //        }
         //    }
         //}
-        public async Task InitializeAsync(/*UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager*/)
+        public async Task InitializeAsync()
         {
             string adminEmail = "admin@gmail.com";
-            string password = "qwerty";
+            string password = "QWerty123123";
 
             if (await _roleManager.FindByNameAsync("admin") == null)
             {         
@@ -46,8 +46,8 @@ namespace EducationApp.DataAccessLayer.Initialization
             if (await _roleManager.FindByNameAsync("user") == null)
             {         
                 await _roleManager.CreateAsync(new Role() { Name = "user" });
-            }         
-                      
+            }
+
             if (await _userManager.FindByNameAsync(adminEmail) == null)
             {
                 ApplicationUser admin = new ApplicationUser { Email = adminEmail, UserName = adminEmail };
@@ -57,7 +57,7 @@ namespace EducationApp.DataAccessLayer.Initialization
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(admin, "admin");
-                }                
+                }
             }
         }
     }

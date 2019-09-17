@@ -25,12 +25,7 @@ namespace EducationApp.DataAccessLayer.AppContext
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Author>().HasData(
-                new Author() { Id = 1, CreationDate = DateTime.Now, IsRemoved = false, Name = "Tom Jackson" },
-                new Author() { Id = 2, CreationDate = DateTime.Now, IsRemoved = false, Name = "Jack Jill" },
-                new Author() { Id = 3, CreationDate = DateTime.Now, IsRemoved = false, Name = "Dan Bolson" },
-                new Author() { Id = 4, CreationDate = DateTime.Now, IsRemoved = false, Name = "Mark Avreliy" },
-                new Author() { Id = 5, CreationDate = DateTime.Now, IsRemoved = false, Name = "Bob Tomhson" },
-                new Author() { Id = 6, CreationDate = DateTime.Now, IsRemoved = false, Name = "Arthur Bang" }
+                new Author() { Id = 1, CreationDate = DateTime.Now, IsRemoved = false, Name = "Tom Jackson" }
                 );
             builder.Entity<PrintingEdition>().HasData(
                 new PrintingEdition()
@@ -42,37 +37,8 @@ namespace EducationApp.DataAccessLayer.AppContext
                     Description = "Text",
                     Price = 20,
                     Type = Entities.Enums.Enums.Type.Book
-                },
-                new PrintingEdition()
-                {
-                    Id = 2,
-                    CreationDate = DateTime.Now,
-                    IsRemoved = false,
-                    Name = "Butcher",
-                    Description = "Some Text",
-                    Price = 40,
-                    Type = Entities.Enums.Enums.Type.Book
-                },
-                new PrintingEdition()
-                {
-                    Id = 3,
-                    CreationDate = DateTime.Now,
-                    IsRemoved = false,
-                    Name = "Planet after us",
-                    Description = "Some Descript",
-                    Price = 10,
-                    Type = Entities.Enums.Enums.Type.Newspaper
-                },
-                new PrintingEdition()
-                {
-                    Id = 4,
-                    CreationDate = DateTime.Now,
-                    IsRemoved = false,
-                    Name = "Peppka Shmepka",
-                    Description = "Some descr",
-                    Price = 30,
-                    Type = Entities.Enums.Enums.Type.Journal
                 });
+                
             base.OnModelCreating(builder);
         }
     }

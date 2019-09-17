@@ -1,5 +1,8 @@
-﻿using EducationApp.BusinessLayer.Services.Interfaces;
+﻿using EducationApp.BusinessLayer.Models.Users;
+using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Repository.EFRepository;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,28 +13,17 @@ namespace EducationApp.BusinessLayer.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<Role> _roleManager;
-        public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<Role> roleManager)
+        private IUserRepository _userRepository;
+        public AccountService(IUserRepository userRepository)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
+            _userRepository = userRepository;
         }
-        public async Task RegisterAsync(string firstName, string lastName, string password)
-        {
-            ApplicationUser user = new ApplicationUser() { FirstName = firstName, LastName = lastName };
 
-            IdentityResult result = await _userManager.CreateAsync(user, password);
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, isPersistent: true);
-            }
-        }
-        public void Login()
+        public Task Authorize(string email, string password) => throw new NotImplementedException();
+
+        public async Task RegisterAsync(string firstName, string lastName, string email, string password)
         {
-            //_signInManager.PasswordSignInAsync()
+           await _userRepository.SignUpAsync(firstName, lastName, email, password);
         }
     }
 }

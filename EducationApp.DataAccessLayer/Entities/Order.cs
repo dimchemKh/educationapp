@@ -11,10 +11,7 @@ namespace EducationApp.DataAccessLayer.Entities
     {
         public string Description { get; set; }
         public ApplicationUser User { get; set; }
-
         public DateTime Date { get; set; }
-
-        public Payment Payment { get; set; }
-
+        public Payment Payment { get; set; }        
     }
 }

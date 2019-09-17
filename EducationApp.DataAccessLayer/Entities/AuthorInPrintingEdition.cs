@@ -9,13 +9,7 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class AuthorInPrintingEdition : BaseEntity
     {
-
         public Author Author { get; set; }
-
         public PrintingEdition PrintingEdition { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime Data { get; set; }
-
     }
 }

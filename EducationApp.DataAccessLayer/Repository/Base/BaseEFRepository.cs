@@ -1,5 +1,7 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
+using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Entities.Base;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,8 +15,8 @@ namespace EducationApp.DataAccessLayer.Repository.Base
     public class BaseEFRepository<TEntity> where TEntity : BaseEntity
     {
         
-        private ApplicationContext _context;
-        private DbSet<TEntity> _dbSet;
+        protected ApplicationContext _context;
+        protected DbSet<TEntity> _dbSet;
 
         public BaseEFRepository(ApplicationContext context)
         {
