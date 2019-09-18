@@ -7,8 +7,8 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task RegisterAsync(string firstName, string lastName, string email, string password);
+        Task<string> RegisterAsync(string firstName, string lastName, string email, string password);
 
-        Task Authorize(string email, string password);
+        Task Authenticate(string email, string password);
     }
 }

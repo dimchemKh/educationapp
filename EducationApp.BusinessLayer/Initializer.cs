@@ -43,6 +43,8 @@ namespace EducationApp.BusinessLayer
 
             services.AddSingleton<ILoggerProvider, LoggerProvider>(sp => new LoggerProvider(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt")));
 
+            services.AddScoped<EmailHelper>();
+
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped(typeof(RoleInitialization));
 

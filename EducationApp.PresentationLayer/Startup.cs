@@ -40,7 +40,7 @@ namespace EducationApp.PresentationLayer
 
             Initializer.InitServices(services, Configuration);
 
-            
+            JwtHelper.GenerateJwt(services, Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -78,5 +78,6 @@ namespace EducationApp.PresentationLayer
             });
         }
     }
-    
+    
+
 }

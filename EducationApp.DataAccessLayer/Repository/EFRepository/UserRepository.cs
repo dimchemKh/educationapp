@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        
+
 
         public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager, SignInManager<ApplicationUser> signInManager) : base(context)
         {
@@ -27,7 +28,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             _roleManager = roleManager;
         }
 
-        public async Task SignUpAsync(string firstName, string lastName, string email, string password)
+        public async Task<ApplicationUser> SignUpAsync(string firstName, string lastName, string email, string password)
         {
 
             ApplicationUser user = new ApplicationUser() { FirstName = firstName, LastName = lastName, Email = email, UserName = firstName + lastName };
@@ -39,6 +40,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 await _userManager.AddToRoleAsync(user, "user");
                 await _signInManager.SignInAsync(user, isPersistent: true);
             }
+            return user;
+        }
+        public async Task<string> GetEmailConfirmTokenAsync(ApplicationUser user)
+        {
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            return code;
         }
         public Task SignInAsync(string email, string password)
         {
@@ -50,7 +57,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public Task ChangePassword(string email) => throw new NotImplementedException();
         public Task<bool> ConfirmEmail(bool confirm)
         {
-            _userManager.GenerateEmailConfirmationTokenAsync()
+            //_userManager.GenerateEmailConfirmationTokenAsync()
+            return null;
         }
         public Task<ApplicationUser> UpdateUser(int userId) => throw new NotImplementedException();
         public Task<ApplicationUser> DeleteUser(int userId)

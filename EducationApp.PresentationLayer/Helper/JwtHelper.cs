@@ -41,6 +41,7 @@ namespace EducationApp.PresentationLayer.Helper
                 x.SaveToken = true;
                 x.TokenValidationParameters = tokenValidationParametr;
             });
+
         }
     }
 }

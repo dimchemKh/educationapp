@@ -14,11 +14,12 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
 
         //IEnumerable<string> GetRoleNamesByUserId(string userId);
         //IEnumerable<ApplicationUser> GetUsersByRoleName(string roleName);
-        Task SignUpAsync(string firstName, string lastName, string email, string password);
+        Task<ApplicationUser> SignUpAsync(string firstName, string lastName, string email, string password);
         Task SignInAsync(string email, string password);
         Task ChangePassword(string email);
         Task<bool> ConfirmEmail(bool confirm);
         Task<ApplicationUser> UpdateUser(int userId);
         Task<ApplicationUser> DeleteUser(int userId);
+        Task<string> GetEmailConfirmTokenAsync(ApplicationUser user);
     }
 }
