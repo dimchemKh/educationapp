@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Helpers
@@ -15,19 +13,20 @@ namespace EducationApp.BusinessLayer.Helpers
         public async Task SendAsync(ApplicationUser user, string message)
         {
 
-            SmtpClient smtpClient = new SmtpClient("http://localhost", 52196);
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
 
-            smtpClient.UseDefaultCredentials = false;
-            smtpClient.Credentials = new System.Net.NetworkCredential(user.UserName, user.PasswordHash);
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.Credentials = new System.Net.NetworkCredential("dikur4051996@gmail.com", "0405Gfhreh1996zxc123");
             smtpClient.EnableSsl = true;
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.UseDefaultCredentials = false;
+
+            smtpClient.Timeout = 20000;
+
             MailMessage mail = new MailMessage();
             mail.Body = message;
-
-            //mail.Body = "Please confirm your account by clicking this link: <a href=\""
-            //                                    + callbackUrl + "\">link</a>";
             mail.IsBodyHtml = true;
-            mail.From = new MailAddress("testmail@gmail.com");
+
+            mail.From = new MailAddress("dikur4051996@gmail.com");
             mail.To.Add(new MailAddress(user.Email));
 
             await smtpClient.SendMailAsync(mail);

@@ -25,30 +25,38 @@ namespace EducationApp.PresentationLayer.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly IOptions<Config> _configOptions;
+        //private readonly IOptions<Config> _configOptions;
+        private EmailHelper _emailHelper;
 
-        public AccountController(IAccountService accountService, IOptions<Config> configOptions)
+        public AccountController(IAccountService accountService, /*IOptions<Config> configOptions,*/ EmailHelper emailHelper)
         {
             _accountService = accountService;
-            _configOptions = configOptions;
+            //_configOptions = configOptions;
+            _emailHelper = emailHelper;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+
+            return Ok("GetMethod");
+        }
 
         public IActionResult RefreshToken()
         {
             return null;
         }
 
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         [HttpPost("registration")]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Registration([FromBody] UserModel userModel)
         {
+
             var user = await _accountService.RegisterAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);
 
             var code = await _accountService.GetConfirmToken(user);
 
-            EmailHelper emailHelper = new EmailHelper();
 
             var callbackUrl = Url.Action(
                 "ConfirmEmail",
@@ -56,7 +64,7 @@ namespace EducationApp.PresentationLayer.Controllers
                 new { userId = user.Id, code = code },
                 protocol: HttpContext.Request.Scheme);
 
-            await emailHelper.SendAsync(user, callbackUrl);
+            await _emailHelper.SendAsync(user, callbackUrl);
 
             return Ok();
         } 

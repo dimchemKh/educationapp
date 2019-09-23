@@ -15,11 +15,10 @@ namespace EducationApp.BusinessLayer.Services
     public class AccountService : IAccountService
     {
         private IUserRepository _userRepository;
-        private EmailHelper _emailHelper;
-        public AccountService(IUserRepository userRepository, EmailHelper emailHelper)
+
+        public AccountService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _emailHelper = emailHelper;
         }
 
         public Task Authenticate(string email, string password) => throw new NotImplementedException();

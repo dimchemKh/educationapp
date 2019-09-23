@@ -20,14 +20,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-
         public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager, SignInManager<ApplicationUser> signInManager) : base(context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
         }
-
         public async Task<ApplicationUser> SignUpAsync(string firstName, string lastName, string email, string password)
         {
 

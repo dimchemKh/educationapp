@@ -43,16 +43,18 @@ namespace EducationApp.BusinessLayer
 
             services.AddSingleton<ILoggerProvider, LoggerProvider>(sp => new LoggerProvider(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt")));
 
-            services.AddScoped<EmailHelper>();
 
             services.AddScoped<IAccountService, AccountService>();
+
             services.AddScoped(typeof(RoleInitialization));
 
+            services.AddScoped<EmailHelper>();
             #endregion
 
             #region Repositories
 
             services.AddScoped<IUserRepository, UserRepository>();
+
 
             #endregion
 
@@ -73,7 +75,6 @@ namespace EducationApp.BusinessLayer
                 options.User.RequireUniqueEmail = true;
             });
             
-            services.AddTransient<EmailHelper>();
         }
 
         public static void InitApp(IApplicationBuilder app, IHostingEnvironment env)
