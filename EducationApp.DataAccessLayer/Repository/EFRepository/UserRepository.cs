@@ -28,9 +28,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         }
         public async Task<ApplicationUser> SignUpAsync(string firstName, string lastName, string email, string password)
         {
-
             ApplicationUser user = new ApplicationUser() { FirstName = firstName, LastName = lastName, Email = email, UserName = firstName + lastName };
-
             IdentityResult result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
@@ -45,17 +43,27 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             return code;
         }
-        public Task SignInAsync(string email, string password)
+        public async Task<ApplicationUser> FindUserAsync(string email, string password)
         {
-            return null;
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if(user != null)
+            {
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public Task<ApplicationUser> GetUser(int userId) => throw new NotImplementedException();
-        public Task<Role> GetUserRole(int userId) => throw new NotImplementedException();
-        public Task ChangePassword(string email) => throw new NotImplementedException();
+        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
+        {
+            return await _userManager.CheckPasswordAsync(user, password);
+        }
+
         public Task<bool> ConfirmEmail(bool confirm)
         {
-            //_userManager.GenerateEmailConfirmationTokenAsync()
             return null;
         }
         public Task<ApplicationUser> UpdateUser(int userId) => throw new NotImplementedException();
@@ -63,5 +71,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             return null;
         }
+        public Task<ApplicationUser> GetUser(int userId) => throw new NotImplementedException();
+        public Task<Role> GetUserRole(int userId) => throw new NotImplementedException();
+        public Task ChangePassword(string email) => throw new NotImplementedException();
     }
 }

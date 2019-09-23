@@ -21,9 +21,27 @@ namespace EducationApp.BusinessLayer.Services
             _userRepository = userRepository;
         }
 
-        public Task Authenticate(string email, string password) => throw new NotImplementedException();
+        public async Task<ApplicationUser> Authorization(string email, string password)
+        {
+            if(email == null || password == null)
+            {
+                return null;
+            }
 
-        
+            var user = await _userRepository.FindUserAsync(email, password);
+            var result = await _userRepository.CheckPasswordAsync(user, password);
+
+            if (result)
+            {
+                return user;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
         public async Task<ApplicationUser> RegisterAsync(string firstName, string lastName, string email, string password)
         {
             var user = await _userRepository.SignUpAsync(firstName, lastName, email, password);

@@ -11,6 +11,6 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
         Task<ApplicationUser> RegisterAsync(string firstName, string lastName, string email, string password);
         Task<string> GetConfirmToken(ApplicationUser user);
 
-        Task Authenticate(string email, string password);
+        Task<ApplicationUser> Authorization(string email, string password);
     }
 }
