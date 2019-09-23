@@ -27,7 +27,7 @@ namespace EducationApp.BusinessLayer.Helpers
             //mail.Body = "Please confirm your account by clicking this link: <a href=\""
             //                                    + callbackUrl + "\">link</a>";
             mail.IsBodyHtml = true;
-            mail.From = new MailAddress("whoever@me.com");
+            mail.From = new MailAddress("testmail@gmail.com");
             mail.To.Add(new MailAddress(user.Email));
 
             await smtpClient.SendMailAsync(mail);

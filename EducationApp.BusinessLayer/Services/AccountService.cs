@@ -25,16 +25,16 @@ namespace EducationApp.BusinessLayer.Services
         public Task Authenticate(string email, string password) => throw new NotImplementedException();
 
         
-        public async Task<string> RegisterAsync(string firstName, string lastName, string email, string password)
+        public async Task<ApplicationUser> RegisterAsync(string firstName, string lastName, string email, string password)
         {
             var user = await _userRepository.SignUpAsync(firstName, lastName, email, password);
 
+            return user;
+        }
+        public async Task<string> GetConfirmToken(ApplicationUser user)
+        {
             return await _userRepository.GetEmailConfirmTokenAsync(user);
 
-
-            //await emailService.SendAsync(user, "Confirm your account",
-            //    $"Подтвердите регистрацию, перейдя по ссылке: <a href='{callbackUrl}'>link</a>");
-            //return code;
         }
     }
 }

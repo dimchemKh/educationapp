@@ -1,7 +1,6 @@
 ﻿using EducationApp.BusinessLayer.Helpers;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.DataAccessLayer.Entities;
 using EducationApp.PresentationLayer.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -39,154 +38,32 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             return null;
         }
+
         [AllowAnonymous]
-        [HttpPost, Route("request")]
-        public IActionResult RequestToken([FromBody] TokenRequest request)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            string token;
-            if (_authService.IsAuthenticated(request, out token))
-            {
-                return Ok(token);
-            }
-
-            return BadRequest("Invalid Request");
-        }
+        [ValidateAntiForgeryToken]
         [HttpPost("registration")]
         public async Task<IActionResult> Registration([FromBody] UserModel userModel)
         {
-            var code = await _accountService.RegisterAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);
+            var user = await _accountService.RegisterAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);
+
+            var code = await _accountService.GetConfirmToken(user);
 
             EmailHelper emailHelper = new EmailHelper();
 
             var callbackUrl = Url.Action(
                 "ConfirmEmail",
                 "Account",
-                new { userId = userModel.Id, code = code },
+                new { userId = user.Id, code = code },
                 protocol: HttpContext.Request.Scheme);
 
-            //emailHelper.SendAsync()
+            await emailHelper.SendAsync(user, callbackUrl);
 
             return Ok();
-        }
-        private readonly IUserManagementService _userManagementService;
-        private readonly TokenManagement _tokenManagement;
-
-        public TokenAuthenticationService(IUserManagementService service, IOptions<TokenManagement> tokenManagement)
-        {
-            _userManagementService = service;
-            _tokenManagement = tokenManagement.Value;
-        }
-        public bool IsAuthenticated(TokenRequest request, out string token)
+        } 
+        
+        public async Task ConfirmEmail()
         {
 
-            token = string.Empty;
-            if (!_userManagementService.IsValidUser(request.Username, request.Password)) return false;
-
-            var claim = new[]
-            {
-                new Claim(ClaimTypes.Name, request.Username)
-            };
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenManagement.Secret));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var jwtToken = new JwtSecurityToken(
-                _tokenManagement.Issuer,
-                _tokenManagement.Audience,
-                claim,
-                expires: DateTime.Now.AddMinutes(_tokenManagement.AccessExpiration),
-                signingCredentials: credentials
-            );
-            token = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-            return true;
-
         }
-        //public async Task<IActionResult> Authenticate([FromBody] UserModel userModel)
-        //{
-        //    var user = _accountService.Authenticate(userModel.Email, userModel.Password);
-
-        //    if(user == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes(_configOptions.Value.JwtKey);
-
-
-        //}
-
-        //[AllowAnonymous]
-        //[HttpPost]
-        //public ActionResult<string> Post(IOptions<Config> appSettings, [FromBody]UserModel userModel)
-        //{
-        //    // 1. Проверяем данные пользователя из запроса.
-        //    // ...
-
-        //    // 2. Создаем утверждения для токена.
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var key = Encoding.ASCII.GetBytes(appSettings.Value.JwtKey);
-
-        //    var accessClaims = new List<Claim>
-        //    {
-        //         new Claim(Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        //         new Claim(ClaimTypes.NameIdentifier, userModel.FirstName),
-        //         new Claim(ClaimTypes.Role, userModel.Role),
-        //         new Claim(ClaimTypes.Name, userModel.LastName),
-        //    };
-        //    var refreshClaims = new List<Claim>
-        //    {
-        //         new Claim(Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        //         //new Claim(ClaimTypes.NameIdentifier, user.Id),
-        //    };
-
-        //    var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature);
-
-        //    // 3. Генерируем JWT.
-        //    var token = new JwtSecurityToken(
-        //        issuer: "DemoApp",
-        //        audience: "DemoAppClient",
-        //        claims: accessClaims,
-        //        expires: DateTime.Now.AddMinutes(5),
-        //        signingCredentials: signingCredentials
-        //    );
-
-        //    string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-        //    return jwtToken;
-        //}
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Register()
-        //{
-        //if (ModelState.IsValid)
-        //{
-        //    var user = new ApplicationUser {  };
-        //    var result = await UserManager<ApplicationUser>.CreateAsync(user, );
-        //    if (result.Succeeded)
-        //    {
-        //        await SignInManager<ApplicationUser>.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-        //        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-        //        var callbackUrl = Url.Action("ConfirmEmail", "Account",
-        //           new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-        //        await UserManager.SendEmailAsync(user.Id,
-        //           "Confirm your account", "Please confirm your account by clicking <a href=\""
-        //           + callbackUrl + "\">here</a>");
-
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    AddErrors(result);
-        //}
-
-        //// If we got this far, something failed, redisplay form
-        //return View(model);
-        //}
     }
 }
