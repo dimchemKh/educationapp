@@ -39,9 +39,9 @@ namespace EducationApp.PresentationLayer
                 options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;                
             });
 
-            Initializer.InitServices(services, Configuration);
-
             JwtHelper.GenerateJwt(services, Configuration);
+
+            Initializer.InitServices(services, Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

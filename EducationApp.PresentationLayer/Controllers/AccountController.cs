@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 using EducationApp.PresentationLayer.Helper.Interfaces;
+using System.Linq;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
@@ -26,18 +27,17 @@ namespace EducationApp.PresentationLayer.Controllers
         private readonly IAccountService _accountService;
         private readonly IOptions<Config> _configOptions;
         private EmailHelper _emailHelper;
-        private IJwtHelper _jwtHelper;
 
-        public AccountController(IAccountService accountService, IOptions<Config> configOptions, EmailHelper emailHelper, IJwtHelper jwtHelper)
+
+        public AccountController(IAccountService accountService, IOptions<Config> configOptions, EmailHelper emailHelper)
         {
             _accountService = accountService;
             _configOptions = configOptions;
             _emailHelper = emailHelper;
-            _jwtHelper = jwtHelper;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
             return Ok("GetMethod");
         }
@@ -47,7 +47,16 @@ namespace EducationApp.PresentationLayer.Controllers
             return null;
         }
 
-        //[AllowAnonymous]
+        [Authorize]
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            var ident = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+            return Ok(new string[] { ident?.Value, "value1", "value2" });
+        }
+
+        [AllowAnonymous]
         [HttpPost("registration")]
         public async Task<IActionResult> Registration([FromBody] UserModel userModel)
         {
@@ -66,7 +75,7 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok();
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost("authorization")]
         public async Task<IActionResult> Authorization([FromBody] UserModel userModel)
         {
@@ -100,10 +109,10 @@ namespace EducationApp.PresentationLayer.Controllers
 
         }
 
-        //[HttpGet("ConfirmEmail")]
-        //public async Task ConfirmEmail()
-        //{
-        //    //_accountService.
-        //}
+        [HttpGet("ConfirmEmail")]
+        public async Task ConfirmEmail()
+        {
+            //_accountService.
+        }
     }
 }
