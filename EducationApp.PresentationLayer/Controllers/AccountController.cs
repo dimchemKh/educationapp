@@ -1,10 +1,11 @@
 ﻿using EducationApp.BusinessLayer.Helpers;
 using EducationApp.BusinessLayer.Models.Users;
+using EducationApp.BusinessLayer.Models;
+using Microsoft.AspNetCore.Mvc;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.PresentationLayer.Common;
 using EducationApp.PresentationLayer.Helper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -14,30 +15,31 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+using EducationApp.PresentationLayer.Helper.Interfaces;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
-    //[Produces("application/json")]
     [ApiController]
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
         private readonly IOptions<Config> _configOptions;
         private EmailHelper _emailHelper;
+        private IJwtHelper _jwtHelper;
 
-        public AccountController(IAccountService accountService, IOptions<Config> configOptions, EmailHelper emailHelper)
+        public AccountController(IAccountService accountService, IOptions<Config> configOptions, EmailHelper emailHelper, IJwtHelper jwtHelper)
         {
             _accountService = accountService;
             _configOptions = configOptions;
             _emailHelper = emailHelper;
+            _jwtHelper = jwtHelper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-
-            return Ok();
+            return Ok("GetMethod");
         }
 
         public IActionResult RefreshToken()
@@ -45,8 +47,8 @@ namespace EducationApp.PresentationLayer.Controllers
             return null;
         }
 
+        //[AllowAnonymous]
         [HttpPost("registration")]
-        [AllowAnonymous]
         public async Task<IActionResult> Registration([FromBody] UserModel userModel)
         {
             var user = await _accountService.RegisterAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);
@@ -64,9 +66,9 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok();
         }
 
+        //[AllowAnonymous]
         [HttpPost("authorization")]
-        [AllowAnonymous]
-        public async Task<ActionResult<string>> Authorization([FromBody] UserModel userModel)
+        public async Task<IActionResult> Authorization([FromBody] UserModel userModel)
         {
             if (userModel.Email == null || userModel.Password == null)
             {
@@ -87,18 +89,21 @@ namespace EducationApp.PresentationLayer.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
-                       
-            return JwtHelper.GenerateAccessToken(accessClaims, _configOptions);
 
-            return JwtHelper.GenerateRefreshToken(refreshClaims, _configOptions);
+            var tokenModel = new TokenModel();
+            
 
+            tokenModel.AccessToken = JwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration);
+            tokenModel.RefreshToken = JwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration);
 
-        }
-
-        [HttpGet("ConfirmEmail")]
-        public async Task ConfirmEmail()
-        {
+            return Ok(tokenModel);
 
         }
+
+        //[HttpGet("ConfirmEmail")]
+        //public async Task ConfirmEmail()
+        //{
+        //    //_accountService.
+        //}
     }
 }

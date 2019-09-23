@@ -299,3 +299,11 @@ User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\Data
 Request starting HTTP/1.1 GET http://localhost:44388/api/values  
 User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
 Request starting HTTP/1.1 DEBUG http://localhost:52196/  0
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 POST http://localhost:52196/api/account/autorization application/json 69
+Failed to determine the https port for redirect.
+SOME LOGINFO: 
+Request finished in 119.0898ms 404 
+Connection id "0HLQ06M3R3CAN", Request id "0HLQ06M3R3CAN:00000001": the application completed without reading the entire request body.
+User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+Request starting HTTP/1.1 DEBUG http://localhost:52196/  0

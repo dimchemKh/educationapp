@@ -1,4 +1,5 @@
 ﻿using EducationApp.PresentationLayer.Common;
+using EducationApp.PresentationLayer.Helper.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Helper
 {
-    public static class JwtHelper
+    public static class JwtHelper /*: IJwtHelper*/
     {
         public static void GenerateJwt(IServiceCollection services, IConfiguration configuration)
         {
@@ -44,36 +45,21 @@ namespace EducationApp.PresentationLayer.Helper
                 x.SaveToken = true;
                 x.TokenValidationParameters = tokenValidationParametr;
             });
-
         }
 
-        public static string GenerateAccessToken(List<Claim> claims, IOptions<Config> configOptions)
+        public static string GenerateToken(List<Claim> claims, IOptions<Config> configOptions, TimeSpan tokenExpiration)
         {
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configOptions.Value.JwtKey));
             var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             
-            var accessToken = new JwtSecurityToken(
+            var token = new JwtSecurityToken(
              issuer: configOptions.Value.JwtIssuer,
              audience: "WebApiEducationApp",
              claims: claims,
-             expires: new DateTime().Add(configOptions.Value.AccessTokenExpiration),
+             expires: new DateTime().Add(tokenExpiration),
              signingCredentials: credential);
             
-            return new JwtSecurityTokenHandler().WriteToken(accessToken);
-        }
-        public static string GenerateRefreshToken(List<Claim> claims, IOptions<Config> configOptions)
-        {
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configOptions.Value.JwtKey));
-            var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            var refreshToken = new JwtSecurityToken(
-                issuer: configOptions.Value.JwtIssuer,
-                audience: "WebApiEducationApp",
-                claims: claims,
-                expires: new DateTime().Add(configOptions.Value.RefreshTokenExpiration),
-                signingCredentials: credential);
-
-            return new JwtSecurityTokenHandler().WriteToken(refreshToken);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

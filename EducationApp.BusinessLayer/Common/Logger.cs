@@ -45,7 +45,7 @@ namespace EducationApp.BusinessLayer.Common
             {
                 lock (_lock)
                 {
-                   //File.AppendAllTextAsync(_filePath, formatter(state, exception) + Environment.NewLine);
+                   // File.AppendAllTextAsync(_filePath, formatter(state, exception) + Environment.NewLine);
                 }
             }
         }
