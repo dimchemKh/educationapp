@@ -39,7 +39,39 @@ namespace EducationApp.PresentationLayer
                 options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;                
             });
 
-            JwtHelper.GenerateJwt(services, Configuration);
+            var jwtConfig = Configuration.GetSection("JwtConfig");
+            services.Configure<Config>(jwtConfig);
+
+            var appSettings = jwtConfig.Get<Config>();
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.JwtKey));
+
+            var tokenValidationParametr = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = key,
+
+                ValidIssuer = appSettings.JwtIssuer,
+                ValidateIssuer = true,
+
+                ValidAudience = appSettings.JwtAudience,
+                ValidateAudience = true,
+
+                ValidateLifetime = true                
+            };
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = tokenValidationParametr;
+            });
+
+            services.AddScoped<IJwtHelper, JwtHelper>();
 
             Initializer.InitServices(services, Configuration);
 

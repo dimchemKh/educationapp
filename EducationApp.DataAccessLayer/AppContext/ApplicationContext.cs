@@ -24,21 +24,7 @@ namespace EducationApp.DataAccessLayer.AppContext
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Author>().HasData(
-                new Author() { Id = 1, CreationDate = DateTime.Now, IsRemoved = false, Name = "Tom Jackson" }
-                );
-            builder.Entity<PrintingEdition>().HasData(
-                new PrintingEdition()
-                {
-                    Id = 1,
-                    CreationDate = DateTime.Now,
-                    IsRemoved = false,
-                    Name = "Babysister",
-                    Description = "Text",
-                    Price = 20,
-                    Type = Entities.Enums.Enums.Type.Book
-                });
-                
+            builder.Seed();
             base.OnModelCreating(builder);
         }
     }

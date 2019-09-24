@@ -6,7 +6,13 @@ namespace EducationApp.BusinessLayer.Models
 {
     public class TokenModel
     {
-        public string AccessToken { get; set; }
-        public string RefreshToken{ get; set; }
+        public string AccessToken { get; private set; }
+        public string RefreshToken{ get; private set; }
+
+        public TokenModel(string accessToken, string refreshToken)
+        {
+            AccessToken = accessToken;
+            RefreshToken = refreshToken;
+        }
     }
 }

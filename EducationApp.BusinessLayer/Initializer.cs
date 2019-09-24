@@ -1,6 +1,6 @@
 ﻿using EducationApp.BusinessLayer.Common;
-using EducationApp.BusinessLayer.Common.Interfaces;
 using EducationApp.BusinessLayer.Helpers;
+using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Services;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.AppContext;
@@ -16,10 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer
 {
@@ -38,32 +35,27 @@ namespace EducationApp.BusinessLayer
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
-
             #region Services
-
             services.AddSingleton<ILoggerProvider, LoggerProvider>(sp => new LoggerProvider(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt")));
-
 
             services.AddScoped<IAccountService, AccountService>();
 
             services.AddScoped(typeof(RoleInitialization));
 
-            services.AddScoped<EmailHelper>();
+            services.AddScoped<IEmailHelper, EmailHelper>();
+            services.AddScoped<IGenerator, Generator>();
             #endregion
 
             #region Repositories
-
             services.AddScoped<IUserRepository, UserRepository>();
-
-
             #endregion
 
-
+            #region IdentityOptions
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
-                options.Password.RequiredUniqueChars = 6;
+                options.Password.RequiredUniqueChars = 4;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -74,7 +66,8 @@ namespace EducationApp.BusinessLayer
                 
                 options.User.RequireUniqueEmail = true;
             });
-            
+            #endregion
+
         }
 
         public static void InitApp(IApplicationBuilder app, IHostingEnvironment env)

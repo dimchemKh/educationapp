@@ -1,19 +1,26 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationApp.DataAccessLayer.Initialization
 {
-    public class DbBaseInitializing
+    public static class DbBaseInitializing
     {
-        private ApplicationContext _context;
-        public DbBaseInitializing(ApplicationContext context)
-        {
-            _context = context;
-        }
 
+        public static void Seed(this ModelBuilder modebuilder)
+        {
+            modebuilder.Entity<Author>().HasData(
+                new Author()
+                {
+                    Id = 1,
+                    CreationDate = DateTime.Now,
+                    IsRemoved = false,
+                    Name = "TestAuthor"
+                });
+        }
     }
 }

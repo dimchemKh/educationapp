@@ -1,5 +1,6 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.EFRepository;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,18 +10,18 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
     public interface IUserRepository
     {
-        Task<ApplicationUser> GetUser(int userId);
-        Task<Role> GetUserRole(int userId);
-
-        //IEnumerable<string> GetRoleNamesByUserId(string userId);
-        //IEnumerable<ApplicationUser> GetUsersByRoleName(string roleName);
-        Task<ApplicationUser> SignUpAsync(string firstName, string lastName, string email, string password);
-        Task<ApplicationUser> FindUserAsync(string email, string password);
+        Task<IdentityResult> ConfirmEmail(ApplicationUser user, string token);
         Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
-        Task ChangePassword(string email);
-        Task<bool> ConfirmEmail(bool confirm);
-        Task<ApplicationUser> UpdateUser(int userId);
+        Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
         Task<ApplicationUser> DeleteUser(int userId);
+        Task<ApplicationUser> GetUserByEmailAsync(string email);
+        Task<ApplicationUser> GetUserByIdAsync(string userId);
+        Task<string> GenerateResetPasswordTokenAsync(ApplicationUser user);
         Task<string> GetEmailConfirmTokenAsync(ApplicationUser user);
+        Task<IList<string>> GetRoleAsync(ApplicationUser user);
+        Task<IdentityResult> SignUpAsync(string firstName, string lastName, string email, string password);
+        Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
+        Task<ApplicationUser> UpdateUser(int userId);
+        //Task<ApplicationUser> GetUserNameAsync();
     }
 }

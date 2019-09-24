@@ -1,35 +1,32 @@
-﻿using EducationApp.DataAccessLayer.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using System;
-using System.Collections.Generic;
+﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
+using EducationApp.DataAccessLayer.Entities;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Helpers
 {
-    public class EmailHelper /*: IEmailSender*/
-    {      
-        public async Task SendAsync(ApplicationUser user, string message)
+    public class EmailHelper : IEmailHelper
+    {
+        private SmtpClient _smtpClient = new SmtpClient("smtp.mailtrap.io", 2525);
+        private NetworkCredential _networkCredential = new NetworkCredential("beb858dd98302d", "f2b28f22609ec7");
+        private MailMessage _mailMessage = new MailMessage();
+        public async Task SendMailAsync(ApplicationUser user, string subject, string body)
         {
+            _smtpClient.Credentials = _networkCredential;
+            _smtpClient.EnableSsl = true;
+            _smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //smtpClient.UseDefaultCredentials = false;
 
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            _mailMessage.Subject = subject;
 
-            smtpClient.Credentials = new System.Net.NetworkCredential("dikur4051996@gmail.com", "0405Gfhreh1996zxc123");
-            smtpClient.EnableSsl = true;
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.UseDefaultCredentials = false;
+            _mailMessage.Body = body;
+            _mailMessage.IsBodyHtml = true;
 
-            smtpClient.Timeout = 20000;
+            _mailMessage.From = new MailAddress("from@example.com");
+            _mailMessage.To.Add(new MailAddress(user.Email));
 
-            MailMessage mail = new MailMessage();
-            mail.Body = message;
-            mail.IsBodyHtml = true;
-
-            mail.From = new MailAddress("dikur4051996@gmail.com");
-            mail.To.Add(new MailAddress(user.Email));
-
-            await smtpClient.SendMailAsync(mail);
+            await _smtpClient.SendMailAsync(_mailMessage);
         }
     }
 }

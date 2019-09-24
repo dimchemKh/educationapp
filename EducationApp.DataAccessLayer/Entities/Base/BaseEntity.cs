@@ -8,7 +8,7 @@ namespace EducationApp.DataAccessLayer.Entities.Base
 {
     public class BaseEntity
     {
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsRemoved { get; set; }
 
