@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EducationApp.DataAccessLayer.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<IdentityResult> RegisterAsync();
+        Task<bool> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
 
     }
 }

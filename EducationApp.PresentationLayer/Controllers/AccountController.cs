@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.PresentationLayer.Helper.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,12 +16,11 @@ namespace EducationApp.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
         private readonly IOptions<Config> _configOptions;
-        private IJwtHelper _jwtHelper;
-
+        private readonly IJwtHelper _jwtHelper;
 
         public AccountController(IAccountService accountService, IOptions<Config> configOptions, IJwtHelper jwtHelper)
         {
@@ -31,25 +28,17 @@ namespace EducationApp.PresentationLayer.Controllers
             _configOptions = configOptions;
             _jwtHelper = jwtHelper;
         }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            
-            return Ok("OK");
-        }
-
         [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserModel userModel)
         {
             var user = await _accountService.GetUserByEmailAsync(userModel.Email);
-            if(user != null)
+            if(user == null)
             {
-                var result = await _accountService.ResetPasswordAsync(user);
-                if (result.Succeeded)
-                {
-                    return Ok("Please check your email");
-                }
+                return BadRequest("Email not found");
+            }
+            if (await _accountService.ResetPasswordAsync(user))
+            {
+                return Ok("Please check your email");
             }
             return BadRequest("Invalid email!");
         }
@@ -57,32 +46,24 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshTokenAsync([FromBody]TokenModel tokenModel)
         {
-            JwtSecurityToken refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(tokenModel.RefreshToken);
+            var refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(tokenModel.RefreshToken);
 
-            if (refreshToken.ValidTo > DateTime.Now)
+            if (refreshToken.ValidTo < DateTime.Now)
             {
-
-                var userId = refreshToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                var role = await _accountService.GetRoleAsync(userId);
-                var userName = await _accountService.GetUserNameAsync(userId);
-
-                var accessClaims = _jwtHelper.GetAccessClaims(userId, role, userName);
-                var refreshClaims = _jwtHelper.GetRefreshClaims(userId);
-
-                var AT = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration);
-                var RT = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration);
-
-                return Ok(new TokenModel(AT, RT));
+                return BadRequest("RefreshToken expired!");
             }
-            return BadRequest("RefreshToken expired!");
-        }
+            var userId = refreshToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var role = await _accountService.GetRoleAsync(userId);
+            var userName = await _accountService.GetUserNameAsync(userId);
 
+            var accessClaims = _jwtHelper.GetAccessClaims(userId, role, userName);
+            var refreshClaims = _jwtHelper.GetRefreshClaims(userId);
 
-        [HttpPost("test")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "user")]
-        public IActionResult Test()
-        {
-            return Ok("YOU ARE AUTHENTIFICATE");
+            var AT = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration);
+            var RT = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration);
+
+            return Ok(new TokenModel(AT, RT));
+
         }
 
         [AllowAnonymous]
@@ -99,14 +80,14 @@ namespace EducationApp.PresentationLayer.Controllers
             var code = await _accountService.GetEmailConfirmTokenAsync(user);
 
             var callbackUrl = Url.Action(
-                "confirmEmail",
-                "account",
+                "confirmEmailAsync",
+                "Account",
                 new { userId = user.Id, code = code },
                 protocol: HttpContext.Request.Scheme);
 
             await _accountService.SendRegistrationMailAsync(user, callbackUrl);
-            
-            return Ok();
+
+            return Ok("Created");
         }
 
         [AllowAnonymous]
@@ -120,7 +101,7 @@ namespace EducationApp.PresentationLayer.Controllers
             var user = await _accountService.SignInAsync(userModel.Email, userModel.Password);
             if(user != null)
             {
-                var role = await _accountService.GetRoleAsync(user);
+                var role = await _accountService.GetRoleAsync(user.Id.ToString());
 
                 var accessClaims = _jwtHelper.GetAccessClaims(user.Id.ToString(), role, user.UserName);
                 var refreshClaims = _jwtHelper.GetRefreshClaims(user.Id.ToString());
@@ -133,14 +114,11 @@ namespace EducationApp.PresentationLayer.Controllers
             return BadRequest("Something wrong!");
         }
 
-        //public async Task<IActionResult> Forgot
-
         [HttpGet("confirmEmail")]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string code)
         {
             if(userId == null || code == null)
             {
-                //TODO
                 return BadRequest();
             }
 
@@ -150,11 +128,7 @@ namespace EducationApp.PresentationLayer.Controllers
             {
                 return Ok("You confirmed your email");
             }
-            else
-            {
-                return BadRequest("Something broke!");
-            }
-
+            return BadRequest("Something broke!");
         }
     }
 }

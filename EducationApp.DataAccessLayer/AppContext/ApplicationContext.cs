@@ -1,11 +1,6 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Initialization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EducationApp.DataAccessLayer.AppContext
 {
@@ -19,12 +14,10 @@ namespace EducationApp.DataAccessLayer.AppContext
         public DbSet<PrintingEdition> PrintingEditions { get; set; }
         public ApplicationContext(DbContextOptions options) : base(options)
         {
-            Database.EnsureCreated();
-            
+            Database.EnsureCreated();            
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Seed();
             base.OnModelCreating(builder);
         }
     }

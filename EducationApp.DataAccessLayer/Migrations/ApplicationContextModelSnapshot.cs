@@ -37,6 +37,8 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<bool>("IsRemoved");
+
                     b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
@@ -95,44 +97,9 @@ namespace EducationApp.DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 476, DateTimeKind.Local).AddTicks(4924),
+                            CreationDate = new DateTime(2019, 9, 25, 12, 5, 54, 693, DateTimeKind.Local).AddTicks(6307),
                             IsRemoved = false,
-                            Name = "Tom Jackson"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(5995),
-                            IsRemoved = false,
-                            Name = "Jack Jill"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6012),
-                            IsRemoved = false,
-                            Name = "Dan Bolson"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6015),
-                            IsRemoved = false,
-                            Name = "Mark Avreliy"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018),
-                            IsRemoved = false,
-                            Name = "Bob Tomhson"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018),
-                            IsRemoved = false,
-                            Name = "Arthur Bang"
+                            Name = "TestAuthor"
                         });
                 });
 
@@ -145,8 +112,6 @@ namespace EducationApp.DataAccessLayer.Migrations
                     b.Property<int?>("AuthorId");
 
                     b.Property<DateTime>("CreationDate");
-
-                    b.Property<DateTime>("Data");
 
                     b.Property<bool>("IsRemoved");
 
@@ -255,56 +220,6 @@ namespace EducationApp.DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PrintingEditions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(7764),
-                            Currency = 0,
-                            Description = "Text",
-                            IsRemoved = false,
-                            Name = "Babysister",
-                            Price = 20,
-                            Status = 0,
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9184),
-                            Currency = 0,
-                            Description = "Some Text",
-                            IsRemoved = false,
-                            Name = "Butcher",
-                            Price = 40,
-                            Status = 0,
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9201),
-                            Currency = 0,
-                            Description = "Some Descript",
-                            IsRemoved = false,
-                            Name = "Planet after us",
-                            Price = 10,
-                            Status = 0,
-                            Type = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreationDate = new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9204),
-                            Currency = 0,
-                            Description = "Some descr",
-                            IsRemoved = false,
-                            Name = "Peppka Shmepka",
-                            Price = 30,
-                            Status = 0,
-                            Type = 2
-                        });
                 });
 
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.Role", b =>

@@ -7,28 +7,15 @@ using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Common
 {
-    public class Logger : ILogger //Interfaces.ILogger
+    public class Logger : ILogger 
     {
-        //private string _filename = @"C:\Users\Anuitex-24\Documents\log.txt";
-
-        //public async void WriteMessage(string message)
-        //{
-        //    using (FileStream file = File.Open(_filename, FileMode.OpenOrCreate))
-        //    {
-        //        await AddText(file, message);
-        //    }
-        //}
-        //private Task AddText(FileStream fs, string value)
-        //{
-        //    byte[] info = new UTF8Encoding(true).GetBytes(value);
-        //    return fs.WriteAsync(info, 0, info.Length);
-        //}
-
         private string _filePath;
+        private string _categoryName;
         private object _lock = new object();
-        public Logger(string filePath)
+        public Logger(string categoryName, string filePath)
         {
             _filePath = filePath;
+            _categoryName = categoryName;
         }
 
         public IDisposable BeginScope<TState>(TState state)
@@ -37,16 +24,26 @@ namespace EducationApp.BusinessLayer.Common
         }
         public bool IsEnabled(LogLevel logLevel)
         {
-            return true;
+            return logLevel != LogLevel.None;
         }
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if(formatter != null)
+            try
             {
-                lock (_lock)
-                {
-                   // File.AppendAllTextAsync(_filePath, formatter(state, exception) + Environment.NewLine);
-                }
+                WriteMessage(logLevel, eventId, state, exception, formatter);
+            }
+            catch (Exception)
+            {
+                WriteMessage(logLevel, eventId, state, exception, formatter);
+            }
+        }
+        private void WriteMessage<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        {
+            string message = $"{logLevel} :: {_categoryName} :: {formatter(state, exception)} :: Time => {DateTime.Now}";
+
+            using (var writer = File.AppendText(_filePath))
+            {
+                writer.WriteLine(message);
             }
         }
     }

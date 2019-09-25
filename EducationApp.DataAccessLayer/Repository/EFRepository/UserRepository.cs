@@ -4,7 +4,6 @@ using EducationApp.DataAccessLayer.Entities.Base;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,25 +12,29 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
     public class UserRepository : BaseEFRepository<BaseEntity>, IUserRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager, SignInManager<ApplicationUser> signInManager) : base(context)
+        public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
         }
-        public async Task<IdentityResult> SignUpAsync(string firstName, string lastName, string email, string password)
+        public async Task<bool> SignUpAsync(string firstName, string lastName, string email, string password)
         {
-            ApplicationUser user = new ApplicationUser() { FirstName = firstName, LastName = lastName, Email = email, UserName = firstName + lastName };
-            IdentityResult result = await _userManager.CreateAsync(user, password);
+            var user = new ApplicationUser()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                UserName = firstName + lastName
+            };
+            var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "user");
                 await _signInManager.SignInAsync(user, isPersistent: true);
             }            
-            return result;
+            return result.Succeeded;
         }
         public async Task<IList<string>> GetRoleAsync(ApplicationUser user)
         {
@@ -39,59 +42,49 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         }
         public async Task<string> GetEmailConfirmTokenAsync(ApplicationUser user)
         {
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            return code;
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
         public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-            if(user != null)
-            {
-                return user;
-            }
-            else
-            {
-                return null;
-            }
+            return (user != null) ? user : null;
         }
         public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
         {
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: true);
             return result.Succeeded;
         }
-        public async Task<IdentityResult> ConfirmEmail(ApplicationUser user, string token)
+        public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token)
         {
-            return await _userManager.ConfirmEmailAsync(user, token);
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return result.Succeeded;
         }
-        public Task<ApplicationUser> UpdateUser(int userId) => throw new NotImplementedException();
-        public Task<ApplicationUser> DeleteUser(int userId)
+        public async Task<bool> UpdateUserAsync(ApplicationUser user)
         {
-            return null;
+            var result = await _userManager.UpdateAsync(user);
+            return result.Succeeded;
         }
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
-            return await _userManager.FindByIdAsync(userId);
-        }
+            var user = await _userManager.FindByIdAsync(userId);
 
-        public async Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
+            return (user != null) ? user : null;
+        }
+        public async Task<bool> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
         {
-            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            return result.Succeeded;         
         }
-
         public async Task<string> GenerateResetPasswordTokenAsync(ApplicationUser user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
-
-        public async Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
+        public async Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
         {
-            return await _userManager.ResetPasswordAsync(user, token, newPassword);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            return result.Succeeded;
         }
 
-        //public Task<ApplicationUser> GetUserNameAsync()
-        //{
-        //    _userManager.
-        //}
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EducationApp.DataAccessLayer.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,7 +44,8 @@ namespace EducationApp.DataAccessLayer.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true)
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    IsRemoved = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,8 +247,7 @@ namespace EducationApp.DataAccessLayer.Migrations
                     CreationDate = table.Column<DateTime>(nullable: false),
                     IsRemoved = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<int>(nullable: true),
-                    PrintingEditionId = table.Column<int>(nullable: true),
-                    Data = table.Column<DateTime>(nullable: false)
+                    PrintingEditionId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -293,26 +293,7 @@ namespace EducationApp.DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Authors",
                 columns: new[] { "Id", "CreationDate", "IsRemoved", "Name" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2019, 9, 13, 17, 24, 30, 476, DateTimeKind.Local).AddTicks(4924), false, "Tom Jackson" },
-                    { 2, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(5995), false, "Jack Jill" },
-                    { 3, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6012), false, "Dan Bolson" },
-                    { 4, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6015), false, "Mark Avreliy" },
-                    { 5, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018), false, "Bob Tomhson" },
-                    { 6, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(6018), false, "Arthur Bang" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "PrintingEditions",
-                columns: new[] { "Id", "CreationDate", "Currency", "Description", "IsRemoved", "Name", "Price", "Status", "Type" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(7764), 0, "Text", false, "Babysister", 20, 0, 1 },
-                    { 2, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9184), 0, "Some Text", false, "Butcher", 40, 0, 1 },
-                    { 3, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9201), 0, "Some Descript", false, "Planet after us", 10, 0, 3 },
-                    { 4, new DateTime(2019, 9, 13, 17, 24, 30, 477, DateTimeKind.Local).AddTicks(9204), 0, "Some descr", false, "Peppka Shmepka", 30, 0, 2 }
-                });
+                values: new object[] { 1, new DateTime(2019, 9, 25, 12, 5, 54, 693, DateTimeKind.Local).AddTicks(6307), false, "TestAuthor" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

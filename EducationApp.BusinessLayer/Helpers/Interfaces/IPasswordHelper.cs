@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Helpers.Interfaces
 {
-    public interface IGenerator
+    public interface IPasswordHelper
     {
         string GenerateRandomPassword(PasswordOptions opts = null);
     }

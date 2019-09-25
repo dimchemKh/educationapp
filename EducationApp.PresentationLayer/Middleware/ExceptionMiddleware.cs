@@ -18,37 +18,21 @@ namespace EducationApp.PresentationLayer.Middleware
         private ILoggerProvider _logger;
         private readonly RequestDelegate _next;
 
-        List<HttpStatusCode> codes = new List<HttpStatusCode>()
-                {
-                    HttpStatusCode.OK,
-                    HttpStatusCode.NotFound,
-                    HttpStatusCode.BadRequest,
-                    HttpStatusCode.BadGateway,
-                    HttpStatusCode.NotFound
-                };
-
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next, ILoggerProvider logger)
         {
             _next = next;
-
+            _logger = logger;            
         }
-        public async Task Invoke(HttpContext context, ILoggerProvider logger)
+        public async Task Invoke(HttpContext context)
         {
-            _logger = logger;
-
             try
             {
-                
+                _logger.CreateLogger("CustomLOGGER").LogInformation("SOME LOGINFO: ", context.Response.StatusCode.ToString());
                 await _next(context);
-                _logger.CreateLogger("CustomLOGGER").LogInformation("SOME LOGINFO: ", context.Response.Headers, context.Response.StatusCode);
             }
             catch (Exception)
             {
-                //var responseCode = context.Response?.StatusCode;
-                                
-
-                //_logger.WriteMessage($"{context.Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString())}" +
-                //                        $"{context.Request.Host} = { codes.Find(x => (int)x == responseCode)}");                
+                _logger.CreateLogger("Exception").LogError("Error", context.Response.StatusCode.ToString());
             }
         }
     }

@@ -9,7 +9,6 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class ApplicationUser : IdentityUser<long>
     {
-        [Key]
         public override long Id
         {
             get
@@ -29,5 +28,6 @@ namespace EducationApp.DataAccessLayer.Entities
             get;
             set;
         }
+        public bool IsRemoved { get; set; } = false;
     }
 }

@@ -16,7 +16,6 @@ namespace EducationApp.BusinessLayer.Helpers
             _smtpClient.Credentials = _networkCredential;
             _smtpClient.EnableSsl = true;
             _smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            //smtpClient.UseDefaultCredentials = false;
 
             _mailMessage.Subject = subject;
 

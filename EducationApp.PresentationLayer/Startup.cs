@@ -1,22 +1,15 @@
-﻿using EducationApp.BusinessLayer;
-using EducationApp.BusinessLayer.Common;
+﻿using EducationApp.BusinessLayer.Initializers;
 using EducationApp.PresentationLayer.Common;
 using EducationApp.PresentationLayer.Helper;
 using EducationApp.PresentationLayer.Helper.Interfaces;
 using EducationApp.PresentationLayer.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Text;
 
 namespace EducationApp.PresentationLayer
@@ -73,13 +66,13 @@ namespace EducationApp.PresentationLayer
 
             services.AddScoped<IJwtHelper, JwtHelper>();
 
-            Initializer.InitServices(services, Configuration);
+            InitializerServices.InitializeServices(services, Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             //loggerFactory.AddFile(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt"));
             
@@ -100,6 +93,8 @@ namespace EducationApp.PresentationLayer
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            
 
             app.UseMiddleware<ExceptionMiddleware>();
 

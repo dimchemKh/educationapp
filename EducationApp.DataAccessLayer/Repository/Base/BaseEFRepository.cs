@@ -13,11 +13,9 @@ using System.Threading.Tasks;
 namespace EducationApp.DataAccessLayer.Repository.Base
 {
     public class BaseEFRepository<TEntity> where TEntity : BaseEntity
-    {
-        
+    {        
         protected ApplicationContext _context;
         protected DbSet<TEntity> _dbSet;
-
         public BaseEFRepository(ApplicationContext context)
         {
             _context = context;
@@ -37,11 +35,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public async Task AddAsync(TEntity entity)
         {
-
-            //_context.Set<TEntity>().Attach(entity);
-
             await _context.Set<TEntity>().AddAsync(entity);
-
         }
         public async Task DeleteAsync(TEntity entity)
         {
@@ -53,7 +47,6 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public Task Edit(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-
             return SaveChangesAsync(); 
         }
         public async Task SaveChangesAsync()
