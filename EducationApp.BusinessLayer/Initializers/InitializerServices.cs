@@ -38,8 +38,8 @@ namespace EducationApp.BusinessLayer.Initializers
             services.AddSingleton<ILoggerProvider, LoggerProvider>(sp => new LoggerProvider(Path.Combine(Directory.GetCurrentDirectory(), "logging.txt")));
 
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserService, UserService>();
 
-            //services.AddScoped(typeof(RoleInitialization));
             services.AddScoped<DbBaseInitializing>();
 
             services.AddScoped<IEmailHelper, EmailHelper>();

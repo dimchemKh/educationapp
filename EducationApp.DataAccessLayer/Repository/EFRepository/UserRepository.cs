@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
-    public class UserRepository : BaseEFRepository<BaseEntity>, IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public UserRepository(ApplicationContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : base(context)
+        public UserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -68,7 +68,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-
             return (user != null) ? user : null;
         }
         public async Task<bool> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
@@ -86,5 +85,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             return result.Succeeded;
         }
 
+        //public async Task<bool> EditUserProfileAsync(ApplicationUser user, string firstName, string lastName, string email)
+        //{
+        //    user.FirstName = firstName;
+        //    user.LastName = lastName;
+        //    user.Email = email;
+        //    await _userManager.UpdateAsync(user);
+        //}
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using System.Linq;
+using EducationApp.BusinessLayer.Models.Users;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -20,29 +21,41 @@ namespace EducationApp.BusinessLayer.Services
             _passwordHelper = passwordHelper;
             _emailHelper = emailHelper;
         }
-        public async Task<ApplicationUser> SignInAsync(string email, string password)
+        public async Task<ApplicationUser> SignInAsync(LoginModel loginModel)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            if(loginModel == null)
             {
                 return null;
             }
-            var existedUser = await _userRepository.GetUserByEmailAsync(email);
-            if (existedUser != null && await _userRepository.CheckPasswordAsync(existedUser, password))
+            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+            {
+                return null;
+            }
+            var existedUser = await _userRepository.GetUserByEmailAsync(loginModel.Email);
+            if (existedUser != null && await _userRepository.CheckPasswordAsync(existedUser, loginModel.Password))
             {
                 return existedUser;
             }
             return null;
         }
-        public async Task<ApplicationUser> GetUserByEmailAsync(string email)
+        public async Task<ApplicationUser> GetUserByEmailAsync(UserModel userModel)
         {
-            return await _userRepository.GetUserByEmailAsync(email);
+            if(userModel == null)
+            {
+                return null;
+            }
+            return await _userRepository.GetUserByEmailAsync(userModel.Email);
         }
-        public async Task<bool> SignUpAsync(string firstName, string lastName, string email, string password)
+        public async Task<bool> SignUpAsync(UserModel userModel)
         {
-            var existedUser = await _userRepository.GetUserByEmailAsync(email);
+            if(userModel == null)
+            {
+                return false;
+            }
+            var existedUser = await _userRepository.GetUserByEmailAsync(userModel.Email);
             if (existedUser == null)
             {
-                return await _userRepository.SignUpAsync(firstName, lastName, email, password);
+                return await _userRepository.SignUpAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);
             }
             return false;
         }
@@ -56,6 +69,10 @@ namespace EducationApp.BusinessLayer.Services
         }
         public async Task<bool> ConfirmEmailAsync(string userId, string token)
         {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+            {
+                return false;
+            }
             var user = await _userRepository.GetUserByIdAsync(userId);
             if (user != null)
             {
@@ -85,6 +102,10 @@ namespace EducationApp.BusinessLayer.Services
 
         public async Task<string> GetRoleAsync(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return null;
+            }
             var user = await _userRepository.GetUserByIdAsync(userId);
             var roles = await _userRepository.GetRoleAsync(user);
             var role = roles.FirstOrDefault();
@@ -94,6 +115,10 @@ namespace EducationApp.BusinessLayer.Services
 
         public async Task<string> GetUserNameAsync(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                return null;
+            }
             var user = await _userRepository.GetUserByIdAsync(userId);
             if (user != null)
             {

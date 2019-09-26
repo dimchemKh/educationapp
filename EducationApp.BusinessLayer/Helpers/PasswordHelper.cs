@@ -24,36 +24,42 @@ namespace EducationApp.BusinessLayer.Helpers
                 };
             }
 
-            string[] randomChars = new[] 
+            string[] charsForPassword = new[]
             {
-                "ABCDEFGHJKLMNOPQRSTUVWXYZ",    
-                "abcdefghijkmnopqrstuvwxyz",    
-                "0123456789"                    
+                Constants.CharsForPassword.UppercaseChars, 
+                Constants.CharsForPassword.LowercaseChars,
+                Constants.CharsForPassword.DigitChars
             };
 
-            Random rand = new Random(Environment.TickCount);
-            List<char> chars = new List<char>();
+            Random random = new Random(Environment.TickCount);
+            List<char> listCharsOfPassword = new List<char>();
 
             if (options.RequireUppercase)
-                chars.Insert(rand.Next(0, chars.Count),
-                    randomChars[0][rand.Next(0, randomChars[0].Length)]);
-
-            if (options.RequireLowercase)
-                chars.Insert(rand.Next(0, chars.Count),
-                    randomChars[1][rand.Next(0, randomChars[1].Length)]);
-
-            if (options.RequireDigit)
-                chars.Insert(rand.Next(0, chars.Count),
-                    randomChars[2][rand.Next(0, randomChars[2].Length)]);            
-
-            for (int i = chars.Count; i < options.RequiredLength || chars.Distinct().Count() < options.RequiredUniqueChars; i++)
             {
-                string rcs = randomChars[rand.Next(0, randomChars.Length)];
-                chars.Insert(rand.Next(0, chars.Count),
-                    rcs[rand.Next(0, rcs.Length)]);
+                listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count),
+                    charsForPassword[0][random.Next(0, charsForPassword[0].Length)]);
             }
 
-            return new string(chars.ToArray());
+            if (options.RequireLowercase)
+            {
+                listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count),
+                    charsForPassword[1][random.Next(0, charsForPassword[1].Length)]);
+            }
+
+            if (options.RequireDigit)
+            {
+                listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count), 
+                    charsForPassword[2][random.Next(0, charsForPassword[2].Length)]);
+            }
+
+            for (int i = listCharsOfPassword.Count; i < options.RequiredLength || listCharsOfPassword.Distinct().Count() < options.RequiredUniqueChars; i++)
+            {
+                string rcs = charsForPassword[random.Next(0, charsForPassword.Length)];
+                listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count),
+                    rcs[random.Next(0, rcs.Length)]);
+            }
+
+            return new string(listCharsOfPassword.ToArray());
         }
     }
 }

@@ -11,7 +11,6 @@ namespace EducationApp.BusinessLayer.Common
     {
         private string _filePath;
         private string _categoryName;
-        private object _lock = new object();
         public Logger(string categoryName, string filePath)
         {
             _filePath = filePath;

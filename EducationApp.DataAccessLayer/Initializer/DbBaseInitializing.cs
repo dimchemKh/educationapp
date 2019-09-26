@@ -2,8 +2,8 @@
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace EducationApp.DataAccessLayer.Initializer
 {
@@ -19,13 +19,37 @@ namespace EducationApp.DataAccessLayer.Initializer
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public async void Initialize()
+        public void Initialize()
         {
-            if(!await _roleManager.Roles.AnyAsync(role => role.Name == "admin"))
+            if(!_roleManager.Roles.Any(role => role.Name == Constants.Roles.Admin || role.Name == Constants.Roles.User))
             {
-                SeedAdminRoles();
+                SeedAdminAndUserRoles();
             }
+            if (!_context.Authors.Any())
+            {
+                SeedEntitiesAsync();
+            }
+        }
+        protected void SeedAdminAndUserRoles()
+        {
+            string adminEmail = "admin@gmail.com";
+            string password = "QWEqwe123qwe";
 
+            _roleManager.CreateAsync(new Role() { Name = Constants.Roles.Admin }).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new Role() { Name = Constants.Roles.User }).GetAwaiter().GetResult();
+
+            var admin = new ApplicationUser { FirstName = "Main", LastName = "Admin", Email = adminEmail, UserName = adminEmail };
+
+            var result = _userManager.CreateAsync(admin, password).GetAwaiter().GetResult();
+
+            if (result.Succeeded)
+            {
+                _userManager.AddToRoleAsync(admin, Constants.Roles.Admin).GetAwaiter().GetResult();
+            }
+            
+        }
+        protected void SeedEntitiesAsync()
+        {
             _context.Authors.Add(new Author()
             {
                 Name = "TestAuthor",
@@ -41,24 +65,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                 Type = Entities.Enums.Enums.Type.Book,
                 Currency = Entities.Enums.Enums.Currency.USD
             });
-
-        }
-        private async void SeedAdminRoles()
-        {
-            string adminEmail = "admin@gmail.com";
-            string password = "QWEqwe123qwe";
-
-            await _roleManager.CreateAsync(new Role() { Name = Constants.Roles.Admin });
-            await _roleManager.CreateAsync(new Role() { Name = Constants.Roles.User });
-
-            var admin = new ApplicationUser { FirstName = "Main", LastName = "Admin", Email = adminEmail, UserName = adminEmail };
-
-            var result = await _userManager.CreateAsync(admin, password);
-
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(admin, Constants.Roles.Admin);
-            }
+            _context.SaveChanges();
         }
     }
 }

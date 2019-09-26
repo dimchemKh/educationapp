@@ -14,7 +14,6 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const bool RequireUppercase = true;
             public const bool RequireLowercase = false;
             public const bool RequireNonAlphanumeric = false;
-            
         }
     }
 

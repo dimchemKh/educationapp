@@ -31,7 +31,7 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserModel userModel)
         {
-            var user = await _accountService.GetUserByEmailAsync(userModel.Email);
+            var user = await _accountService.GetUserByEmailAsync(userModel);
             if(user == null)
             {
                 return BadRequest("Email not found");
@@ -52,6 +52,8 @@ namespace EducationApp.PresentationLayer.Controllers
             {
                 return BadRequest("RefreshToken expired!");
             }
+            var response = new ResponseModel<TokenModel>();
+
             var userId = refreshToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var role = await _accountService.GetRoleAsync(userId);
             var userName = await _accountService.GetUserNameAsync(userId);
@@ -59,30 +61,29 @@ namespace EducationApp.PresentationLayer.Controllers
             var accessClaims = _jwtHelper.GetAccessClaims(userId, role, userName);
             var refreshClaims = _jwtHelper.GetRefreshClaims(userId);
 
-            var AT = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration);
-            var RT = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration);
-
-            return Ok(new TokenModel(AT, RT));
-
+            var newAccessToken = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration);
+            var newRefreshToken = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration);
+            
+            return Ok(new TokenModel(newAccessToken, newRefreshToken));
         }
 
         [AllowAnonymous]
         [HttpPost("signUp")]
-        public async Task<IActionResult> SignUpAsync([FromBody] UserModel userModel)
+        public async Task<IActionResult> SignUpAsync([FromBody]UserModel userModel)
         {
-            var existedUser = await _accountService.SignUpAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);
+            var existedUser = await _accountService.SignUpAsync(userModel);
             if (!existedUser)
             {
                 return BadRequest("User is created");
             }
-            var user = await _accountService.GetUserByEmailAsync(userModel.Email);
+            var user = await _accountService.GetUserByEmailAsync(userModel);
 
-            var code = await _accountService.GetEmailConfirmTokenAsync(user);
+            var token = await _accountService.GetEmailConfirmTokenAsync(user);
 
             var callbackUrl = Url.Action(
                 "confirmEmailAsync",
                 "Account",
-                new { userId = user.Id, code = code },
+                new { userId = user.Id, token },
                 protocol: HttpContext.Request.Scheme);
 
             await _accountService.SendRegistrationMailAsync(user, callbackUrl);
@@ -92,13 +93,9 @@ namespace EducationApp.PresentationLayer.Controllers
 
         [AllowAnonymous]
         [HttpPost("signIn")]
-        public async Task<IActionResult> SignInAsync([FromBody] UserModel userModel)
+        public async Task<IActionResult> SignInAsync([FromBody]LoginModel loginModel)
         {
-            if (userModel.Email == null || userModel.Password == null)
-            {
-                return BadRequest();
-            }
-            var user = await _accountService.SignInAsync(userModel.Email, userModel.Password);
+            var user = await _accountService.SignInAsync(loginModel);
             if(user != null)
             {
                 var role = await _accountService.GetRoleAsync(user.Id.ToString());
@@ -106,25 +103,18 @@ namespace EducationApp.PresentationLayer.Controllers
                 var accessClaims = _jwtHelper.GetAccessClaims(user.Id.ToString(), role, user.UserName);
                 var refreshClaims = _jwtHelper.GetRefreshClaims(user.Id.ToString());
 
-                var AT = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration);
-                var RT = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration);
+                var AccessToken = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration);
+                var RefreshToken = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration);
 
-                return Ok(new TokenModel(AT, RT));
+                return Ok(new TokenModel(AccessToken, RefreshToken));
             }
             return BadRequest("Something wrong!");
         }
-
+         
         [HttpGet("confirmEmail")]
-        public async Task<IActionResult> ConfirmEmailAsync(string userId, string code)
-        {
-            if(userId == null || code == null)
-            {
-                return BadRequest();
-            }
-
-            var result = await _accountService.ConfirmEmailAsync(userId, code);
-
-            if (result)
+        public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
+        {            
+            if (await _accountService.ConfirmEmailAsync(userId, token))
             {
                 return Ok("You confirmed your email");
             }

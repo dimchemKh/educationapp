@@ -1,4 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Initializers;
+using EducationApp.DataAccessLayer.Initializer;
 using EducationApp.PresentationLayer.Common;
 using EducationApp.PresentationLayer.Helper;
 using EducationApp.PresentationLayer.Helper.Interfaces;
@@ -72,7 +73,7 @@ namespace EducationApp.PresentationLayer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DbBaseInitializing dbBaseInitializing)
         {
             //loggerFactory.AddFile(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt"));
             
@@ -94,9 +95,10 @@ namespace EducationApp.PresentationLayer
 
             app.UseAuthentication();
 
-            
 
             app.UseMiddleware<ExceptionMiddleware>();
+
+            dbBaseInitializing.Initialize();
 
             app.UseMvc(routes =>
             {

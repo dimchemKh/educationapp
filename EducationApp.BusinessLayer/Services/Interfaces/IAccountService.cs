@@ -1,4 +1,5 @@
-﻿using EducationApp.DataAccessLayer.Entities;
+﻿using EducationApp.BusinessLayer.Models.Users;
+using EducationApp.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
@@ -7,10 +8,10 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
     public interface IAccountService
     {
         Task<bool> DeleteUserAsync(ApplicationUser user);
-        Task<bool> SignUpAsync(string firstName, string lastName, string email, string password);
-        Task<ApplicationUser> GetUserByEmailAsync(string email);
+        Task<bool> SignUpAsync(UserModel userModel);
+        Task<ApplicationUser> GetUserByEmailAsync(UserModel userModel);
         Task<string> GetEmailConfirmTokenAsync(ApplicationUser user);
-        Task<ApplicationUser> SignInAsync(string email, string password);
+        Task<ApplicationUser> SignInAsync(LoginModel loginModel);
         Task<bool> ConfirmEmailAsync(string userId, string token);
         Task<bool> ResetPasswordAsync(ApplicationUser user);
         Task<string> GetRoleAsync(string userId);
