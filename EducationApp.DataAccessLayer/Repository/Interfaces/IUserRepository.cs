@@ -1,5 +1,4 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,5 +17,7 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
         Task<bool> SignUpAsync(string firstName, string lastName, string email, string password);
         Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
         Task<bool> UpdateUserAsync(ApplicationUser user);
+        Task<IList<ApplicationUser>> GetUsersInRoleAsync(string role);
+        Task<bool> AddNewUser(ApplicationUser user, string password);
     }
 }

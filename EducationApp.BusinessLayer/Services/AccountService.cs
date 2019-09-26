@@ -38,7 +38,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             return null;
         }
-        public async Task<ApplicationUser> GetUserByEmailAsync(UserModel userModel)
+        public async Task<ApplicationUser> GetUserByEmailAsync(RegistrationModel userModel)
         {
             if(userModel == null)
             {
@@ -46,7 +46,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             return await _userRepository.GetUserByEmailAsync(userModel.Email);
         }
-        public async Task<bool> SignUpAsync(UserModel userModel)
+        public async Task<bool> SignUpAsync(RegistrationModel userModel)
         {
             if(userModel == null)
             {
@@ -126,16 +126,5 @@ namespace EducationApp.BusinessLayer.Services
             }
             return string.Empty;
         }
-
-        public async Task<bool> DeleteUserAsync(ApplicationUser user)
-        {
-            if(user == null)
-            {
-                return false;
-            }
-            user.IsRemoved = true; 
-
-            return await _userRepository.UpdateUserAsync(user);
-        }
-    }
+    }    
 }

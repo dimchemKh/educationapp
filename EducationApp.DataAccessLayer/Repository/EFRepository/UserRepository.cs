@@ -84,13 +84,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
         }
-
-        //public async Task<bool> EditUserProfileAsync(ApplicationUser user, string firstName, string lastName, string email)
-        //{
-        //    user.FirstName = firstName;
-        //    user.LastName = lastName;
-        //    user.Email = email;
-        //    await _userManager.UpdateAsync(user);
-        //}
+        public async Task<IList<ApplicationUser>> GetUsersInRoleAsync(string role)
+        {
+            return await _userManager.GetUsersInRoleAsync(role);
+        }
+        public async Task<bool> AddNewUser(ApplicationUser user, string password)
+        {
+            var result = await _userManager.CreateAsync(user, password);
+            return result.Succeeded;
+        }
     }
 }

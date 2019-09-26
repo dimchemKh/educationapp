@@ -1,11 +1,10 @@
-﻿using EducationApp.BusinessLayer.Models.Users;
+﻿using EducationApp.BusinessLayer.Models.Enums;
+using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
+using EducationApp.DataAccessLayer.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,8 +20,7 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             _userService = userService;
         }
-
-        [Authorize(Roles = "user")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.User)]
         [HttpPost("get")]
         public async Task<IActionResult> GetUserAsync()
         {
@@ -32,14 +30,44 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(user);
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.User)]
         [HttpPost("edit")]
-        public async Task<IActionResult> EditUserProfileAsync([FromBody]UserModel userModel)
+        public async Task<IActionResult> EditUserProfileAsync([FromBody]RegistrationModel userModel)
         {
             if(await _userService.EditUserProfileAsync(userModel))
             {
-                return Ok();
+                return Ok("Edit");
             }
             return BadRequest();
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.Admin)]
+        [HttpGet("get")]
+        public async Task<IActionResult> GetAdminAsync()
+        {
+            var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _userService.GetUserAsync(userId);
+
+            return Ok(user);
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.Admin)]
+        [HttpPost("get/users")]
+        public async Task<IActionResult> GetUsersAsync(string userName = null, bool blocked = false)
+        {
+            if(string.IsNullOrWhiteSpace(userName) && !blocked)
+            {
+                return Ok(await _userService.GetAllUsersAsync());
+            }
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                return Ok(await _userService.GetAllUsersAsync(userName, blocked));
+            }
+
+            return BadRequest();
+        }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.Admin)]
+        [HttpPost("get/usersOrders")]
+        public Task<IActionResult> GetUsersOrdersAsync() => throw new System.NotImplementedException();
     }
 }

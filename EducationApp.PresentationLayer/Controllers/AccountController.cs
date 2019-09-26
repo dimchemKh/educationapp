@@ -28,8 +28,9 @@ namespace EducationApp.PresentationLayer.Controllers
             _configOptions = configOptions;
             _jwtHelper = jwtHelper;
         }
+        [AllowAnonymous]
         [HttpPost("forgotPassword")]
-        public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserModel userModel)
+        public async Task<IActionResult> ForgorPasswordAsync([FromBody]RegistrationModel userModel)
         {
             var user = await _accountService.GetUserByEmailAsync(userModel);
             if(user == null)
@@ -42,7 +43,7 @@ namespace EducationApp.PresentationLayer.Controllers
             }
             return BadRequest("Invalid email!");
         }
-
+        [AllowAnonymous]
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshTokenAsync([FromBody]TokenModel tokenModel)
         {
@@ -69,7 +70,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
         [AllowAnonymous]
         [HttpPost("signUp")]
-        public async Task<IActionResult> SignUpAsync([FromBody]UserModel userModel)
+        public async Task<IActionResult> SignUpAsync([FromBody]RegistrationModel userModel)
         {
             var existedUser = await _accountService.SignUpAsync(userModel);
             if (!existedUser)

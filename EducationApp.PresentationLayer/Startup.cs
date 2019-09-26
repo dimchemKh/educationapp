@@ -5,6 +5,7 @@ using EducationApp.PresentationLayer.Helper;
 using EducationApp.PresentationLayer.Helper.Interfaces;
 using EducationApp.PresentationLayer.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -53,10 +54,10 @@ namespace EducationApp.PresentationLayer
                 ValidateLifetime = true                
             };
 
-            services.AddAuthentication(x =>
+            services.AddAuthentication(scheme =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                scheme.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                scheme.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>
             {

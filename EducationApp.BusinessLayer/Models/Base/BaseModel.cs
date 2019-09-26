@@ -6,8 +6,6 @@ namespace EducationApp.BusinessLayer.Models.Base
 {
     public class BaseModel
     {
-        public int Id { get; set; }
-        public DateTime DateCreate { get; set; }
-        public bool Remove { get; set; }
+
     }
 }
