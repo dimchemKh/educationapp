@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.BusinessLayer.Models.Admins
+namespace EducationApp.BusinessLayer.Models.Users
 {
-    public class UserForAdminModel
+   public class UserModelItem
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
+        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public bool Blocked { get; set; }
+        public string UserName { get; set; }
+        public bool IsBlocked { get; set; }
     }
 }

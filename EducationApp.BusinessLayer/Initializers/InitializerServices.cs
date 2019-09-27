@@ -39,6 +39,7 @@ namespace EducationApp.BusinessLayer.Initializers
 
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPrintingEditionService, PrintingEditionService>();
 
             services.AddScoped<DbBaseInitializing>();
 
@@ -48,6 +49,8 @@ namespace EducationApp.BusinessLayer.Initializers
 
             #region Repositories
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPrintingEditionRepository, PrintingEditionRepository>();
+            services.AddScoped<IAuthorInBooksRepository, AuthorInBooksRepository>();
             #endregion
 
             #region IdentityOptions

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Models.Admins;
+using EducationApp.BusinessLayer.Models.Base;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Services
@@ -16,14 +18,11 @@ namespace EducationApp.BusinessLayer.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordHelper _passwordHelper;
         private readonly IEmailHelper _emailHelper;
-        private IList<UserForAdminModel> _usersList;
         
-        public UserService(IUserRepository userRepository, IEmailHelper emailHelper, IPasswordHelper passwordHelper)
+        public UserService(IUserRepository userRepository, IEmailHelper emailHelper)
         {
             _userRepository = userRepository;
-            _passwordHelper = passwordHelper;
             _emailHelper = emailHelper;
         }
         public async Task<bool> DeleteUserAsync(string userId)
@@ -37,18 +36,6 @@ namespace EducationApp.BusinessLayer.Services
 
             return await _userRepository.UpdateUserAsync(user);
         }
-
-        public async Task<RegistrationModel> GetUserAsync(string userId)
-        {
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                return null;
-            }
-            var user = await _userRepository.GetUserByIdAsync(userId);
-
-
-            return new RegistrationModel() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email };
-        }
         public async Task<bool> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
         {
             if(string.IsNullOrWhiteSpace(currentPassword) && string.IsNullOrWhiteSpace(newPassword))
@@ -58,99 +45,156 @@ namespace EducationApp.BusinessLayer.Services
             }
             return false;
         }
-        public async Task<bool> EditUserProfileAsync(RegistrationModel userModel)
+        public async Task<EditModel> EditUserProfileAsync(EditModelItem userModel)
         {
+            var responseModel = new EditModel();
             if(userModel == null)
             {
-                return false;
+                responseModel.Errors.Add(Constants.Errors.UserNull);
+                return responseModel;
             }
             if(string.IsNullOrWhiteSpace(userModel.FirstName) 
                 || string.IsNullOrWhiteSpace(userModel.LastName) 
                 || string.IsNullOrWhiteSpace(userModel.Email) 
                 || string.IsNullOrWhiteSpace(userModel.Password)) 
             {
-                return false;
+                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                return responseModel;
             }
             var user = await _userRepository.GetUserByEmailAsync(userModel.Email);
             if (!await _userRepository.CheckPasswordAsync(user, userModel.Password))
             {
-                return false;
+                responseModel.Errors.Add(Constants.Errors.InvalidConfirmPassword);
+                return responseModel;
             }
+            await _userRepository.ChangePasswordAsync(user, userModel.Password, userModel.NewPassword);
+
             user.FirstName = userModel.FirstName;
             user.LastName = userModel.LastName;
             user.Email = userModel.Email;
-            user.UserName = userModel.Email.Substring(0, userModel.Email.IndexOf("@"));
+            user.UserName = userModel.FirstName + user.LastName;
 
-            return await _userRepository.UpdateUserAsync(user);
+            await _userRepository.UpdateUserAsync(user);
+
+            return responseModel;
         }
-
-        public async Task<IList<UserForAdminModel>> GetAllUsersAsync()
+        public async Task<UserModel> GetAllUsersAsync(UserModel userModel, string userName = null)
         {
-            _usersList = new List<UserForAdminModel>();
+            IEnumerable<ApplicationUser> existedUsers = null;
 
             var listUsers = await _userRepository.GetUsersInRoleAsync(Constants.Roles.User);
             if (listUsers == null)
             {
-                return null;
+                userModel.Errors.Add(Constants.Errors.UserNull);
+                return userModel;
             }
-            var existedUsers = listUsers.Where(user => user.IsRemoved == false);
-
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                existedUsers = listUsers.Where(user => user.IsRemoved == false);
+            }
+            if(userName != null)
+            {
+                existedUsers = listUsers.Where(user => user.FirstName.Contains(userName) || user.LastName.Contains(userName));
+            }
+            
             foreach (var user in existedUsers)
             {
-                _usersList.Add(new UserForAdminModel()
+                userModel.Items.Add(new UserModelItem()
                 {
-                    Id = Int32.Parse(user.Id.ToString()),
+                    Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
                     UserName = user.UserName,
-                    Blocked = user.LockoutEnabled
+                    IsBlocked = user.LockoutEnabled
                 });
             }
-
-            return _usersList;
+            return userModel;
         }
-        public async Task<UserForAdminModel> GetAllUsersAsync(string userName, bool blocked)
-        {
-            var listUsers = await _userRepository.GetUsersInRoleAsync(Constants.Roles.User);
-            if (listUsers == null)
-            {
-                return null;
-            }
-            var existedUsers = listUsers.FirstOrDefault(user => user.IsRemoved == false && user.UserName == userName);
 
-            return new UserForAdminModel() {
-                Id = Int32.Parse(existedUsers.Id.ToString()),
-                FirstName = existedUsers.FirstName,
-                LastName = existedUsers.LastName,
-                Email = existedUsers.Email,
-                UserName = existedUsers.UserName
-            };
-        }
-        public async Task<bool> AddNewUserAsync(RegisterForAdminModel user)
+        public async Task<EditModel> AddNewUserAsync(EditModelItem user)
         {
+            var responseModel = new EditModel();
+
             if(user == null)
             {
-                return false;
+                responseModel.Errors.Add(Constants.Errors.UserNull);
+                return responseModel;
             }
             if(string.IsNullOrWhiteSpace(user.FirstName)
                 || string.IsNullOrWhiteSpace(user.LastName)
                 || string.IsNullOrWhiteSpace(user.Email))
             {
-                return false;
+                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                return responseModel;
             }
             var newUser = new ApplicationUser()
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email
+                Email = user.Email,
+                EmailConfirmed = true                
             };
-            var newPassword = _passwordHelper.GenerateRandomPassword();
-            await _emailHelper.SendMailAsync(newUser, "YourPassword", $"Your temp password {newPassword} ! Please, change him!");
-            return await _userRepository.AddNewUser(newUser, newPassword);
+
+            if(!await _userRepository.CheckPasswordAsync(await _userRepository.GetUserByEmailAsync(user.Email), user.Password))
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidConfirmPassword);
+                return responseModel;
+            }
+
+            await _emailHelper.SendMailAsync(newUser, "YourPassword", $"Your temp password {user.NewPassword} ! Please, change him!");
+            await _userRepository.AddNewUser(newUser, user.NewPassword);
+
+            return responseModel;
         }
 
-        public Task<IList<OrderForAdminModel>> GetUsersOrdersAsync(string userId) => throw new NotImplementedException();
-        public Task<IList<OrderModel>> GetOrdersAsync(string userId) => throw new NotImplementedException();
+        public async Task<UserModel> BlockUserAsync(string userId, Enums.IsBlocked isBlocked, UserModel userModel)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+
+            switch (isBlocked)
+            {
+                case Enums.IsBlocked.None:
+                    break;
+                case Enums.IsBlocked.True:
+                    user.LockoutEnabled = false;
+                    break;
+                case Enums.IsBlocked.False:
+                    user.LockoutEnabled = true;
+                    break;
+            }
+            await _userRepository.UpdateUserAsync(user);
+            userModel.Items.Add(new UserModelItem()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsBlocked = user.LockoutEnabled
+            });
+
+            return userModel;
+        }
+
+        public async Task<UserModel> GetUserAsync(string userId, UserModel userModel)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                userModel.Errors.Add(Constants.Errors.InvalidData);
+                return userModel;
+            }
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            userModel.Items.Add(new UserModelItem()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsBlocked = user.LockoutEnabled
+            });
+            return userModel;
+        }
     }
 }

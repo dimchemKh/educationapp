@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Models.Enums;
-using EducationApp.BusinessLayer.Models.Users;
+﻿using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,63 +11,76 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.User)]
-        [HttpPost("get")]
+        
+        [HttpPost("getMe")]
         public async Task<IActionResult> GetUserAsync()
         {
+            var responseModel = new UserModel();
+
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
+             
+            await _userService.GetUserAsync(userId, responseModel);
 
-            var user = await _userService.GetUserAsync(userId);
-
-            return Ok(user);
+            return Ok(responseModel.Items);
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.User)]
+
         [HttpPost("edit")]
-        public async Task<IActionResult> EditUserProfileAsync([FromBody]RegistrationModel userModel)
+        public async Task<IActionResult> EditUserProfileAsync([FromBody]EditModelItem userModel)
         {
-            if(await _userService.EditUserProfileAsync(userModel))
+            var responseModel = await _userService.EditUserProfileAsync(userModel);
+            if (responseModel.Errors.Any())
             {
-                return Ok("Edit");
+                return Ok(responseModel.Errors);
             }
-            return BadRequest();
-        }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.Admin)]
-        [HttpGet("get")]
-        public async Task<IActionResult> GetAdminAsync()
-        {
-            var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            var user = await _userService.GetUserAsync(userId);
-
-            return Ok(user);
+            return Ok();
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.Admin)]
-        [HttpPost("get/users")]
-        public async Task<IActionResult> GetUsersAsync(string userName = null, bool blocked = false)
+        [HttpPost("getMe/users")]
+        public async Task<IActionResult> GetUsersAsync()
         {
-            if(string.IsNullOrWhiteSpace(userName) && !blocked)
+            var responseModel = new UserModel();
+            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
             {
-                return Ok(await _userService.GetAllUsersAsync());
-            }
-            if (!string.IsNullOrWhiteSpace(userName))
-            {
-                return Ok(await _userService.GetAllUsersAsync(userName, blocked));
+                responseModel.Errors.Add(Constants.Errors.InvalidToken);
+                return Ok(responseModel);
             }
 
-            return BadRequest();
+            return Ok(await _userService.GetAllUsersAsync(responseModel));
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = Constants.Roles.Admin)]
-        [HttpPost("get/usersOrders")]
-        public Task<IActionResult> GetUsersOrdersAsync() => throw new System.NotImplementedException();
+        [HttpPost("getMe/users")]
+        public async Task<IActionResult> GetUsersAsync(string userName)
+        {
+            var responseModel = new UserModel();
+            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidToken);
+                return Ok(responseModel);
+            }
+
+            return Ok(await _userService.GetAllUsersAsync(responseModel, userName));
+        }
+        [HttpPut("getMe/users/{id}")]
+        public async Task<IActionResult> BlockUserAsync(string userId, Enums.IsBlocked isBlocked)
+        {
+            var responseModel = new UserModel();
+            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidToken);
+                return Ok(responseModel);
+            }
+
+            return Ok(await _userService.BlockUserAsync(userId, isBlocked, responseModel));
+        }
+
     }
 }

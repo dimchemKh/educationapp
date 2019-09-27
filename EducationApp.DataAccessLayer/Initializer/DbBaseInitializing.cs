@@ -1,8 +1,10 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EducationApp.DataAccessLayer.Initializer
@@ -52,18 +54,32 @@ namespace EducationApp.DataAccessLayer.Initializer
         {
             _context.Authors.Add(new Author()
             {
-                Name = "TestAuthor",
+                Name = "Bob Mart",
+                CreationDate = DateTime.Now
+            });
+            _context.Authors.Add(new Author()
+            {
+                Name = "Avreliy Berk",
                 CreationDate = DateTime.Now
             });
             _context.PrintingEditions.Add(new PrintingEdition()
             {
-                Name = "TestBook",
+                Name = "Avto buisness",
                 Description = "Some description",
                 Price = 100,
-                Status = Entities.Enums.Enums.Status.None,
                 CreationDate = DateTime.Now,
-                Type = Entities.Enums.Enums.Type.Book,
-                Currency = Entities.Enums.Enums.Currency.USD
+                Type = Enums.Type.Book,
+                Currency = Enums.Currency.USD
+
+            });
+            _context.PrintingEditions.Add(new PrintingEdition()
+            {
+                Name = "Concepts",
+                Description = "Some description",
+                Price = 80,
+                CreationDate = DateTime.Now,
+                Type = Enums.Type.Journal,
+                Currency = Enums.Currency.USD
             });
             _context.SaveChanges();
         }

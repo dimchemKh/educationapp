@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.BusinessLayer.Models.Enums
+namespace EducationApp.DataAccessLayer.Entities.Enums
 {
     public partial class Enums
     {
-        public enum Status
+        public enum IsBlocked
         {
             None = 0,
-            Paid = 1,
-            Unpaid = 2
+            True = 1,
+            False = 2
         }
     }
 }

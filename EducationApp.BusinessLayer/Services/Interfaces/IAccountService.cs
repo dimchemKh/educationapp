@@ -7,10 +7,10 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<bool> SignUpAsync(RegistrationModel userModel);
-        Task<ApplicationUser> GetUserByEmailAsync(RegistrationModel userModel);
+        Task<bool> SignUpAsync(RegistrationModelItem userModel);
+        Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task<string> GetEmailConfirmTokenAsync(ApplicationUser user);
-        Task<ApplicationUser> SignInAsync(LoginModel loginModel);
+        Task<ApplicationUser> SignInAsync(LoginModelItem loginModel);
         Task<bool> ConfirmEmailAsync(string userId, string token);
         Task<bool> ResetPasswordAsync(ApplicationUser user);
         Task<string> GetRoleAsync(string userId);

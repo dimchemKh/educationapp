@@ -8,8 +8,7 @@ namespace EducationApp.BusinessLayer.Models
     {
         public bool IsSucceeded { get; set; }
         public T Data { get; set; }
-        public List<string> Errors = new List<string>();
-
+        public IList<string> Errors = new List<string>();
 
         public ResponseModel()
         {

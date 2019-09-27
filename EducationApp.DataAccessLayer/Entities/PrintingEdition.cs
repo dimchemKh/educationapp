@@ -9,11 +9,9 @@ namespace EducationApp.DataAccessLayer.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Price { get; set; }
-
-        public Enums.Enums.Status Status { get; set; }
-        public Enums.Enums.Currency Currency { get; set; }
+        public decimal Price { get; set; }
+        public ICollection<decimal> Currency { get; set; } = new List<decimal>();
         public Enums.Enums.Type Type { get; set; }
-
+        public ICollection<AuthorInBooks> AuthorInBooks { get; set; } = new List<AuthorInBooks>();
     }
 }

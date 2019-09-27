@@ -1,6 +1,7 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Entities.Base;
+using EducationApp.DataAccessLayer.Repository.Base.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.Base
 {
-    public class BaseEFRepository<TEntity> where TEntity : BaseEntity
+    public class BaseEFRepository<TEntity> : IBaseEFRepository<TEntity> where TEntity : BaseEntity
     {        
         protected ApplicationContext _context;
         protected DbSet<TEntity> _dbSet;
@@ -36,6 +37,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public async Task AddAsync(TEntity entity)
         {
             await _context.Set<TEntity>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(TEntity entity)
         {
@@ -44,10 +46,10 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             
             await SaveChangesAsync();
         }
-        public Task Edit(TEntity entity)
+        public async Task EditAsync(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            return SaveChangesAsync(); 
+            await SaveChangesAsync(); 
         }
         public async Task SaveChangesAsync()
         {

@@ -21,13 +21,14 @@ namespace EducationApp.BusinessLayer.Services
             _passwordHelper = passwordHelper;
             _emailHelper = emailHelper;
         }
-        public async Task<ApplicationUser> SignInAsync(LoginModel loginModel)
+        public async Task<ApplicationUser> SignInAsync(LoginModelItem loginModel)
         {
             if(loginModel == null)
             {
                 return null;
             }
-            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+            if (string.IsNullOrWhiteSpace(loginModel.Email) 
+                || string.IsNullOrWhiteSpace(loginModel.Password))
             {
                 return null;
             }
@@ -38,21 +39,29 @@ namespace EducationApp.BusinessLayer.Services
             }
             return null;
         }
-        public async Task<ApplicationUser> GetUserByEmailAsync(RegistrationModel userModel)
+        public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
-            if(userModel == null)
+            if(string.IsNullOrWhiteSpace(email))
             {
                 return null;
             }
-            return await _userRepository.GetUserByEmailAsync(userModel.Email);
+            return await _userRepository.GetUserByEmailAsync(email);
         }
-        public async Task<bool> SignUpAsync(RegistrationModel userModel)
+        public async Task<bool> SignUpAsync(RegistrationModelItem userModel)
         {
             if(userModel == null)
             {
                 return false;
             }
+
+            if(string.IsNullOrWhiteSpace(userModel.FirstName)
+                || string.IsNullOrWhiteSpace(userModel.LastName)
+                || string.IsNullOrWhiteSpace(userModel.Email))
+            {
+                return false;
+            }
             var existedUser = await _userRepository.GetUserByEmailAsync(userModel.Email);
+
             if (existedUser == null)
             {
                 return await _userRepository.SignUpAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);

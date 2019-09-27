@@ -1,18 +1,11 @@
-﻿using System;
+﻿using EducationApp.BusinessLayer.Models.Base;
+using EducationApp.BusinessLayer.Models.Users;
 using System.Collections.Generic;
-using System.Text;
 
-namespace EducationApp.BusinessLayer.Models
+namespace EducationApp.BusinessLayer.Models.Users
 {
-    public class TokenModel
+    public class TokenModel : BaseModel
     {
-        public string AccessToken { get; private set; }
-        public string RefreshToken{ get; private set; }
-
-        public TokenModel(string accessToken, string refreshToken)
-        {
-            AccessToken = accessToken;
-            RefreshToken = refreshToken;
-        }
+        public ICollection<TokenModeltem> Items = new List<TokenModeltem>();
     }
 }

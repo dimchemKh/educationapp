@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
-    public interface IAuthorPrintingEditionRepository
+    public interface IAuthorInBooksRepository
     {
     }
 }

@@ -5,8 +5,9 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Models.Users
 {
-    public class LoginModel : BaseModel
+    public class UserModel : BaseModel
     {
-        public ICollection<LoginModelItem> Items = new List<LoginModelItem>();
+        public ICollection<UserModelItem> Items = new List<UserModelItem>();
+
     }
 }

@@ -6,6 +6,7 @@ namespace EducationApp.BusinessLayer.Models.Base
 {
     public class BaseModel
     {
+        public IList<string> Errors = new List<string>();
 
     }
 }
