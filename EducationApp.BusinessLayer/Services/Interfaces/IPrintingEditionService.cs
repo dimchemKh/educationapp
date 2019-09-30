@@ -10,7 +10,7 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IPrintingEditionService
     {
-        Task<PrintingEditionsModel> GetPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, Enums.StateSort stateSort);
-        Task<PrintingEditionsModel> GetFilteringPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, FilterModel filterModel);
+        Task<PrintingEditionsModel> GetPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, FilterModel filterModel);
+
     }
 }

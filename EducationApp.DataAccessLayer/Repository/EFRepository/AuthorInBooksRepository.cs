@@ -8,10 +8,10 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
-    public class AuthorInBooksRepository : BaseEFRepository<AuthorInBooks>, IAuthorInBooksRepository
+    public class AuthorInBooksRepository //: BaseEFRepository<AuthorInBooks>, IAuthorInBooksRepository
     {
-        public AuthorInBooksRepository(ApplicationContext context) : base(context)
-        {
-        }
+        //public AuthorInBooksRepository(ApplicationContext context) : base(context)
+        //{
+        //}
     }
 }

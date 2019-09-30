@@ -52,17 +52,7 @@ namespace EducationApp.DataAccessLayer.Initializer
         }
         protected void SeedEntitiesAsync()
         {
-            _context.Authors.Add(new Author()
-            {
-                Name = "Bob Mart",
-                CreationDate = DateTime.Now
-            });
-            _context.Authors.Add(new Author()
-            {
-                Name = "Avreliy Berk",
-                CreationDate = DateTime.Now
-            });
-            _context.PrintingEditions.Add(new PrintingEdition()
+            var pe1 = new PrintingEdition()
             {
                 Name = "Avto buisness",
                 Description = "Some description",
@@ -70,9 +60,17 @@ namespace EducationApp.DataAccessLayer.Initializer
                 CreationDate = DateTime.Now,
                 Type = Enums.Type.Book,
                 Currency = Enums.Currency.USD
-
-            });
-            _context.PrintingEditions.Add(new PrintingEdition()
+            };
+            var pe2 = new PrintingEdition()
+            {
+                Name = "New business",
+                Description = "Some description",
+                Price = 20,
+                CreationDate = DateTime.Now,
+                Type = Enums.Type.Newspaper,
+                Currency = Enums.Currency.USD
+            };
+            var pe3 = new PrintingEdition()
             {
                 Name = "Concepts",
                 Description = "Some description",
@@ -80,7 +78,62 @@ namespace EducationApp.DataAccessLayer.Initializer
                 CreationDate = DateTime.Now,
                 Type = Enums.Type.Journal,
                 Currency = Enums.Currency.USD
-            });
+            };
+
+            var author1 = new Author()
+            {
+                Name = "Bob Mart",
+                CreationDate = DateTime.Now
+            };
+            var author2 = new Author()
+            {
+                Name = "Avreliy Berk",
+                CreationDate = DateTime.Now
+            };
+            var author3 = new Author()
+            {
+                Name = "Edward Berilog",
+                CreationDate = DateTime.Now
+            };
+
+            pe1.AuthorInBooks = new List<AuthorInBooks>()
+            {
+                new AuthorInBooks {
+                    Author = author1,
+                    PrintingEditionId = pe1.Id
+                },
+                new AuthorInBooks
+                {
+                    Author = author2,
+                    PrintingEditionId = pe1.Id
+                }
+            };
+            pe2.AuthorInBooks = new List<AuthorInBooks>()
+            {
+                new AuthorInBooks
+                {
+                    Author = author2,
+                    PrintingEditionId = pe2.Id
+                },
+                new AuthorInBooks
+                {
+                    Author = author3,
+                    PrintingEditionId = pe2.Id
+                }
+            };
+            pe3.AuthorInBooks = new List<AuthorInBooks>()
+            {
+                new AuthorInBooks
+                {
+                    Author = author2,
+                    PrintingEditionId = pe3.Id
+                }
+            };
+
+            _context.Authors.AddRange(new List<Author>() { author1, author2, author3 });
+
+            _context.PrintingEditions.AddRange(new List<PrintingEdition>() { pe1, pe2, pe3 });
+
             _context.SaveChanges();
         }
     }

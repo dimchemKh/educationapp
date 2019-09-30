@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Linq;
 using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.BusinessLayer.Models.PrintingEditions;
 
 namespace EducationApp.PresentationLayer.Controllers
 {

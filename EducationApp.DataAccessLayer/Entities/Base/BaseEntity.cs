@@ -8,6 +8,7 @@ namespace EducationApp.DataAccessLayer.Entities.Base
 {
     public class BaseEntity
     {
+        [Key]
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public bool IsRemoved { get; set; } = false;

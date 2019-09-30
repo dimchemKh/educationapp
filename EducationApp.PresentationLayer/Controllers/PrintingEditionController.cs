@@ -18,20 +18,23 @@ namespace EducationApp.PresentationLayer.Controllers
             _printingEditionService = printingEditionService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
-        {
-            var model = new PrintingEditionsModel();
-            var result = await _printingEditionService.GetPrintingEditionsListAsync(model, DataAccessLayer.Entities.Enums.Enums.StateSort.PriceDesc);
-            return Ok(result.Items);
-        }
         [HttpPost("filtering")]
         public async Task<IActionResult> GetFilteringPrintingEditionAsync([FromBody]FilterModel filterModel)
         {
             var model = new PrintingEditionsModel();
-            var result = await _printingEditionService.GetFilteringPrintingEditionsListAsync(model, filterModel);
+            var result = await _printingEditionService.GetPrintingEditionsListAsync(model, filterModel);
 
-            return Ok(result.Items);
+            //string[] asd = null;
+
+            //foreach (var item in result.Items)
+            //{
+            //    foreach (var q in item.AuthorModels)
+            //    {
+            //        return Ok(q);
+            //    }
+            //}
+
+            return Ok(result.Items/*filterModel*/);
         }
     }
 }

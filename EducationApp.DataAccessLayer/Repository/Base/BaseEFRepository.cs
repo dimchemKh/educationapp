@@ -32,6 +32,8 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public async Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> predicate)
         {
+            //IQueryable<TEntity> pe = _context.PrintingEditions;
+            //await pe.Where(predicate).ToListAsync();
             return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
         public async Task AddAsync(TEntity entity)

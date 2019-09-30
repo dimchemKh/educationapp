@@ -1,34 +1,53 @@
 ﻿using EducationApp.BusinessLayer.Models.PrintingEditions;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Common.Constants;
 
 namespace EducationApp.BusinessLayer.Services
 {
     public class PrintingEditionService : IPrintingEditionService
     {
         private readonly IPrintingEditionRepository _printingEditionRepository;
-        private readonly IAuthorInBooksRepository _authorInBooksRepository;
         
-        public PrintingEditionService(IPrintingEditionRepository printingEditionRepository, IAuthorInBooksRepository authorInBooksRepository)
+        public PrintingEditionService(IPrintingEditionRepository printingEditionRepository)
         {
             _printingEditionRepository = printingEditionRepository;
-            _authorInBooksRepository = authorInBooksRepository;
         }
 
-        public async Task<PrintingEditionsModel> GetPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, Enums.StateSort stateSort)
+        public async Task<PrintingEditionsModel> GetPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, FilterModel filterModel)
         {
-            var listBooks = await _printingEditionRepository.ListAsync();
+            IEnumerable<PrintingEdition> listBooks = null;
+
+            if (filterModel == null)
+            {
+                return null;
+            }
+
+            
+
+            if (string.IsNullOrWhiteSpace(filterModel.SearchByWord))
+            {
+                listBooks = await _printingEditionRepository.ListAsync(x => x.IsRemoved == false);
+            }
+            else
+            {
+                listBooks = await _printingEditionRepository.ListAsync(x => x.IsRemoved == false && x.Name.Contains(filterModel.SearchByWord));
+            }
+
+            if (filterModel.Types != null)
+            {
+                listBooks = listBooks.Where(x => filterModel.Types.Contains(x.Type));
+            }
+
+            //listBooks = listBooks.Where(x => filterModel.RangePrice.);
+
             IOrderedEnumerable<PrintingEdition> query = null;
 
-            switch (stateSort)
+            switch (filterModel.SortPrice)
             {
                 case Enums.StateSort.None:
                     break;
@@ -38,40 +57,50 @@ namespace EducationApp.BusinessLayer.Services
                 case Enums.StateSort.PriceDesc:
                     query = listBooks.OrderByDescending(x => x.Price);
                     break;
+                case Enums.StateSort.IdAsc:
+                    query = listBooks.OrderBy(x => x.Id);
+                    break;
+                case Enums.StateSort.IdDesc:
+                    query = listBooks.OrderByDescending(x => x.Id);
+                    break;
+                case Enums.StateSort.BookAsc:
+                    query = listBooks.OrderBy(x => x.Type);
+                    break;
+                case Enums.StateSort.BookDesc:
+                    query = listBooks.OrderByDescending(x => x.Type);
+                    break;
                 default:
                     break;
             }
 
-            foreach (var book in query)
+            var tempQuery = await _printingEditionRepository.GetIncludeAsync();
+
+            var model = tempQuery.Select(o => new PrintingEditionsModelItem()
             {
-                printingEditionsModel.Items.Add(new PrintingEditionsModelItem()
-                {
-                    Author = "Author???",
-                    Name = book.Name,
-                    Price = book.Price
-                });
+                Id = o.Id,
+                Name = o.Name,
+                Price = o.Price,
+                AuthorModels = o.AuthorInBooks.Select(ot => ot.Author).ToList()
+            });
+
+            foreach (var item in model)
+            {
+                printingEditionsModel.Items.Add(item);
             }
+
+
+            //foreach (var book in query)
+            //{
+            //    printingEditionsModel.Items.Add(new PrintingEditionsModelItem()
+            //    {
+            //        Id = book.Id,
+            //        AuthorModels = null,
+            //        Name = book.Name,
+            //        Price = book.Price
+            //    });
+            //}
 
             return printingEditionsModel;
         }
-
-        public async Task<PrintingEditionsModel> GetFilteringPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, FilterModel filterModel)
-        {
-            IEnumerable<PrintingEdition> result = null;
-            if (string.IsNullOrWhiteSpace(filterModel.SearchByWord))
-            {
-                result = await _printingEditionRepository.ListAsync(x => x.Name.Contains(filterModel.SearchByWord));
-            }
-                        
-            foreach (var book in result)
-            {
-                printingEditionsModel.Items.Add(new PrintingEditionsModelItem()
-                {
-                    Name = book.Name,
-                    Price = book.Price
-                });
-            }
-            return printingEditionsModel;
-        } 
     }
 }
