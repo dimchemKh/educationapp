@@ -11,8 +11,6 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
     public interface IPrintingEditionRepository : IBaseEFRepository<PrintingEdition>
     {
-        //Task<IQueryable<PrintingEdition>> GetPrintingEditionsAsync(Expression<Func<PrintingEdition, bool>> predicate1);
-        Task<IQueryable<PrintingEdition>> GetIncludeAsync();
 
     }
 }

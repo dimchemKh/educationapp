@@ -7,10 +7,11 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
-    public class AuthorInBooks
+    public class AuthorInPrintingEdition
     {
         public int AuthorId { get; set; }
         public Author Author { get; set; }
         public int PrintingEditionId { get; set; }
+        public PrintingEdition PrintingEdition { get; set; }
     }
 }

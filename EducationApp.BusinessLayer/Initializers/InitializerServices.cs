@@ -50,7 +50,8 @@ namespace EducationApp.BusinessLayer.Initializers
             #region Repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPrintingEditionRepository, PrintingEditionRepository>();
-            //services.AddScoped<IAuthorInBooksRepository, AuthorInBooksRepository>();
+            services.AddScoped<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
+
             #endregion
 
             #region IdentityOptions

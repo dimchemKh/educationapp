@@ -10,7 +10,7 @@ namespace EducationApp.DataAccessLayer.Entities
     {
         public string Name { get; set; }
 
-        public ICollection<AuthorInBooks> AuthorInBooks { get; set; } = new List<AuthorInBooks>();
+        public ICollection<AuthorInPrintingEdition> AuthorInPrintingEdition { get; set; } = new List<AuthorInPrintingEdition>();
 
     }
 }

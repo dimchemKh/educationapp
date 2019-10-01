@@ -8,6 +8,7 @@ namespace EducationApp.DataAccessLayer.AppContext
     {
         public DbSet<Author> Authors { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PrintingEdition> PrintingEditions { get; set; }
@@ -18,21 +19,21 @@ namespace EducationApp.DataAccessLayer.AppContext
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
-            builder.Entity<AuthorInBooks>()
+            builder.Entity<AuthorInPrintingEdition>()
             .HasKey(key => new { key.AuthorId, key.PrintingEditionId });
 
-            builder.Entity<AuthorInBooks>()
+            builder.Entity<AuthorInPrintingEdition>()
                 .HasOne(navigationName => navigationName.Author)
-                .WithMany(table => table.AuthorInBooks)
+                .WithMany(table => table.AuthorInPrintingEdition)
                 .HasForeignKey(key => key.AuthorId);
 
-            builder.Entity<AuthorInBooks>()
-                //.HasOne(navigationName => navigationName.PrintingEdition)
-                //.WithMany(table => table.AuthorInBooks)
-                //.HasForeignKey(key => key.PrintingEditionId);
-                .HasOne<AuthorInBooks>()
-                .WithMany()
+            builder.Entity<AuthorInPrintingEdition>()
+                .HasOne(navigationName => navigationName.PrintingEdition)
+                .WithMany(table => table.AuthorInPrintingEdition)
                 .HasForeignKey(key => key.PrintingEditionId);
+            //    .HasOne<AuthorInBooks>()
+            //    .WithMany()
+            //    .HasForeignKey(key => key.PrintingEditionId);
 
             base.OnModelCreating(builder);
         }

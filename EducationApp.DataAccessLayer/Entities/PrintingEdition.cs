@@ -12,6 +12,6 @@ namespace EducationApp.DataAccessLayer.Entities
         public decimal Price { get; set; }
         public Enums.Enums.Currency Currency { get; set; }
         public Enums.Enums.Type Type { get; set; }
-        public ICollection<AuthorInBooks> AuthorInBooks { get; set; } = new List<AuthorInBooks>();
+        public ICollection<AuthorInPrintingEdition> AuthorInPrintingEdition { get; set; } = new List<AuthorInPrintingEdition>();
     }
 }

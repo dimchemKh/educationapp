@@ -96,37 +96,37 @@ namespace EducationApp.DataAccessLayer.Initializer
                 CreationDate = DateTime.Now
             };
 
-            pe1.AuthorInBooks = new List<AuthorInBooks>()
+            pe1.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
             {
-                new AuthorInBooks {
+                new AuthorInPrintingEdition {
                     Author = author1,
-                    PrintingEditionId = pe1.Id
+                    PrintingEdition = pe1
                 },
-                new AuthorInBooks
+                new AuthorInPrintingEdition
                 {
                     Author = author2,
-                    PrintingEditionId = pe1.Id
+                    PrintingEdition = pe1
                 }
             };
-            pe2.AuthorInBooks = new List<AuthorInBooks>()
+            pe2.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
             {
-                new AuthorInBooks
+                new AuthorInPrintingEdition
                 {
                     Author = author2,
-                    PrintingEditionId = pe2.Id
+                    PrintingEdition = pe2
                 },
-                new AuthorInBooks
+                new AuthorInPrintingEdition
                 {
                     Author = author3,
-                    PrintingEditionId = pe2.Id
+                    PrintingEdition = pe2
                 }
             };
-            pe3.AuthorInBooks = new List<AuthorInBooks>()
+            pe3.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
             {
-                new AuthorInBooks
+                new AuthorInPrintingEdition
                 {
                     Author = author2,
-                    PrintingEditionId = pe3.Id
+                    PrintingEdition = pe3
                 }
             };
 

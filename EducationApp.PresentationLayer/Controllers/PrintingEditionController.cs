@@ -21,20 +21,27 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("filtering")]
         public async Task<IActionResult> GetFilteringPrintingEditionAsync([FromBody]FilterModel filterModel)
         {
-            var model = new PrintingEditionsModel();
-            var result = await _printingEditionService.GetPrintingEditionsListAsync(model, filterModel);
+            var responseModel = new PrintingEditionsModel();
+            var result = await _printingEditionService.GetUsersPrintingEditionsListAsync(responseModel, filterModel);
 
-            //string[] asd = null;
+            return Ok(result.Items);
+        }
+        [HttpPost("addNewProduct")]
+        public async Task<IActionResult> AddNewProductAsync([FromBody]PrintingEditionsModelItem printingEditionsModelItem)
+        {
 
-            //foreach (var item in result.Items)
-            //{
-            //    foreach (var q in item.AuthorModels)
-            //    {
-            //        return Ok(q);
-            //    }
-            //}
+            var responseModel = await _printingEditionService.AddNewPrintingEditionAsync(printingEditionsModelItem);
 
-            return Ok(result.Items/*filterModel*/);
+            return Ok(responseModel.Items);
+        }
+        [HttpGet("getPrintingEditionPage")]
+        public async Task<IActionResult> GetPrintingEditionPageAsync(int printingEditionId)
+        {
+            var responseModel = new PrintingEditionsModel();
+
+            responseModel = await _printingEditionService.GetUserPrintingEditionPageAsync(responseModel, printingEditionId);
+
+            return Ok(responseModel.Items);
         }
     }
 }

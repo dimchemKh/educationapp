@@ -1,5 +1,6 @@
 ﻿using EducationApp.BusinessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,10 +10,14 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
     public class PrintingEditionsModelItem
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Author { get; set; }
-        public decimal Price { get; set; }
+        public string Title { get; set; }
+        public Enums.Type Type { get; set; }
+        public Enums.Currency Currency { get; set; }
 
-        public ICollection<Author> AuthorModels { get; set; }
+        public decimal Price { get; set; }
+        public string Description { get; set; }
+        
+        public ICollection<int> AuthorsId { get; set; }
+        public IList<string> AuthorsNames { get; set; }
     }
 }

@@ -152,16 +152,13 @@ namespace EducationApp.BusinessLayer.Services
         {
             var user = await _userRepository.GetUserByIdAsync(userId);
 
-            switch (isBlocked)
+            if(isBlocked == Enums.IsBlocked.True)
             {
-                case Enums.IsBlocked.None:
-                    break;
-                case Enums.IsBlocked.True:
-                    user.LockoutEnabled = false;
-                    break;
-                case Enums.IsBlocked.False:
-                    user.LockoutEnabled = true;
-                    break;
+                user.LockoutEnabled = false;
+            }
+            if (isBlocked == Enums.IsBlocked.False)
+            {
+                user.LockoutEnabled = true;
             }
             await _userRepository.UpdateUserAsync(user);
             userModel.Items.Add(new UserModelItem()

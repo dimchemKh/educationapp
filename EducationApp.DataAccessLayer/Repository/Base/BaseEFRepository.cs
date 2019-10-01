@@ -26,34 +26,30 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
-        public async Task<IEnumerable<TEntity>> ListAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await _dbSet.ToListAsync();
         }
-        public async Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task <IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            //IQueryable<TEntity> pe = _context.PrintingEditions;
-            //await pe.Where(predicate).ToListAsync();
             return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
         public async Task AddAsync(TEntity entity)
         {
-            await _context.Set<TEntity>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _dbSet.AddAsync(entity);
         }
         public async Task DeleteAsync(TEntity entity)
         {
             _dbSet.Attach(entity);
             entity.IsRemoved = true;
-            
-            await SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
         public async Task EditAsync(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            await SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
         }
-        public async Task SaveChangesAsync()
+        public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
