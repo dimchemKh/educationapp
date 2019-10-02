@@ -18,8 +18,8 @@ namespace EducationApp.PresentationLayer.Controllers
             _printingEditionService = printingEditionService;
         }
 
-        [HttpPost("filtering")]
-        public async Task<IActionResult> GetFilteringPrintingEditionAsync([FromBody]FilterModel filterModel)
+        [HttpPost("printingEditions")]
+        public async Task<IActionResult> GetFilteringPrintingEditionAsync([FromBody]UserFilterModel filterModel)
         {
             var responseModel = new PrintingEditionsModel();
             var result = await _printingEditionService.GetUsersPrintingEditionsListAsync(responseModel, filterModel);
@@ -42,6 +42,21 @@ namespace EducationApp.PresentationLayer.Controllers
             responseModel = await _printingEditionService.GetUserPrintingEditionPageAsync(responseModel, printingEditionId);
 
             return Ok(responseModel.Items);
+        }
+        [HttpPost("printingEditions/admin")]
+        public async Task<IActionResult> GetAdminPrintingEditionAsync([FromBody]AdminFilterModel filterModel)
+        {
+            var responseModel = new PrintingEditionsModel();
+            var result = await _printingEditionService.GetAdminPrintingEditionsListAsync(responseModel, filterModel);
+
+            return Ok(result.Items);
+        }
+        [HttpPut("printingEditions/admin")]
+        public async Task<IActionResult> EditPrintingEditionAsync([FromBody]PrintingEditionsModelItem printingEditionsModelItem)
+        {
+            var responseModel = await _printingEditionService.EditPrintingEditionAsync(printingEditionsModelItem);
+
+            return Ok(responseModel);
         }
     }
 }

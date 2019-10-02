@@ -17,6 +17,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const string InvalidConfirmPassword = "Invalid confirm password";
             public const string InvalidToken = "Invalid token";
             public const string InvalidModel = "Get invalid model";
+            public const string IsExistedPrintingEdition = "Printing Edition is existed";
         }
     }
 }

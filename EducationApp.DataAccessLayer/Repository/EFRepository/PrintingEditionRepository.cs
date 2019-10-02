@@ -19,6 +19,13 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {            
         }
 
-        
+        public async Task<bool> IsExistedPrintingEdition(string printingEditionName)
+        {
+            if(await _context.PrintingEditions.Where(x => x.Name == printingEditionName).AnyAsync())
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -16,10 +16,5 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             
         }
-
-        public async Task<Author> GetAuthorByIdAsync(int id)
-        {
-            return await GetByIdAsync(id);
-        }
     }
 }

@@ -18,6 +18,6 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
         public string Description { get; set; }
         
         public ICollection<int> AuthorsId { get; set; }
-        public IList<string> AuthorsNames { get; set; }
+        public ICollection<string> AuthorsNames { get; set; }
     }
 }

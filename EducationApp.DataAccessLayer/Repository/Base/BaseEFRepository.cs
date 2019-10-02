@@ -28,11 +28,11 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(x => x.IsRemoved == false).ToListAsync();
         }
         public async Task <IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+            return await _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate).ToListAsync();
         }
         public async Task AddAsync(TEntity entity)
         {
@@ -46,6 +46,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public async Task EditAsync(TEntity entity)
         {
+            _context.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }

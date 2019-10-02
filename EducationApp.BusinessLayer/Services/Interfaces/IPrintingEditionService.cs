@@ -10,8 +10,11 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IPrintingEditionService
     {
-        Task<PrintingEditionsModel> GetUsersPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, FilterModel filterModel);
+        Task<PrintingEditionsModel> GetUsersPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, UserFilterModel filterModel);
+        Task<PrintingEditionsModel> GetAdminPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, AdminFilterModel filterModel);
         Task<PrintingEditionsModel> AddNewPrintingEditionAsync(PrintingEditionsModelItem printingEditionsModelItem);
         Task<PrintingEditionsModel> GetUserPrintingEditionPageAsync(PrintingEditionsModel printingEditionsModel, int printingEditionId);
+        Task<PrintingEditionsModel> EditPrintingEditionAsync(PrintingEditionsModelItem printingEditionsModelItem);
+        Task<PrintingEditionsModel> DeletePrintingEditionAsync(PrintingEditionsModel printingEditionsModel, int printingEditionId);
     }
 }

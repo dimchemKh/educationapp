@@ -6,7 +6,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
 {
     public partial class Constants
     {
-        public partial class PasswordsOptions
+        public class PasswordsOptions
         {
             public const int RequiredLength = 8;
             public const int RequiredUniqueChars = 4;

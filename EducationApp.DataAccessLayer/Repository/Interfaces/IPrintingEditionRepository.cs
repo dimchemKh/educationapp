@@ -11,6 +11,6 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
     public interface IPrintingEditionRepository : IBaseEFRepository<PrintingEdition>
     {
-
+        Task<bool> IsExistedPrintingEdition(string printingEditionName);
     }
 }

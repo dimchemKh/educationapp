@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Models.Base;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
@@ -14,7 +11,6 @@ using EducationApp.DataAccessLayer.Repository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Services
 {
-    // adminka + profile
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;

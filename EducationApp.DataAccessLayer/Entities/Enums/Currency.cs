@@ -8,6 +8,7 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
     {
         public enum Currency
         {
+            None = 0,
             USD = 1,
             CHF = 2,
             EUR = 3,

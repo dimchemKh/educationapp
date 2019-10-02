@@ -6,7 +6,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
 {
     public partial class Constants
     {
-        public partial class CharsForPassword
+        public class CharsForPassword
         {
             public const string UppercaseChars = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
             public const string LowercaseChars = "abcdefghijkmnopqrstuvwxyz";

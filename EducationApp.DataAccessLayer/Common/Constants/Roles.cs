@@ -6,7 +6,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
 {
     public partial class Constants
     {
-        public partial class Roles
+        public class Roles
         {
             public const string Admin = "admin";
             public const string User = "user";

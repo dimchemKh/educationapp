@@ -45,6 +45,7 @@ namespace EducationApp.BusinessLayer.Initializers
 
             services.AddScoped<IEmailHelper, EmailHelper>();
             services.AddScoped<IPasswordHelper, PasswordHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
             #endregion
 
             #region Repositories

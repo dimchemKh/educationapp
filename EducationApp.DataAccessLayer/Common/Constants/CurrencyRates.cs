@@ -6,14 +6,21 @@ namespace EducationApp.DataAccessLayer.Common.Constants
 {
     public partial class Constants
     {
-        public partial class CurrencyRates
+        public class CurrencyRates
         {
-            public const decimal USD = 1.0m;
-            public const decimal UAH = 24.49m;
-            public const decimal CHF = 0.99m;
-            public const decimal EUR = 0.91m;
-            public const decimal GBP = 0.82m;
-            public const decimal JPY = 107.70m;
+            public const decimal CHFtoUSD = 0.998549m;
+            public const decimal EURtoUSD = 1.09217m;
+            public const decimal GBPtoUSD = 1.2274m;
+            public const decimal JPYtoUSD = 0.00929866m;
+            public const decimal UAHtoUSD = 0.0402143m;
+
+            public const decimal USDToCHF = 1.0015m;
+            public const decimal USDtoEUR = 0.915633m;
+            public const decimal USDtoGBP = 0.81462m;
+            public const decimal USDtoJPY = 107.551m;
+            public const decimal USDtoUAH = 24.8672m;
+
+            public const decimal USDtoUSD = 1m;
         }
     }
 }

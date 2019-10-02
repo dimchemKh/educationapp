@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Services
 {
-    class BaseService
+    public class BaseService
     {
     }
 }
