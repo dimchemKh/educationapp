@@ -216,6 +216,8 @@ namespace EducationApp.BusinessLayer.Services
         {
             var responseModel = CheckModel(printingEditionsModelItem);
             if (string.IsNullOrWhiteSpace(printingEditionsModelItem.Description)
+                || string.IsNullOrWhiteSpace(printingEditionsModelItem.Title)
+                || !printingEditionsModelItem.AuthorsId.Any()
                 || printingEditionsModelItem.Currency == Enums.Currency.None
                 || printingEditionsModelItem.Type == Enums.Type.None
                 || printingEditionsModelItem.Price == 0)
@@ -225,10 +227,13 @@ namespace EducationApp.BusinessLayer.Services
             }
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionsModelItem.Id);
 
+            printingEdition.Name = printingEditionsModelItem.Title;
             printingEdition.Description = printingEditionsModelItem.Description;
             printingEdition.Type = printingEditionsModelItem.Type;
             printingEdition.Currency = printingEditionsModelItem.Currency;
             printingEdition.Price = printingEditionsModelItem.Price;
+
+            await _authorInPrintingEditionRepository.EditPrintingEditionAuthorsAsync(printingEdition, printingEditionsModelItem.AuthorsId);
 
             await _printingEditionRepository.EditAsync(printingEdition);
 

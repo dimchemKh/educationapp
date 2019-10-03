@@ -20,7 +20,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const decimal USDtoJPY = 107.551m;
             public const decimal USDtoUAH = 24.8672m;
 
-            public const decimal USDtoUSD = 1m;
+            public const decimal USDtoUSD = 1.0m;
         }
     }
 }

@@ -30351,3 +30351,862 @@ Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Exec
 Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/2/2019 6:06:53 PM
 Error :: Exception :: Error :: Time => 10/2/2019 6:07:02 PM
 Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 39560.2466ms 200  :: Time => 10/2/2019 6:07:02 PM
+Information :: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager :: User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest. :: Time => 10/3/2019 9:18:27 AM
+Warning :: Microsoft.EntityFrameworkCore.Model.Validation :: No type was specified for the decimal column 'Price' on entity type 'PrintingEdition'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. :: Time => 10/3/2019 9:18:28 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:18:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (52ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:18:29 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetRoles] AS [role]
+        WHERE [role].[Name] IN (N'admin', N'user'))
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END :: Time => 10/3/2019 9:18:29 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Authors] AS [a])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END :: Time => 10/3/2019 9:18:29 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 DEBUG http://localhost:52196/  0 :: Time => 10/3/2019 9:18:30 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 GET http://localhost:52196/api/account   :: Time => 10/3/2019 9:18:30 AM
+Warning :: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware :: Failed to determine the https port for redirect. :: Time => 10/3/2019 9:18:30 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 62.0438ms 200  :: Time => 10/3/2019 9:18:30 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:18:30 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 133.2647ms 404  :: Time => 10/3/2019 9:18:30 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:18:37 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (10ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:18:38 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:18:38 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (2ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (2ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 132501.2881ms. :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 132659.6949ms :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 132892.1335ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:20:50 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (27ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:21:06 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:21:06 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 4359.7994ms. :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 4368.7409ms :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 4446.4733ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:21:11 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:21:23 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 55.0738ms. :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 65.2296ms :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 121.7649ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:21:23 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:21:30 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 53.866ms. :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 63.2712ms :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 120.8029ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:21:30 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:21:35 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 61.7312ms. :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 72.0776ms :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 128.9691ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:21:35 AM
+Information :: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager :: User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest. :: Time => 10/3/2019 9:22:10 AM
+Warning :: Microsoft.EntityFrameworkCore.Model.Validation :: No type was specified for the decimal column 'Price' on entity type 'PrintingEdition'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. :: Time => 10/3/2019 9:22:11 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:22:11 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetRoles] AS [role]
+        WHERE [role].[Name] IN (N'admin', N'user'))
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Authors] AS [a])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:22:12 AM
+Warning :: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware :: Failed to determine the https port for redirect. :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (9ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:22:12 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:22:12 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 129.3511ms. :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 231.1071ms :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 449.0612ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:22:13 AM
+Information :: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager :: User profile is available. Using 'C:\Users\Anuitex-24\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest. :: Time => 10/3/2019 9:22:24 AM
+Warning :: Microsoft.EntityFrameworkCore.Model.Validation :: No type was specified for the decimal column 'Price' on entity type 'PrintingEdition'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. :: Time => 10/3/2019 9:22:24 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:22:24 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (40ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:22:25 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetRoles] AS [role]
+        WHERE [role].[Name] IN (N'admin', N'user'))
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END :: Time => 10/3/2019 9:22:25 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Authors] AS [a])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END :: Time => 10/3/2019 9:22:25 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 GET http://localhost:52196/api/account   :: Time => 10/3/2019 9:22:26 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 DEBUG http://localhost:52196/  0 :: Time => 10/3/2019 9:22:26 AM
+Warning :: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware :: Failed to determine the https port for redirect. :: Time => 10/3/2019 9:22:26 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 33.9686ms 200  :: Time => 10/3/2019 9:22:26 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:22:26 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 95.8865ms 404  :: Time => 10/3/2019 9:22:26 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (9ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:22:28 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (2ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 192.9349ms. :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 315.5902ms :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 532.8662ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:22:28 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:22:37 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 56.8957ms. :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 66.7087ms :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 120.8089ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:22:37 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:23:21 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 44.4216ms. :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 54.6969ms :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 113.6011ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:23:21 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request starting HTTP/1.1 POST http://localhost:52196/api/printingEdition/printingEditions application/json 136 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Infrastructure :: Entity Framework Core 2.2.6-servicing-10079 initialized 'ApplicationContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__get_Item_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [e].[Id], [e].[AccessFailedCount], [e].[ConcurrencyStamp], [e].[Email], [e].[EmailConfirmed], [e].[FirstName], [e].[IsRemoved], [e].[LastName], [e].[LockoutEnabled], [e].[LockoutEnd], [e].[NormalizedEmail], [e].[NormalizedUserName], [e].[PasswordHash], [e].[PhoneNumber], [e].[PhoneNumberConfirmed], [e].[SecurityStamp], [e].[TwoFactorEnabled], [e].[UserName]
+FROM [AspNetUsers] AS [e]
+WHERE [e].[Id] = @__get_Item_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.Application signed out. :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.External signed out. :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: AuthenticationScheme: Identity.TwoFactorUserId signed out. :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler :: Identity.Application was not authenticated. Failure message: No principal. :: Time => 10/3/2019 9:23:35 AM
+Information :: CustomLOGGER :: SOME LOGINFO:  :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executing endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Route matched with {action = "GetFilteringPrintingEditionAsync", controller = "PrintingEdition"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFilteringPrintingEditionAsync(EducationApp.BusinessLayer.Models.PrintingEditions.UserFilterModel) on controller EducationApp.PresentationLayer.Controllers.PrintingEditionController (EducationApp.PresentationLayer). :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executing action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) - Validation state: Valid :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Id], [x].[CreationDate], [x].[Currency], [x].[Description], [x].[IsRemoved], [x].[Name], [x].[Price], [x].[Type]
+FROM [PrintingEditions] AS [x]
+WHERE [x].[IsRemoved] = 0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__printingEdition_0_Id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[AuthorId], [x].[PrintingEditionId]
+FROM [AuthorInPrintingEditions] AS [x]
+WHERE [x].[PrintingEditionId] = @__printingEdition_0_Id :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (1ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.EntityFrameworkCore.Database.Command :: Executed DbCommand (0ms) [Parameters=[@__item_AuthorId_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [x].[Name]
+FROM [Authors] AS [x]
+WHERE [x].[Id] = @__item_AuthorId_0 :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action method EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 50.0585ms. :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor :: Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[EducationApp.BusinessLayer.Models.PrintingEditions.PrintingEditionsModelItem, EducationApp.BusinessLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'. :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker :: Executed action EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer) in 58.6191ms :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Routing.EndpointMiddleware :: Executed endpoint 'EducationApp.PresentationLayer.Controllers.PrintingEditionController.GetFilteringPrintingEditionAsync (EducationApp.PresentationLayer)' :: Time => 10/3/2019 9:23:35 AM
+Information :: Microsoft.AspNetCore.Hosting.Internal.WebHost :: Request finished in 126.0063ms 200 application/json; charset=utf-8 :: Time => 10/3/2019 9:23:35 AM

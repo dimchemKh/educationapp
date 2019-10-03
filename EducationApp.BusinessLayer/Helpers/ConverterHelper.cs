@@ -16,8 +16,7 @@ namespace EducationApp.BusinessLayer.Helpers
     {
         public IEnumerable<PrintingEdition> GetFilteringListAsync(IEnumerable<PrintingEdition> printingEditions, UserFilterModel userFilterModel)
         {
-            //var responseModel = new ConverterModel();
-            List<PrintingEdition> responseList = null;
+            List<PrintingEdition> responseList = new List<PrintingEdition>();
 
             var listToUSD = new Dictionary<Enums.Currency, decimal>()
             {
@@ -39,7 +38,7 @@ namespace EducationApp.BusinessLayer.Helpers
             };
             foreach (var rate in listToUSD)
             {
-                var tempList = printingEditions.Where(x => x.Currency == rate.Key)
+                responseList.AddRange(printingEditions.Where(x => x.Currency == rate.Key)
                     .Select(z => new PrintingEdition()
                     {
                         Id = z.Id,
@@ -47,11 +46,7 @@ namespace EducationApp.BusinessLayer.Helpers
                         Type = z.Type,
                         Price = z.Price * rate.Value,
                         AuthorInPrintingEdition = z.AuthorInPrintingEdition
-                    }).ToList();
-                if (tempList.Any())
-                {
-                    responseList.CopyTo(tempList.AsEnumerable());
-                }
+                    }).ToList());
             }
             foreach (var rate in listToFilterCurrency)
             {

@@ -18,37 +18,22 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             _context = context;
         }
 
-        //public async Task<bool> EditPrintingEditionsAuthorsAsync(PrintingEdition printingEdition)
-        //{
-            //var query = _context.AuthorInPrintingEditions.Where(x => x.PrintingEditionId == printingEdition.Id);
+        public async Task<bool> EditPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<int> authorsId)
+        {
+            var query = await _context.AuthorInPrintingEditions.Where(x => x.PrintingEditionId == printingEdition.Id).ToListAsync();
+            
+            if(query.Count() == authorsId.Count())
+            {
+                foreach (var authorId in authorsId)
+                {
+                    var q = await _context.AuthorInPrintingEditions.Select(x => new AuthorInPrintingEdition() { AuthorId = authorId }).ToListAsync();
+                }
+                //_context.AuthorInPrintingEditions.AttachRange()
+            };
 
 
-
-            //if(authorsId.Count() < query.Count())
-            //{
-            //    var distinct = query.Count() - authorsId.Count();
-
-            //    for (int i = 0; i < authorsId.Count(); i++)
-            //    {
-            //        query[i].AuthorId = authorsId[i];
-            //    }                
-            //}
-            //if(authorsId.Count() > query.Count())
-            //{
-            //}
-            //for (int i = 0; i < query.Count(); i++)
-            //{
-            //    query[i].AuthorId = authorsId[i];
-            //}
-            //foreach (var item in query)
-            //{
-            //    item.AuthorId 
-            //}
-
-
-            //return false;
-            //return await AddToPrintingEditionAuthorsAsync(printingEdition, authorsId);
-        //}
+            return false;
+        }
         public async Task<bool> AddToPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<int> authorsId)
         {
             foreach (var id in  authorsId)
