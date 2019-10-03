@@ -9,6 +9,7 @@ using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Common.Constants;
 using System;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
+using EducationApp.BusinessLayer.Helpers;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -27,7 +28,6 @@ namespace EducationApp.BusinessLayer.Services
         private IOrderedEnumerable<PrintingEdition> SortingList(AdminFilterModel filterModel, IEnumerable<PrintingEdition> printingEditions)
         {
             IOrderedEnumerable<PrintingEdition> filteringListBooks = null;
-
             if (filterModel.StateSort == Enums.StateSort.PriceAsc)
             {
                 filteringListBooks = printingEditions.OrderBy(x => x.Price);
@@ -52,7 +52,6 @@ namespace EducationApp.BusinessLayer.Services
             {
                 filteringListBooks = printingEditions.OrderByDescending(x => x.Type);
             }
-
             return filteringListBooks;
         }
         private async Task<PrintingEditionsModel> AddItemsToModel(PrintingEditionsModel printingEditionsModel, List<PrintingEdition> listItems, bool IsUser, Enums.Currency filterCurrency = Enums.Currency.None)
@@ -157,11 +156,13 @@ namespace EducationApp.BusinessLayer.Services
             }
 
             printingEditions = printingEditions.Where(x => filterModel.Types.Contains(x.Type))
-                    .Where(x => x.Price >= filterModel.RangePrice[Enums.RangePrice.MinValue]
-                                              && x.Price <= filterModel.RangePrice[Enums.RangePrice.MaxValue]);
+                                            .Where(x => x.Price >= filterModel.RangePrice[Enums.RangePrice.MinValue]
+                                                 && x.Price <= filterModel.RangePrice[Enums.RangePrice.MaxValue]);
 
             var filteringListBooks = SortingList(filterModel, printingEditions);
+
             var printingEditionsOnPage = filteringListBooks.Skip((filterModel.Page - 1) * _pageSize).Take(_pageSize).ToList();
+
             return await AddItemsToModel(printingEditionsModel, printingEditionsOnPage, filterModel is UserFilterModel, filterModel.Currency);
         }
         public async Task<PrintingEditionsModel> GetAdminPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, AdminFilterModel filterModel)
@@ -179,9 +180,14 @@ namespace EducationApp.BusinessLayer.Services
             return await AddItemsToModel(printingEditionsModel, items, filterModel is UserFilterModel);
         }
 
-        public async Task<PrintingEditionsModel> GetUserPrintingEditionPageAsync(PrintingEditionsModel printingEditionsModel, int printingEditionId)
+        public async Task<PrintingEditionsModel> GetUserPrintingEditionPageAsync(PrintingEditionsModel printingEditionsModel, PageFilterModel pageFilterModel)
         {            
-            var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionId);
+            if(pageFilterModel == null)
+            {
+                printingEditionsModel.Errors.Add(Constants.Errors.InvalidModel);
+                return printingEditionsModel;
+            }
+            var printingEdition = await _printingEditionRepository.GetByIdAsync(pageFilterModel.Id);
             if(printingEdition == null)
             {
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidData);
@@ -192,7 +198,8 @@ namespace EducationApp.BusinessLayer.Services
                 Title = printingEdition.Name,
                 AuthorsNames = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(printingEdition),
                 Description = printingEdition.Description,
-                Price = printingEdition.Price
+                Currency = printingEdition.Currency,
+                Price = _converterHelper.Converting(printingEdition.Currency, pageFilterModel.Currency, printingEdition.Price)
             });
             return printingEditionsModel;
         }

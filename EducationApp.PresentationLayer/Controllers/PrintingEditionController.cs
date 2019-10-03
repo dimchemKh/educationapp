@@ -1,5 +1,6 @@
 ﻿using EducationApp.BusinessLayer.Models.PrintingEditions;
 using EducationApp.BusinessLayer.Services.Interfaces;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -34,12 +35,12 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel.Items);
         }
-        [HttpGet("getPrintingEditionPage")]
-        public async Task<IActionResult> GetPrintingEditionPageAsync(int printingEditionId)
+        [HttpPost("getPrintingEditionPage")]
+        public async Task<IActionResult> GetPrintingEditionPageAsync([FromBody]PageFilterModel pageFilterModel)
         {
             var responseModel = new PrintingEditionsModel();
 
-            responseModel = await _printingEditionService.GetUserPrintingEditionPageAsync(responseModel, printingEditionId);
+            responseModel = await _printingEditionService.GetUserPrintingEditionPageAsync(responseModel, pageFilterModel);
 
             return Ok(responseModel.Items);
         }
