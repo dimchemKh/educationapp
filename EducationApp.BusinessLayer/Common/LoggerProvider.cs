@@ -9,7 +9,7 @@ namespace EducationApp.BusinessLayer.Common
 {
     public class LoggerProvider : ILoggerProvider
     {
-        private string _filePath;
+        private readonly string _filePath;
         public LoggerProvider(string filePath)
         {
             _filePath = filePath;

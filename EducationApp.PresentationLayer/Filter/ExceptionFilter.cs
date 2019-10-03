@@ -12,7 +12,7 @@ namespace EducationApp.PresentationLayer.Filter
 {
     public class ExceptionFilterAttribute : Attribute, IExceptionFilter
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
         public ExceptionFilterAttribute(ILoggerProvider logger)
         {
             _logger = logger.CreateLogger("ExceptionCu8stomLog");

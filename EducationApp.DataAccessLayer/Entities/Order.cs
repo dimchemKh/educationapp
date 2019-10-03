@@ -10,8 +10,10 @@ namespace EducationApp.DataAccessLayer.Entities
     public class Order : BaseEntity
     {
         public string Description { get; set; }
-        public ApplicationUser User { get; set; }
         public DateTime Date { get; set; }
+        public Enums.Enums.Status Status { get; set; }
+        public ApplicationUser User { get; set; }
         public Payment Payment { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

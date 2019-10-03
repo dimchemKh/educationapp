@@ -1,11 +1,10 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using EducationApp.DataAccessLayer.Repository.Base.Interfaces;
 
 namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IBaseEFRepository<Order>
     {
+
     }
 }

@@ -9,8 +9,8 @@ namespace EducationApp.BusinessLayer.Common
 {
     public class Logger : ILogger 
     {
-        private string _filePath;
-        private string _categoryName;
+        private readonly string _filePath;
+        private readonly string _categoryName;
         public Logger(string categoryName, string filePath)
         {
             _filePath = filePath;

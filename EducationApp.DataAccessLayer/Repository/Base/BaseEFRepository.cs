@@ -47,7 +47,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public async Task EditAsync(TEntity entity)
         {
             _context.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;            
             await _context.SaveChangesAsync();
         }
         public async Task SaveAsync()

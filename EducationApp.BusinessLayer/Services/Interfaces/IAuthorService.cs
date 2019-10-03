@@ -11,7 +11,7 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
         Task<AuthorModel> GetAuthorsListAsync(AuthorModel authorModel, AuthorFilterModel authorFilterModel);
         Task<AuthorModel> AddNewAuthorAsync(AuthorModelItem authorModelItem);
         Task<AuthorModel> DeleteAuthorAsync(AuthorModel authorModel, int authorId);
-        Task<AuthorModel> EditAuthorAsync(AuthorModelItem authorModel, int authorId);
+        Task<AuthorModel> EditAuthorAsync(AuthorModelItem authorModel);
 
     }
 }

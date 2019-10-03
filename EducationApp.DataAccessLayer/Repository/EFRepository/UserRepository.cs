@@ -48,7 +48,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-            return (user != null) ? user : null;
+            return user ?? null;
         }
         public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
         {
@@ -68,7 +68,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            return (user != null) ? user : null;
+            return user ?? null;
         }
         public async Task<bool> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
         {

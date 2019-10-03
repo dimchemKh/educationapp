@@ -1,6 +1,6 @@
-﻿using EducationApp.BusinessLayer.Models.Helpers;
-using EducationApp.BusinessLayer.Models.PrintingEditions;
+﻿using EducationApp.BusinessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +10,6 @@ namespace EducationApp.BusinessLayer.Helpers.Interfaces
 {
     public interface IConverterHelper
     {
-        IEnumerable<PrintingEdition> GetFilteringListAsync(IEnumerable<PrintingEdition> printingEditions, UserFilterModel userFilterModel);
+        decimal Converting(Enums.Currency fromCurrency, Enums.Currency toCurrency, decimal sum);
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationApp.DataAccessLayer.Common.Constants
+﻿namespace EducationApp.DataAccessLayer.Common.Constants
 {
     public partial class Constants
     {
@@ -18,6 +14,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const string InvalidToken = "Invalid token";
             public const string InvalidModel = "Get invalid model";
             public const string IsExistedPrintingEdition = "Printing Edition is existed";
+            public const string ReturnNull = "return null";
         }
     }
 }

@@ -17,7 +17,7 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
         public decimal Price { get; set; }
         public string Description { get; set; }
         
-        public ICollection<int> AuthorsId { get; set; }
+        public IList<int> AuthorsId { get; set; }
         public ICollection<string> AuthorsNames { get; set; }
     }
 }

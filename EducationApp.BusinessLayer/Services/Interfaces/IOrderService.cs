@@ -1,10 +1,13 @@
-﻿using System;
+﻿using EducationApp.BusinessLayer.Models.Orders;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Services.Interfaces
 {
-    class IOrderService
+    public interface IOrderService
     {
+        Task<OrderModel> GetUserOrdersAsync(OrderModel orderModel, string userId);
     }
 }

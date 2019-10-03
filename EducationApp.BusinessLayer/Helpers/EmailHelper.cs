@@ -8,9 +8,9 @@ namespace EducationApp.BusinessLayer.Helpers
 {
     public class EmailHelper : IEmailHelper
     {
-        private SmtpClient _smtpClient = new SmtpClient("smtp.mailtrap.io", 2525);
-        private NetworkCredential _networkCredential = new NetworkCredential("beb858dd98302d", "f2b28f22609ec7");
-        private MailMessage _mailMessage = new MailMessage();
+        private readonly SmtpClient _smtpClient = new SmtpClient("smtp.mailtrap.io", 2525);
+        private readonly NetworkCredential _networkCredential = new NetworkCredential("beb858dd98302d", "f2b28f22609ec7");
+        private readonly MailMessage _mailMessage = new MailMessage();
         public async Task SendMailAsync(ApplicationUser user, string subject, string body)
         {
             _smtpClient.Credentials = _networkCredential;

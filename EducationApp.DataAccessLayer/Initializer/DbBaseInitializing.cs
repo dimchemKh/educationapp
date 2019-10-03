@@ -52,7 +52,7 @@ namespace EducationApp.DataAccessLayer.Initializer
         }
         protected void SeedEntitiesAsync()
         {
-            var pe1 = new PrintingEdition()
+            var printingEdition1 = new PrintingEdition()
             {
                 Name = "Avto buisness",
                 Description = "Some description",
@@ -61,7 +61,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                 Type = Enums.Type.Book,
                 Currency = Enums.Currency.USD
             };
-            var pe2 = new PrintingEdition()
+            var printingEdition2 = new PrintingEdition()
             {
                 Name = "New business",
                 Description = "Some description",
@@ -70,7 +70,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                 Type = Enums.Type.Newspaper,
                 Currency = Enums.Currency.USD
             };
-            var pe3 = new PrintingEdition()
+            var printingEdition3 = new PrintingEdition()
             {
                 Name = "Concepts",
                 Description = "Some description",
@@ -96,43 +96,44 @@ namespace EducationApp.DataAccessLayer.Initializer
                 CreationDate = DateTime.Now
             };
 
-            pe1.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
+            printingEdition1.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition {
                     Author = author1,
-                    PrintingEdition = pe1
+                    PrintingEdition = printingEdition1
                 },
                 new AuthorInPrintingEdition
                 {
                     Author = author2,
-                    PrintingEdition = pe1
+                    PrintingEdition = printingEdition1
                 }
             };
-            pe2.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
+            printingEdition2.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition
                 {
                     Author = author2,
-                    PrintingEdition = pe2
+                    PrintingEdition = printingEdition2
                 },
                 new AuthorInPrintingEdition
                 {
                     Author = author3,
-                    PrintingEdition = pe2
+                    PrintingEdition = printingEdition2
                 }
             };
-            pe3.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
+            printingEdition3.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition
                 {
                     Author = author2,
-                    PrintingEdition = pe3
+                    PrintingEdition = printingEdition3
                 }
             };
+            
 
             _context.Authors.AddRange(new List<Author>() { author1, author2, author3 });
 
-            _context.PrintingEditions.AddRange(new List<PrintingEdition>() { pe1, pe2, pe3 });
+            _context.PrintingEditions.AddRange(new List<PrintingEdition>() { printingEdition1, printingEdition2, printingEdition3 });
 
             _context.SaveChanges();
         }

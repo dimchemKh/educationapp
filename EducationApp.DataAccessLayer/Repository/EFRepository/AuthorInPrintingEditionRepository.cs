@@ -17,28 +17,21 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             _context = context;
         }
-
-        public async Task<bool> EditPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<int> authorsId)
+        public async Task<bool> EditPrintingEditionAuthorsAsync(PrintingEdition printingEdition, IList<int> authorsId)
         {
             var query = await _context.AuthorInPrintingEditions.Where(x => x.PrintingEditionId == printingEdition.Id).ToListAsync();
-            
-            if(query.Count() == authorsId.Count())
+            _context.RemoveRange(query);
+            if(await AddToPrintingEditionAuthorsAsync(printingEdition, authorsId))
             {
-                foreach (var authorId in authorsId)
-                {
-                    var q = await _context.AuthorInPrintingEditions.Select(x => new AuthorInPrintingEdition() { AuthorId = authorId }).ToListAsync();
-                }
-                //_context.AuthorInPrintingEditions.AttachRange()
-            };
-
-
+                return true;
+            }
             return false;
         }
         public async Task<bool> AddToPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<int> authorsId)
         {
-            foreach (var id in  authorsId)
+            foreach (var authorId in  authorsId)
             {
-                var author = await _context.Authors.FindAsync(id);
+                var author = await _context.Authors.FindAsync(authorId);
                 printingEdition.AuthorInPrintingEdition.Add(new AuthorInPrintingEdition() { PrintingEdition = printingEdition, Author = author });
             }
             return true;
@@ -66,7 +59,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
                 foreach (var item in query)
                 {
-                    var listOfOneAuthor = await _context.Authors.Where(x => x.Id == item.PrintingEditionId).Select(z => z.Name).ToListAsync();
+                    var listOfOneAuthor = await _context.PrintingEditions.Where(x => x.Id == item.PrintingEditionId).Select(z => z.Name).ToListAsync();
                     listEntity.Add(listOfOneAuthor.First());
                 }
             }

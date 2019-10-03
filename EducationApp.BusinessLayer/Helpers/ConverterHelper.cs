@@ -8,61 +8,42 @@ using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.BusinessLayer.Models.Helpers;
 
 namespace EducationApp.BusinessLayer.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
-        public IEnumerable<PrintingEdition> GetFilteringListAsync(IEnumerable<PrintingEdition> printingEditions, UserFilterModel userFilterModel)
+        public decimal Converting(Enums.Currency fromCurrency, Enums.Currency toCurrency, decimal sum)
         {
-            List<PrintingEdition> responseList = new List<PrintingEdition>();
+            //var EUR_JPY = Constants.CurrencyRates.EURtoUSD / Constants.CurrencyRates.JPYtoUSD * sum;
+            var list = new Dictionary<Enums.Currency, decimal>()
+            {
+                { Enums.Currency.CHF, 0.998971m },
+                { Enums.Currency.EUR, 1.09604m },
+                { Enums.Currency.GBP, 1.23763m },
+                { Enums.Currency.JPY, 0.00933787m },
+                { Enums.Currency.UAH, 0.0403064m },
+                { Enums.Currency.USD, 1.0m }
 
-            var listToUSD = new Dictionary<Enums.Currency, decimal>()
-            {
-                { Enums.Currency.CHF, Constants.CurrencyRates.CHFtoUSD },
-                { Enums.Currency.EUR, Constants.CurrencyRates.EURtoUSD },
-                { Enums.Currency.GBP, Constants.CurrencyRates.GBPtoUSD },
-                { Enums.Currency.JPY, Constants.CurrencyRates.JPYtoUSD },
-                { Enums.Currency.UAH, Constants.CurrencyRates.UAHtoUSD },
-                { Enums.Currency.USD, Constants.CurrencyRates.USDtoUSD }
             };
-            var listToFilterCurrency = new Dictionary<Enums.Currency, decimal>()
+
+            decimal from = 0;
+            decimal to = 0;
+
+            foreach (var item in list)
             {
-                { Enums.Currency.CHF, Constants.CurrencyRates.USDToCHF },
-                { Enums.Currency.EUR, Constants.CurrencyRates.USDtoEUR },
-                { Enums.Currency.GBP, Constants.CurrencyRates.USDtoGBP },
-                { Enums.Currency.JPY, Constants.CurrencyRates.USDtoJPY },
-                { Enums.Currency.UAH, Constants.CurrencyRates.USDtoUAH },
-                { Enums.Currency.USD, Constants.CurrencyRates.USDtoUSD }
-            };
-            foreach (var rate in listToUSD)
-            {
-                responseList.AddRange(printingEditions.Where(x => x.Currency == rate.Key)
-                    .Select(z => new PrintingEdition()
-                    {
-                        Id = z.Id,
-                        Name = z.Name,
-                        Type = z.Type,
-                        Price = z.Price * rate.Value,
-                        AuthorInPrintingEdition = z.AuthorInPrintingEdition
-                    }).ToList());
-            }
-            foreach (var rate in listToFilterCurrency)
-            {
-                if(userFilterModel.Currency == rate.Key)
+                if(item.Key == fromCurrency)
                 {
-                    responseList = responseList.Select(z => new PrintingEdition()
-                    {
-                        Id = z.Id,
-                        Name = z.Name,
-                        Type = z.Type,
-                        Price = z.Price * rate.Value,
-                        AuthorInPrintingEdition = z.AuthorInPrintingEdition
-                    }).ToList();
-                }
+                    from = item.Value;
+                };
+                if(item.Key == toCurrency)
+                {
+                    to = item.Value;
+                };
             }
-            return responseList;
+
+            return from / to * sum;
         }
     }
+    
 }

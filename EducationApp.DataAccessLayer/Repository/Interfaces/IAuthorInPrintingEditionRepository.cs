@@ -10,7 +10,7 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
     public interface IAuthorInPrintingEditionRepository // : IBaseEFRepository<AuthorInPrintingEdition>
     {
-        //Task<bool> EditPrintingEditionsAuthorsAsync(PrintingEdition printingEdition);
+        Task<bool> EditPrintingEditionAuthorsAsync(PrintingEdition printingEdition, IList<int> authorsId);
         Task<bool> AddToPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<int> authors);
         Task<ICollection<string>> GetPrintingEditionAuthorsListAsync(BaseEntity baseEnity);
     }
