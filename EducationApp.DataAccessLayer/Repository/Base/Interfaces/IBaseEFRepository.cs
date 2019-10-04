@@ -11,8 +11,8 @@ namespace EducationApp.DataAccessLayer.Repository.Base.Interfaces
     public interface IBaseEFRepository<TEntity> where TEntity : BaseEntity
     {
         Task<TEntity> GetByIdAsync(int id);
-        Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
+        IQueryable<TEntity> GetAllAsync();
+        IQueryable<TEntity> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
         Task AddAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
         Task EditAsync(TEntity entity);

@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.DataAccessLayer.Entities.Base;
 
 namespace EducationApp.BusinessLayer.Initializers
 {
@@ -37,16 +38,20 @@ namespace EducationApp.BusinessLayer.Initializers
             #region Services
             services.AddSingleton<ILoggerProvider, LoggerProvider>(sp => new LoggerProvider(Path.Combine(Directory.GetCurrentDirectory(), "logging.txt")));
 
+            services.AddScoped<DbBaseInitializing>();
+
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPrintingEditionService, PrintingEditionService>();
             services.AddScoped<IAuthorService, AuthorService>();
             
-            services.AddScoped<DbBaseInitializing>();
 
             services.AddScoped<IEmailHelper, EmailHelper>();
             services.AddScoped<IPasswordHelper, PasswordHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<ISorterHelper<BaseEntity>, SorterHelper<BaseEntity>>();
+            services.AddScoped<IPaginationHelper<BaseEntity>, PaginationHelper<BaseEntity>>();
+
             #endregion
 
             #region Repositories
@@ -54,6 +59,8 @@ namespace EducationApp.BusinessLayer.Initializers
             services.AddScoped<IPrintingEditionRepository, PrintingEditionRepository>();
             services.AddScoped<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
             services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
             #endregion
 

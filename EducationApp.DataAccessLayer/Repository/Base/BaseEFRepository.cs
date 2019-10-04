@@ -26,13 +26,13 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public IQueryable<TEntity> GetAllAsync()
         {
-            return await _dbSet.Where(x => x.IsRemoved == false).ToListAsync();
+            return _dbSet.Where(x => x.IsRemoved == false).AsQueryable();
         }
-        public async Task <IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate).ToListAsync();
+            return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate);
         }
         public async Task AddAsync(TEntity entity)
         {

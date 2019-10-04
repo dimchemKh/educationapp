@@ -1,4 +1,5 @@
-﻿using EducationApp.BusinessLayer.Models.PrintingEditions;
+﻿using EducationApp.BusinessLayer.Models.Filters;
+using EducationApp.BusinessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using System;
@@ -10,11 +11,11 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IPrintingEditionService
     {
-        Task<PrintingEditionsModel> GetUsersPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, UserFilterModel filterModel);
-        Task<PrintingEditionsModel> GetAdminPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, AdminFilterModel filterModel);
-        Task<PrintingEditionsModel> AddNewPrintingEditionAsync(PrintingEditionsModelItem printingEditionsModelItem);
-        Task<PrintingEditionsModel> GetUserPrintingEditionPageAsync(PrintingEditionsModel printingEditionsModel, PageFilterModel pageFilterModel);
-        Task<PrintingEditionsModel> EditPrintingEditionAsync(PrintingEditionsModelItem printingEditionsModelItem);
-        Task<PrintingEditionsModel> DeletePrintingEditionAsync(PrintingEditionsModel printingEditionsModel, int printingEditionId);
+        Task<PrintingEditionModel> GetUsersPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, UserFilterModel filterModel);
+        Task<PrintingEditionModel> GetAdminPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, AdminFilterModel filterModel);
+        Task<PrintingEditionModel> AddNewPrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem);
+        Task<PrintingEditionModel> GetUserPrintingEditionPageAsync(PrintingEditionModel printingEditionsModel, PageFilterModel pageFilterModel);
+        Task<PrintingEditionModel> EditPrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem);
+        Task<PrintingEditionModel> DeletePrintingEditionAsync(PrintingEditionModel printingEditionsModel, int printingEditionId);
     }
 }

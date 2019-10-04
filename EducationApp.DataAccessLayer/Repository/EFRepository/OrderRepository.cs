@@ -2,6 +2,7 @@
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
+using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {

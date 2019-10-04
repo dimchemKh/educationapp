@@ -1,4 +1,6 @@
-﻿using EducationApp.BusinessLayer.Models.Authors;
+﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
+using EducationApp.BusinessLayer.Models.Authors;
+using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
@@ -13,36 +15,36 @@ namespace EducationApp.BusinessLayer.Services
     {
         private readonly IAuthorRepository _authorRepository;
         private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
-        public AuthorService(IAuthorRepository authorRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository)
+        private readonly ISorterHelper<Author> _sorterHelper;
+        private readonly IPaginationHelper<Author> _paginationHelper;
+        public AuthorService(IAuthorRepository authorRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, 
+            ISorterHelper<Author> sorterHelper, IPaginationHelper<Author> paginationHelper)
         {
             _authorRepository = authorRepository;
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
+            _sorterHelper = sorterHelper;
+            _paginationHelper = paginationHelper;
         }
-        public async Task<AuthorModel> GetAuthorsListAsync(AuthorModel authorModel, AuthorFilterModel authorFilterModel)
+        public async Task<AuthorModel> GetAuthorsListAsync(AuthorModel authorModel, AuthorFilterModel filterModel)
         {
-            if(authorFilterModel == null)
+            if(filterModel == null)
             {
                 authorModel.Errors.Add(Constants.Errors.InvalidModel);
                 return authorModel;
             }
-            if(authorFilterModel.StateSort == Enums.StateSort.None)
+            if(filterModel.SortState == Enums.SortState.None)
             {
                 authorModel.Errors.Add(Constants.Errors.InvalidData);
                 return authorModel;
             }
-            var _pageSize = (int)Enums.PageSizes.Six;
-            var listAuthors = await _authorRepository.GetAllAsync();
-            IOrderedEnumerable<Author> filteringListBooks = null;
-            if (authorFilterModel.StateSort == Enums.StateSort.IdAsc)
-            {
-                filteringListBooks = listAuthors.OrderBy(x => x.Id);
-            }
-            if(authorFilterModel.StateSort == Enums.StateSort.IdDesc)
-            {
-                filteringListBooks = listAuthors.OrderByDescending(x => x.Id);
-            }
-            var authorsOnPage = filteringListBooks.Skip((authorFilterModel.Page - 1) * _pageSize).Take(_pageSize).ToList();            
-            foreach (var author in authorsOnPage)
+
+            var listAuthors = _authorRepository.GetAllAsync();
+
+            var filteringAuthorsList = _sorterHelper.Sorting(filterModel.SortType, listAuthors);
+
+            var authorsList = _paginationHelper.Pagination(filteringAuthorsList, filterModel);    
+            
+            foreach (var author in authorsList)
             {
                 authorModel.Items.Add(new AuthorModelItem()
                 {

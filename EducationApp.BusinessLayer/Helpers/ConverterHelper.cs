@@ -7,7 +7,9 @@ namespace EducationApp.BusinessLayer.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
-        public static Dictionary<Enums.Currency, decimal> converterList = new Dictionary<Enums.Currency, decimal>()
+        public decimal Converting(Enums.Currency fromCurrency, Enums.Currency toCurrency, decimal sum)
+        {
+            var converterList = new Dictionary<Enums.Currency, decimal>()
             {
                 { Enums.Currency.CHF, Constants.CurrencyRates.CHFtoUSD },
                 { Enums.Currency.EUR, Constants.CurrencyRates.EURtoUSD },
@@ -17,9 +19,6 @@ namespace EducationApp.BusinessLayer.Helpers
                 { Enums.Currency.USD, Constants.CurrencyRates.USDtoUSD }
 
             };
-        public decimal Converting(Enums.Currency fromCurrency, Enums.Currency toCurrency, decimal sum)
-        {
-            
             decimal from = 0;
             decimal to = 0;
             foreach (var item in converterList)

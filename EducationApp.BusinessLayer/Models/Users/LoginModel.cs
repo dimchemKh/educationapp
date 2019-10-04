@@ -7,6 +7,7 @@ namespace EducationApp.BusinessLayer.Models.Users
 {
     public class LoginModel : BaseModel
     {
-        public ICollection<LoginModelItem> Items = new List<LoginModelItem>();
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

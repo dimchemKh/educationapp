@@ -15,11 +15,15 @@ namespace EducationApp.BusinessLayer.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailHelper _emailHelper;
-        
-        public UserService(IUserRepository userRepository, IEmailHelper emailHelper)
+        //private readonly ISorterHelper<ApplicationUser> _sorterHelper;
+        //private readonly IPaginationHelper<ApplicationUser> _paginationHelper;
+
+        public UserService(IUserRepository userRepository, IEmailHelper emailHelper/*, ISorterHelper<ApplicationUser> sorterHelper*//*, IPaginationHelper<ApplicationUser> paginationHelper*/)
         {
             _userRepository = userRepository;
             _emailHelper = emailHelper;
+            //_sorterHelper = sorterHelper;
+            //_paginationHelper = paginationHelper;
         }
         public async Task<bool> DeleteUserAsync(string userId)
         {
@@ -41,7 +45,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             return false;
         }
-        public async Task<EditModel> EditUserProfileAsync(EditModelItem userModel)
+        public async Task<EditModel> EditUserProfileAsync(EditModel userModel)
         {
             var responseModel = new EditModel();
             if(userModel == null)
@@ -93,6 +97,8 @@ namespace EducationApp.BusinessLayer.Services
                 existedUsers = listUsers.Where(user => user.FirstName.Contains(userName) || user.LastName.Contains(userName));
             }
             
+            
+
             foreach (var user in existedUsers)
             {
                 userModel.Items.Add(new UserModelItem()
@@ -108,7 +114,7 @@ namespace EducationApp.BusinessLayer.Services
             return userModel;
         }
 
-        public async Task<EditModel> AddNewUserAsync(EditModelItem user)
+        public async Task<EditModel> AddNewUserAsync(EditModel user)
         {
             var responseModel = new EditModel();
 

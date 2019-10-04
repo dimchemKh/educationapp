@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Linq;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.BusinessLayer.Models.PrintingEditions;
+using EducationApp.BusinessLayer.Models.Tokens;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
@@ -31,7 +32,7 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [AllowAnonymous]
         [HttpPost("forgotPassword")]
-        public async Task<IActionResult> ForgorPasswordAsync([FromBody]LoginModelItem loginModelItem)
+        public async Task<IActionResult> ForgorPasswordAsync([FromBody]LoginModel loginModelItem)
         {
             var responseModel = new LoginModel();
             var user = await _accountService.GetUserByEmailAsync(loginModelItem.Email);
@@ -45,15 +46,15 @@ namespace EducationApp.PresentationLayer.Controllers
                 responseModel.Errors.Add(Constants.Errors.InvalidEmail);
                 return Ok(responseModel.Errors);
             }
-            return Ok(responseModel.Items);
+            return Ok(responseModel);
         }
         [AllowAnonymous]
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshTokenAsync([FromBody]TokenModeltem tokenModelItem)
+        public async Task<IActionResult> RefreshTokenAsync([FromBody]TokenModel tokenModel)
         {
             var responseModel = new TokenModel();
 
-            var refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(tokenModelItem.RefreshToken);
+            var refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(tokenModel.RefreshToken);
 
             if (refreshToken.ValidTo < DateTime.Now)
             {
@@ -68,18 +69,18 @@ namespace EducationApp.PresentationLayer.Controllers
             var accessClaims = _jwtHelper.GetAccessClaims(userId, role, userName);
             var refreshClaims = _jwtHelper.GetRefreshClaims(userId);
 
-            responseModel.Items.Add(new TokenModeltem()
+            responseModel = new TokenModel()
             {
                 AccessToken = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration),
                 RefreshToken = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration)
-            }) ;
+            };
             
-            return Ok(responseModel.Items);
+            return Ok(responseModel);
         }
 
         [AllowAnonymous]
         [HttpPost("signUp")]
-        public async Task<IActionResult> SignUpAsync([FromBody]RegistrationModelItem userModel)
+        public async Task<IActionResult> SignUpAsync([FromBody]RegistrationModel userModel)
         {
             var responseModel = new RegistrationModel();
             var isExistedUser = await _accountService.SignUpAsync(userModel);
@@ -104,7 +105,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
         [AllowAnonymous]
         [HttpPost("signIn")]
-        public async Task<IActionResult> SignInAsync([FromBody]LoginModelItem loginModel)
+        public async Task<IActionResult> SignInAsync([FromBody]LoginModel loginModel)
         {
             var responseModel = new TokenModel();
 
@@ -119,13 +120,13 @@ namespace EducationApp.PresentationLayer.Controllers
             var accessClaims = _jwtHelper.GetAccessClaims(user.Id.ToString(), role, user.UserName);
             var refreshClaims = _jwtHelper.GetRefreshClaims(user.Id.ToString());
 
-            responseModel.Items.Add(new TokenModeltem()
+            responseModel = new TokenModel()
             {
                 AccessToken = _jwtHelper.GenerateToken(accessClaims, _configOptions, _configOptions.Value.AccessTokenExpiration),
                 RefreshToken = _jwtHelper.GenerateToken(refreshClaims, _configOptions, _configOptions.Value.RefreshTokenExpiration)
-            });
+            };
 
-            return Ok(responseModel.Items);
+            return Ok(responseModel);
         }
          
         [HttpGet("confirmEmail")]

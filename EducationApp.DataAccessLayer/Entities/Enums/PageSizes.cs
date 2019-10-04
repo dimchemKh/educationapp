@@ -10,6 +10,7 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
         {
             None = 0,
             Six = 6,
+            Ten = 10,
             Twelve = 12
         }
     }

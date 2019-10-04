@@ -5,6 +5,7 @@ using EducationApp.DataAccessLayer.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {

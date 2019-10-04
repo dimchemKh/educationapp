@@ -7,7 +7,10 @@ namespace EducationApp.BusinessLayer.Models.Users
 {
     public class RegistrationModel : BaseModel
     {
-        public ICollection<RegistrationModelItem> Items = new List<RegistrationModelItem>();
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
     }
 }

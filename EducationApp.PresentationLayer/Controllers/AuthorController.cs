@@ -1,4 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Models.Authors;
+using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace EducationApp.PresentationLayer.Controllers
             var responseModel = new AuthorModel();
             
             return Ok(await _authorService.GetAuthorsListAsync(responseModel, authorFilterModel));
-        }
+        } 
         [HttpPut("get/Authors")]
         public async Task<IActionResult> EditAuthorAsync(AuthorModelItem authorModelItem)
         {

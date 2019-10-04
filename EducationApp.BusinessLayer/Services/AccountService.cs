@@ -21,7 +21,7 @@ namespace EducationApp.BusinessLayer.Services
             _passwordHelper = passwordHelper;
             _emailHelper = emailHelper;
         }
-        public async Task<ApplicationUser> SignInAsync(LoginModelItem loginModel)
+        public async Task<ApplicationUser> SignInAsync(LoginModel loginModel)
         {
             if(loginModel == null)
             {
@@ -47,7 +47,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             return await _userRepository.GetUserByEmailAsync(email);
         }
-        public async Task<bool> SignUpAsync(RegistrationModelItem userModel)
+        public async Task<bool> SignUpAsync(RegistrationModel userModel)
         {
             if(userModel == null)
             {

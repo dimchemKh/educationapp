@@ -9,7 +9,7 @@ using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Common.Constants;
 using System;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Helpers;
+using EducationApp.BusinessLayer.Models.Filters;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -18,55 +18,31 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IPrintingEditionRepository _printingEditionRepository;
         private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
         private readonly IConverterHelper _converterHelper;
+        private readonly ISorterHelper<PrintingEdition> _sorterHelper;
+        private readonly IPaginationHelper<PrintingEdition> _paginationHelper;
 
-        public PrintingEditionService(IPrintingEditionRepository printingEditionRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, IConverterHelper converterHelper)
+        public PrintingEditionService(IPrintingEditionRepository printingEditionRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, 
+                                IConverterHelper converterHelper, ISorterHelper<PrintingEdition> sorterHelper, IPaginationHelper<PrintingEdition> paginationHelper)
         {
             _printingEditionRepository = printingEditionRepository;
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _converterHelper = converterHelper;
+            _sorterHelper = sorterHelper;
+            _paginationHelper = paginationHelper;
         }
-        private IOrderedEnumerable<PrintingEdition> SortingList(AdminFilterModel filterModel, IEnumerable<PrintingEdition> printingEditions)
-        {
-            IOrderedEnumerable<PrintingEdition> filteringListBooks = null;
-            if (filterModel.StateSort == Enums.StateSort.PriceAsc)
-            {
-                filteringListBooks = printingEditions.OrderBy(x => x.Price);
-            }
-            if (filterModel.StateSort == Enums.StateSort.PriceDesc)
-            {
-                filteringListBooks = printingEditions.OrderByDescending(x => x.Price);
-            }
-            if (filterModel.StateSort == Enums.StateSort.IdAsc)
-            {
-                filteringListBooks = printingEditions.OrderBy(x => x.Id);
-            }
-            if (filterModel.StateSort == Enums.StateSort.IdDesc)
-            {
-                filteringListBooks = printingEditions.OrderByDescending(x => x.Id);
-            }
-            if (filterModel.StateSort == Enums.StateSort.BookAsc)
-            {
-                filteringListBooks = printingEditions.OrderBy(x => x.Type);
-            }
-            if (filterModel.StateSort == Enums.StateSort.BookDesc)
-            {
-                filteringListBooks = printingEditions.OrderByDescending(x => x.Type);
-            }
-            return filteringListBooks;
-        }
-        private async Task<PrintingEditionsModel> AddItemsToModel(PrintingEditionsModel printingEditionsModel, List<PrintingEdition> listItems, bool IsUser, Enums.Currency filterCurrency = Enums.Currency.None)
+        private async Task<PrintingEditionModel> AddItemsToModel(PrintingEditionModel printingEditionsModel, IEnumerable<PrintingEdition> listItems, bool IsUser)
         {
             if (IsUser)
             {
                 foreach (var book in listItems)
                 {
-                    printingEditionsModel.Items.Add(new PrintingEditionsModelItem()
+                    printingEditionsModel.Items.Add(new PrintingEditionModelItem()
                     {
                         Id = book.Id,
                         AuthorsNames = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(book),
                         Title = book.Name,
                         Currency = book.Currency,
-                        Price = _converterHelper.Converting(book.Currency, filterCurrency, book.Price)
+                        Price = book.Price
                     });
                 }
             }
@@ -74,7 +50,7 @@ namespace EducationApp.BusinessLayer.Services
             {
                 foreach (var book in listItems)
                 {
-                    printingEditionsModel.Items.Add(new PrintingEditionsModelItem()
+                    printingEditionsModel.Items.Add(new PrintingEditionModelItem()
                     {
                         Id = book.Id,
                         AuthorsNames = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(book),
@@ -88,9 +64,9 @@ namespace EducationApp.BusinessLayer.Services
 
             return printingEditionsModel;
         }
-        private PrintingEditionsModel CheckModel(PrintingEditionsModelItem printingEditionsModelItem)
+        private PrintingEditionModel CheckModel(PrintingEditionModelItem printingEditionsModelItem)
         {
-            var responseModel = new PrintingEditionsModel();
+            var responseModel = new PrintingEditionModel();
             if (printingEditionsModelItem == null)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidModel);
@@ -98,7 +74,7 @@ namespace EducationApp.BusinessLayer.Services
             }            
             return responseModel;
         }
-        public async Task<PrintingEditionsModel> AddNewPrintingEditionAsync(PrintingEditionsModelItem printingEditionsModelItem)
+        public async Task<PrintingEditionModel> AddNewPrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem)
         {
             var responseModel = CheckModel(printingEditionsModelItem);
             if (string.IsNullOrWhiteSpace(printingEditionsModelItem.Title)
@@ -132,10 +108,9 @@ namespace EducationApp.BusinessLayer.Services
             }
             return responseModel;
         }
-        public async Task<PrintingEditionsModel> GetUsersPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, UserFilterModel filterModel)
+        public async Task<PrintingEditionModel> GetUsersPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, UserFilterModel filterModel)
         {
-            var _pageSize = (int)Enums.PageSizes.Six;
-            IEnumerable<PrintingEdition> printingEditions = null;
+            IQueryable<PrintingEdition> printingEditions = null;
             if (filterModel == null)
             {
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidModel);
@@ -143,44 +118,57 @@ namespace EducationApp.BusinessLayer.Services
             }                       
             if (string.IsNullOrWhiteSpace(filterModel.SearchByWord))
             {
-                printingEditions = await _printingEditionRepository.GetAllAsync();
+                printingEditions = _printingEditionRepository.GetAllAsync();
             }
             if (!string.IsNullOrWhiteSpace(filterModel.SearchByWord))
             {
-                printingEditions = await _printingEditionRepository.GetWhereAsync(x => x.Name.Contains(filterModel.SearchByWord));
+                printingEditions = _printingEditionRepository.GetWhereAsync(x => x.Name.Contains(filterModel.SearchByWord));
             }
             if (filterModel.Types == null)
             {
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidData);
                 return printingEditionsModel;
             }
-
-            printingEditions = printingEditions.Where(x => filterModel.Types.Contains(x.Type))
-                                            .Where(x => x.Price >= filterModel.RangePrice[Enums.RangePrice.MinValue]
+            printingEditions = printingEditions.Where(x => filterModel.Types.Contains(x.Type));
+            printingEditions = printingEditions.Select(x => new PrintingEdition()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Type = x.Type,
+                Description = x.Description,
+                AuthorInPrintingEdition = x.AuthorInPrintingEdition,
+                Currency = x.Currency,
+                Price = _converterHelper.Converting(x.Currency, filterModel.Currency, x.Price)
+            });                          
+            printingEditions = printingEditions.Where(x => x.Price >= filterModel.RangePrice[Enums.RangePrice.MinValue]
                                                  && x.Price <= filterModel.RangePrice[Enums.RangePrice.MaxValue]);
 
-            var filteringListBooks = SortingList(filterModel, printingEditions);
+            var filteringListBooks = _sorterHelper.Sorting(filterModel.SortType, printingEditions);           
 
-            var printingEditionsOnPage = filteringListBooks.Skip((filterModel.Page - 1) * _pageSize).Take(_pageSize).ToList();
+            if (filteringListBooks == null)
+            {
+                printingEditionsModel.Errors.Add(Constants.Errors.ReturnNull);
+                return printingEditionsModel;
+            }
+            var printingEditionsOnPage = _paginationHelper.Pagination(filteringListBooks, filterModel);
 
-            return await AddItemsToModel(printingEditionsModel, printingEditionsOnPage, filterModel is UserFilterModel, filterModel.Currency);
+            return await AddItemsToModel(printingEditionsModel, printingEditionsOnPage, filterModel is UserFilterModel);
         }
-        public async Task<PrintingEditionsModel> GetAdminPrintingEditionsListAsync(PrintingEditionsModel printingEditionsModel, AdminFilterModel filterModel)
+        public async Task<PrintingEditionModel> GetAdminPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, AdminFilterModel filterModel)
         {
-            var _pageSize = (int)Enums.PageSizes.Twelve;
             if (filterModel.Types == null)
             {
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidData);
                 return printingEditionsModel;
             }
-            var printingEditions = await _printingEditionRepository.GetAllAsync();            
-            printingEditions = printingEditions.Where(x => filterModel.Types.Contains(x.Type));
-            var filteringListBooks = SortingList(filterModel, printingEditions);
-            var items = filteringListBooks.Skip((filterModel.Page - 1) * _pageSize).Take(_pageSize).ToList();
-            return await AddItemsToModel(printingEditionsModel, items, filterModel is UserFilterModel);
+            var printingEditionsList = _printingEditionRepository.GetAllAsync();
+            printingEditionsList = printingEditionsList.Where(x => filterModel.Types.Contains(x.Type));
+            var filteringListBooks = _sorterHelper.Sorting(filterModel.SortType, printingEditionsList);
+            var printingEditions = _paginationHelper.Pagination(filteringListBooks, filterModel);
+            return await AddItemsToModel(printingEditionsModel, printingEditions, filterModel is UserFilterModel);
         }
 
-        public async Task<PrintingEditionsModel> GetUserPrintingEditionPageAsync(PrintingEditionsModel printingEditionsModel, PageFilterModel pageFilterModel)
+        public async Task<PrintingEditionModel> GetUserPrintingEditionPageAsync(PrintingEditionModel printingEditionsModel, PageFilterModel pageFilterModel)
         {            
             if(pageFilterModel == null)
             {
@@ -193,8 +181,9 @@ namespace EducationApp.BusinessLayer.Services
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidData);
                 return printingEditionsModel;
             }
-            printingEditionsModel.Items.Add(new PrintingEditionsModelItem()
+            printingEditionsModel.Items.Add(new PrintingEditionModelItem()
             {
+                Id = printingEdition.Id,
                 Title = printingEdition.Name,
                 AuthorsNames = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(printingEdition),
                 Description = printingEdition.Description,
@@ -203,7 +192,7 @@ namespace EducationApp.BusinessLayer.Services
             });
             return printingEditionsModel;
         }
-        public async Task<PrintingEditionsModel> DeletePrintingEditionAsync(PrintingEditionsModel printingEditionsModel, int printingEditionId)
+        public async Task<PrintingEditionModel> DeletePrintingEditionAsync(PrintingEditionModel printingEditionsModel, int printingEditionId)
         {
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionId);
 
@@ -215,8 +204,7 @@ namespace EducationApp.BusinessLayer.Services
             await _printingEditionRepository.DeleteAsync(printingEdition);
             return printingEditionsModel;
         }
-
-        public async Task<PrintingEditionsModel> EditPrintingEditionAsync(PrintingEditionsModelItem printingEditionsModelItem)
+        public async Task<PrintingEditionModel> EditPrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem)
         {
             var responseModel = CheckModel(printingEditionsModelItem);
             if (string.IsNullOrWhiteSpace(printingEditionsModelItem.Description)
@@ -230,13 +218,11 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionsModelItem.Id);
-
             printingEdition.Name = printingEditionsModelItem.Title;
             printingEdition.Description = printingEditionsModelItem.Description;
             printingEdition.Type = printingEditionsModelItem.Type;
             printingEdition.Currency = printingEditionsModelItem.Currency;
             printingEdition.Price = printingEditionsModelItem.Price;
-
             if(await _authorInPrintingEditionRepository.EditPrintingEditionAuthorsAsync(printingEdition, printingEditionsModelItem.AuthorsId))
             {
                 await _printingEditionRepository.EditAsync(printingEdition);
