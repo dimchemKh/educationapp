@@ -9,9 +9,9 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
 {
     public class PrintingEditionModelItem
     {
-        public int Id { get; set; }
+        public long PrintingEditionId { get; set; }
         public string Title { get; set; }
-        public Enums.Type Type { get; set; }
+        public Enums.PrintingEditionType PrintingEditionType { get; set; }
         public Enums.Currency Currency { get; set; }
 
         public decimal Price { get; set; }

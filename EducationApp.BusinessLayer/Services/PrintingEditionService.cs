@@ -18,42 +18,38 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IPrintingEditionRepository _printingEditionRepository;
         private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
         private readonly IConverterHelper _converterHelper;
-        private readonly ISorterHelper<PrintingEdition> _sorterHelper;
-        private readonly IPaginationHelper<PrintingEdition> _paginationHelper;
 
         public PrintingEditionService(IPrintingEditionRepository printingEditionRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, 
-                                IConverterHelper converterHelper, ISorterHelper<PrintingEdition> sorterHelper, IPaginationHelper<PrintingEdition> paginationHelper)
+                                IConverterHelper converterHelper)
         {
             _printingEditionRepository = printingEditionRepository;
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _converterHelper = converterHelper;
-            _sorterHelper = sorterHelper;
-            _paginationHelper = paginationHelper;
         }
-        private async Task<PrintingEditionModel> AddItemsToModel(PrintingEditionModel printingEditionsModel, IEnumerable<PrintingEdition> listItems, bool IsUser)
+        private async Task<PrintingEditionModel> AddItemsToModel(PrintingEditionModel printingEditionsModel, IEnumerable<PrintingEdition> listItems, bool IsAdmin = false)
         {
-            if (IsUser)
+            if (!IsAdmin)
             {
                 foreach (var book in listItems)
                 {
                     printingEditionsModel.Items.Add(new PrintingEditionModelItem()
                     {
                         Id = book.Id,
-                        AuthorsNames = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(book),
+                        AuthorsNames = await _printingEditionRepository.GetAuthorsInPrintingEditionAsync(book),
                         Title = book.Name,
                         Currency = book.Currency,
                         Price = book.Price
                     });
                 }
             }
-            if (!IsUser)
+            if (IsAdmin)
             {
                 foreach (var book in listItems)
                 {
                     printingEditionsModel.Items.Add(new PrintingEditionModelItem()
                     {
                         Id = book.Id,
-                        AuthorsNames = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(book),
+                        AuthorsNames = await _printingEditionRepository.GetAuthorsInPrintingEditionAsync(book),
                         Title = book.Name,
                         Currency = book.Currency,
                         Price = book.Price,
@@ -80,7 +76,7 @@ namespace EducationApp.BusinessLayer.Services
             if (string.IsNullOrWhiteSpace(printingEditionsModelItem.Title)
                 || string.IsNullOrWhiteSpace(printingEditionsModelItem.Description)
                 || printingEditionsModelItem.Currency == Enums.Currency.None
-                || printingEditionsModelItem.Type == Enums.Type.None
+                || printingEditionsModelItem.Type == Enums.PrintingEditionType.None
                 || !printingEditionsModelItem.AuthorsId.Any()
                 || printingEditionsModelItem.Price == 0)
             {
@@ -103,72 +99,58 @@ namespace EducationApp.BusinessLayer.Services
             };                 
             if(await _authorInPrintingEditionRepository.AddToPrintingEditionAuthorsAsync(printingEdition, printingEditionsModelItem.AuthorsId))
             {
-                await _printingEditionRepository.AddAsync(printingEdition);
+                await _printingEditionRepository.CreateAsync(printingEdition);
                 await _printingEditionRepository.SaveAsync();
             }
             return responseModel;
         }
-        public async Task<PrintingEditionModel> GetUsersPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, UserFilterModel filterModel)
+        public async Task<PrintingEditionModel> GetUsersPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, FilterPrintingditionModel filterModel)
         {
             IQueryable<PrintingEdition> printingEditions = null;
             if (filterModel == null)
             {
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidModel);
                 return printingEditionsModel;
-            }                       
-            if (string.IsNullOrWhiteSpace(filterModel.SearchByWord))
-            {
-                printingEditions = _printingEditionRepository.GetAllAsync();
-            }
-            if (!string.IsNullOrWhiteSpace(filterModel.SearchByWord))
-            {
-                printingEditions = _printingEditionRepository.GetWhereAsync(x => x.Name.Contains(filterModel.SearchByWord));
-            }
-            if (filterModel.Types == null)
+            }            
+            printingEditions = _printingEditionRepository.FiteringFromSearchWord(filterModel.SearchByBody, printingEditions);
+            if (filterModel.PrintingEditionTypes == null)
             {
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidData);
                 return printingEditionsModel;
-            }
-            printingEditions = printingEditions.Where(x => filterModel.Types.Contains(x.Type));
+            }                        
             printingEditions = printingEditions.Select(x => new PrintingEdition()
             {
                 Id = x.Id,
                 Name = x.Name,
                 Type = x.Type,
                 Description = x.Description,
-                AuthorInPrintingEdition = x.AuthorInPrintingEdition,
+                AuthorInPrintingEditions = x.AuthorInPrintingEditions,
                 Currency = x.Currency,
                 Price = _converterHelper.Converting(x.Currency, filterModel.Currency, x.Price)
-            });                          
-            printingEditions = printingEditions.Where(x => x.Price >= filterModel.RangePrice[Enums.RangePrice.MinValue]
-                                                 && x.Price <= filterModel.RangePrice[Enums.RangePrice.MaxValue]);
+            });
 
-            var filteringListBooks = _sorterHelper.Sorting(filterModel.SortType, printingEditions);           
-
-            if (filteringListBooks == null)
-            {
-                printingEditionsModel.Errors.Add(Constants.Errors.ReturnNull);
-                return printingEditionsModel;
-            }
-            var printingEditionsOnPage = _paginationHelper.Pagination(filteringListBooks, filterModel);
-
-            return await AddItemsToModel(printingEditionsModel, printingEditionsOnPage, filterModel is UserFilterModel);
+            printingEditions = _printingEditionRepository.FilteringByTypes(filterModel.PrintingEditionTypes, printingEditions);
+            printingEditions = _printingEditionRepository.FilteringByPrice(filterModel.RangePrice, printingEditions);
+            printingEditions = _printingEditionRepository.FilteringByProperty(filterModel.SortType, filterModel.SortState, printingEditions);
+            var printingEditionsPage = _printingEditionRepository.FilteringPage(filterModel.Page, (int)filterModel.PageSize, printingEditions);
+            return await AddItemsToModel(printingEditionsModel, printingEditionsPage);
         }
-        public async Task<PrintingEditionModel> GetAdminPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, AdminFilterModel filterModel)
+        public async Task<PrintingEditionModel> GetAdminPrintingEditionsListAsync(PrintingEditionModel printingEditionsModel, FilterPrintingditionModel filterModel, bool IsAdmin)
         {
-            if (filterModel.Types == null)
+            IQueryable<PrintingEdition> printingEditions = null;
+            if (filterModel.PrintingEditionTypes == null)
             {
                 printingEditionsModel.Errors.Add(Constants.Errors.InvalidData);
                 return printingEditionsModel;
             }
-            var printingEditionsList = _printingEditionRepository.GetAllAsync();
-            printingEditionsList = printingEditionsList.Where(x => filterModel.Types.Contains(x.Type));
-            var filteringListBooks = _sorterHelper.Sorting(filterModel.SortType, printingEditionsList);
-            var printingEditions = _paginationHelper.Pagination(filteringListBooks, filterModel);
-            return await AddItemsToModel(printingEditionsModel, printingEditions, filterModel is UserFilterModel);
+            printingEditions = _printingEditionRepository.ReadAll();
+            printingEditions = _printingEditionRepository.FilteringByTypes(filterModel.PrintingEditionTypes, printingEditions);
+            printingEditions = _printingEditionRepository.FilteringByProperty(filterModel.SortType, filterModel.SortState, printingEditions);
+            var printingEditionsPage = _printingEditionRepository.FilteringPage(filterModel.Page, (int)filterModel.PageSize, printingEditions);
+            return await AddItemsToModel(printingEditionsModel, printingEditionsPage, IsAdmin);
         }
 
-        public async Task<PrintingEditionModel> GetUserPrintingEditionPageAsync(PrintingEditionModel printingEditionsModel, PageFilterModel pageFilterModel)
+        public async Task<PrintingEditionModel> GetUserPrintingEditionPageAsync(PrintingEditionModel printingEditionsModel, FilterPrintingEditionDetailsModel pageFilterModel)
         {            
             if(pageFilterModel == null)
             {
@@ -185,7 +167,7 @@ namespace EducationApp.BusinessLayer.Services
             {
                 Id = printingEdition.Id,
                 Title = printingEdition.Name,
-                AuthorsNames = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(printingEdition),
+                AuthorsNames = await _printingEditionRepository.GetAuthorsInPrintingEditionAsync(printingEdition),
                 Description = printingEdition.Description,
                 Currency = printingEdition.Currency,
                 Price = _converterHelper.Converting(printingEdition.Currency, pageFilterModel.Currency, printingEdition.Price)
@@ -211,7 +193,7 @@ namespace EducationApp.BusinessLayer.Services
                 || string.IsNullOrWhiteSpace(printingEditionsModelItem.Title)
                 || !printingEditionsModelItem.AuthorsId.Any()
                 || printingEditionsModelItem.Currency == Enums.Currency.None
-                || printingEditionsModelItem.Type == Enums.Type.None
+                || printingEditionsModelItem.Type == Enums.PrintingEditionType.None
                 || printingEditionsModelItem.Price == 0)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);

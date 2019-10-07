@@ -9,25 +9,8 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class ApplicationUser : IdentityUser<long>
     {
-        public override long Id
-        {
-            get
-            {
-                return base.Id;
-            }
-
-            set
-            {
-                base.Id = value;
-            }
-        }
         public string FirstName { get; set; }
         public string LastName { get; set; }        
-        public override string Email
-        {
-            get;
-            set;
-        }
         public bool IsRemoved { get; set; } = false;
     }
 }

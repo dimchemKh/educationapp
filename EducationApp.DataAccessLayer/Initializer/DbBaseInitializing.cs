@@ -58,7 +58,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                 Description = "Some description",
                 Price = 100,
                 CreationDate = DateTime.Now,
-                Type = Enums.Type.Book,
+                Type = Enums.PrintingEditionType.Book,
                 Currency = Enums.Currency.USD
             };
             var printingEdition2 = new PrintingEdition()
@@ -67,7 +67,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                 Description = "Some description",
                 Price = 20,
                 CreationDate = DateTime.Now,
-                Type = Enums.Type.Newspaper,
+                Type = Enums.PrintingEditionType.Newspaper,
                 Currency = Enums.Currency.USD
             };
             var printingEdition3 = new PrintingEdition()
@@ -76,7 +76,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                 Description = "Some description",
                 Price = 80,
                 CreationDate = DateTime.Now,
-                Type = Enums.Type.Journal,
+                Type = Enums.PrintingEditionType.Journal,
                 Currency = Enums.Currency.USD
             };
 
@@ -96,7 +96,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                 CreationDate = DateTime.Now
             };
 
-            printingEdition1.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
+            printingEdition1.AuthorInPrintingEditions = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition {
                     Author = author1,
@@ -108,7 +108,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                     PrintingEdition = printingEdition1
                 }
             };
-            printingEdition2.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
+            printingEdition2.AuthorInPrintingEditions = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition
                 {
@@ -121,7 +121,7 @@ namespace EducationApp.DataAccessLayer.Initializer
                     PrintingEdition = printingEdition2
                 }
             };
-            printingEdition3.AuthorInPrintingEdition = new List<AuthorInPrintingEdition>()
+            printingEdition3.AuthorInPrintingEditions = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition
                 {

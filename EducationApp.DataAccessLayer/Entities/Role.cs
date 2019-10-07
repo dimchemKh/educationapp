@@ -7,7 +7,6 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class Role : IdentityRole<long>
     {
-
-
+        
     }
 }

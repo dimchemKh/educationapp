@@ -9,7 +9,7 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IAuthorService
     {
-        Task<AuthorModel> GetAuthorsListAsync(AuthorModel authorModel, AuthorFilterModel authorFilterModel);
+        Task<AuthorModel> GetAuthorsListAsync(AuthorModel authorModel, FilterAuthorModel authorFilterModel);
         Task<AuthorModel> AddNewAuthorAsync(AuthorModelItem authorModelItem);
         Task<AuthorModel> DeleteAuthorAsync(AuthorModel authorModel, int authorId);
         Task<AuthorModel> EditAuthorAsync(AuthorModelItem authorModel);

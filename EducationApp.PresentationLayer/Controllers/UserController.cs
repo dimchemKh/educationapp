@@ -35,7 +35,7 @@ namespace EducationApp.PresentationLayer.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> EditUserProfileAsync([FromBody]EditModel userModel)
+        public async Task<IActionResult> EditUserProfileAsync([FromBody]UserEditModel userModel)
         {
             var responseModel = await _userService.EditUserProfileAsync(userModel);
             if (responseModel.Errors.Any())

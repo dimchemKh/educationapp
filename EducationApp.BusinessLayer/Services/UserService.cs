@@ -15,15 +15,11 @@ namespace EducationApp.BusinessLayer.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IEmailHelper _emailHelper;
-        //private readonly ISorterHelper<ApplicationUser> _sorterHelper;
-        //private readonly IPaginationHelper<ApplicationUser> _paginationHelper;
 
-        public UserService(IUserRepository userRepository, IEmailHelper emailHelper/*, ISorterHelper<ApplicationUser> sorterHelper*//*, IPaginationHelper<ApplicationUser> paginationHelper*/)
+        public UserService(IUserRepository userRepository, IEmailHelper emailHelper)
         {
             _userRepository = userRepository;
             _emailHelper = emailHelper;
-            //_sorterHelper = sorterHelper;
-            //_paginationHelper = paginationHelper;
         }
         public async Task<bool> DeleteUserAsync(string userId)
         {
@@ -45,9 +41,9 @@ namespace EducationApp.BusinessLayer.Services
             }
             return false;
         }
-        public async Task<EditModel> EditUserProfileAsync(EditModel userModel)
+        public async Task<UserEditModel> EditUserProfileAsync(UserEditModel userModel)
         {
-            var responseModel = new EditModel();
+            var responseModel = new UserEditModel();
             if(userModel == null)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNull);
@@ -67,7 +63,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidConfirmPassword);
                 return responseModel;
             }
-            await _userRepository.ChangePasswordAsync(user, userModel.Password, userModel.NewPassword);
+            await _userRepository.ChangePasswordAsync(user, userModel.Password, userModel.ConfirmPassword);
 
             user.FirstName = userModel.FirstName;
             user.LastName = userModel.LastName;
@@ -80,7 +76,7 @@ namespace EducationApp.BusinessLayer.Services
         }
         public async Task<UserModel> GetAllUsersAsync(UserModel userModel, string userName = null)
         {
-            IEnumerable<ApplicationUser> existedUsers = null;
+           var existedUsers = new List<ApplicationUser>();
 
             var listUsers = await _userRepository.GetUsersInRoleAsync(Constants.Roles.User);
             if (listUsers == null)
@@ -90,11 +86,11 @@ namespace EducationApp.BusinessLayer.Services
             }
             if (string.IsNullOrWhiteSpace(userName))
             {
-                existedUsers = listUsers.Where(user => user.IsRemoved == false);
+                existedUsers = listUsers.Where(user => user.IsRemoved == false).ToList();
             }
             if(userName != null)
             {
-                existedUsers = listUsers.Where(user => user.FirstName.Contains(userName) || user.LastName.Contains(userName));
+                existedUsers = listUsers.Where(user => user.FirstName.Contains(userName) || user.LastName.Contains(userName)).ToList();
             }
             
             
@@ -114,9 +110,9 @@ namespace EducationApp.BusinessLayer.Services
             return userModel;
         }
 
-        public async Task<EditModel> AddNewUserAsync(EditModel user)
+        public async Task<UserEditModel> AddNewUserAsync(UserEditModel user)
         {
-            var responseModel = new EditModel();
+            var responseModel = new UserEditModel();
 
             if(user == null)
             {
@@ -144,8 +140,8 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
 
-            await _emailHelper.SendMailAsync(newUser, "YourPassword", $"Your temp password {user.NewPassword} ! Please, change him!");
-            await _userRepository.AddNewUser(newUser, user.NewPassword);
+            await _emailHelper.SendMailAsync(newUser, "YourPassword", $"Your temp password {user.ConfirmPassword} ! Please, change him!");
+            await _userRepository.AddNewUser(newUser, user.ConfirmPassword);
 
             return responseModel;
         }

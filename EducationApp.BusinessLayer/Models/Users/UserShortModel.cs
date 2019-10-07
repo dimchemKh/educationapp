@@ -6,7 +6,7 @@ namespace EducationApp.BusinessLayer.Models.Users
 {
     public class UserShortModel
     {
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
     }

@@ -9,11 +9,11 @@ namespace EducationApp.BusinessLayer.Models.Orders
 {
     public class OrderModelItem
     {
-        public int OrderId { get; set; }
+        public long OrderId { get; set; }
         public DateTime OrderTime { get; set; }
         public Enums.Currency Currency { get; set; }
         public decimal Amount { get; set; }
-        public Enums.Status Status { get; set; }
+        public Enums.TransactionStatus TranscationStatus { get; set; }
         public UserShortModel User { get; set; }
         public ICollection<PrintingEditionShortModel> PrintingEditions { get; set; }
     }

@@ -12,10 +12,9 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
             Id = 1,
             Name = 2,
             Block = 3,
-            Book = 4,
+            Status = 4,
             Type = 5,
-            Price = 6,
-            Status = 7
+            Price = 6
         }
     }
 }

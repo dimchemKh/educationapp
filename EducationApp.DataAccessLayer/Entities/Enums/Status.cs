@@ -6,7 +6,7 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
 {
     public partial class Enums
     {
-        public enum Status
+        public enum TransactionStatus
         {
             None = 0,
             Paid = 1,

@@ -22,18 +22,18 @@ namespace EducationApp.DataAccessLayer.AppContext
             builder.Entity<AuthorInPrintingEdition>()
             .HasKey(key => new { key.AuthorId, key.PrintingEditionId });
 
-            builder.Entity<AuthorInPrintingEdition>()
-                .HasOne(navigationName => navigationName.Author)
-                .WithMany(table => table.AuthorInPrintingEdition)
-                .HasForeignKey(key => key.AuthorId);
+            //builder.Entity<AuthorInPrintingEdition>()
+            //    //.HasOne<AuthorInPrintingEdition>()
+            //    //.WithMany()
+            //    //.HasForeignKey(key => key.AuthorId);
+            //    .HasOne(navigationName => navigationName.Author)
+            //    .WithMany(table => table.AuthorInPrintingEdition)
+            //    .HasForeignKey(key => key.AuthorId);
 
             builder.Entity<AuthorInPrintingEdition>()
                 .HasOne(navigationName => navigationName.PrintingEdition)
-                .WithMany(table => table.AuthorInPrintingEdition)
+                .WithMany(table => table.AuthorInPrintingEditions)
                 .HasForeignKey(key => key.PrintingEditionId);
-            //    .HasOne<AuthorInBooks>()
-            //    .WithMany()
-            //    .HasForeignKey(key => key.PrintingEditionId);
 
             base.OnModelCreating(builder);
         }

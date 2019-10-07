@@ -12,6 +12,5 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
     {
         Task<bool> EditPrintingEditionAuthorsAsync(PrintingEdition printingEdition, IList<int> authorsId);
         Task<bool> AddToPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<int> authors);
-        Task<ICollection<string>> GetPrintingEditionAuthorsListAsync(BaseEntity baseEnity);
     }
 }

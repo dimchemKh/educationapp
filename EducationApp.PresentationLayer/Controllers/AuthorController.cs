@@ -18,7 +18,7 @@ namespace EducationApp.PresentationLayer.Controllers
         }
 
         [HttpPost("get/Authors")]
-        public async Task<IActionResult> GetAuthorsAsync(AuthorFilterModel authorFilterModel)
+        public async Task<IActionResult> GetAuthorsAsync(FilterAuthorModel authorFilterModel)
         {
             var responseModel = new AuthorModel();
             

@@ -30,7 +30,7 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(await _orderService.GetUserOrdersAsync(responseModel, userId));
         }
         [HttpPost("usersOrders")]
-        public async Task<IActionResult> GetUsersOrdersForAdminAsync([FromBody]OrderFilterModel orderFilterModel)
+        public async Task<IActionResult> GetUsersOrdersForAdminAsync([FromBody]FilterOrderModel orderFilterModel)
         {
             var responseModel = new OrderModel();
             if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))

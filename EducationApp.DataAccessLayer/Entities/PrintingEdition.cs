@@ -7,11 +7,15 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class PrintingEdition : BaseEntity
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
         public Enums.Enums.Currency Currency { get; set; }
-        public Enums.Enums.Type Type { get; set; }
-        public ICollection<AuthorInPrintingEdition> AuthorInPrintingEdition { get; set; } = new List<AuthorInPrintingEdition>();
+        public Enums.Enums.PrintingEditionType PrintingEditionType { get; set; }
+        public List<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
+        public PrintingEdition()
+        {
+            AuthorInPrintingEditions = new List<AuthorInPrintingEdition>();
+        }
     }
 }

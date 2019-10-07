@@ -20,55 +20,48 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly IUserRepository _userRepository;
         private readonly IPrintingEditionRepository _printingEditionRepository;
-        private readonly ISorterHelper<Order> _sorterHelper;
-        private readonly IPaginationHelper<Order> _paginationHelper;
 
         public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IUserRepository userRepository, 
-                        IPrintingEditionRepository printingEditionRepository, ISorterHelper<Order> sorterHelper, IPaginationHelper<Order> paginationHelper)
+                        IPrintingEditionRepository printingEditionRepository)
         {
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
             _userRepository = userRepository;
             _printingEditionRepository = printingEditionRepository;
-            _sorterHelper = sorterHelper;
-            _paginationHelper = paginationHelper;
         }
         public async Task<OrderModel> GetUserOrdersAsync(OrderModel orderModel, string userId)
         {
-            var ordersList = _orderItemRepository.GetAllAsync();
+            var ordersList = _orderItemRepository.ReadAll();
 
             foreach (var order in ordersList)
             {
                 orderModel.Items.Add(new OrderModelItem()
                 {
-                    //Id = order.Id,
-                    //Title = order.
-                    //Count = order.Count,
-                    //Currency = order.Currency,
+                    // TODO:
 
                 });
             }
             return null;
         }
-        public async Task<OrderModel> GetUsersOrdersForAdminAsync(OrderModel orderModel, OrderFilterModel filterModel)
+        public OrderModel GetUsersOrdersForAdmin(OrderModel orderModel, FilterOrderModel filterModel)
         {
-            var ordersList = _orderRepository.GetAllAsync();
-            ordersList = ordersList.Where(x => filterModel.Statuses.Contains(x.Status));
+            var ordersList = _orderRepository.ReadAll();
+            ordersList = ordersList.Where(x => filterModel.TransactionStatus == x.Status);
 
-            var filteringList = _sorterHelper.Sorting(filterModel.SortType, ordersList);
+            //var filteringList = _sorterHelper.Sorting(filterModel.SortType, ordersList);
 
-            var orders = _paginationHelper.Pagination(filteringList, filterModel);
+            //var orders = _paginationHelper.Pagination(filteringList, filterModel);
 
-            foreach (var item in orders)
-            {
-                orderModel.Items.Add(new OrderModelItem()
-                {
-                    OrderId = item.Id,
-                    OrderTime = item.Date,
-                    User = new UserShortModel() { UserName = item.User.UserName, Email = item.User.Email },
-                    Status = item.Status
-                });
-            }
+            //foreach (var item in orders)
+            //{
+            //    orderModel.Items.Add(new OrderModelItem()
+            //    {
+            //        OrderId = item.Id,
+            //        OrderTime = item.Date,
+            //        User = new UserShortModel() { UserName = item.User.UserName, Email = item.User.Email },
+            //        Status = item.Status
+            //    });
+            //}
             return orderModel;
         }
         public async Task<OrderModel> AddOrderAsync(OrderModel orderModel, OrderModelItem orderModelItem)
@@ -77,7 +70,7 @@ namespace EducationApp.BusinessLayer.Services
             {
                 orderModel.Errors.Add(Constants.Errors.InvalidModel);
                 return orderModel;
-            }
+            } 
             if (orderModelItem.Currency == Enums.Currency.None
                 || orderModelItem.Amount == 0
                 || !orderModelItem.PrintingEditions.Any()
@@ -108,7 +101,7 @@ namespace EducationApp.BusinessLayer.Services
                 OrderItems = orderItemsList
             };
 
-            await _orderRepository.AddAsync(order);
+            await _orderRepository.CreateAsync(order);
             await _orderRepository.SaveAsync();
 
             return orderModel;

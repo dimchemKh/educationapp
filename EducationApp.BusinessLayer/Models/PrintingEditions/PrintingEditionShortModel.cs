@@ -7,10 +7,10 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
 {
     public class PrintingEditionShortModel
     {
-        public int PrintingEditionId { get; set; }
+        public long PrintingEditionId { get; set; }
         public string Title { get; set; }
         public int Count { get; set; }
         public decimal Amount { get; set; }
-        public Enums.Type Type { get; set; }
+        public Enums.PrintingEditionType Type { get; set; }
     }
 }

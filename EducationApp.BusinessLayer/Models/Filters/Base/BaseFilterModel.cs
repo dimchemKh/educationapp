@@ -8,16 +8,16 @@ namespace EducationApp.BusinessLayer.Models.Filters.Base
     public class BaseFilterModel
     {
         public Enums.SortState SortState { get; set; }
-        public int Page { get; set; }
         public Enums.SortType SortType{ get; set; }
-        public Enums.PageSizes PageSize { get; set; }
+        public int PageSize { get; set; }
+        public int Page { get; set; }
 
         public BaseFilterModel()
         {
             SortState = Enums.SortState.Asc;
-            Page = 1;
             SortType = Enums.SortType.Id;
-            PageSize = Enums.PageSizes.Six;
+            PageSize = 6;
+            Page = 1;
         }
     }
 }

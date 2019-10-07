@@ -7,6 +7,6 @@ namespace EducationApp.DataAccessLayer.Entities
 {
     public class Payment : BaseEntity
     {
-        public int TransactionId { get; set; }        
+        public long TransactionId { get; set; }        
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Models.Users;
+using EducationApp.DataAccessLayer.Common.Constants;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -21,7 +22,7 @@ namespace EducationApp.BusinessLayer.Services
             _passwordHelper = passwordHelper;
             _emailHelper = emailHelper;
         }
-        public async Task<ApplicationUser> SignInAsync(LoginModel loginModel)
+        public async Task<ApplicationUser> SignInAsync(UserLoginModel loginModel)
         {
             if(loginModel == null)
             {
@@ -47,26 +48,29 @@ namespace EducationApp.BusinessLayer.Services
             }
             return await _userRepository.GetUserByEmailAsync(email);
         }
-        public async Task<bool> SignUpAsync(RegistrationModel userModel)
+        public async Task<UserModel> SignUpAsync(UserRegistrationModel userRegModel)
         {
-            if(userModel == null)
+            var userModel = new UserModel();
+            if(userRegModel == null)
             {
-                return false;
+                userModel.Errors.Add(Constants.Errors.InvalidModel);
+                return userModel;
             }
 
-            if(string.IsNullOrWhiteSpace(userModel.FirstName)
-                || string.IsNullOrWhiteSpace(userModel.LastName)
-                || string.IsNullOrWhiteSpace(userModel.Email))
+            if(string.IsNullOrWhiteSpace(userRegModel.FirstName)
+                || string.IsNullOrWhiteSpace(userRegModel.LastName)
+                || string.IsNullOrWhiteSpace(userRegModel.Email))
             {
-                return false;
+                userModel.Errors.Add(Constants.Errors.InvalidData);
+                return userModel;
             }
-            var existedUser = await _userRepository.GetUserByEmailAsync(userModel.Email);
+            var existedUser = await _userRepository.GetUserByEmailAsync(userRegModel.Email);
 
             if (existedUser == null)
             {
-                return await _userRepository.SignUpAsync(userModel.FirstName, userModel.LastName, userModel.Email, userModel.Password);
+                await _userRepository.SignUpAsync(userRegModel.FirstName, userRegModel.LastName, userRegModel.Email, userRegModel.Password);
             }
-            return false;
+            return userModel;
         }
         public async Task<string> GetEmailConfirmTokenAsync(ApplicationUser user)
         {

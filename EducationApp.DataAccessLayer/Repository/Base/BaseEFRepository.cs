@@ -1,14 +1,13 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
-using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities.Base;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Repository.Base.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.Base
@@ -26,15 +25,15 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
-        public IQueryable<TEntity> GetAllAsync()
+        public IQueryable<TEntity> ReadAll()
         {
-            return _dbSet.Where(x => x.IsRemoved == false).AsQueryable();
+            return _dbSet.Where(x => x.IsRemoved == false);
         }
-        public IQueryable<TEntity> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate);
         }
-        public async Task AddAsync(TEntity entity)
+        public async Task CreateAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
         }
@@ -54,5 +53,32 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             await _context.SaveChangesAsync();
         }
+        public async Task<IEnumerable<TEntity>> GetPage(int page, int pageSize, IQueryable<TEntity> entities)
+        {
+            return await entities.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+        public IQueryable<TEntity> FilteringByProperty(Enums.SortType sortType, Enums.SortState sortState, IQueryable<TEntity> entities)
+        {
+            var list = new Dictionary<Enums.SortType, string>()
+            {
+                { Enums.SortType.Id, Constants.SortProperties.Id },
+                { Enums.SortType.Name, Constants.SortProperties.Name },
+                { Enums.SortType.Type, Constants.SortProperties.PrintingEditionType },
+                { Enums.SortType.Price, Constants.SortProperties.Price }
+            };
+            foreach (var item in list)
+            {
+                if (item.Key == sortType && sortState == Enums.SortState.Asc)
+                {
+                    // TODO: custom linq OrderBy()
+                }
+                if(item.Key == sortType && sortState == Enums.SortState.Desc)
+                {
+                    // TODO: custom linq OrderByDescending()
+                }
+            }
+            return entities;
+        }
+
     }
 }

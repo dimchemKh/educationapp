@@ -15,17 +15,13 @@ namespace EducationApp.BusinessLayer.Services
     {
         private readonly IAuthorRepository _authorRepository;
         private readonly IAuthorInPrintingEditionRepository _authorInPrintingEditionRepository;
-        private readonly ISorterHelper<Author> _sorterHelper;
-        private readonly IPaginationHelper<Author> _paginationHelper;
-        public AuthorService(IAuthorRepository authorRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository, 
-            ISorterHelper<Author> sorterHelper, IPaginationHelper<Author> paginationHelper)
+        //private readonly IPaginationHelper<Author> _paginationHelper;
+        public AuthorService(IAuthorRepository authorRepository, IAuthorInPrintingEditionRepository authorInPrintingEditionRepository)
         {
             _authorRepository = authorRepository;
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
-            _sorterHelper = sorterHelper;
-            _paginationHelper = paginationHelper;
         }
-        public async Task<AuthorModel> GetAuthorsListAsync(AuthorModel authorModel, AuthorFilterModel filterModel)
+        public async Task<AuthorModel> GetAuthorsListAsync(AuthorModel authorModel, FilterAuthorModel filterModel)
         {
             if(filterModel == null)
             {
@@ -38,21 +34,14 @@ namespace EducationApp.BusinessLayer.Services
                 return authorModel;
             }
 
-            var listAuthors = _authorRepository.GetAllAsync();
+            var listAuthors = _authorRepository.ReadAll();
+            var newlistAuthors = _authorRepository.FilteringPage(filterModel.Page, (int)filterModel.PageSize, listAuthors);
 
-            var filteringAuthorsList = _sorterHelper.Sorting(filterModel.SortType, listAuthors);
-
-            var authorsList = _paginationHelper.Pagination(filteringAuthorsList, filterModel);    
-            
-            foreach (var author in authorsList)
+            foreach (var item in newlistAuthors)
             {
-                authorModel.Items.Add(new AuthorModelItem()
-                {
-                    Id = author.Id,
-                    Name = author.Name,
-                    ProductTitles = await _authorInPrintingEditionRepository.GetPrintingEditionAuthorsListAsync(author)
-                });
+                //authorModel.Items.
             }
+           
             return authorModel;
         }
         public async Task<AuthorModel> AddNewAuthorAsync(AuthorModelItem authorModelItem)
@@ -72,7 +61,7 @@ namespace EducationApp.BusinessLayer.Services
             {
                 Name = authorModelItem.Name
             };
-            await _authorRepository.AddAsync(author);
+            await _authorRepository.CreateAsync(author);
             await _authorRepository.SaveAsync();
             return authorModel;
         }

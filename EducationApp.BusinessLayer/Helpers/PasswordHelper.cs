@@ -26,13 +26,13 @@ namespace EducationApp.BusinessLayer.Helpers
 
             string[] charsForPassword = new[]
             {
-                Constants.CharsForPassword.UppercaseChars, 
+                Constants.CharsForPassword.UppercaseChars,
                 Constants.CharsForPassword.LowercaseChars,
                 Constants.CharsForPassword.DigitChars
             };
 
-            Random random = new Random(Environment.TickCount);
-            List<char> listCharsOfPassword = new List<char>();
+            var random = new Random(Environment.TickCount);
+            var listCharsOfPassword = new List<char>();
 
             if (options.RequireUppercase)
             {
@@ -48,7 +48,7 @@ namespace EducationApp.BusinessLayer.Helpers
 
             if (options.RequireDigit)
             {
-                listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count), 
+                listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count),
                     charsForPassword[2][random.Next(0, charsForPassword[2].Length)]);
             }
 

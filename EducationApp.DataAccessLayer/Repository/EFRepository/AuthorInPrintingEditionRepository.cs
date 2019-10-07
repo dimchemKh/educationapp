@@ -32,39 +32,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             foreach (var authorId in  authorsId)
             {
                 var author = await _context.Authors.FindAsync(authorId);
-                printingEdition.AuthorInPrintingEdition.Add(new AuthorInPrintingEdition() { PrintingEdition = printingEdition, Author = author });
+                printingEdition.AuthorInPrintingEditions.Add(new AuthorInPrintingEdition() { PrintingEdition = printingEdition, Author = author });
             }
+            
             return true;
-        }
-
-        public async Task<ICollection<string>> GetPrintingEditionAuthorsListAsync(BaseEntity baseEnity)
-        {
-            ICollection<string> listEntity = new List<string>();
-
-            if(baseEnity is PrintingEdition)
-            {
-                var printingEdition = baseEnity as PrintingEdition;
-                var query = _context.AuthorInPrintingEditions.Where(x => x.PrintingEdition == printingEdition);
-
-                foreach (var item in query)
-                {
-                    var listOfOneAuthor = await _context.Authors.Where(x => x.Id == item.AuthorId).Select(z => z.Name).ToListAsync();
-                    listEntity.Add(listOfOneAuthor.First());
-                }
-            }
-            if(baseEnity is Author)
-            {
-                var author = baseEnity as Author;
-                var query = _context.AuthorInPrintingEditions.Where(x => x.Author == author);
-
-                foreach (var item in query)
-                {
-                    var listOfOneAuthor = await _context.PrintingEditions.Where(x => x.Id == item.PrintingEditionId).Select(z => z.Name).ToListAsync();
-                    listEntity.Add(listOfOneAuthor.First());
-                }
-            }
-
-            return listEntity;
         }
     }
 }

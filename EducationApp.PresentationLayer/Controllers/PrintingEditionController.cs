@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PrintingEditionController : Controller
     {
         private readonly IPrintingEditionService _printingEditionService;
@@ -22,14 +22,13 @@ namespace EducationApp.PresentationLayer.Controllers
             _printingEditionService = printingEditionService;
         }
         [AllowAnonymous]
-        [HttpGet("printingEditions")]
-        public async Task<IActionResult> PrintingEditions(/*[FromBody]UserFilterModel filterModel*/)
+        [HttpPost("printingEditions")]
+        public async Task<IActionResult> PrintingEditionsAsync([FromBody]FilterPrintingditionModel filterModel)
         {
             var responseModel = new PrintingEditionModel();
-            //var result = await _printingEditionService.GetUsersPrintingEditionsListAsync(responseModel, filterModel);
+            var result = await _printingEditionService.GetUsersPrintingEditionsListAsync(responseModel, filterModel);
 
-            //return Ok(result.Items);
-            return Ok();
+            return Ok(result.Items);
         }
         [HttpPost("addNewProduct")]
         public async Task<IActionResult> AddNewProductAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
@@ -46,7 +45,7 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [AllowAnonymous]
         [HttpPost("printingEditionPage")]
-        public async Task<IActionResult> GetPrintingEditionPageAsync([FromBody]PageFilterModel pageFilterModel)
+        public async Task<IActionResult> GetPrintingEditionPageAsync([FromBody]FilterPrintingEditionDetailsModel pageFilterModel)
         {
             var responseModel = new PrintingEditionModel();
 
@@ -55,15 +54,16 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel.Items);
         }
         [HttpPost("printingEditions/admin")]
-        public async Task<IActionResult> GetAdminPrintingEditionAsync([FromBody]AdminFilterModel filterModel)
+        public async Task<IActionResult> PrintingEditionsAdminAsync([FromBody]FilterPrintingditionModel filterModel)
         {
             var responseModel = new PrintingEditionModel();
-            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
+            var isAdmin = User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin);
+            if (!isAdmin)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidToken);
                 return Ok(responseModel);
             }
-            var result = await _printingEditionService.GetAdminPrintingEditionsListAsync(responseModel, filterModel);
+            var result = await _printingEditionService.GetAdminPrintingEditionsListAsync(responseModel, filterModel, isAdmin);
 
             return Ok(result.Items);
         }
