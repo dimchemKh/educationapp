@@ -15,7 +15,7 @@ namespace EducationApp.BusinessLayer.Models.Filters.Base
         public BaseFilterModel()
         {
             SortState = Enums.SortState.Asc;
-            SortType = Enums.SortType.Id;
+            SortType = Enums.SortType.Name;
             PageSize = 6;
             Page = 1;
         }

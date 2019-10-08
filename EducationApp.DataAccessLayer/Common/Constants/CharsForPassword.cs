@@ -11,6 +11,13 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const string UppercaseChars = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
             public const string LowercaseChars = "abcdefghijkmnopqrstuvwxyz";
             public const string DigitChars = "0123456789";
+
+            public static readonly string[] ListCharsForPassword = new string[]
+            {
+                LowercaseChars,
+                UppercaseChars,
+                DigitChars
+            };
         }
     }
 

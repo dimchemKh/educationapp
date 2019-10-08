@@ -1,4 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
+using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using System.Net;
 using System.Net.Mail;
@@ -8,10 +9,10 @@ namespace EducationApp.BusinessLayer.Helpers
 {
     public class EmailHelper : IEmailHelper
     {
-        private readonly SmtpClient _smtpClient = new SmtpClient("smtp.mailtrap.io", 2525);
-        private readonly NetworkCredential _networkCredential = new NetworkCredential("beb858dd98302d", "f2b28f22609ec7");
+        private readonly SmtpClient _smtpClient = new SmtpClient(Constants.SmtpSettings.SmtpHost, Constants.SmtpSettings.SmtpPort);
+        private readonly NetworkCredential _networkCredential = new NetworkCredential(Constants.SmtpSettings.NetCredentialName, Constants.SmtpSettings.NetCredentialPass);
         private readonly MailMessage _mailMessage = new MailMessage();
-        public async Task SendMailAsync(ApplicationUser user, string subject, string body)
+        public async Task SendMailAsync(string userEmail, string subject, string body)
         {
             _smtpClient.Credentials = _networkCredential;
             _smtpClient.EnableSsl = true;
@@ -22,8 +23,8 @@ namespace EducationApp.BusinessLayer.Helpers
             _mailMessage.Body = body;
             _mailMessage.IsBodyHtml = true;
 
-            _mailMessage.From = new MailAddress("from@example.com");
-            _mailMessage.To.Add(new MailAddress(user.Email));
+            _mailMessage.From = new MailAddress(Constants.SmtpSettings.TestEmail);
+            _mailMessage.To.Add(new MailAddress(userEmail));
 
             await _smtpClient.SendMailAsync(_mailMessage);
         }

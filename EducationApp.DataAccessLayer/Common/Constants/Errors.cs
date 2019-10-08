@@ -7,14 +7,16 @@
             public const string TokenExpire = "RefreshToken expired!";
             public const string InvalidEmail = "Email not found";
             public const string IsExistedUser = "User is created";
-            public const string UserNull = "User is null";
-            public const string InvalidIdOrToken = "Get invalid confirm id or token";
+            public const string UserNotFound = "User not found";
+            public const string InvalidIdOrToken = "Get invalid confirmId or token";
             public const string InvalidData = "Invalid input data";
-            public const string InvalidConfirmPassword = "Invalid confirm password";
+            public const string InvalidPassword = "Invalid password";
             public const string InvalidToken = "Invalid token";
-            public const string InvalidModel = "Get invalid model";
+            public const string InvalidDataFromClient = "Invalid Data From Client";
             public const string IsExistedPrintingEdition = "Printing Edition is existed";
             public const string ReturnNull = "return null";
+
+            public const long NotFindUserId = 0;
         }
     }
 }

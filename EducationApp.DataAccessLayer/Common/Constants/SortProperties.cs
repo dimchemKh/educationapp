@@ -11,6 +11,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
         {
             public const string Id = "Id";
             public const string Name = "Name";
+            public const string Email = "Email";
             public const string Price = "Price";
             public const string Date = "Date";
             public const string PrintingEditionType = "Type";

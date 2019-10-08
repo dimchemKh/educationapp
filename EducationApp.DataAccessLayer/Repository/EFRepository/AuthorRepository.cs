@@ -25,7 +25,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             foreach (var item in query)
             {
-                printingEditionsList.Add(item.PrintingEdition.Name);
+                printingEditionsList.Add(item.PrintingEdition.Title);
             }
             return printingEditionsList;
         }

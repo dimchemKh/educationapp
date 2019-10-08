@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationApp.DataAccessLayer.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +15,16 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const decimal JPYtoUSD = 0.00933787m;
             public const decimal UAHtoUSD = 0.0403064m;
             public const decimal USDtoUSD = 1.0m;
+
+            public static readonly Dictionary<Enums.Currency, decimal> ConverterList = new Dictionary<Enums.Currency, decimal>()
+            {
+                { Enums.Currency.CHF, CHFtoUSD },
+                { Enums.Currency.EUR, EURtoUSD },
+                { Enums.Currency.GBP, GBPtoUSD },
+                { Enums.Currency.JPY, JPYtoUSD },
+                { Enums.Currency.UAH, UAHtoUSD },
+                { Enums.Currency.USD, USDtoUSD }
+            };
         }
     }
 }

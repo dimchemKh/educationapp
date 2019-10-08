@@ -10,14 +10,14 @@ namespace EducationApp.DataAccessLayer.Repository.Base.Interfaces
 {
     public interface IBaseEFRepository<TEntity> where TEntity : BaseEntity
     {
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(long id);
         IQueryable<TEntity> ReadAll();
         IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate);
         Task CreateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
         Task EditAsync(TEntity entity);
         Task SaveAsync();
-        IEnumerable<TEntity> FilteringPage(int page, int pageSize, IQueryable<TEntity> entities);
+        Task<IEnumerable<TEntity>> FilteringPage(int page, int pageSize, IQueryable<TEntity> entities);
         IQueryable<TEntity> FilteringByProperty(Enums.SortType sortType, Enums.SortState sortState, IQueryable<TEntity> entities);
     }
 }

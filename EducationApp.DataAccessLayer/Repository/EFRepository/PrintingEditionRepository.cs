@@ -22,7 +22,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
         public async Task<bool> IsExistedPrintingEdition(string printingEditionName)
         {
-            if(await _context.PrintingEditions.Where(x => x.Name == printingEditionName).AnyAsync())
+            if(await _context.PrintingEditions.Where(x => x.Title == printingEditionName).AnyAsync())
             {
                 return true;
             }
@@ -36,13 +36,13 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             }
             if (!string.IsNullOrWhiteSpace(searchByWord))
             {
-                printingEditions = GetWhere(x => x.Name.Contains(searchByWord));
+                printingEditions = ReadWhere(x => x.Title.Contains(searchByWord));
             }
             return printingEditions;
         }
         public IQueryable<PrintingEdition> FilteringByTypes (ICollection<Enums.PrintingEditionType> types, IQueryable<PrintingEdition> printingEditions)
         {          
-            return printingEditions.Where(x => types.Contains(x.Type));
+            return printingEditions.Where(x => types.Contains(x.PrintingEditionType));
         }
         public IQueryable<PrintingEdition> FilteringByPrice(IDictionary<Enums.RangePrice, decimal> rangePrice, IQueryable<PrintingEdition> printingEditions)
         {

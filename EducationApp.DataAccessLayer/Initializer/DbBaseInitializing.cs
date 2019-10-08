@@ -54,29 +54,29 @@ namespace EducationApp.DataAccessLayer.Initializer
         {
             var printingEdition1 = new PrintingEdition()
             {
-                Name = "Avto buisness",
+                Title = "Avto buisness",
                 Description = "Some description",
                 Price = 100,
                 CreationDate = DateTime.Now,
-                Type = Enums.PrintingEditionType.Book,
+                PrintingEditionType = Enums.PrintingEditionType.Book,
                 Currency = Enums.Currency.USD
             };
             var printingEdition2 = new PrintingEdition()
             {
-                Name = "New business",
+                Title = "New business",
                 Description = "Some description",
                 Price = 20,
                 CreationDate = DateTime.Now,
-                Type = Enums.PrintingEditionType.Newspaper,
+                PrintingEditionType = Enums.PrintingEditionType.Newspaper,
                 Currency = Enums.Currency.USD
             };
             var printingEdition3 = new PrintingEdition()
             {
-                Name = "Concepts",
+                Title = "Concepts",
                 Description = "Some description",
                 Price = 80,
                 CreationDate = DateTime.Now,
-                Type = Enums.PrintingEditionType.Journal,
+                PrintingEditionType = Enums.PrintingEditionType.Journal,
                 Currency = Enums.Currency.USD
             };
 

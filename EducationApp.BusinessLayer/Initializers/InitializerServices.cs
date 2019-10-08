@@ -46,19 +46,20 @@ namespace EducationApp.BusinessLayer.Initializers
             services.AddScoped<IAuthorService, AuthorService>();
             
 
-            services.AddScoped<IEmailHelper, EmailHelper>();
-            services.AddScoped<IPasswordHelper, PasswordHelper>();
+            services.AddTransient<IEmailHelper, EmailHelper>();
+            services.AddTransient<IPasswordHelper, PasswordHelper>();
             services.AddTransient<IConverterHelper, ConverterHelper>();
+            services.AddTransient<IMapperHelper, MapperHelper>();
 
             #endregion
 
             #region Repositories
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
-            services.AddScoped<IAuthorRepository, AuthorRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderItemRepository, OrderItemRepository>();
 
             #endregion
 

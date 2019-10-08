@@ -21,7 +21,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(long id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
@@ -53,7 +53,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             await _context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<TEntity>> GetPage(int page, int pageSize, IQueryable<TEntity> entities)
+        public async Task<IEnumerable<TEntity>> FilteringPage(int page, int pageSize, IQueryable<TEntity> entities)
         {
             return await entities.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         }

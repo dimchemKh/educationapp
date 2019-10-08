@@ -46,7 +46,7 @@ namespace EducationApp.BusinessLayer.Services
         public OrderModel GetUsersOrdersForAdmin(OrderModel orderModel, FilterOrderModel filterModel)
         {
             var ordersList = _orderRepository.ReadAll();
-            ordersList = ordersList.Where(x => filterModel.TransactionStatus == x.Status);
+            //ordersList = ordersList.Where(x => filterModel.TransactionStatus == x.Status);
 
             //var filteringList = _sorterHelper.Sorting(filterModel.SortType, ordersList);
 
@@ -68,7 +68,7 @@ namespace EducationApp.BusinessLayer.Services
         {
             if (orderModelItem == null)
             {
-                orderModel.Errors.Add(Constants.Errors.InvalidModel);
+                orderModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
                 return orderModel;
             } 
             if (orderModelItem.Currency == Enums.Currency.None
@@ -95,9 +95,8 @@ namespace EducationApp.BusinessLayer.Services
 
             var order = new Order()
             {
-                Date = DateTime.Now,
                 Amount = orderModelItem.Amount,
-                User = await _userRepository.GetUserByIdAsync(orderModelItem.User.UserId.ToString()),
+                User = await _userRepository.GetUserByIdAsync(orderModelItem.User.UserId),
                 OrderItems = orderItemsList
             };
 

@@ -7,32 +7,22 @@ namespace EducationApp.BusinessLayer.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
-        public decimal Converting(Enums.Currency fromCurrency, Enums.Currency toCurrency, decimal sum)
+        public decimal Converting(Enums.Currency fromCurrency, Enums.Currency toCurrency, decimal result)
         {
-            var converterList = new Dictionary<Enums.Currency, decimal>()
-            {
-                { Enums.Currency.CHF, Constants.CurrencyRates.CHFtoUSD },
-                { Enums.Currency.EUR, Constants.CurrencyRates.EURtoUSD },
-                { Enums.Currency.GBP, Constants.CurrencyRates.GBPtoUSD },
-                { Enums.Currency.JPY, Constants.CurrencyRates.JPYtoUSD },
-                { Enums.Currency.UAH, Constants.CurrencyRates.UAHtoUSD },
-                { Enums.Currency.USD, Constants.CurrencyRates.USDtoUSD }
-
-            };
-            decimal from = 0;
-            decimal to = 0;
-            foreach (var item in converterList)
+            decimal valueFrom = 0;
+            decimal valueTo = 0;
+            foreach (var item in Constants.CurrencyRates.ConverterList)
             {
                 if(item.Key == fromCurrency)
                 {
-                    from = item.Value;
+                    valueFrom = item.Value;
                 };
                 if(item.Key == toCurrency)
                 {
-                    to = item.Value;
+                    valueTo = item.Value;
                 };
             }
-            return from / to * sum;
+            return valueFrom / valueTo * result;
         }
     }    
 }

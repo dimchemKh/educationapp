@@ -8,6 +8,6 @@ namespace EducationApp.BusinessLayer.Helpers.Interfaces
 {
     public interface IEmailHelper
     {
-        Task SendMailAsync(ApplicationUser user, string subject, string body);
+        Task SendMailAsync(string userEmail, string subject, string body);
     }
 }

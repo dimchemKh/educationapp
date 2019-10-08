@@ -25,7 +25,7 @@ namespace EducationApp.BusinessLayer.Services
         {
             if(filterModel == null)
             {
-                authorModel.Errors.Add(Constants.Errors.InvalidModel);
+                authorModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
                 return authorModel;
             }
             if(filterModel.SortState == Enums.SortState.None)
@@ -35,7 +35,7 @@ namespace EducationApp.BusinessLayer.Services
             }
 
             var listAuthors = _authorRepository.ReadAll();
-            var newlistAuthors = _authorRepository.FilteringPage(filterModel.Page, (int)filterModel.PageSize, listAuthors);
+            var newlistAuthors = await _authorRepository.FilteringPage(filterModel.Page, (int)filterModel.PageSize, listAuthors);
 
             foreach (var item in newlistAuthors)
             {
@@ -49,17 +49,17 @@ namespace EducationApp.BusinessLayer.Services
             var authorModel = new AuthorModel();
             if(authorModelItem == null)
             {
-                authorModel.Errors.Add(Constants.Errors.InvalidModel);
+                authorModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
                 return authorModel;
             }
-            if (string.IsNullOrWhiteSpace(authorModelItem.Name))
+            if (string.IsNullOrWhiteSpace(authorModelItem.AuthorName))
             {
                 authorModel.Errors.Add(Constants.Errors.InvalidData);
                 return authorModel;
             }
             var author = new Author()
             {
-                Name = authorModelItem.Name
+                Name = authorModelItem.AuthorName
             };
             await _authorRepository.CreateAsync(author);
             await _authorRepository.SaveAsync();
@@ -81,10 +81,10 @@ namespace EducationApp.BusinessLayer.Services
             var authorModel = new AuthorModel();
             if(authorModelItem == null)
             {
-                authorModel.Errors.Add(Constants.Errors.InvalidModel);
+                authorModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
                 return authorModel;
             }
-            if(authorModelItem.Name == null)
+            if(authorModelItem.AuthorName == null)
             {
                 authorModel.Errors.Add(Constants.Errors.InvalidData);
                 return authorModel;

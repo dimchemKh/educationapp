@@ -1,4 +1,5 @@
-﻿using EducationApp.BusinessLayer.Models.Users;
+﻿using EducationApp.BusinessLayer.Models.Filters;
+using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities.Enums;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
@@ -20,67 +21,61 @@ namespace EducationApp.PresentationLayer.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
-        }
-        
+        }        
+        [Authorize(Roles = Constants.Roles.User)]
         [HttpPost("getMe")]
         public async Task<IActionResult> GetUserAsync()
         {
-            var responseModel = new UserModel();
+            var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;             
+            var responseModel = await _userService.GetUserAsync(userId);
 
-            var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
-             
-            await _userService.GetUserAsync(userId, responseModel);
-
-            return Ok(responseModel.Items);
+            return Ok(responseModel);
         }
-
+        [Authorize]
         [HttpPost("edit")]
-        public async Task<IActionResult> EditUserProfileAsync([FromBody]UserEditModel userModel)
-        {
+        public async Task<IActionResult> EditProfileAsync([FromBody]UserEditModel userModel)
+        {           
             var responseModel = await _userService.EditUserProfileAsync(userModel);
-            if (responseModel.Errors.Any())
+
+            if (!responseModel.Errors.Any())
             {
-                return Ok(responseModel.Errors);
+                return Ok(responseModel);
             }
             return Ok();
         }
-
-        [HttpPost("getMe/users")]
-        public async Task<IActionResult> GetUsersAsync()
+        [Authorize(Roles = Constants.Roles.Admin)]
+        [HttpPut("edit")]
+        public async Task<IActionResult> EditUserProfileAsync([FromBody]UserEditModel userModel)
         {
-            var responseModel = new UserModel();
-            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
+            var isAdmin = User.IsInRole(Constants.Roles.Admin);
+            var responseModel = await _userService.EditUserProfileAsync(userModel, isAdmin);
+            if (!responseModel.Errors.Any())
             {
-                responseModel.Errors.Add(Constants.Errors.InvalidToken);
                 return Ok(responseModel);
             }
-
-            return Ok(await _userService.GetAllUsersAsync(responseModel));
+            return Ok();
         }
-        [HttpPost("getMe/users")]
-        public async Task<IActionResult> GetUsersAsync(string userName)
+        //[Authorize(Roles = Constants.Roles.Admin)]
+        [HttpPost("getUsers")]
+        public async Task<IActionResult> GetUsersAsync([FromBody]FilterUserModel filterUserModel)
         {
-            var responseModel = new UserModel();
-            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidToken);
-                return Ok(responseModel);
-            }
+            var responseModel = await _userService.GetUsersAsync(filterUserModel);
 
-            return Ok(await _userService.GetAllUsersAsync(responseModel, userName));
+            return Ok(responseModel);
         }
-        [HttpPut("getMe/users/{id}")]
+        [Authorize(Roles = Constants.Roles.Admin)]
+        [HttpPut("getUsers/{userId}")]
         public async Task<IActionResult> BlockUserAsync(string userId, Enums.IsBlocked isBlocked)
         {
-            var responseModel = new UserModel();
-            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidToken);
-                return Ok(responseModel);
-            }
-
-            return Ok(await _userService.BlockUserAsync(userId, isBlocked, responseModel));
+            var result = await _userService.BlockUserAsync(userId, isBlocked);
+            return Ok(result);
         }
-
+        [Authorize(Roles = Constants.Roles.Admin)]
+        [HttpDelete("getUsers/{userId}")]
+        public async Task<IActionResult> DeleteUserAsync(string userId)
+        {
+            var result = await _userService.DeleteUserAsync(userId);
+            return Ok(result);
+        }
     }
 }
