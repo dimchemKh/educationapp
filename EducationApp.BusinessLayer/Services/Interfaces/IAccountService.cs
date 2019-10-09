@@ -14,8 +14,9 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
         Task<AuthModel> SignInAsync(UserLoginModel loginModel);
         Task<UserRegistrationModel> ConfirmEmailAsync(string userId, string token);
         Task<bool> ResetPasswordAsync(long userId);
-        Task<string> GetRoleAsync(string userId);
+        //Task<string> GetRoleAsync(string userId);
         Task SendRegistrationMailAsync(long userId, string callbackUrl);
-        Task<string> GetUserNameAsync(string userId);
+        //Task<string> GetUserNameAsync(string userId);
+        Task<AuthModel> IdentifyUser(AuthModel authModel);
     }
 }

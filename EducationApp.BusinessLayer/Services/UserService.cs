@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-using EducationApp.DataAccessLayer.Repository.Models;
-
+using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 namespace EducationApp.BusinessLayer.Services
 {
     public class UserService : IUserService
@@ -23,10 +19,10 @@ namespace EducationApp.BusinessLayer.Services
             _userRepository = userRepository;
             _mapperHelper = mapperHelper;
         }
-        public async Task<UserModel> DeleteUserAsync(string userId)
+        public async Task<UserModel> DeleteUserAsync(long userId)
         {
             var responseModel = new UserModel();
-            var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
+            var user = await _userRepository.GetUserByIdAsync(userId);
             if (user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
@@ -40,70 +36,74 @@ namespace EducationApp.BusinessLayer.Services
         public async Task<UserEditModel> EditUserProfileAsync(UserEditModel userModel, bool isAdmin = false)
         {
             var responseModel = new UserEditModel();
-            var user = await _userRepository.GetUserByIdAsync(long.Parse(userModel.Email));
-            if (!await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword) && !isAdmin)
+            var user = await _userRepository.GetUserByIdAsync(userModel.Id);
+            if (string.IsNullOrWhiteSpace(userModel.CurrentPassword))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidPassword);
                 return responseModel;
             }
-            if (isAdmin)
+            if (!await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword))
             {
-                user.FirstName = userModel.FirstName;
-                user.LastName = userModel.LastName;
-                user.UserName = userModel.FirstName + user.LastName;
+                responseModel.Errors.Add(Constants.Errors.InvalidPassword);
+                return responseModel;
             }
-            if (!isAdmin)
+
+            user = _mapperHelper.MapToEntity(userModel, user);
+            
+            if (string.IsNullOrWhiteSpace(userModel.NewPassword) && string.IsNullOrWhiteSpace(userModel.ConfirmNewPassword) 
+                || userModel.NewPassword != userModel.ConfirmNewPassword && !isAdmin)
             {
-                user.FirstName = userModel.FirstName;
-                user.LastName = userModel.LastName;
-                user.Email = userModel.Email;
-                user.UserName = userModel.FirstName + user.LastName;
+                responseModel.Errors.Add(Constants.Errors.InvalidPassword);
+                return responseModel;
             }
-            if (!string.IsNullOrWhiteSpace(userModel.NewPassword) && !string.IsNullOrWhiteSpace(userModel.ConfirmNewPassword) 
-                && userModel.NewPassword == userModel.ConfirmNewPassword && !isAdmin)
+            var result = await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword);
+            
+            if (!result.Succeeded)
             {
-                await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword);
+                result.Errors.ToList().ForEach(x => responseModel.Errors.Add(x.Description));
+                return responseModel;
             }
             await _userRepository.UpdateUserAsync(user);
             return responseModel;
         }
-        // TODO: Need add filtering?
+        
         public async Task<UserModel> GetUsersAsync(FilterUserModel filterModel)
         {
             var userModel = new UserModel();           
-            var repModel = new UserRepositoryModel();
-            var responseModel = new UserModelItem();
+            var repositoryModel = new DataFilter.FilterUserModel();
+            var userModelItem = new UserModelItem();
 
-            repModel = _mapperHelper.Map(filterModel, repModel);
+            repositoryModel = _mapperHelper.MapToModelItem(filterModel, repositoryModel);
 
-            var filteringUsers = await _userRepository.Filtering(repModel);
-
+            var filteringUsers = await _userRepository.Filtering(repositoryModel);
+            if(filteringUsers == null)
+            {
+                userModel.Errors.Add(Constants.Errors.InvalidFiltteringData);
+                return userModel;
+            }
             foreach (var user in filteringUsers)
             {
-                responseModel = _mapperHelper.Map(user, responseModel);
-                userModel.Items.Add(responseModel);
-            }
-
-            //userModel.Items = _mapperHelper.MapEntitiesToModel(filteringUsers, userModel.Items);           
-
+                userModelItem = _mapperHelper.MapToModelItem(user, userModelItem);
+                userModel.Items.Add(userModelItem);
+            }          
             return userModel;
         }
-        public async Task<UserModel> BlockUserAsync(string userId, Enums.IsBlocked isBlocked)
+        public async Task<UserModel> BlockUserAsync(long userId, bool isBlocked)
         {
             var responseModel = new UserModel();
-            var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
+            var user = await _userRepository.GetUserByIdAsync(userId);
             if(user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-            if (isBlocked == Enums.IsBlocked.True)
-            {
-                user.LockoutEnabled = false;
-            }
-            if (isBlocked == Enums.IsBlocked.False)
+            if (isBlocked)
             {
                 user.LockoutEnabled = true;
+            }
+            if (!isBlocked)
+            {
+                user.LockoutEnabled = false;
             }
             await _userRepository.UpdateUserAsync(user);
             return responseModel;
@@ -121,10 +121,7 @@ namespace EducationApp.BusinessLayer.Services
             var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
             // Need Map
 
-            userModel.UserId = user.Id.ToString();
-            userModel.FirstName = user.FirstName;
-            userModel.LastName = user.LastName;
-            userModel.Email = user.Email;
+            userModel = _mapperHelper.MapToModelItem(user, userModel);
 
             return userModel;
         }

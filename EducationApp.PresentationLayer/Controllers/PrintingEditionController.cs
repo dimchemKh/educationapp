@@ -23,60 +23,41 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [AllowAnonymous]
         [HttpPost("printingEditions")]
-        public async Task<IActionResult> PrintingEditionsAsync([FromBody]FilterPrintingditionModel filterModel)
-        {
-            var responseModel = new PrintingEditionModel();
-            var result = await _printingEditionService.GetUsersPrintingEditionsListAsync(responseModel, filterModel);
+        public async Task<IActionResult> PrintingEditionsAsync([FromBody]FilterPrintingEditionModel filterModel)
+        {            
+            var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel);
 
-            return Ok(result.Items);
+            return Ok(responseModel);
         }
-        [HttpPost("addNewProduct")]
-        public async Task<IActionResult> AddNewProductAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
-        {
-            var responseModel = new PrintingEditionModel();
-            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidToken);
-                return Ok(responseModel);
-            }
-            responseModel = await _printingEditionService.AddNewPrintingEditionAsync(printingEditionsModelItem);
+        [Authorize(Roles = Constants.Roles.Admin)]
+        [HttpPost("createPrintingEdition")]
+        public async Task<IActionResult> CreatePrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
+        {          
+            var responseModel = await _printingEditionService.CreatePrintingEditionAsync(printingEditionsModelItem);
 
             return Ok(responseModel);
         }
         [AllowAnonymous]
         [HttpPost("printingEditionPage")]
-        public async Task<IActionResult> GetPrintingEditionPageAsync([FromBody]FilterPrintingEditionDetailsModel pageFilterModel)
-        {
-            var responseModel = new PrintingEditionModel();
+        public async Task<IActionResult> GetPrintingEditionDetailsAsync([FromBody]FilterPrintingEditionDetailsModel pageFilterModel)
+        {            
+            var responseModel = await _printingEditionService.GetPrintingEditionDetailsAsync(pageFilterModel);
 
-            responseModel = await _printingEditionService.GetUserPrintingEditionPageAsync(responseModel, pageFilterModel);
-
-            return Ok(responseModel.Items);
+            return Ok(responseModel);
         }
+        [Authorize(Roles = Constants.Roles.Admin)]
         [HttpPost("printingEditions/admin")]
-        public async Task<IActionResult> PrintingEditionsAdminAsync([FromBody]FilterPrintingditionModel filterModel)
+        public async Task<IActionResult> PrintingEditionsAdminAsync([FromBody]FilterPrintingEditionModel filterModel)
         {
-            var responseModel = new PrintingEditionModel();
-            var isAdmin = User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin);
-            if (!isAdmin)
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidToken);
-                return Ok(responseModel);
-            }
-            var result = await _printingEditionService.GetAdminPrintingEditionsListAsync(responseModel, filterModel, isAdmin);
+            var responseModel = new PrintingEditionModel();  //await _printingEditionService.GetAdminPrintingEditionsListAsync(filterModel);
 
-            return Ok(result.Items);
+            return Ok(responseModel);
         }
+        [Authorize(Roles = Constants.Roles.Admin)]
         [HttpPut("printingEditions/admin")]
         public async Task<IActionResult> EditPrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
         {
-            var responseModel = new PrintingEditionModel();
-            if (!User.Claims.First(role => role.Type == ClaimTypes.Role).Value.Contains(Constants.Roles.Admin))
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidToken);
-                return Ok(responseModel);
-            }
-            responseModel = await _printingEditionService.EditPrintingEditionAsync(printingEditionsModelItem);
+            var responseModel = await _printingEditionService.EditPrintingEditionAsync(printingEditionsModelItem);
 
             return Ok(responseModel);
         }

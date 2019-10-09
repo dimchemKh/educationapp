@@ -9,7 +9,7 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
 {
     public class PrintingEditionModelItem
     {
-        public long PrintingEditionId { get; set; }
+        public long Id { get; set; }
         public string Title { get; set; }
         public Enums.PrintingEditionType PrintingEditionType { get; set; }
         public Enums.Currency Currency { get; set; }
@@ -17,7 +17,7 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
         public decimal Price { get; set; }
         public string Description { get; set; }
         
-        public IList<int> AuthorsId { get; set; }
+        public IList<long> AuthorsId { get; set; }
         public ICollection<string> AuthorsNames { get; set; }
     }
 }

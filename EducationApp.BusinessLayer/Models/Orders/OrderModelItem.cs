@@ -9,7 +9,7 @@ namespace EducationApp.BusinessLayer.Models.Orders
 {
     public class OrderModelItem
     {
-        public long OrderId { get; set; }
+        public long Id { get; set; }
         public DateTime OrderTime { get; set; }
         public Enums.Currency Currency { get; set; }
         public decimal Amount { get; set; }

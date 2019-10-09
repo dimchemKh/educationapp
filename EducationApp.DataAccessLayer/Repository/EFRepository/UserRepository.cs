@@ -1,17 +1,14 @@
-﻿using EducationApp.DataAccessLayer.AppContext;
-using EducationApp.DataAccessLayer.Common.Constants;
+﻿using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Entities.Base;
-using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using EducationApp.DataAccessLayer.Repository.Models;
 using System;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using EducationApp.DataAccessLayer.Models.Filters;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
@@ -77,9 +74,13 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var user = await _userManager.FindByIdAsync(userId.ToString());
             return user ?? null;
         }
-        public async Task ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
+        public async Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
         {
-            await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);        
+            if (currentPassword.Equals(newPassword))
+            {
+                return IdentityResult.Failed(new IdentityError { Description = Constants.Errors.SamePasswords });
+            }
+            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
         }
         public async Task<string> GenerateResetPasswordTokenAsync(long userId)
         {
@@ -91,7 +92,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
         }
-        public async Task<IEnumerable<ApplicationUser>> Filtering(UserRepositoryModel model)
+        public async Task<IEnumerable<ApplicationUser>> Filtering(FilterUserModel model)
         {
             IQueryable<ApplicationUser> listUsers = null;
 
@@ -104,23 +105,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 listUsers = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchByBody)
                 || user.LastName.Contains(model.SearchByBody));
             }
-             
-            if(model.Blocked.Count == 2)
-            {
-                listUsers = listUsers.Where(x => x.LockoutEnabled == true || x.LockoutEnabled == false);
-            }
-            if (model.Blocked.Count == 1 && model.Blocked.Contains(Entities.Enums.Enums.IsBlocked.True))
-            {
-                listUsers = listUsers.Where(x => x.LockoutEnabled == false);
-            }
-            if (model.Blocked.Count == 1 && model.Blocked.Contains(Entities.Enums.Enums.IsBlocked.False))
-            {
-                listUsers = listUsers.Where(x => x.LockoutEnabled == true);
-            }
 
             Expression<Func<ApplicationUser, object>> lambda = null;
-
-            if(model.SortType == Entities.Enums.Enums.SortType.Name)
+            if (model.SortType == Entities.Enums.Enums.SortType.Name)
             {
                 lambda = x => x.UserName;
             }
@@ -128,6 +115,16 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 lambda = x => x.Email;
             }
+
+            if (model.Blocked.Count == 1 && model.Blocked.Contains(Entities.Enums.Enums.IsBlocked.True))
+            {
+                listUsers = listUsers.Where(x => x.LockoutEnabled == false);
+            }
+            if (model.Blocked.Count == 1 && model.Blocked.Contains(Entities.Enums.Enums.IsBlocked.False))
+            {
+                listUsers = listUsers.Where(x => x.LockoutEnabled == true);
+            }                       
+
             if(model.SortState == Entities.Enums.Enums.SortState.Asc)
             {
                 listUsers = listUsers.OrderBy(lambda);
@@ -136,8 +133,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 listUsers = listUsers.OrderByDescending(lambda);
             }
-
-            return await listUsers.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize).ToListAsync();
+ 
+            return await listUsers.Skip(model.Page - 1 * model.PageSize).Take(model.PageSize).ToListAsync();
         }
     }
 }

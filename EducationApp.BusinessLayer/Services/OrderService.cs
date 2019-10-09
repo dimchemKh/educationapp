@@ -83,7 +83,7 @@ namespace EducationApp.BusinessLayer.Services
 
             foreach (var orderPrintingEdition in orderModelItem.PrintingEditions)
             {
-                var printingEdition = await _printingEditionRepository.GetByIdAsync(orderPrintingEdition.PrintingEditionId);
+                var printingEdition = await _printingEditionRepository.GetByIdAsync(orderPrintingEdition.Id);
                 orderItemsList.Add(new OrderItem()
                 {
                     Currency = orderModelItem.Currency,

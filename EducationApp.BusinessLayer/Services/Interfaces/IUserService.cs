@@ -11,7 +11,7 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
         Task<UserEditModel> EditUserProfileAsync(UserEditModel userModel, bool isAdmin = false);
         Task<UserEditModel> GetUserAsync(string userId);
         Task<UserModel> GetUsersAsync(FilterUserModel filterUserModel);
-        Task<UserModel> DeleteUserAsync(string userId);
-        Task<UserModel> BlockUserAsync(string userId, Enums.IsBlocked isBlocked);
+        Task<UserModel> DeleteUserAsync(long userId);
+        Task<UserModel> BlockUserAsync(long userId, bool isBlocked);
     }
 }

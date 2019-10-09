@@ -15,23 +15,24 @@ namespace EducationApp.PresentationLayer.Helper
 {
     public class JwtHelper : IJwtHelper
     {
-        private List<Claim> GetAccessClaims(AuthModel authModel)
+        private List<Claim> GetAccessClaims(AuthDetailsModel authModel)
         {
+            
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, authModel.UserId),
+                new Claim(ClaimTypes.NameIdentifier, authModel.UserId.ToString()),
                 new Claim(ClaimTypes.Role, authModel.UserRole),
                 new Claim(ClaimTypes.Name, authModel.UserName)
             };
             return claims;
         }
-        private List<Claim> GetRefreshClaims(AuthModel authModel)
+        private List<Claim> GetRefreshClaims(AuthDetailsModel authModel)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, authModel.UserId),
+                new Claim(ClaimTypes.NameIdentifier, authModel.UserId.ToString()),
             };
             return claims;
         }
@@ -51,7 +52,7 @@ namespace EducationApp.PresentationLayer.Helper
         }
         public AuthModel CheckAccess(string token)
         {
-            var authModel = new AuthModel();
+            var authModel = new AuthDetailsModel();
             var refreshToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
 
             if (refreshToken.ValidTo < DateTime.Now)
@@ -59,13 +60,14 @@ namespace EducationApp.PresentationLayer.Helper
                 authModel.Errors.Add(Constants.Errors.TokenExpire);
                 return authModel;
             }
-            authModel.UserId = refreshToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            var value = refreshToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            authModel.UserId = long.Parse(value);
             return authModel;
         }
         public AuthModel Generate(AuthModel authModel, IOptions<Config> configOptions)
         {
-            var accessClaims = GetAccessClaims(authModel);
-            var refreshClaims = GetRefreshClaims(authModel);
+            var accessClaims = GetAccessClaims(authModel as AuthDetailsModel);
+            var refreshClaims = GetRefreshClaims(authModel as AuthDetailsModel);
             authModel.AccessToken = GetToken(accessClaims, configOptions, configOptions.Value.AccessTokenExpiration);
             authModel.RefreshToken = GetToken(refreshClaims, configOptions, configOptions.Value.RefreshTokenExpiration);
             return authModel;

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
@@ -34,28 +34,20 @@ namespace EducationApp.PresentationLayer.Controllers
         [Authorize]
         [HttpPost("edit")]
         public async Task<IActionResult> EditProfileAsync([FromBody]UserEditModel userModel)
-        {           
-            var responseModel = await _userService.EditUserProfileAsync(userModel);
+        {            
+            var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
+            var isAdmin = User.IsInRole(Constants.Roles.Admin);
 
-            if (!responseModel.Errors.Any())
+            userModel.Id = long.Parse(userId);
+
+            var responseModel = await _userService.EditUserProfileAsync(userModel, isAdmin);
+            if (responseModel.Errors.Any())
             {
                 return Ok(responseModel);
             }
             return Ok();
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPut("edit")]
-        public async Task<IActionResult> EditUserProfileAsync([FromBody]UserEditModel userModel)
-        {
-            var isAdmin = User.IsInRole(Constants.Roles.Admin);
-            var responseModel = await _userService.EditUserProfileAsync(userModel, isAdmin);
-            if (!responseModel.Errors.Any())
-            {
-                return Ok(responseModel);
-            }
-            return Ok();
-        }
-        //[Authorize(Roles = Constants.Roles.Admin)]
         [HttpPost("getUsers")]
         public async Task<IActionResult> GetUsersAsync([FromBody]FilterUserModel filterUserModel)
         {
@@ -64,15 +56,15 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPut("getUsers/{userId}")]
-        public async Task<IActionResult> BlockUserAsync(string userId, Enums.IsBlocked isBlocked)
+        [HttpPut("getUsers")]
+        public async Task<IActionResult> BlockUserAsync([FromBody]UserModelItem userModelItem)
         {
-            var result = await _userService.BlockUserAsync(userId, isBlocked);
+            var result = await _userService.BlockUserAsync(userModelItem.Id, userModelItem.LockoutEnabled);
             return Ok(result);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
         [HttpDelete("getUsers/{userId}")]
-        public async Task<IActionResult> DeleteUserAsync(string userId)
+        public async Task<IActionResult> DeleteUserAsync(long userId)
         {
             var result = await _userService.DeleteUserAsync(userId);
             return Ok(result);

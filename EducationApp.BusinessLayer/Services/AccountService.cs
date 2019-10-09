@@ -25,7 +25,7 @@ namespace EducationApp.BusinessLayer.Services
         }
         public async Task<AuthModel> SignInAsync(UserLoginModel loginModel)
         {
-            var authModel = new AuthModel();
+            var authModel = new AuthDetailsModel();
             if (string.IsNullOrWhiteSpace(loginModel.Email) 
                 || string.IsNullOrWhiteSpace(loginModel.Password))
             {
@@ -44,7 +44,7 @@ namespace EducationApp.BusinessLayer.Services
                 authModel.Errors.Add(Constants.Errors.InvalidPassword);
                 return authModel;
             }
-            authModel.UserId = existedUser.Id.ToString();
+            authModel.UserId = existedUser.Id;
             return authModel;
         }
         public async Task<long> GetUserByEmailAsync(string email)
@@ -131,32 +131,19 @@ namespace EducationApp.BusinessLayer.Services
                 $"Please click on <a href =\"" + callbackUrl + "\">this link</a> to confirm your email address is correct. ";
             await _emailHelper.SendMailAsync(user.Email, "ConfirmEmail", body);
         }
-
-        public async Task<string> GetRoleAsync(string userId)
-        {
-            if (string.IsNullOrWhiteSpace(userId))
+        public async Task<AuthModel> IdentifyUser(AuthModel authModel)
+        {            
+            var user = await _userRepository.GetUserByIdAsync(((AuthDetailsModel)authModel).UserId);
+            if(user == null)
             {
-                return null;
+                authModel.Errors.Add(Constants.Errors.UserNotFound);
+                return authModel;
             }
-            var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
             var roles = await _userRepository.GetRoleAsync(user);
-            var role = roles.FirstOrDefault();
+            ((AuthDetailsModel)authModel).UserRole = roles.FirstOrDefault();
+            ((AuthDetailsModel)authModel).UserName = string.Concat(user.FirstName, " ", user.LastName);
 
-            return role;
-        }
-
-        public async Task<string> GetUserNameAsync(string userId)
-        {
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                return null;
-            }
-            var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
-            if (user != null)
-            {
-                return user.UserName;
-            }
-            return string.Empty;
+            return authModel;
         }
     }    
 }

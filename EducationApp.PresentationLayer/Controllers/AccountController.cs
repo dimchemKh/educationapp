@@ -55,9 +55,8 @@ namespace EducationApp.PresentationLayer.Controllers
             {
                 return Ok(authModel);
             }
-            authModel.UserRole = await _accountService.GetRoleAsync(authModel.UserId);
-            authModel.UserName = await _accountService.GetUserNameAsync(authModel.UserId);
-            var result = _jwtHelper.Generate(authModel, _configOptions);            
+            authModel = await _accountService.IdentifyUser((AuthDetailsModel)authModel);
+            var result = _jwtHelper.Generate((AuthDetailsModel)authModel, _configOptions);         
             return Ok(result);
         }
         [AllowAnonymous]
@@ -90,12 +89,11 @@ namespace EducationApp.PresentationLayer.Controllers
         public async Task<IActionResult> SignInAsync([FromBody]UserLoginModel loginModel)
         {
             var authModel = await _accountService.SignInAsync(loginModel);
-            if (!authModel.Errors.Any())
+            if (authModel.Errors.Any())
             {
                 return Ok(authModel);
             }
-            authModel.UserRole = await _accountService.GetRoleAsync(authModel.UserId);
-            authModel.UserName = await _accountService.GetUserNameAsync(authModel.UserId);
+            authModel = await _accountService.IdentifyUser(authModel);
             var result = _jwtHelper.Generate(authModel, _configOptions);
             return Ok(result);
         }         

@@ -63,7 +63,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             {
                 { Enums.SortType.Id, Constants.SortProperties.Id },
                 { Enums.SortType.Name, Constants.SortProperties.Name },
-                { Enums.SortType.Type, Constants.SortProperties.PrintingEditionType },
+                { Enums.SortType.PrintingEditionType, Constants.SortProperties.PrintingEditionType },
                 { Enums.SortType.Price, Constants.SortProperties.Price }
             };
             foreach (var item in list)

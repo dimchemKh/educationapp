@@ -7,7 +7,7 @@ namespace EducationApp.BusinessLayer.Models.Filters
 {
     public class FilterPrintingEditionDetailsModel
     {
-        public long PrintingEditionId { get; set; }
+        public long Id { get; set; }
         public Enums.Currency Currency { get; set; }
     }
 }

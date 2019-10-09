@@ -6,14 +6,14 @@ using System.Text;
 
 namespace EducationApp.BusinessLayer.Models.Filters
 {
-    public class FilterPrintingditionModel : BaseFilterModel
+    public class FilterPrintingEditionModel : BaseFilterModel
     {
         public string SearchByBody { get; set; }
         public Enums.Currency Currency { get; set; }
         public decimal[] RangePrice { get; set; }
         public ICollection<Enums.PrintingEditionType> PrintingEditionTypes { get; set; }
 
-        public FilterPrintingditionModel() : base()
+        public FilterPrintingEditionModel() : base()
         {
             Currency = Enums.Currency.USD;
             RangePrice = new decimal[2] 

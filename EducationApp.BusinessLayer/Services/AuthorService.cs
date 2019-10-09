@@ -52,14 +52,14 @@ namespace EducationApp.BusinessLayer.Services
                 authorModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
                 return authorModel;
             }
-            if (string.IsNullOrWhiteSpace(authorModelItem.AuthorName))
+            if (string.IsNullOrWhiteSpace(authorModelItem.Name))
             {
                 authorModel.Errors.Add(Constants.Errors.InvalidData);
                 return authorModel;
             }
             var author = new Author()
             {
-                Name = authorModelItem.AuthorName
+                Name = authorModelItem.Name
             };
             await _authorRepository.CreateAsync(author);
             await _authorRepository.SaveAsync();
@@ -84,7 +84,7 @@ namespace EducationApp.BusinessLayer.Services
                 authorModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
                 return authorModel;
             }
-            if(authorModelItem.AuthorName == null)
+            if(authorModelItem.Name == null)
             {
                 authorModel.Errors.Add(Constants.Errors.InvalidData);
                 return authorModel;
@@ -92,7 +92,7 @@ namespace EducationApp.BusinessLayer.Services
             var author = await _authorRepository.GetByIdAsync(authorModelItem.Id);
             if(author == null)
             {
-                authorModel.Errors.Add(Constants.Errors.ReturnNull);
+                authorModel.Errors.Add(Constants.Errors.InvalidData);
                 return authorModel;
             }
             await _authorRepository.EditAsync(author);
