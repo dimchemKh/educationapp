@@ -1,5 +1,6 @@
 ﻿using EducationApp.DataAccessLayer.Entities.Base;
 using EducationApp.DataAccessLayer.Entities.Enums;
+using EducationApp.DataAccessLayer.Models.Filters.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,6 @@ namespace EducationApp.DataAccessLayer.Repository.Base.Interfaces
         Task DeleteAsync(TEntity entity);
         Task EditAsync(TEntity entity);
         Task SaveAsync();
-        Task<IEnumerable<TEntity>> FilteringPage(int page, int pageSize, IQueryable<TEntity> entities);
-        IQueryable<TEntity> FilteringByProperty(Enums.SortType sortType, Enums.SortState sortState, IQueryable<TEntity> entities);
+        Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities);
     }
 }

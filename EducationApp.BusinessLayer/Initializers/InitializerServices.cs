@@ -44,6 +44,7 @@ namespace EducationApp.BusinessLayer.Initializers
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPrintingEditionService, PrintingEditionService>();
             services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IOrderService, OrderService>();
             
 
             services.AddTransient<IEmailHelper, EmailHelper>();

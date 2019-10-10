@@ -6,6 +6,6 @@ namespace EducationApp.BusinessLayer.Models.Authors
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public ICollection<string> PrintingEditionsTitles { get; set; }
+        public ICollection<string> PrintingEditionTitles { get; set; }
     }
 }

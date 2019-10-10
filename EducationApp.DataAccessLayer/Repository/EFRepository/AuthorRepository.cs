@@ -1,5 +1,8 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Entities.Enums;
+using EducationApp.DataAccessLayer.Models.Authors;
+using EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -17,17 +20,29 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorRepository(ApplicationContext context) : base(context)
         {            
         }
-        public async Task<ICollection<string>> GetPrintingEditionsInAuthorAsync(Author author)
+        public async Task<IEnumerable<AuthorModel>> FilteringAsync(FilterAuthorModel filter)
         {
-            var query = await _context.AuthorInPrintingEditions.Where(x => x.Author == author).Include(z => z.PrintingEdition).ToListAsync();
+            var authors = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).GroupBy(x => x.Author)
+                                                            .Select(group => new AuthorModel
+                                                            {
+                                                                Id = group.Key.Id,
+                                                                Name = group.Select(x => x.Author.Name).FirstOrDefault(),
+                                                                PrintingEditionTitles = group.Select(x => x.PrintingEdition.Title).ToList()
+                                                            });
 
-            ICollection<string> printingEditionsList = null;
+            Expression<Func<AuthorModel, object>> expression = null;
 
-            foreach (var item in query)
+            if (filter.SortType == Enums.SortType.Id)
             {
-                printingEditionsList.Add(item.PrintingEdition.Title);
+                expression = x => x.Id;
             }
-            return printingEditionsList;
+            if (filter.SortType == Enums.SortType.Name)
+            {
+                expression = x => x.Name;
+            }
+
+            var result = await PaginationAsync(filter, expression, authors);
+            return result;
         }
     }
 }

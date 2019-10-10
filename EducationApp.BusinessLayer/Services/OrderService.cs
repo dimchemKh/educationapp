@@ -20,31 +20,35 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly IUserRepository _userRepository;
         private readonly IPrintingEditionRepository _printingEditionRepository;
+        private readonly IMapperHelper _mapperHelper;
 
         public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IUserRepository userRepository, 
-                        IPrintingEditionRepository printingEditionRepository)
+                        IPrintingEditionRepository printingEditionRepository, IMapperHelper mapperHelper)
         {
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
             _userRepository = userRepository;
             _printingEditionRepository = printingEditionRepository;
+            _mapperHelper = mapperHelper;
         }
-        public async Task<OrderModel> GetUserOrdersAsync(OrderModel orderModel, string userId)
+        public async Task<OrderModel> GetUserOrdersAsync(string userId)
         {
+            var responseModel = new OrderModel();
             var ordersList = _orderItemRepository.ReadAll();
 
             foreach (var order in ordersList)
             {
-                orderModel.Items.Add(new OrderModelItem()
-                {
+                responseModel.Items.Add(new OrderModelItem()
+                { 
                     // TODO:
 
                 });
             }
             return null;
         }
-        public OrderModel GetUsersOrdersForAdmin(OrderModel orderModel, FilterOrderModel filterModel)
+        public OrderModel GetUsersOrdersForAdmin(FilterOrderModel filterModel)
         {
+            var responseModel = new OrderModel();
             var ordersList = _orderRepository.ReadAll();
             //ordersList = ordersList.Where(x => filterModel.TransactionStatus == x.Status);
 
@@ -62,48 +66,49 @@ namespace EducationApp.BusinessLayer.Services
             //        Status = item.Status
             //    });
             //}
-            return orderModel;
+            return responseModel;
         }
-        public async Task<OrderModel> AddOrderAsync(OrderModel orderModel, OrderModelItem orderModelItem)
+        public async Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, long userId)
         {
-            if (orderModelItem == null)
+            var responseModel = new OrderModel();
+
+            if (!orderModelItem.PrintingEditions.Any()
+                || orderModelItem.User.Id == 0)
             {
-                orderModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
-                return orderModel;
-            } 
-            if (orderModelItem.Currency == Enums.Currency.None
-                || orderModelItem.Amount == 0
-                || !orderModelItem.PrintingEditions.Any()
-                || orderModelItem.User.UserId == 0)
-            {
-                orderModel.Errors.Add(Constants.Errors.InvalidData);
-                return orderModel;
+                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                return responseModel;
             }
-            ICollection<OrderItem> orderItemsList = null;
+            var orderItemsList = new List<OrderItem>();
 
             foreach (var orderPrintingEdition in orderModelItem.PrintingEditions)
             {
-                var printingEdition = await _printingEditionRepository.GetByIdAsync(orderPrintingEdition.Id);
-                orderItemsList.Add(new OrderItem()
+                var printingEdition = await _printingEditionRepository.GetByIdAsync(orderPrintingEdition.PrintingEditionId);
+                if (printingEdition == null)
                 {
-                    Currency = orderModelItem.Currency,
-                    Count = orderPrintingEdition.Count,
-                    Amount = orderPrintingEdition.Amount,
-                    PrintingEdition =  printingEdition,
-                });
-            }
+                    responseModel.Errors.Add(Constants.Errors.InvalidData);
+                    return responseModel;
+                }
+                var orderItem = new OrderItem();
 
-            var order = new Order()
-            {
-                Amount = orderModelItem.Amount,
-                User = await _userRepository.GetUserByIdAsync(orderModelItem.User.UserId),
-                OrderItems = orderItemsList
-            };
+                orderItem = _mapperHelper.MapToEntity(orderPrintingEdition, orderItem);
+                
+                orderItemsList.Add(orderItem);
+            }
+            
+            
+            var order = new Order();
+
+            order.Amount = orderModelItem.PrintingEditions.Select(x => x.Amount).Sum();
+            order.User.Id = userId;
+            order.OrderItems = orderItemsList;
+            order.CreationDate = DateTime.Now;
+            
+
 
             await _orderRepository.CreateAsync(order);
             await _orderRepository.SaveAsync();
 
-            return orderModel;
+            return responseModel;
         }
     }
 }

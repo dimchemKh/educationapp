@@ -5,6 +5,7 @@ using EducationApp.DataAccessLayer.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -26,8 +27,8 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             var responseModel = new OrderModel();
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
-
-            return Ok(await _orderService.GetUserOrdersAsync(responseModel, userId));
+            //await _orderService.GetUserOrdersAsync(responseModel, userId);
+            return Ok();
         }
         [HttpPost("usersOrders")]
         public async Task<IActionResult> GetUsersOrdersForAdminAsync([FromBody]FilterOrderModel orderFilterModel)
@@ -43,12 +44,12 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }
-        [HttpPost("addOrder")]
-        public async Task<IActionResult> AddOrderAsync([FromBody]OrderModelItem orderModelItem)
+        [HttpPost("createOrder")]
+        public async Task<IActionResult> CreateOrderAsync([FromBody]OrderModelItem orderModelItem)
         {
-            var responseModel = new OrderModel();
+            var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
 
-            responseModel = await _orderService.AddOrderAsync(responseModel, orderModelItem);
+            var responseModel = await _orderService.CreateOrderAsync(orderModelItem, long.Parse(userId));
 
             return Ok(responseModel);
         }

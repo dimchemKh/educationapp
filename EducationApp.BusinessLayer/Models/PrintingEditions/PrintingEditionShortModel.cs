@@ -7,7 +7,7 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
 {
     public class PrintingEditionShortModel
     {
-        public long Id { get; set; }
+        public long PrintingEditionId { get; set; }
         public string Title { get; set; }
         public int Count { get; set; }
         public decimal Amount { get; set; }

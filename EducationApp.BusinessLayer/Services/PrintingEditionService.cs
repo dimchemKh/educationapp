@@ -11,7 +11,7 @@ using System;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
-using DataModel = EducationApp.DataAccessLayer.Models;
+using DataModel = EducationApp.DataAccessLayer.Models.PrintingEditions;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -37,7 +37,7 @@ namespace EducationApp.BusinessLayer.Services
 
             if (string.IsNullOrWhiteSpace(printingEditionsModelItem.Title) || string.IsNullOrWhiteSpace(printingEditionsModelItem.Description)
                 || printingEditionsModelItem.Currency == Enums.Currency.None || printingEditionsModelItem.PrintingEditionType == Enums.PrintingEditionType.None
-                || printingEditionsModelItem.AuthorsId.Any() || printingEditionsModelItem.Price == 0)
+                || !printingEditionsModelItem.AuthorsId.Any() || printingEditionsModelItem.Price == 0)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
@@ -49,73 +49,78 @@ namespace EducationApp.BusinessLayer.Services
         {
             var responseModel = CheckModel(printingEditionsModelItem);
 
-            var entity = new PrintingEdition();
+            var entity = new DataModel.PrintingEditionModel();
 
             entity = _mapperHelper.MapToEntity(printingEditionsModelItem, entity);
 
-            var boolq = await _printingEditionRepository.IsExistedPrintingEdition(entity);
+            var isExisted = await _printingEditionRepository.IsExistedPrintingEdition(entity);
 
-
-            var printingEdition = new PrintingEdition()
+            if (isExisted)
             {
-                CreationDate = DateTime.Now,
-                Title = printingEditionsModelItem.Title,
-                Description = printingEditionsModelItem.Description,
-                PrintingEditionType = printingEditionsModelItem.PrintingEditionType,
-                Price = printingEditionsModelItem.Price,
-                Currency = printingEditionsModelItem.Currency
-            };                 
-
-            if(await _authorInPrintingEditionRepository.AddToPrintingEditionAuthorsAsync(printingEdition, printingEditionsModelItem.AuthorsId))
-            {
-                await _printingEditionRepository.CreateAsync(printingEdition);
-                await _printingEditionRepository.SaveAsync();
+                responseModel.Errors.Add(Constants.Errors.IsExistedPrintingEdition);
+                return responseModel;
             }
+            var printingEdition = new PrintingEdition();
+
+            printingEdition = _mapperHelper.MapToEntity(printingEditionsModelItem, printingEdition);
+            printingEdition.CreationDate = DateTime.Now;
+            
+            await _authorInPrintingEditionRepository.AddToPrintingEditionAuthorsAsync(printingEdition, printingEditionsModelItem.AuthorsId);
+
+            await _printingEditionRepository.CreateAsync(printingEdition);
+            await _printingEditionRepository.SaveAsync();
+            
             return responseModel;
         }
-        public async Task<PrintingEditionModel> GetPrintingEditionsAsync(FilterPrintingEditionModel filter)
+        public async Task<PrintingEditionModel> GetPrintingEditionsAsync(FilterPrintingEditionModel filter, bool isAdmin = false)
         {
-            var responseModel = new PrintingEditionModel();
+            //PrintingEditionModelItem modelItem = null;
+            //if (!isAdmin)
+            //{
+            //    modelItem = new PrintingEditionModelItem();
+            //}
+            //if (isAdmin)
+            //{
+            //    modelItem = new PrintingEditionForAdminModel();
+            //}
             var modelItem = new PrintingEditionModelItem();
+            var responseModel = new PrintingEditionModel();
             var repositoryFilter = new DataFilter.FilterPrintingEditionModel();
 
-            await _authorInPrintingEditionRepository.GetAuthorsInPEAsync();
             repositoryFilter = _mapperHelper.MapToModelItem(filter, repositoryFilter);
 
-            var list = await _printingEditionRepository.Filtering(repositoryFilter);
+            var printingEditionsList = await _printingEditionRepository.FilteringAsync(repositoryFilter);    
 
-            foreach (var printingEdition in list)
+            foreach (var printingEdition in printingEditionsList)
             {
-                modelItem = _mapperHelper.MapToModelItem(printingEdition, modelItem);
+                modelItem = _mapperHelper.MapToModelItem(printingEdition, modelItem); 
                 responseModel.Items.Add(modelItem);
-            }
-
+            }            
             return responseModel;
         }
 
         public async Task<PrintingEditionModel> GetPrintingEditionDetailsAsync(FilterPrintingEditionDetailsModel filter)
         {
             var responseModel = new PrintingEditionModel();
-                       
+            var itemModel = new PrintingEditionModelItem();
             var printingEdition = await _printingEditionRepository.GetByIdAsync(filter.Id);
 
             if(printingEdition == null)
             {
-                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                responseModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
                 return responseModel;
             }
-            responseModel.Items.Add(new PrintingEditionModelItem()
-            {
-                Id = printingEdition.Id,
-                Title = printingEdition.Title,
-                AuthorsNames = null, //await _printingEditionRepository.GetAuthorsInPrintingEditionAsync(printingEdition),
-                Description = printingEdition.Description,
-                Currency = printingEdition.Currency,
-                Price = _converterHelper.Converting(printingEdition.Currency, filter.Currency, printingEdition.Price)
-            });
+
+            itemModel = _mapperHelper.MapToModelItem(printingEdition, itemModel);
+            
+            var result = await _authorInPrintingEditionRepository.GetAuthorsInOnePEAsync(printingEdition.Id);
+
+            itemModel.AuthorNames.AddRange(result);
+            responseModel.Items.Add(itemModel);
+
             return responseModel;
         }
-        public async Task<PrintingEditionModel> DeletePrintingEditionAsync(int printingEditionId)
+        public async Task<PrintingEditionModel> DeletePrintingEditionAsync(long printingEditionId)
         {
             var responseModel = new PrintingEditionModel();
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionId);
@@ -125,35 +130,23 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidDataFromClient); 
                 return responseModel;
             }
+            await _authorInPrintingEditionRepository.DeleteWhereAsync(x => x.PrintingEditionId == printingEditionId);
             await _printingEditionRepository.DeleteAsync(printingEdition);
+
             return responseModel;
         }
         public async Task<PrintingEditionModel> EditPrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem)
         {
             var responseModel = CheckModel(printingEditionsModelItem);
-            if (string.IsNullOrWhiteSpace(printingEditionsModelItem.Description)
-                || string.IsNullOrWhiteSpace(printingEditionsModelItem.Title)
-                || !printingEditionsModelItem.AuthorsId.Any()
-                || printingEditionsModelItem.Currency == Enums.Currency.None
-                || printingEditionsModelItem.PrintingEditionType == Enums.PrintingEditionType.None
-                || printingEditionsModelItem.Price == 0)
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidData);
-                return responseModel;
-            }
+
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionsModelItem.Id);
 
-            printingEdition.Title = printingEditionsModelItem.Title;
-            printingEdition.Description = printingEditionsModelItem.Description;
-            printingEdition.PrintingEditionType = printingEditionsModelItem.PrintingEditionType;
-            printingEdition.Currency = printingEditionsModelItem.Currency;
-            printingEdition.Price = printingEditionsModelItem.Price;
+            printingEdition = _mapperHelper.MapToEntity(printingEditionsModelItem, printingEdition);
 
-            if(await _authorInPrintingEditionRepository.EditPrintingEditionAuthorsAsync(printingEdition, printingEditionsModelItem.AuthorsId))
-            {
-                await _printingEditionRepository.EditAsync(printingEdition);
-            }
+            await _authorInPrintingEditionRepository.EditPrintingEditionAuthorsAsync(printingEdition, printingEditionsModelItem.AuthorsId);
 
+            await _printingEditionRepository.EditAsync(printingEdition);
+            
             return responseModel;
         }
     }

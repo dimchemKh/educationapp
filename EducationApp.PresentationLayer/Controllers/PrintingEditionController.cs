@@ -24,8 +24,16 @@ namespace EducationApp.PresentationLayer.Controllers
         [AllowAnonymous]
         [HttpPost("printingEditions")]
         public async Task<IActionResult> PrintingEditionsAsync([FromBody]FilterPrintingEditionModel filterModel)
-        {            
+        {
             var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel);
+
+            return Ok(responseModel);
+        }
+        [Authorize(Roles = Constants.Roles.Admin)]
+        [HttpPost("printingEditions/admin")]
+        public async Task<IActionResult> PrintingEditionsAdminAsync([FromBody]FilterPrintingEditionModel filterModel)
+        {
+            var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel, true);
 
             return Ok(responseModel);
         }
@@ -45,19 +53,20 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }
-        [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPost("printingEditions/admin")]
-        public async Task<IActionResult> PrintingEditionsAdminAsync([FromBody]FilterPrintingEditionModel filterModel)
-        {
-            var responseModel = new PrintingEditionModel();  //await _printingEditionService.GetAdminPrintingEditionsListAsync(filterModel);
 
-            return Ok(responseModel);
-        }
         [Authorize(Roles = Constants.Roles.Admin)]
         [HttpPut("printingEditions/admin")]
         public async Task<IActionResult> EditPrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
         {
             var responseModel = await _printingEditionService.EditPrintingEditionAsync(printingEditionsModelItem);
+
+            return Ok(responseModel);
+        }
+        [Authorize(Roles = Constants.Roles.Admin)]
+        [HttpDelete("printingEditions/admin")]
+        public async Task<IActionResult> DeletePrintingEditionAsync([FromBody]FilterPrintingEditionDetailsModel pageModel)
+        {
+            var responseModel = await _printingEditionService.DeletePrintingEditionAsync(pageModel.Id);
 
             return Ok(responseModel);
         }
