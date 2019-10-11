@@ -88,7 +88,9 @@ namespace EducationApp.DataAccessLayer.Repository.Base
                 entities = entities.OrderByDescending(predicate);
             }
             var result = await entities.Skip((baseFilter.Page - 1) * baseFilter.PageSize).Take(baseFilter.PageSize).ToListAsync();
+
             return result;
         }
+       
     }
 }

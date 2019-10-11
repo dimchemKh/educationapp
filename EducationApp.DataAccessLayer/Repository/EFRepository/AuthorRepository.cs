@@ -20,17 +20,17 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorRepository(ApplicationContext context) : base(context)
         {            
         }
-        public async Task<IEnumerable<AuthorModel>> FilteringAsync(FilterAuthorModel filter)
+        public async Task<IEnumerable<DAAuthorModel>> FilteringAsync(FilterAuthorModel filter)
         {
             var authors = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).GroupBy(x => x.Author)
-                                                            .Select(group => new AuthorModel
+                                                            .Select(group => new DAAuthorModel
                                                             {
                                                                 Id = group.Key.Id,
                                                                 Name = group.Select(x => x.Author.Name).FirstOrDefault(),
                                                                 PrintingEditionTitles = group.Select(x => x.PrintingEdition.Title).ToList()
                                                             });
 
-            Expression<Func<AuthorModel, object>> expression = null;
+            Expression<Func<DAAuthorModel, object>> expression = null;
 
             if (filter.SortType == Enums.SortType.Id)
             {

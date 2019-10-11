@@ -24,7 +24,7 @@ namespace EducationApp.PresentationLayer.Controllers
         }        
         [Authorize(Roles = Constants.Roles.User)]
         [HttpPost("getMe")]
-        public async Task<IActionResult> GetUserAsync()
+        public async Task<IActionResult> GetOneUserAsync()
         {
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;             
             var responseModel = await _userService.GetUserAsync(userId);

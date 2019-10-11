@@ -9,11 +9,7 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
     public interface IPrintingEditionRepository : IBaseEFRepository<PrintingEdition>
     {
-        Task<bool> IsExistedPrintingEdition(PrintingEditionModel model);
-        Task<IEnumerable<PrintingEditionForAdminModel>> FilteringAsync(FilterPrintingEditionModel filter);
-        //IQueryable<PrintingEdition> FiteringFromSearchWord(string searchByWord, IQueryable<PrintingEdition> printingEditions);
-        //IQueryable<PrintingEdition> FilteringByTypes(ICollection<Enums.PrintingEditionType> types, IQueryable<PrintingEdition> printingEditions);
-        //IQueryable<PrintingEdition> FilteringByPrice(IDictionary<Enums.RangePrice, decimal> RangePrice, IQueryable<PrintingEdition> printingEditions);
-        //Task<ICollection<string>> GetAuthorsInPrintingEditionAsync(PrintingEdition printingEdition);
+        Task<bool> IsExistedPrintingEdition(DAPrintingEditionModel model);
+        Task<IEnumerable<DAPrintingEditionModel>> FilteringAsync(FilterPrintingEditionModel filter);
     }
 }

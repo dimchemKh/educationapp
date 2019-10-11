@@ -12,7 +12,7 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
 {
     public interface IAuthorRepository : IBaseEFRepository<Author>
     {
-        Task<IEnumerable<AuthorModel>> FilteringAsync(FilterAuthorModel filter);
+        Task<IEnumerable<DAAuthorModel>> FilteringAsync(FilterAuthorModel filter);
 
     }
 }

@@ -49,7 +49,7 @@ namespace EducationApp.BusinessLayer.Services
         {
             var responseModel = CheckModel(printingEditionsModelItem);
 
-            var entity = new DataModel.PrintingEditionModel();
+            var entity = new DataModel.DAPrintingEditionModel();
 
             entity = _mapperHelper.MapToEntity(printingEditionsModelItem, entity);
 

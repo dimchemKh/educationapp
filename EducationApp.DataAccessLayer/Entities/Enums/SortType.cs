@@ -12,7 +12,7 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
             Id = 1,
             Name = 2,
             Email = 3,
-            Status = 5,
+            TransactionStatus = 5,
             PrintingEditionType = 6,
             Price = 7
         }

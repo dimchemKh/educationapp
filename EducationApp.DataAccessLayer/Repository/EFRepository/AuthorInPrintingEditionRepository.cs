@@ -34,20 +34,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 var author = await _context.Authors.FindAsync(authorId);
                 printingEdition.AuthorInPrintingEditions.Add(new AuthorInPrintingEdition() { PrintingEdition = printingEdition, Author = author });
             }
-        }
-        public async Task<IList<PrintingEditionsInAuthorModel>> GetPEsInAuthorAsync(IEnumerable<Author> authors)
-        {
-            var groupList = await _context.AuthorInPrintingEditions.Include(x => x.Author).Include(z => z.PrintingEdition).Where(x => authors.Any(z => z.Id == x.AuthorId))
-                                                                    .GroupBy(x => x.AuthorId)
-                                                                    .Select(group => new PrintingEditionsInAuthorModel
-                                                                    {
-                                                                        Id = group.Key,
-                                                                        Name = group.Select(element => element.Author.Name).FirstOrDefault(),
-                                                                        PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToList()
-                                                                    }).ToListAsync();                
-            
-            return groupList;
-        }
+        }        
         public async Task<IList<string>> GetAuthorsInOnePEAsync(long printingEditionId)
         {
             var list = await _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition)

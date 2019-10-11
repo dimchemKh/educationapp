@@ -49,10 +49,6 @@ namespace EducationApp.BusinessLayer.Services
         }
         public async Task<long> GetUserByEmailAsync(string email)
         {
-            if(string.IsNullOrWhiteSpace(email))
-            {
-                return Constants.Errors.NotFindUserId;
-            }
             var user = await _userRepository.GetUserByEmailAsync(email);
             return user.Id;
         }
@@ -77,7 +73,9 @@ namespace EducationApp.BusinessLayer.Services
             if (existedUser == null)
             {
                 await _userRepository.SignUpAsync(userRegModel.FirstName, userRegModel.LastName, userRegModel.Email, userRegModel.Password);
+                return userModel;
             }
+            userModel.Errors.Add(Constants.Errors.IsExistedUser);
             return userModel;
         }
         public async Task<string> GetEmailConfirmTokenAsync(long userId)

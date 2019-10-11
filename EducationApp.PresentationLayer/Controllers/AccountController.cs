@@ -64,16 +64,12 @@ namespace EducationApp.PresentationLayer.Controllers
         public async Task<IActionResult> SignUpAsync([FromBody]UserRegistrationModel userRegModel)
         {
             var userModel = await _accountService.SignUpAsync(userRegModel);
-            if (!userModel.Errors.Any())
+            if (userModel.Errors.Any())
             {
                 return Ok(userModel);
             }
             var userId = await _accountService.GetUserByEmailAsync(userRegModel.Email);
-            if (userId != Constants.Errors.NotFindUserId)
-            {
-                userModel.Errors.Add(Constants.Errors.IsExistedUser);
-                return Ok(userModel);
-            }
+
             var token = await _accountService.GetEmailConfirmTokenAsync(userId);
             
             var callbackUrl = Url.Action(
@@ -82,7 +78,7 @@ namespace EducationApp.PresentationLayer.Controllers
                 new { userId = userId, token },
                 protocol: HttpContext.Request.Scheme);
             await _accountService.SendRegistrationMailAsync(userId, callbackUrl);
-            return Ok();
+            return Ok(userModel);
         }
         [AllowAnonymous]
         [HttpPost("signIn")]

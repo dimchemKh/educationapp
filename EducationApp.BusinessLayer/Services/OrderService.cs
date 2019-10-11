@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
+using EducationApp.BusinessLayer.Models.OrderItems;
 using EducationApp.BusinessLayer.Models.Orders;
-using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
+using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -21,93 +20,91 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IUserRepository _userRepository;
         private readonly IPrintingEditionRepository _printingEditionRepository;
         private readonly IMapperHelper _mapperHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IUserRepository userRepository, 
-                        IPrintingEditionRepository printingEditionRepository, IMapperHelper mapperHelper)
+                        IPrintingEditionRepository printingEditionRepository, IMapperHelper mapperHelper, IConverterHelper converterHelper)
         {
             _orderRepository = orderRepository;
             _orderItemRepository = orderItemRepository;
             _userRepository = userRepository;
             _printingEditionRepository = printingEditionRepository;
             _mapperHelper = mapperHelper;
+            _converterHelper = converterHelper;
         }
-        public async Task<OrderModel> GetUserOrdersAsync(string userId)
+        public async Task<OrderModel> GetUserOrdersAsync(FilterOrderModel filterOrder, string userId)
         {
             var responseModel = new OrderModel();
-            var ordersList = _orderItemRepository.ReadAll();
 
-            foreach (var order in ordersList)
+            var orderModelItem = new OrderModelItem();
+            var orderItem = new OrderItemModel();
+
+            var repositoryFilter = new DataFilter.FilterOrderModel();
+
+            repositoryFilter = _mapperHelper.MapToModelItem(filterOrder, repositoryFilter);
+
+            var ordersList = await _orderRepository.GetOrdersAsync(repositoryFilter, long.Parse(userId));
+
+            foreach (var item in ordersList)
             {
-                responseModel.Items.Add(new OrderModelItem()
-                { 
-                    // TODO:
-
-                });
+                orderModelItem = _mapperHelper.MapToModelItem(item, orderModelItem);
+                
+                responseModel.Items.Add(orderModelItem);
             }
-            return null;
+            
+            return responseModel;
         }
         public OrderModel GetUsersOrdersForAdmin(FilterOrderModel filterModel)
         {
-            var responseModel = new OrderModel();
-            var ordersList = _orderRepository.ReadAll();
-            //ordersList = ordersList.Where(x => filterModel.TransactionStatus == x.Status);
+            var responseModel = new OrderModel();            
 
-            //var filteringList = _sorterHelper.Sorting(filterModel.SortType, ordersList);
-
-            //var orders = _paginationHelper.Pagination(filteringList, filterModel);
-
-            //foreach (var item in orders)
-            //{
-            //    orderModel.Items.Add(new OrderModelItem()
-            //    {
-            //        OrderId = item.Id,
-            //        OrderTime = item.Date,
-            //        User = new UserShortModel() { UserName = item.User.UserName, Email = item.User.Email },
-            //        Status = item.Status
-            //    });
-            //}
             return responseModel;
         }
         public async Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, long userId)
         {
             var responseModel = new OrderModel();
 
-            if (!orderModelItem.PrintingEditions.Any()
-                || orderModelItem.User.Id == 0)
+            if (!orderModelItem.OrderItems.Any())
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
+
             var orderItemsList = new List<OrderItem>();
 
-            foreach (var orderPrintingEdition in orderModelItem.PrintingEditions)
+            var order = new Order();
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            order.User = user;
+            
+            foreach (var orderPrintingEdition in orderModelItem.OrderItems)
             {
                 var printingEdition = await _printingEditionRepository.GetByIdAsync(orderPrintingEdition.PrintingEditionId);
+
                 if (printingEdition == null)
                 {
                     responseModel.Errors.Add(Constants.Errors.InvalidData);
                     return responseModel;
                 }
+
                 var orderItem = new OrderItem();
 
                 orderItem = _mapperHelper.MapToEntity(orderPrintingEdition, orderItem);
-                
+
+                var price = _converterHelper.Converting(printingEdition.Currency, orderPrintingEdition.Currency, printingEdition.Price);
+                orderItem.Amount = orderItem.Count * price;
+                orderItem.Order = order;
+
                 orderItemsList.Add(orderItem);
-            }
+            }                     
             
+            order.Amount = orderItemsList.Select(x => x.Amount).Sum();
             
-            var order = new Order();
-
-            order.Amount = orderModelItem.PrintingEditions.Select(x => x.Amount).Sum();
-            order.User.Id = userId;
             order.OrderItems = orderItemsList;
-            order.CreationDate = DateTime.Now;
-            
-
+            order.TransactionStatus = DataAccessLayer.Entities.Enums.Enums.TransactionStatus.Unpaid;
+            order.Payment = null;
 
             await _orderRepository.CreateAsync(order);
             await _orderRepository.SaveAsync();
-
             return responseModel;
         }
     }

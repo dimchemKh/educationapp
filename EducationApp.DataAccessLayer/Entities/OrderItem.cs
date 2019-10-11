@@ -9,5 +9,7 @@ namespace EducationApp.DataAccessLayer.Entities
         public Enums.Enums.Currency Currency { get; set; }
         public long PrintingEditionId { get; set; }
         public PrintingEdition PrintingEdition { get; set; }
+        public long OrderId { get; set; }
+        public Order Order { get; set; }
     }
 }

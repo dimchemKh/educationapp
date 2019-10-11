@@ -16,8 +16,4 @@
     <ProjectReference Include="..\EducationApp.BusinessLayer\EducationApp.BusinessLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>
