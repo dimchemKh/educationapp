@@ -5,7 +5,7 @@ using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 namespace EducationApp.BusinessLayer.Services
 {

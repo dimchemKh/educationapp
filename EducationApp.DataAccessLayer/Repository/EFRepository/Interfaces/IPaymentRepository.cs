@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.DataAccessLayer.Repository.Interfaces
+namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
-    public interface IOrderItemRepository : IBaseEFRepository<OrderItem>
+    public interface IPaymentRepository : IBaseEFRepository<Payment>
     {
 
     }

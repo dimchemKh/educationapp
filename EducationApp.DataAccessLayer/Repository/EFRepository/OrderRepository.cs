@@ -1,7 +1,6 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
@@ -12,6 +11,7 @@ using EducationApp.DataAccessLayer.Models.Filters;
 using System.Linq.Expressions;
 using System;
 using EducationApp.DataAccessLayer.Entities.Enums;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {

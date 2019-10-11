@@ -1,6 +1,5 @@
 ﻿using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using System;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using EducationApp.DataAccessLayer.Models.Filters;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {

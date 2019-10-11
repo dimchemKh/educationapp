@@ -1,14 +1,12 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using EducationApp.DataAccessLayer.Entities.Base;
-using EducationApp.DataAccessLayer.Models;
 using System;
 using System.Linq.Expressions;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {

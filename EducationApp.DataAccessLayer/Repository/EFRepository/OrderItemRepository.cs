@@ -1,11 +1,7 @@
 ﻿using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {

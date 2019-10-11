@@ -7,7 +7,6 @@ using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Initializer;
 using EducationApp.DataAccessLayer.Repository.EFRepository;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +15,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.DataAccessLayer.Entities.Base;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Initializers
 {

@@ -5,7 +5,7 @@ using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

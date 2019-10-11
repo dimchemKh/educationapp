@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EducationApp.DataAccessLayer.Repository.Interfaces
+namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IOrderRepository : IBaseEFRepository<Order>
     {

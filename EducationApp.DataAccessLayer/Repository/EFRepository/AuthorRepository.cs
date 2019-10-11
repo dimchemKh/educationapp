@@ -4,13 +4,12 @@ using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
