@@ -1,7 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Models.PrintingEditions;
 using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.DataAccessLayer.Entities.Enums;
@@ -12,6 +10,7 @@ using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using DataModel = EducationApp.DataAccessLayer.Models.PrintingEditions;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -49,7 +48,7 @@ namespace EducationApp.BusinessLayer.Services
         {
             var responseModel = CheckModel(printingEditionsModelItem);
 
-            var entity = new DataModel.DAPrintingEditionModel();
+            var entity = new DataModel.DalPrintingEditionModel();
 
             entity = _mapperHelper.MapToEntity(printingEditionsModelItem, entity);
 

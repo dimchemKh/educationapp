@@ -5,11 +5,11 @@ using EducationApp.DataAccessLayer.Repository.Base.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EducationApp.DataAccessLayer.Repository.Interfaces
+namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IPrintingEditionRepository : IBaseEFRepository<PrintingEdition>
     {
-        Task<bool> IsExistedPrintingEdition(DAPrintingEditionModel model);
-        Task<IEnumerable<DAPrintingEditionModel>> FilteringAsync(FilterPrintingEditionModel filter);
+        Task<bool> IsExistedPrintingEdition(DalPrintingEditionModel model);
+        Task<IEnumerable<DalPrintingEditionModel>> FilteringAsync(FilterPrintingEditionModel filter);
     }
 }

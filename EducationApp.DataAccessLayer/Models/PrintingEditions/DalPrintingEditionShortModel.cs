@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Models.PrintingEditions
 {
-    public class DAPrintingEditionShortModel
+    public class DalPrintingEditionShortModel
     {
         public long Id { get; set; }
         public ICollection<long> AuthorsId { get; set; }

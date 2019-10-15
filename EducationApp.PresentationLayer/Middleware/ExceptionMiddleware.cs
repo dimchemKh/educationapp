@@ -27,12 +27,12 @@ namespace EducationApp.PresentationLayer.Middleware
         {
             try
             {
-                _logger.CreateLogger("CustomLOGGER").LogInformation("SOME LOGINFO: ", context.Response.StatusCode.ToString());
+                _logger.CreateLogger("CustomLOGGER").LogInformation("SOME LOGINFO: ", context.Request.Body);
                 await _next(context);
             }
             catch (Exception)
             {
-                _logger.CreateLogger("Exception").LogError("Error", context.Response.StatusCode.ToString());
+                _logger.CreateLogger("Exception").LogError("Error", context.Response.StatusCode);
             }
         }
     }

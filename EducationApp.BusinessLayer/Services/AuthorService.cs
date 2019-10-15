@@ -4,9 +4,7 @@ using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Entities.Enums;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
-using System.Linq;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using System.Threading.Tasks;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 

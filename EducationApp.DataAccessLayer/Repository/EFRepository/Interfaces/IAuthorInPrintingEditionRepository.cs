@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace EducationApp.DataAccessLayer.Repository.Interfaces
+namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IAuthorInPrintingEditionRepository
     {

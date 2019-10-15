@@ -3,55 +3,61 @@ using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.OrderItems;
 using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
+using DataModel = EducationApp.DataAccessLayer.Models.Orders;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Services
 {
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IOrderItemRepository _orderItemRepository;
         private readonly IUserRepository _userRepository;
         private readonly IPrintingEditionRepository _printingEditionRepository;
+        private readonly IPaymentRepository _paymentRepository;
         private readonly IMapperHelper _mapperHelper;
         private readonly IConverterHelper _converterHelper;
 
-        public OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IUserRepository userRepository, 
-                        IPrintingEditionRepository printingEditionRepository, IMapperHelper mapperHelper, IConverterHelper converterHelper)
+        public OrderService(IOrderRepository orderRepository, IUserRepository userRepository, IPrintingEditionRepository printingEditionRepository, 
+            IPaymentRepository paymentRepository, IMapperHelper mapperHelper, IConverterHelper converterHelper)
         {
             _orderRepository = orderRepository;
-            _orderItemRepository = orderItemRepository;
             _userRepository = userRepository;
             _printingEditionRepository = printingEditionRepository;
             _mapperHelper = mapperHelper;
             _converterHelper = converterHelper;
+            _paymentRepository = paymentRepository;
         }
-        public async Task<OrderModel> GetUserOrdersAsync(FilterOrderModel filterOrder, string userId)
+        public async Task<OrderModel> GetUserOrdersAsync(FilterOrderModel filterOrder, string userId, string role)
         {
             var responseModel = new OrderModel();
 
             var orderModelItem = new OrderModelItem();
-            var orderItem = new OrderItemModel();
 
             var repositoryFilter = new DataFilter.FilterOrderModel();
 
             repositoryFilter = _mapperHelper.MapToModelItem(filterOrder, repositoryFilter);
 
-            var ordersList = await _orderRepository.GetOrdersAsync(repositoryFilter, long.Parse(userId));
-
-            foreach (var item in ordersList)
+            IEnumerable<DataModel.DalOrderModel> ordersList = null;
+            if(role == Constants.Roles.Admin)
             {
-                orderModelItem = _mapperHelper.MapToModelItem(item, orderModelItem);
-                
-                responseModel.Items.Add(orderModelItem);
+                ordersList = await _orderRepository.GetAllOrdersAsync(repositoryFilter);
             }
-            
+            if(role != Constants.Roles.Admin)
+            {
+                ordersList = await _orderRepository.GetOrdersAsync(repositoryFilter, long.Parse(userId));
+            }
+
+            foreach (var order in ordersList)
+            {
+                orderModelItem = _mapperHelper.MapToModelItem(order, orderModelItem);                
+
+                responseModel.Items.Add(orderModelItem);
+            }            
             return responseModel;
         }
         public OrderModel GetUsersOrdersForAdmin(FilterOrderModel filterModel)
@@ -105,6 +111,24 @@ namespace EducationApp.BusinessLayer.Services
 
             await _orderRepository.CreateAsync(order);
             await _orderRepository.SaveAsync();
+            return responseModel;
+        }
+        public async Task<OrderModel> CreateTransactionAsync(string orderId, string transactionId)
+        {
+            var responseModel = new OrderModel();
+            
+            if(string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(transactionId))
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
+                return responseModel;
+            }            
+            var payment = new Payment() { TransactionId = long.Parse(transactionId) };
+            var result = await _paymentRepository.CreateTransactionAsync(long.Parse(orderId), payment);
+            if (!result)
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
+                return responseModel;
+            }
             return responseModel;
         }
     }

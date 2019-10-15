@@ -7,7 +7,6 @@ using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Initializer;
 using EducationApp.DataAccessLayer.Repository.EFRepository;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +15,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.DataAccessLayer.Entities.Base;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Initializers
 {
@@ -40,12 +39,12 @@ namespace EducationApp.BusinessLayer.Initializers
 
             services.AddScoped<DbBaseInitializing>();
 
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPrintingEditionService, PrintingEditionService>();
-            services.AddScoped<IAuthorService, AuthorService>();
-            services.AddScoped<IOrderService, OrderService>();
-            
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IPrintingEditionService, PrintingEditionService>();
+            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IOrderService, OrderService>();
+
 
             services.AddTransient<IEmailHelper, EmailHelper>();
             services.AddTransient<IPasswordHelper, PasswordHelper>();
@@ -60,10 +59,9 @@ namespace EducationApp.BusinessLayer.Initializers
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
             services.AddTransient<IAuthorRepository, AuthorRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IOrderItemRepository, OrderItemRepository>();
-
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
             #endregion
-
+             
             #region IdentityOptions
             services.Configure<IdentityOptions>(options =>
             {

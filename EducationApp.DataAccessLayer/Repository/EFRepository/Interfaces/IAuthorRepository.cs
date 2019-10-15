@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EducationApp.DataAccessLayer.Repository.Interfaces
+namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IAuthorRepository : IBaseEFRepository<Author>
     {

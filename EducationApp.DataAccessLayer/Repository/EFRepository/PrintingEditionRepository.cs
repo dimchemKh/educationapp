@@ -5,7 +5,7 @@ using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,12 +20,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public PrintingEditionRepository(ApplicationContext context) : base(context)
         {            
         }
-        public async Task<bool> IsExistedPrintingEdition(DAPrintingEditionModel printingEdition)
+        public async Task<bool> IsExistedPrintingEdition(DalPrintingEditionModel printingEdition)
         {
 
             var result = await _context.AuthorInPrintingEditions.Include(x => x.PrintingEdition).Include(z => z.Author).GroupBy(x => x.PrintingEdition)
                                                     .Where(x => x.Key.Title == printingEdition.Title && x.Key.PrintingEditionType == printingEdition.PrintingEditionType)
-                                                    .Select(z => new DAPrintingEditionShortModel
+                                                    .Select(z => new DalPrintingEditionShortModel
                                                     {
                                                         Id = z.Key.Id,
                                                         AuthorsId = z.Select(x => x.Author.Id).ToList()
@@ -46,10 +46,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             return false;           
         }
         
-        public async Task<IEnumerable<DAPrintingEditionModel>> FilteringAsync(FilterPrintingEditionModel filter)
+        public async Task<IEnumerable<DalPrintingEditionModel>> FilteringAsync(FilterPrintingEditionModel filter)
         {           
-            IQueryable<DAPrintingEditionModel> printingEditions = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).GroupBy(x => x.PrintingEditionId)
-                                                                                            .Select(x => new DAPrintingEditionModel
+            IQueryable<DalPrintingEditionModel> printingEditions = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).GroupBy(x => x.PrintingEditionId)
+                                                                                            .Select(x => new DalPrintingEditionModel
                                                                                             {
                                                                                                 Id = x.Key,
                                                                                                 Currency = x.Select(z => z.PrintingEdition.Currency).FirstOrDefault(),
@@ -71,7 +71,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             //printingEditions = printingEditions.Where(x => x.Price >= filter.RangePrice.FirstOrDefault() && x.Price <= filter.RangePrice.LastOrDefault());
 
-            Expression<Func<DAPrintingEditionModel, object>> lambda = null;
+            Expression<Func<DalPrintingEditionModel, object>> lambda = null;
             if (filter.SortType == Enums.SortType.Id)
             {
                 lambda = x => x.Id;
@@ -84,15 +84,13 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 lambda = x => x.Price;
             }
-
-
+            
             var result = await PaginationAsync(filter, lambda, printingEditions);
 
             foreach (var item in result)
             {
                 item.Price = Converting(item.Currency, filter.Currency, item.Price);
             }
-
             return result;
         }
         private decimal Converting(Enums.Currency fromCurrency, Enums.Currency toCurrency, decimal result)

@@ -1,13 +1,11 @@
 ﻿using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Repository.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.BusinessLayer.Models.Auth;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Services
 {

@@ -1,5 +1,4 @@
 ﻿using EducationApp.DataAccessLayer.Entities.Base;
-using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models.Filters.Base;
 using System;
 using System.Collections.Generic;

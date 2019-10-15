@@ -1,12 +1,9 @@
 ﻿using EducationApp.DataAccessLayer.Entities.Enums;
-using EducationApp.DataAccessLayer.Models.Base;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EducationApp.DataAccessLayer.Models.PrintingEditions
 {
-    public class DAPrintingEditionModel : BaseModel
+    public class DalPrintingEditionModel
     {
         public long Id { get; set; }
         public string Title { get; set; }

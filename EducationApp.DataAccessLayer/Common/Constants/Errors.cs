@@ -17,6 +17,7 @@
             public const string IsExistedPrintingEdition = "Printing Edition is existed";
             public const string InvalidFiltteringData = "Invalid filtering data";
             public const string SamePasswords = "New password can't be equals with current password";
+            public const string InvalidTransaction = "Invalid get transaction or order.";
 
             public const long NotFindUserId = 0;
         }

@@ -11,11 +11,12 @@ namespace EducationApp.BusinessLayer.Models.Orders
     {
         public long Id { get; set; }
         public DateTime Date { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
         public decimal Amount { get; set; }
         public Enums.Currency Currency { get; set; }
         public Enums.TransactionStatus TransactionStatus { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public ICollection<DataAccessLayer.Models.OrderItems.DAOrderItemModel> OrderItems { get; set; }
+        public long? PaymentId { get; set; }
+        public ICollection<DataAccessLayer.Models.OrderItems.DalOrderItemModel> OrderItems { get; set; }
     }
 }
