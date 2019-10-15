@@ -7,7 +7,7 @@ using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
-using DataModel = EducationApp.DataAccessLayer.Models.Orders;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
