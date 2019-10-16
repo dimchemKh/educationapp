@@ -8,16 +8,11 @@ namespace EducationApp.BusinessLayer.Models.Filters
 {
     public class FilterUserModel : BaseFilterModel
     {
-        public string SearchByBody { get; set; }
-        public ICollection<Enums.IsBlocked> Blocked { get; set; }
+        public string SearchString { get; set; }
+        public Enums.IsBlocked Blocked { get; set; }
         public FilterUserModel() : base()
         {
-            SearchByBody = null;
-            Blocked = new List<Enums.IsBlocked>()
-            {
-                Enums.IsBlocked.False,
-                Enums.IsBlocked.True
-            };
+            SearchString = string.Empty;
         }
     }
 }

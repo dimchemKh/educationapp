@@ -4,14 +4,10 @@ using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.PresentationLayer.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using System;
 using System.Threading.Tasks;
 using EducationApp.PresentationLayer.Helper.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Linq;
-using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.BusinessLayer.Models.Auth;
+using EducationApp.BusinessLayer.Common.Constants;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
@@ -30,55 +26,45 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [AllowAnonymous]
         [HttpPost("forgotPassword")]
-        public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserLoginModel loginModelItem)
+        public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserLoginModel loginModel)
         {
-            var userModel = new UserLoginModel();
-            var userId = await _accountService.GetUserByEmailAsync(loginModelItem.Email);
-            if(userId == Constants.Errors.NotFindUserId)
-            {
-                userModel.Errors.Add(Constants.Errors.InvalidEmail);
-                return Ok(userModel);
-            }
-            if (!await _accountService.ResetPasswordAsync(userId))
-            {
-                userModel.Errors.Add(Constants.Errors.InvalidEmail);
-                return Ok(userModel);
-            }
-            return Ok(userModel);
+            var responseModel = await _accountService.ResetPasswordAsync(loginModel.Email);
+
+            return Ok(responseModel);
         }
         [AllowAnonymous]
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshTokenAsync([FromBody]string token)
-        {
-            var authModel = _jwtHelper.CheckAccess(token);
+        public async Task<IActionResult> RefreshTokenAsync()
+        {            
+            var authModel = _jwtHelper.ValidateData(Request.Cookies["refresh"]);
             if (!authModel.Errors.Any())
             {
                 return Ok(authModel);
             }
-            authModel = await _accountService.IdentifyUser((AuthDetailsModel)authModel);
-            var result = _jwtHelper.Generate((AuthDetailsModel)authModel, _configOptions);         
+            authModel = await _accountService.IdentifyUser(authModel);
+            var result = _jwtHelper.Generate(authModel, _configOptions);         
             return Ok(result);
         }
         [AllowAnonymous]
         [HttpPost("signUp")]
         public async Task<IActionResult> SignUpAsync([FromBody]UserRegistrationModel userRegModel)
         {
-            var userModel = await _accountService.SignUpAsync(userRegModel);
-            if (userModel.Errors.Any())
+            var responseModel = await _accountService.SignUpAsync(userRegModel);
+            if (responseModel.Errors.Any())
             {
-                return Ok(userModel);
+                return Ok(responseModel);
             }
-            var userId = await _accountService.GetUserByEmailAsync(userRegModel.Email);
+            var userId = await _accountService.GetUserIdByEmailAsync(userRegModel.Email);
 
             var token = await _accountService.GetEmailConfirmTokenAsync(userId);
             
             var callbackUrl = Url.Action(
                 "confirmEmailAsync",
                 "Account",
-                new { userId = userId, token },
+                new { userId, token },
                 protocol: HttpContext.Request.Scheme);
             await _accountService.SendRegistrationMailAsync(userId, callbackUrl);
-            return Ok(userModel);
+            return Ok(responseModel);
         }
         [AllowAnonymous]
         [HttpPost("signIn")]
@@ -89,9 +75,11 @@ namespace EducationApp.PresentationLayer.Controllers
             {
                 return Ok(authModel);
             }
-            authModel = await _accountService.IdentifyUser(authModel);
             var result = _jwtHelper.Generate(authModel, _configOptions);
-            return Ok(result);
+            Response.Cookies.Append("access", result.AccessToken);
+            Response.Cookies.Append("refresh", result.RefreshToken);
+
+            return Ok(Request.Cookies);
         }         
         [HttpGet("confirmEmail")]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
@@ -99,7 +87,7 @@ namespace EducationApp.PresentationLayer.Controllers
             var regModel = await _accountService.ConfirmEmailAsync(userId, token);
             if (!regModel.Errors.Any())
             {
-                regModel.Errors.Add(Constants.Errors.InvalidIdOrToken);
+                regModel.Errors.Add(Constants.Errors.EmptyToken);
             }
             return Ok(regModel);
         }

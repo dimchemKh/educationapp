@@ -33,7 +33,6 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("myOrders/transaction")]
         public async Task<IActionResult> CreateTransaction([FromBody] string orderId, string transactionId)
         {
-            var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var responseModel = await _orderService.CreateTransactionAsync(orderId, transactionId);
             return Ok(responseModel);
         }

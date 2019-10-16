@@ -1,38 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using System.Net;
-using Newtonsoft.Json;
-using EducationApp.BusinessLayer.Common.Interfaces;
-using System.Linq;
-using EducationApp.BusinessLayer.Common;
 using Microsoft.Extensions.Logging;
 
 namespace EducationApp.PresentationLayer.Middleware
 {
     public class ExceptionMiddleware
     {
-        private readonly ILoggerProvider _logger;
+        private readonly ILoggerProvider _loggerProvider;
         private readonly RequestDelegate _next;
-
-        public ExceptionMiddleware(RequestDelegate next, ILoggerProvider logger)
+        private readonly ILogger _logger;
+        public ExceptionMiddleware(RequestDelegate next, ILoggerProvider loggerProvider)
         {
             _next = next;
-            _logger = logger;            
+            _loggerProvider = loggerProvider;
+            _logger = _loggerProvider.CreateLogger("MiddlewareLoger");            
         }
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                _logger.CreateLogger("CustomLOGGER").LogInformation("SOME LOGINFO: ", context.Request.Body);
+                _logger.LogInformation("SOME LOGINFO: ", context.Request.Body);
                 await _next(context);
             }
             catch (Exception)
             {
-                _logger.CreateLogger("Exception").LogError("Error", context.Response.StatusCode);
+                _logger.LogError("Error", context.Response.StatusCode);
             }
         }
     }

@@ -31,9 +31,9 @@ namespace EducationApp.BusinessLayer.Common
             {
                 WriteMessage(logLevel, eventId, state, exception, formatter);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                WriteMessage(logLevel, eventId, state, exception, formatter);
+                WriteMessage(logLevel, eventId, state, ex, formatter);
             }
         }
         private void WriteMessage<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)

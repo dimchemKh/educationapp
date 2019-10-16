@@ -2,6 +2,7 @@
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Entities.Enums;
+using EducationApp.DataAccessLayer.Models.OrderItems;
 using System;
 using System.Collections.Generic;
 
@@ -17,6 +18,6 @@ namespace EducationApp.BusinessLayer.Models.Orders
         public Enums.Currency Currency { get; set; }
         public Enums.TransactionStatus TransactionStatus { get; set; }
         public long? PaymentId { get; set; }
-        public ICollection<DataAccessLayer.Models.OrderItems.DalOrderItemModel> OrderItems { get; set; }
+        public ICollection<OrderItemDataModel> OrderItems { get; set; }
     }
 }

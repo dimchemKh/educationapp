@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EducationApp.DataAccessLayer.Models.PrintingEditions
 {
-    public class DalPrintingEditionModel
+    public class PrintingEditionDataModel
     {
         public long Id { get; set; }
         public string Title { get; set; }

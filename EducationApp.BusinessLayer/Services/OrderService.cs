@@ -5,11 +5,14 @@ using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.BusinessLayer.Common.Constants;
+using DataConstants = EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using DataModel = EducationApp.DataAccessLayer.Models.Orders;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Models.Orders;
+using EducationApp.DataAccessLayer.Models.OrderItems;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -36,34 +39,24 @@ namespace EducationApp.BusinessLayer.Services
         {
             var responseModel = new OrderModel();
 
-            var orderModelItem = new OrderModelItem();
+            var repositoryFilter = _mapperHelper.MapToModelItem<FilterOrderModel, DataFilter.FilterOrderModel>(filterOrder);
 
-            var repositoryFilter = new DataFilter.FilterOrderModel();
-
-            repositoryFilter = _mapperHelper.MapToModelItem(filterOrder, repositoryFilter);
-
-            IEnumerable<DataModel.DalOrderModel> ordersList = null;
-            if(role == Constants.Roles.Admin)
+            IEnumerable<DataModel.OrderDataModel> ordersList = null;
+            if(role == DataConstants.Constants.Roles.Admin)
             {
                 ordersList = await _orderRepository.GetAllOrdersAsync(repositoryFilter);
             }
-            if(role != Constants.Roles.Admin)
+            if(role != DataConstants.Constants.Roles.Admin)
             {
                 ordersList = await _orderRepository.GetOrdersAsync(repositoryFilter, long.Parse(userId));
             }
 
             foreach (var order in ordersList)
             {
-                orderModelItem = _mapperHelper.MapToModelItem(order, orderModelItem);                
+                var orderModelItem = _mapperHelper.MapToModelItem<OrderDataModel, OrderModelItem>(order);                
 
                 responseModel.Items.Add(orderModelItem);
             }            
-            return responseModel;
-        }
-        public OrderModel GetUsersOrdersForAdmin(FilterOrderModel filterModel)
-        {
-            var responseModel = new OrderModel();            
-
             return responseModel;
         }
         public async Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, long userId)
@@ -92,9 +85,7 @@ namespace EducationApp.BusinessLayer.Services
                     return responseModel;
                 }
 
-                var orderItem = new OrderItem();
-
-                orderItem = _mapperHelper.MapToEntity(orderPrintingEdition, orderItem);
+                var orderItem = _mapperHelper.MapToModelItem<OrderItemDataModel, OrderItem>(orderPrintingEdition);
 
                 var price = _converterHelper.Converting(printingEdition.Currency, orderPrintingEdition.Currency, printingEdition.Price);
                 orderItem.Amount = orderItem.Count * price;
@@ -122,7 +113,10 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
                 return responseModel;
             }            
-            var payment = new Payment() { TransactionId = long.Parse(transactionId) };
+            var payment = new Payment()
+            {
+                TransactionId = long.Parse(transactionId)
+            };
             var result = await _paymentRepository.CreateTransactionAsync(long.Parse(orderId), payment);
             if (!result)
             {

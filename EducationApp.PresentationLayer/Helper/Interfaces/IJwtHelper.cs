@@ -9,7 +9,7 @@ namespace EducationApp.PresentationLayer.Helper.Interfaces
 {
     public interface IJwtHelper
     {
-        AuthModel CheckAccess(string token);
+        AuthModel ValidateData(string token);
         AuthModel Generate(AuthModel authModel, IOptions<Config> configOptions);
     }
 }

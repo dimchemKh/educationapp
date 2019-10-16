@@ -1,5 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Models.Authors;
-using EducationApp.BusinessLayer.Models.Filters;
+using EducationApp.BusinessLayer.Models.Filters.Base;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,7 +21,7 @@ namespace EducationApp.PresentationLayer.Controllers
         }
 
         [HttpPost("get/Authors")]
-        public async Task<IActionResult> GetAuthorsAsync([FromBody]FilterAuthorModel authorFilterModel)
+        public async Task<IActionResult> GetAuthorsAsync([FromBody]BaseFilterModel authorFilterModel)
         {
             var responseModel = await _authorService.GetAuthorsListAsync(authorFilterModel);
             

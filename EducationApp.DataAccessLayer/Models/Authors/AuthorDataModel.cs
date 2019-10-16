@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Models.Authors
 {
-    public class DAAuthorModel
+    public class AuthorDataModel
     {
         public long Id { get; set; }
         public string Name { get; set; }

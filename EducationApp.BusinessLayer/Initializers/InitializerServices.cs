@@ -14,18 +14,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
 namespace EducationApp.BusinessLayer.Initializers
 {
     public static class InitializerServices
     {
-        /// <summary>
-        /// Initializer
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
         public static void InitializeServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -65,12 +60,12 @@ namespace EducationApp.BusinessLayer.Initializers
             #region IdentityOptions
             services.Configure<IdentityOptions>(options =>
             {
-                options.Password.RequiredLength = Constants.PasswordsOptions.RequiredLength;
-                options.Password.RequiredUniqueChars = Constants.PasswordsOptions.RequiredUniqueChars;
-                options.Password.RequireDigit = Constants.PasswordsOptions.RequireDigit;
-                options.Password.RequireUppercase = Constants.PasswordsOptions.RequireUppercase;
-                options.Password.RequireLowercase = Constants.PasswordsOptions.RequireLowercase;
-                options.Password.RequireNonAlphanumeric = Constants.PasswordsOptions.RequireNonAlphanumeric;
+                options.Password.RequiredLength = Constants.PasswordOptions.RequiredLength;
+                options.Password.RequiredUniqueChars = Constants.PasswordOptions.RequiredUniqueChars;
+                options.Password.RequireDigit = Constants.PasswordOptions.RequireDigit;
+                options.Password.RequireUppercase = Constants.PasswordOptions.RequireUppercase;
+                options.Password.RequireLowercase = Constants.PasswordOptions.RequireLowercase;
+                options.Password.RequireNonAlphanumeric = Constants.PasswordOptions.RequireNonAlphanumeric;
 
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.MaxFailedAccessAttempts = 6;

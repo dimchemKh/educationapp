@@ -9,7 +9,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IPrintingEditionRepository : IBaseEFRepository<PrintingEdition>
     {
-        Task<bool> IsExistedPrintingEdition(DalPrintingEditionModel model);
-        Task<IEnumerable<DalPrintingEditionModel>> FilteringAsync(FilterPrintingEditionModel filter);
+        Task<bool> IsExistedPrintingEdition(PrintingEditionDataModel model);
+        Task<IEnumerable<PrintingEditionDataModel>> FilteringAsync(FilterPrintingEditionModel filter);
     }
 }

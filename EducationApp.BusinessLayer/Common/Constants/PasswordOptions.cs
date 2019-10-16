@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.DataAccessLayer.Common.Constants
+namespace EducationApp.BusinessLayer.Common.Constants
 {
     public partial class Constants
     {
-        public class PasswordsOptions
+        public class PasswordOptions
         {
             public const int RequiredLength = 8;
             public const int RequiredUniqueChars = 4;
@@ -16,5 +16,4 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const bool RequireNonAlphanumeric = false;
         }
     }
-
 }

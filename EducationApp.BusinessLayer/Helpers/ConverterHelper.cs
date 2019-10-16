@@ -11,7 +11,7 @@ namespace EducationApp.BusinessLayer.Helpers
         {
             decimal valueFrom = 0;
             decimal valueTo = 0;
-            foreach (var item in Constants.CurrencyRates.ConverterList)
+            foreach (var item in Constants.CurrencyRates.ConverterDictionary)
             {
                 if(item.Key == fromCurrency)
                 {

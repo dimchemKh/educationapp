@@ -2,7 +2,7 @@
 
 namespace EducationApp.DataAccessLayer.Models.OrderItems
 {
-    public class DalOrderItemModel
+    public class OrderItemDataModel
     {
         public long PrintingEditionId { get; set; }
         public string Title { get; set; }

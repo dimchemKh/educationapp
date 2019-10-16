@@ -1,5 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.BusinessLayer.Common.Constants;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,20 +9,18 @@ namespace EducationApp.BusinessLayer.Helpers
 {
     public class PasswordHelper : IPasswordHelper
     {
-        public string GenerateRandomPassword(PasswordOptions options = null)
+        public string GenerateRandomPassword()
         {
-            if (options == null)
+            var options = new PasswordOptions()
             {
-                options = new PasswordOptions()
-                {
-                    RequireLowercase = Constants.PasswordsOptions.RequireLowercase,
-                    RequireUppercase = Constants.PasswordsOptions.RequireUppercase,
-                    RequireDigit = Constants.PasswordsOptions.RequireDigit,
-                    RequiredLength = Constants.PasswordsOptions.RequiredLength,
-                    RequiredUniqueChars = Constants.PasswordsOptions.RequiredUniqueChars,
-                    RequireNonAlphanumeric = Constants.PasswordsOptions.RequireNonAlphanumeric
-                };
-            }            
+                RequireLowercase = Constants.PasswordOptions.RequireLowercase,
+                RequireUppercase = Constants.PasswordOptions.RequireUppercase,
+                RequireDigit = Constants.PasswordOptions.RequireDigit,
+                RequiredLength = Constants.PasswordOptions.RequiredLength,
+                RequiredUniqueChars = Constants.PasswordOptions.RequiredUniqueChars,
+                RequireNonAlphanumeric = Constants.PasswordOptions.RequireNonAlphanumeric
+            };
+       
             var random = new Random(Environment.TickCount);
             var listCharsOfPassword = new List<char>();
 

@@ -9,11 +9,10 @@ namespace EducationApp.BusinessLayer.Models.Filters
 {
     public class FilterOrderModel : BaseFilterModel
     {
-        public ICollection<Enums.TransactionStatus> TransactionStatus { get; set; }
+        public Enums.TransactionStatus TransactionStatus { get; set; }
 
         public FilterOrderModel() : base()
-        {
-            
+        {            
         }
     }
 }

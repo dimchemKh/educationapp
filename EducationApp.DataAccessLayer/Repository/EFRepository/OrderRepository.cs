@@ -20,9 +20,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public OrderRepository(ApplicationContext context) : base(context)
         {
         }
-        private async Task<IEnumerable<DalOrderModel>> Filtering(FilterOrderModel filterOrder, IQueryable<DalOrderModel> ordersList)
+        private async Task<IEnumerable<OrderDataModel>> Filtering(FilterOrderModel filterOrder, IQueryable<OrderDataModel> ordersList)
         {
-            Expression<Func<DalOrderModel, object>> lambda = null;
+            Expression<Func<OrderDataModel, object>> lambda = null;
             if (filterOrder.SortType == Enums.SortType.Id)
             {
                 lambda = x => x.Id;
@@ -39,10 +39,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var result = await PaginationAsync(filterOrder, lambda, ordersList);
             return result;
         }
-        public async Task<IEnumerable<DalOrderModel>> GetOrdersAsync(FilterOrderModel filterOrder, long userId)
+        public async Task<IEnumerable<OrderDataModel>> GetOrdersAsync(FilterOrderModel filterOrder, long userId)
         {
             var ordersList = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order).Where(x => x.Order.User.Id == userId).GroupBy(x => x.OrderId)
-                .Select(x => new DalOrderModel
+                .Select(x => new OrderDataModel
                 {
                     Id = x.Key,
                     Amount = x.Select(z => z.Amount).Sum(),
@@ -50,7 +50,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     TransactionStatus = x.Select(z => z.Order.TransactionStatus).FirstOrDefault(),
                     PaymentId = x.Select(z => z.Order.PaymentId).FirstOrDefault(),
                     Currency = x.Select(z => z.Currency).FirstOrDefault(),
-                    OrderItems = x.Select(z => new DalOrderItemModel
+                    OrderItems = x.Select(z => new OrderItemDataModel
                     {
                         Title = z.PrintingEdition.Title,
                         Count = z.Count,
@@ -62,10 +62,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             return await Filtering(filterOrder, ordersList);
         }
-        public async Task<IEnumerable<DalOrderModel>> GetAllOrdersAsync(FilterOrderModel filterOrder)
+        public async Task<IEnumerable<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder)
         {
             var ordersList = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order).ThenInclude(x => x.User).GroupBy(x => x.OrderId)
-                .Select(x => new DalOrderModel
+                .Select(x => new OrderDataModel
                 {
                     Id = x.Key,
                     Amount = x.Select(z => z.Amount).Sum(),
@@ -75,7 +75,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     TransactionStatus = x.Select(z => z.Order.TransactionStatus).FirstOrDefault(),
                     PaymentId = x.Select(z => z.Order.PaymentId).FirstOrDefault(),
                     Currency = x.Select(z => z.Currency).FirstOrDefault(),
-                    OrderItems = x.Select(z => new DalOrderItemModel
+                    OrderItems = x.Select(z => new OrderItemDataModel
                     {
                         Title = z.PrintingEdition.Title,
                         Count = z.Count,

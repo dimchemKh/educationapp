@@ -2,8 +2,6 @@
 {
     public interface IMapperHelper
     {
-        MapTo MapToModelItem<MapFrom, MapTo>(MapFrom source, MapTo destination);
-        MapTo MapToEntity<MapFrom, MapTo>(MapFrom source, MapTo destination);
-        //ICollection<MapTo> MapEntitiesToModel<MapFrom, MapTo>(IEnumerable<MapFrom> entities, ICollection<MapTo> itemsList);
+        MapTo MapToModelItem<MapFrom, MapTo>(MapFrom source) where MapTo : new();
     }
 }

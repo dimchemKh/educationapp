@@ -16,7 +16,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const decimal UAHtoUSD = 0.0403064m;
             public const decimal USDtoUSD = 1.0m;
 
-            public static readonly Dictionary<Enums.Currency, decimal> ConverterList = new Dictionary<Enums.Currency, decimal>()
+            public static readonly Dictionary<Enums.Currency, decimal> ConverterDictionary = new Dictionary<Enums.Currency, decimal>()
             {
                 { Enums.Currency.CHF, CHFtoUSD },
                 { Enums.Currency.EUR, EURtoUSD },

@@ -4,7 +4,8 @@ using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.BusinessLayer.Common.Constants;
+using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 namespace EducationApp.BusinessLayer.Services
@@ -50,12 +51,6 @@ namespace EducationApp.BusinessLayer.Services
 
             user = _mapperHelper.MapToEntity(userModel, user);
             
-            if (string.IsNullOrWhiteSpace(userModel.NewPassword) && string.IsNullOrWhiteSpace(userModel.ConfirmNewPassword) 
-                || userModel.NewPassword != userModel.ConfirmNewPassword && !isAdmin)
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidPassword);
-                return responseModel;
-            }
             var result = await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword);
             
             if (!result.Succeeded)
@@ -70,10 +65,8 @@ namespace EducationApp.BusinessLayer.Services
         public async Task<UserModel> GetUsersAsync(FilterUserModel filterModel)
         {
             var userModel = new UserModel();           
-            var repositoryModel = new DataFilter.FilterUserModel();
-            var userModelItem = new UserModelItem();
 
-            repositoryModel = _mapperHelper.MapToModelItem(filterModel, repositoryModel);
+            var repositoryModel = _mapperHelper.MapToModelItem<FilterUserModel, DataFilter.FilterUserModel>(filterModel);
 
             var filteringUsers = await _userRepository.Filtering(repositoryModel);
             if(filteringUsers == null)
@@ -83,7 +76,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             foreach (var user in filteringUsers)
             {
-                userModelItem = _mapperHelper.MapToModelItem(user, userModelItem);
+                var userModelItem = _mapperHelper.MapToModelItem<ApplicationUser, UserModelItem>(user);
                 userModel.Items.Add(userModelItem);
             }          
             return userModel;
@@ -97,14 +90,8 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-            if (isBlocked)
-            {
-                user.LockoutEnabled = true;
-            }
-            if (!isBlocked)
-            {
-                user.LockoutEnabled = false;
-            }
+
+            user.LockoutEnabled = !(user.LockoutEnabled);
             await _userRepository.UpdateUserAsync(user);
             return responseModel;
         }
@@ -121,7 +108,7 @@ namespace EducationApp.BusinessLayer.Services
             var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
             // Need Map
 
-            userModel = _mapperHelper.MapToModelItem(user, userModel);
+            userModel = _mapperHelper.MapToModelItem<ApplicationUser, UserEditModel>(user);
 
             return userModel;
         }

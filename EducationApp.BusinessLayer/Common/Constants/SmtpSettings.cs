@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.DataAccessLayer.Common.Constants
+namespace EducationApp.BusinessLayer.Common.Constants
 {
     public partial class Constants
     {
@@ -16,5 +16,4 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             public const string TestEmail = "from@example.com";
         }
     }
-
 }

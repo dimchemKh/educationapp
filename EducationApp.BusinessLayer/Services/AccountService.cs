@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Models.Users;
-using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.BusinessLayer.Models.Auth;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Entities;
+using EducationApp.BusinessLayer.Models.Base;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -14,17 +16,20 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHelper _passwordHelper;
         private readonly IEmailHelper _emailHelper;
+        private readonly IMapperHelper _mapperHelper;
 
-        public AccountService(IUserRepository userRepository, IPasswordHelper passwordHelper, IEmailHelper emailHelper)
+        public AccountService(IUserRepository userRepository, IPasswordHelper passwordHelper, IEmailHelper emailHelper, IMapperHelper mapperHelper)
         {
             _userRepository = userRepository;
             _passwordHelper = passwordHelper;
             _emailHelper = emailHelper;
+            _mapperHelper = mapperHelper;
         }
         public async Task<AuthModel> SignInAsync(UserLoginModel loginModel)
         {
-            var authModel = new AuthDetailsModel();
-            if (string.IsNullOrWhiteSpace(loginModel.Email) 
+            var authModel = new AuthModel();
+            if (authModel == null 
+                || string.IsNullOrWhiteSpace(loginModel.Email) 
                 || string.IsNullOrWhiteSpace(loginModel.Password))
             {
                 authModel.Errors.Add(Constants.Errors.InvalidData);
@@ -43,23 +48,17 @@ namespace EducationApp.BusinessLayer.Services
                 return authModel;
             }
             authModel.UserId = existedUser.Id;
+            var roles = await _userRepository.GetRoleAsync(existedUser);
+            authModel.UserRole = roles.FirstOrDefault();
+            authModel.UserName = string.Concat(existedUser.FirstName, " ", existedUser.LastName);
+
             return authModel;
         }
-        public async Task<long> GetUserByEmailAsync(string email)
+        public async Task<BaseModel> SignUpAsync(UserRegistrationModel userRegModel)
         {
-            var user = await _userRepository.GetUserByEmailAsync(email);
-            return user.Id;
-        }
-        public async Task<UserModel> SignUpAsync(UserRegistrationModel userRegModel)
-        {
-            var userModel = new UserModel();
-            if(userRegModel == null)
-            {
-                userModel.Errors.Add(Constants.Errors.InvalidDataFromClient);
-                return userModel;
-            }
-
-            if(string.IsNullOrWhiteSpace(userRegModel.FirstName)
+            var userModel = new BaseModel();
+            if(userRegModel == null 
+                || string.IsNullOrWhiteSpace(userRegModel.FirstName)
                 || string.IsNullOrWhiteSpace(userRegModel.LastName)
                 || string.IsNullOrWhiteSpace(userRegModel.Email))
             {
@@ -68,56 +67,66 @@ namespace EducationApp.BusinessLayer.Services
             }
             var existedUser = await _userRepository.GetUserByEmailAsync(userRegModel.Email);
 
-            if (existedUser == null)
+            if (existedUser != null)
             {
-                await _userRepository.SignUpAsync(userRegModel.FirstName, userRegModel.LastName, userRegModel.Email, userRegModel.Password);
+                userModel.Errors.Add(Constants.Errors.IsExistedUser);
                 return userModel;
             }
-            userModel.Errors.Add(Constants.Errors.IsExistedUser);
+            var user = _mapperHelper.MapToModelItem<UserRegistrationModel, ApplicationUser>(userRegModel);
+            
+            await _userRepository.SignUpAsync(user, userRegModel.Password);
             return userModel;
         }
         public async Task<string> GetEmailConfirmTokenAsync(long userId)
         {
-            if(userId == Constants.Errors.NotFindUserId)
-            {
-                return string.Empty;
-            }
             return await _userRepository.GetEmailConfirmTokenAsync(userId);
         }
         public async Task<UserRegistrationModel> ConfirmEmailAsync(string userId, string token)
         {
-            var regModel = new UserRegistrationModel();
+            var responseModel = new UserRegistrationModel();
 
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
             {
-                regModel.Errors.Add(Constants.Errors.InvalidIdOrToken);
-                return regModel;
+                responseModel.Errors.Add(Constants.Errors.EmptyToken);
+                return responseModel;
             }
             var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
             if (user == null)
             {
-                regModel.Errors.Add(Constants.Errors.UserNotFound);
-                return regModel;
+                responseModel.Errors.Add(Constants.Errors.UserNotFound);
+                return responseModel;
             }
             if(!await _userRepository.ConfirmEmailAsync(user, token))
             {
-                regModel.Errors.Add(Constants.Errors.InvalidIdOrToken);
-                return regModel;
+                responseModel.Errors.Add(Constants.Errors.EmptyToken);
+                return responseModel;
             }
-            return regModel;
+            return responseModel;
         }
 
-        public async Task<bool> ResetPasswordAsync(long userId)
+        public async Task<BaseModel> ResetPasswordAsync(string email)
         {
-            var user = await _userRepository.GetUserByIdAsync(userId);
-            var token = await _userRepository.GenerateResetPasswordTokenAsync(userId);
+            var responseModel = new BaseModel();
+
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            if(user == null)
+            {
+                responseModel.Errors.Add(Constants.Errors.UserNotFound);
+                return responseModel;
+            };
+            var token = await _userRepository.GenerateResetPasswordTokenAsync(user.Id);
             var newTempPassword = _passwordHelper.GenerateRandomPassword();
 
             string message = $"This is your Temp password {newTempPassword} ! Please change his, after succesfull authorization";
             string subject = "NewTempPassword";
-            await _emailHelper.SendMailAsync(user.Email, subject, message);
 
-            return await _userRepository.ResetPasswordAsync(user, token, newTempPassword);
+            await _emailHelper.SendMailAsync(user.Email, subject, message);
+            if(!await _userRepository.ResetPasswordAsync(user, token, newTempPassword))
+            {
+                responseModel.Errors.Add(Constants.Errors.RemovedUser);
+                return responseModel;
+            }
+            return responseModel;
         }
         public async Task SendRegistrationMailAsync(long userId, string callbackUrl)
         {
@@ -129,15 +138,15 @@ namespace EducationApp.BusinessLayer.Services
         }
         public async Task<AuthModel> IdentifyUser(AuthModel authModel)
         {            
-            var user = await _userRepository.GetUserByIdAsync(((AuthDetailsModel)authModel).UserId);
+            var user = await _userRepository.GetUserByIdAsync(authModel.UserId);
             if(user == null)
             {
                 authModel.Errors.Add(Constants.Errors.UserNotFound);
                 return authModel;
             }
             var roles = await _userRepository.GetRoleAsync(user);
-            ((AuthDetailsModel)authModel).UserRole = roles.FirstOrDefault();
-            ((AuthDetailsModel)authModel).UserName = string.Concat(user.FirstName, " ", user.LastName);
+            authModel.UserRole = roles.FirstOrDefault();
+            authModel.UserName = string.Concat(user.FirstName, " ", user.LastName);
 
             return authModel;
         }

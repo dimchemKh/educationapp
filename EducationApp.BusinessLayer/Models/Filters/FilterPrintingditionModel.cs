@@ -8,19 +8,17 @@ namespace EducationApp.BusinessLayer.Models.Filters
 {
     public class FilterPrintingEditionModel : BaseFilterModel
     {
-        public string SearchByBody { get; set; }
+        public string SearchString { get; set; }
         public Enums.Currency Currency { get; set; }
-        public decimal[] RangePrice { get; set; }
+        public decimal PriceMinValue { get; set; }
+        public decimal PriceMaxValue { get; set; }
         public ICollection<Enums.PrintingEditionType> PrintingEditionTypes { get; set; }
 
         public FilterPrintingEditionModel() : base()
         {
             Currency = Enums.Currency.USD;
-            RangePrice = new decimal[2] 
-            {
-                0.0m,
-                1000.0m
-            };
+            PriceMinValue = 0.0m;
+            PriceMaxValue = 10000.0m;
             PrintingEditionTypes = new List<Enums.PrintingEditionType>();
         }
     }

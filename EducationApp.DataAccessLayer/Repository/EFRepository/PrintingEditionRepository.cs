@@ -18,19 +18,19 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
     public class PrintingEditionRepository : BaseEFRepository<PrintingEdition>, IPrintingEditionRepository
     {
         public PrintingEditionRepository(ApplicationContext context) : base(context)
-        {            
+        {
         }
-        public async Task<bool> IsExistedPrintingEdition(DalPrintingEditionModel printingEdition)
+        public async Task<bool> IsExistedPrintingEdition(PrintingEditionDataModel printingEdition)
         {
 
             var result = await _context.AuthorInPrintingEditions.Include(x => x.PrintingEdition).Include(z => z.Author).GroupBy(x => x.PrintingEdition)
                                                     .Where(x => x.Key.Title == printingEdition.Title && x.Key.PrintingEditionType == printingEdition.PrintingEditionType)
-                                                    .Select(z => new DalPrintingEditionShortModel
+                                                    .Select(z => new PrintingEditionShortDataModel
                                                     {
                                                         Id = z.Key.Id,
                                                         AuthorsId = z.Select(x => x.Author.Id).ToList()
                                                     }).ToListAsync();
-            if(result == null)
+            if (result == null)
             {
                 return false;
             }
@@ -39,26 +39,26 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 var res2 = item.AuthorsId.Except(printingEdition.AuthorsId);
                 var res1 = printingEdition.AuthorsId.Except(item.AuthorsId);
                 if (!res1.Any() && !res2.Any())
-                { 
+                {
                     return true;
-                }                
+                }
             }
-            return false;           
+            return false;
         }
-        
-        public async Task<IEnumerable<DalPrintingEditionModel>> FilteringAsync(FilterPrintingEditionModel filter)
-        {           
-            IQueryable<DalPrintingEditionModel> printingEditions = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).GroupBy(x => x.PrintingEditionId)
-                                                                                            .Select(x => new DalPrintingEditionModel
-                                                                                            {
-                                                                                                Id = x.Key,
-                                                                                                Currency = x.Select(z => z.PrintingEdition.Currency).FirstOrDefault(),
-                                                                                                Price = x.Select(z => z.PrintingEdition.Price).FirstOrDefault(),
-                                                                                                PrintingEditionType = x.Select(z => z.PrintingEdition.PrintingEditionType).FirstOrDefault(),
-                                                                                                Title = x.Select(z => z.PrintingEdition.Title).FirstOrDefault(),
-                                                                                                Description = x.Select(z => z.PrintingEdition.Description).FirstOrDefault(),
-                                                                                                AuthorNames = x.Select(z => z.Author.Name).ToList()
-                                                                                            });
+
+        public async Task<IEnumerable<PrintingEditionDataModel>> FilteringAsync(FilterPrintingEditionModel filter)
+        {
+            var printingEditions = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).GroupBy(x => x.PrintingEditionId)
+                                        .Select(x => new PrintingEditionDataModel
+                                        {
+                                            Id = x.Key,
+                                            Currency = x.Select(z => z.PrintingEdition.Currency).FirstOrDefault(),
+                                            Price = x.Select(z => z.PrintingEdition.Price).FirstOrDefault(),
+                                            PrintingEditionType = x.Select(z => z.PrintingEdition.PrintingEditionType).FirstOrDefault(),
+                                            Title = x.Select(z => z.PrintingEdition.Title).FirstOrDefault(),
+                                            Description = x.Select(z => z.PrintingEdition.Description).FirstOrDefault(),
+                                            AuthorNames = x.Select(z => z.Author.Name).ToList()
+                                        });
 
             if (!string.IsNullOrWhiteSpace(filter.SearchByBody))
             {
@@ -71,7 +71,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             //printingEditions = printingEditions.Where(x => x.Price >= filter.RangePrice.FirstOrDefault() && x.Price <= filter.RangePrice.LastOrDefault());
 
-            Expression<Func<DalPrintingEditionModel, object>> lambda = null;
+            Expression<Func<PrintingEditionDataModel, object>> lambda = null;
             if (filter.SortType == Enums.SortType.Id)
             {
                 lambda = x => x.Id;
@@ -84,7 +84,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 lambda = x => x.Price;
             }
-            
+
             var result = await PaginationAsync(filter, lambda, printingEditions);
 
             foreach (var item in result)
@@ -97,7 +97,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             decimal valueFrom = 0;
             decimal valueTo = 0;
-            foreach (var item in Constants.CurrencyRates.ConverterList)
+            foreach (var item in Constants.CurrencyRates.ConverterDictionary)
             {
                 if (item.Key == fromCurrency)
                 {

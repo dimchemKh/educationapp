@@ -2,7 +2,7 @@
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models.Authors;
-using EducationApp.DataAccessLayer.Models.Filters;
+using EducationApp.DataAccessLayer.Models.Filters.Base;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -19,17 +19,17 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorRepository(ApplicationContext context) : base(context)
         {            
         }
-        public async Task<IEnumerable<DAAuthorModel>> FilteringAsync(FilterAuthorModel filter)
+        public async Task<IEnumerable<AuthorDataModel>> FilteringAsync(BaseFilterModel filter)
         {
-            var authors = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).Where(x => x.Author.IsRemoved == false).GroupBy(x => x.Author)
-                                                            .Select(group => new DAAuthorModel
-                                                            {
-                                                                Id = group.Key.Id,
-                                                                Name = group.Select(x => x.Author.Name).FirstOrDefault(),
-                                                                PrintingEditionTitles = group.Select(x => x.PrintingEdition.Title).ToList()
-                                                            });
+            var authors = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition)
+                .Where(x => x.Author.IsRemoved == false).GroupBy(x => x.Author)
+                .Select(group => new AuthorDataModel
+                 {
+                     Id = group.Key.Id,
+                     Name = group.Select(x => x.Author.Name).FirstOrDefault(),
+                 });
 
-            Expression<Func<DAAuthorModel, object>> expression = null;
+            Expression<Func<AuthorDataModel, object>> expression = null;
 
             if (filter.SortType == Enums.SortType.Id)
             {

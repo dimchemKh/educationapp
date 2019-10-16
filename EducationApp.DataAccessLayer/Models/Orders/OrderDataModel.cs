@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EducationApp.DataAccessLayer.Models.Orders
 {
-    public class DalOrderModel
+    public class OrderDataModel
     {
         public long Id { get; set; }
         public DateTime Date { get; set; }
@@ -15,6 +15,6 @@ namespace EducationApp.DataAccessLayer.Models.Orders
         public Enums.Currency Currency { get; set; }
         public Enums.TransactionStatus TransactionStatus { get; set; }
         public long? PaymentId { get; set; }
-        public ICollection<DalOrderItemModel> OrderItems { get; set; }
+        public ICollection<OrderItemDataModel> OrderItems { get; set; }
     }
 }

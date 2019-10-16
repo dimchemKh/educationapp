@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.DataAccessLayer.Common.Constants
+namespace EducationApp.BusinessLayer.Common.Constants
 {
     public partial class Constants
     {
         public class CharsForPassword
         {
-            public const string UppercaseChars = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
             public const string LowercaseChars = "abcdefghijkmnopqrstuvwxyz";
+            public const string UppercaseChars = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
             public const string DigitChars = "0123456789";
 
             public static readonly string[] ListCharsForPassword = new string[]
@@ -20,5 +20,4 @@ namespace EducationApp.DataAccessLayer.Common.Constants
             };
         }
     }
-
 }

@@ -6,10 +6,11 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
 {
     public partial class Enums
     {
-        public enum IsBlocked : int
+        public enum IsBlocked
         {
-            False = 0,
-            True = 1
+            All = 0,
+            False = 1,
+            True = 2
         }
     }
 }

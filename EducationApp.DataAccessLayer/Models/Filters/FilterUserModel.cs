@@ -6,7 +6,7 @@ namespace EducationApp.DataAccessLayer.Models.Filters
 {
     public class FilterUserModel : BaseFilterModel
     {
-        public string SearchByBody { get; set; }
+        public string SearchString { get; set; }
         public ICollection<Enums.IsBlocked> Blocked { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace EducationApp.BusinessLayer.Helpers.Interfaces
 {
     public interface IPasswordHelper
     {
-        string GenerateRandomPassword(PasswordOptions opts = null);
+        string GenerateRandomPassword();
     }
 }

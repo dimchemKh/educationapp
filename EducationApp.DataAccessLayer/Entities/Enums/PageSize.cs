@@ -6,12 +6,11 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
 {
     public partial class Enums
     {
-        public enum PageSizes
+        public enum PageSize
         {
-            None = 0,
             Six = 6,
             Ten = 10,
             Twelve = 12
         }
-    }
+    } 
 }

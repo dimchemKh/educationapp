@@ -8,9 +8,8 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
     {
         public enum SortState
         {
-            None = 0,
-            Asc = 1,
-            Desc = 2
+            Asc = 0,
+            Desc = 1
         }
     }
 }

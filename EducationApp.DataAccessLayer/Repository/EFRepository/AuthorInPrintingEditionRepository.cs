@@ -18,14 +18,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             _context = context;
         }
-        public async Task EditPrintingEditionAuthorsAsync(PrintingEdition printingEdition, IList<long> authorsId)
+        public async Task EditAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId)
         {
             var query = await _context.AuthorInPrintingEditions.Where(x => x.PrintingEditionId == printingEdition.Id).ToListAsync();
             _context.RemoveRange(query);
 
-            await AddToPrintingEditionAuthorsAsync(printingEdition, authorsId);
+            await AddAuthorsInPrintingEditionAsync(printingEdition, authorsId);
         }
-        public async Task AddToPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<long> authorsId)
+        public async Task AddAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, ICollection<long> authorsId)
         {
             foreach (var authorId in  authorsId)
             {
@@ -33,7 +33,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 printingEdition.AuthorInPrintingEditions.Add(new AuthorInPrintingEdition() { PrintingEdition = printingEdition, Author = author });
             }
         }        
-        public async Task<IList<string>> GetAuthorsInOnePEAsync(long printingEditionId)
+        public async Task<IList<string>> GetAuthorsInOnePrintingEditionAsync(long printingEditionId)
         {
             var list = await _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition)
                                                             .Where(x => x.PrintingEditionId == printingEditionId)

@@ -8,9 +8,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IAuthorInPrintingEditionRepository
     {
-        Task EditPrintingEditionAuthorsAsync(PrintingEdition printingEdition, IList<long> authorsId);
-        Task AddToPrintingEditionAuthorsAsync(PrintingEdition printingEdition, ICollection<long> authors);
-        Task<IList<string>> GetAuthorsInOnePEAsync(long printingEditionId);
+        Task EditAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId);
+        Task AddAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, ICollection<long> authors);
+        Task<IList<string>> GetAuthorsInOnePrintingEditionAsync(long printingEditionId);
         Task DeleteWhereAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate);
     }
 }

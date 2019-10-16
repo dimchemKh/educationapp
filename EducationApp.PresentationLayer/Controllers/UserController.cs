@@ -45,7 +45,7 @@ namespace EducationApp.PresentationLayer.Controllers
             {
                 return Ok(responseModel);
             }
-            return Ok();
+            return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
         [HttpPost("getUsers")]

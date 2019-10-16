@@ -8,7 +8,7 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
     {
         public enum TransactionStatus
         {
-            None = 0,
+            All = 0,
             Paid = 1,
             Unpaid = 2
         }

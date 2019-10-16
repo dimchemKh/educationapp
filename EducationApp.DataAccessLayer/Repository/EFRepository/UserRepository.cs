@@ -21,20 +21,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public async Task<bool> SignUpAsync(string firstName, string lastName, string email, string password)
+        public async Task<bool> SignUpAsync(ApplicationUser user, string password)
         {
-            var user = new ApplicationUser()
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
-                UserName = firstName + lastName
-            };
+            
             var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "user");
+                await _userManager.AddToRoleAsync(user, Constants.Roles.User);
                 await _signInManager.SignInAsync(user, isPersistent: true);
             }            
             return result.Succeeded;
@@ -51,8 +45,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-
-            return user ?? null;
+            return user;
         }
         public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
         {
@@ -72,15 +65,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<ApplicationUser> GetUserByIdAsync(long userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
-            return user ?? null;
+            return user;
         }
-        public async Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
+        public async Task<IEnumerable<IdentityError>> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
         {
-            if (currentPassword.Equals(newPassword))
-            {
-                return IdentityResult.Failed(new IdentityError { Description = Constants.Errors.SamePasswords });
-            }
-            return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+            return result.Errors;
         }
         public async Task<string> GenerateResetPasswordTokenAsync(long userId)
         {
@@ -96,14 +86,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             IQueryable<ApplicationUser> listUsers = null;
 
-            if (string.IsNullOrWhiteSpace(model.SearchByBody))
+            if (string.IsNullOrWhiteSpace(model.SearchString))
             {
                 listUsers = _userManager.Users.Where(user => user.IsRemoved == false);
             }
-            if (!string.IsNullOrWhiteSpace(model.SearchByBody))
+            if (!string.IsNullOrWhiteSpace(model.SearchString))
             {
-                listUsers = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchByBody)
-                || user.LastName.Contains(model.SearchByBody));
+                listUsers = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchString)
+                || user.LastName.Contains(model.SearchString));
             }
 
             Expression<Func<ApplicationUser, object>> lambda = null;

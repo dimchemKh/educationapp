@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
-    public class AuthorInPrintingEdition
+    public class AuthorInPrintingEdition : BaseEntity
     {
         public long AuthorId { get; set; }
         public Author Author { get; set; }

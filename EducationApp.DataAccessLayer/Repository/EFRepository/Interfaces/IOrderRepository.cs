@@ -10,7 +10,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IOrderRepository : IBaseEFRepository<Order>
     {
-        Task<IEnumerable<DalOrderModel>> GetOrdersAsync(FilterOrderModel filterOrder, long userId);
-        Task<IEnumerable<DalOrderModel>> GetAllOrdersAsync(FilterOrderModel filterOrder);
+        Task<IEnumerable<OrderDataModel>> GetOrdersAsync(FilterOrderModel filterOrder, long userId);
+        Task<IEnumerable<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder);
     }
 }
