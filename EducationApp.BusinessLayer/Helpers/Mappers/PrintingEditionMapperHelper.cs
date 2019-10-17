@@ -24,8 +24,7 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             instance.Title = source.Title;
             instance.Currency = currency;
             instance.Description = source.Description;
-            
-            instance.Authors = source.Authors.Select(x => new AuthorModelItem { Id = x.Id, Name = x.Name, PrintingEditionTitles = x.PrintingEditionTitles }).ToList();
+            instance.Authors = source.Authors.Select(x => new AuthorModelItem { Name = x.Name }).ToList();
             
             return instance;
         }

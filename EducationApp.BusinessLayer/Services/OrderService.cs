@@ -14,6 +14,7 @@ using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using EducationApp.DataAccessLayer.Models.Orders;
 using EducationApp.DataAccessLayer.Models.OrderItems;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLayer.Helpers.Mappers;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -41,19 +42,17 @@ namespace EducationApp.BusinessLayer.Services
             var responseModel = new OrderModel();
 
             var repositoryFilter = _mapperHelper.Map<FilterOrderModel, DataFilter.FilterOrderModel>(filterOrder);
-
-            var orderList = new List<OrderDataModel>();
-            if (!long.TryParse(userId, out long _userId))
+            if (!long.TryParse(userId, out long _userId) || _userId == 0)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
             var result = await _orderRepository.GetAllOrdersAsync(repositoryFilter, _userId);
-            orderList = result.ToList();
+            var orderList = result.ToList();
             foreach (var order in orderList)
-            {
-                var orderModelItem = _mapperHelper.Map<OrderDataModel, OrderModelItem>(order);                
-
+            {          
+                
+                var orderModelItem = order.MapTo();
                 responseModel.Items.Add(orderModelItem);
             }            
             return responseModel;
@@ -67,7 +66,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
-            if(!long.TryParse(userId, out long _userId))
+            if(!long.TryParse(userId, out long _userId) || _userId == 0)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
@@ -85,31 +84,22 @@ namespace EducationApp.BusinessLayer.Services
             
             foreach (var orderPrintingEdition in orderModelItem.OrderItems)
             {
-                var printingEdition = await _printingEditionRepository.GetByIdAsync(orderPrintingEdition.PrintingEditionId);
-
-                if (printingEdition == null)
-                {
-                    responseModel.Errors.Add(Constants.Errors.InvalidData);
-                    return responseModel;
-                }
-
-                var orderItem = _mapperHelper.Map<OrderItemDataModel, OrderItem>(orderPrintingEdition);
-
-                var price = _converterHelper.Converting(printingEdition.Currency, orderPrintingEdition.Currency, printingEdition.Price);
-                orderItem.Amount = orderItem.Count * price;
+                var orderItem = orderPrintingEdition.MapTo();
                 orderItem.Order = order;
-
                 orderItemsList.Add(orderItem);
-            }                     
-            
-            order.Amount = orderItemsList.Select(x => x.Amount).Sum();
-            
+            }
+            var payment = new Payment()
+            {
+                TransactionId = null
+            };
+            order.Amount = orderItemsList.Select(x => x.Amount).Sum();            
             order.OrderItems = orderItemsList;
-            order.TransactionStatus = DataAccessLayer.Entities.Enums.Enums.TransactionStatus.Unpaid;
-            order.Payment = null;
+            order.TransactionStatus = DataAccessLayer.Entities.Enums.Enums.TransactionStatus.Unpaid;            
+            order.Payment = payment;
 
             await _orderRepository.CreateAsync(order);
             await _orderRepository.SaveAsync();
+
             return responseModel;
         }
         public async Task<OrderModel> CreateTransactionAsync(string orderId, string transactionId)
@@ -121,16 +111,12 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
                 return responseModel;
             }            
-            var payment = new Payment()
-            {
-                TransactionId = long.Parse(transactionId)
-            };
-            var result = await _paymentRepository.CreateTransactionAsync(long.Parse(orderId), payment);
-            if (!result)
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
-                return responseModel;
-            }
+            //var result = await _paymentRepository.CreateTransactionAsync(long.Parse(orderId), payment);
+            //if (!result)
+            //{
+            //    responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
+            //    return responseModel;
+            //}
             return responseModel;
         }
     }

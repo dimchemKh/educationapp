@@ -135,7 +135,7 @@ namespace EducationApp.BusinessLayer.Services
 
             if (string.IsNullOrWhiteSpace(userId))
             {
-                userModel.Errors.Add(Constants.Errors.UserNotFound);
+                userModel.Errors.Add(Constants.Errors.InvalidUserId);
                 return userModel;
             }
             if(!long.TryParse(userId, out long _userId) && _userId <= 0){

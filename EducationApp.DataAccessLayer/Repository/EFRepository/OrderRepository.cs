@@ -41,10 +41,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         }
         public async Task<IEnumerable<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId)
         {
-            var tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order);
-            if (userId > 1 && userId > 0)
+            IQueryable<OrderItem> tempQuery = null;
+            if (userId > 1)
             {
-                tempQuery.Where(x => x.Order.User.Id == userId);
+                tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order).Where(x => x.Order.User.Id == userId);
+            }
+            if(userId == 1)
+            {
+                tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order)/*.ThenInclude(x => x.User)*/;
             }
             var ordersQuery = tempQuery.GroupBy(x => x.OrderId).Select(x => new OrderDataModel
                 {
@@ -54,7 +58,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     Email = x.Select(z => z.Order.User.Email).FirstOrDefault(),
                     UserName = x.Select(z => string.Concat(z.Order.User.FirstName, " ", z.Order.User.LastName)).FirstOrDefault(),
                     TransactionStatus = x.Select(z => z.Order.TransactionStatus).FirstOrDefault(),
-                    PaymentId = x.Select(z => z.Order.PaymentId).FirstOrDefault(),
+                    PaymentId = x.Select(z => z.Order.Payment.TransactionId).FirstOrDefault(),
                     Currency = x.Select(z => z.Currency).FirstOrDefault(),
                     OrderItems = x.Select(z => new OrderItemDataModel
                     {

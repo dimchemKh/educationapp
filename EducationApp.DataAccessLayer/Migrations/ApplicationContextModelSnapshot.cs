@@ -179,7 +179,7 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<bool>("IsRemoved");
 
-                    b.Property<long>("TransactionId");
+                    b.Property<long?>("TransactionId");
 
                     b.HasKey("Id");
 

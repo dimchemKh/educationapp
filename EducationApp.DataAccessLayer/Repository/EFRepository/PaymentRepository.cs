@@ -11,7 +11,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
     {
         public PaymentRepository(ApplicationContext context) : base(context)
         {
-
         }
         public async Task<bool> CreateTransactionAsync(long orderId, Payment payment)
         {

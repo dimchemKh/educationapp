@@ -23,8 +23,8 @@ namespace EducationApp.PresentationLayer.Controllers
             _userService = userService;
         }        
         [Authorize(Roles = Constants.Roles.User)]
-        [HttpPost("getMe")]
-        public async Task<IActionResult> GetOneUserAsync()
+        [HttpPost("get")]
+        public async Task<IActionResult> GetUserAsync()
         {
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;             
             var responseModel = await _userService.GetOneUserAsync(userId);
@@ -32,7 +32,7 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [Authorize]
-        [HttpPost("edit")]
+        [HttpPost("update")]
         public async Task<IActionResult> UpdateProfileAsync([FromBody]UserEditModel userModel)
         {            
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -49,22 +49,22 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPost("getUsers")]
-        public async Task<IActionResult> GetUsersAsync([FromBody]FilterUserModel filterUserModel)
+        [HttpPost("getAll")]
+        public async Task<IActionResult> GetAllUsersAsync([FromBody]FilterUserModel filterUserModel)
         {
             var responseModel = await _userService.GetAllUsersAsync(filterUserModel);
 
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPut("getUsers")]
+        [HttpPut("block")]
         public async Task<IActionResult> BlockUserAsync([FromBody]UserModelItem userModelItem)
         {
             var result = await _userService.BlockUserAsync(userModelItem.Id, userModelItem.LockoutEnabled);
             return Ok(result);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpDelete("getUsers/{userId}")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteUserAsync(long userId)
         {
             var result = await _userService.DeleteUserAsync(userId);

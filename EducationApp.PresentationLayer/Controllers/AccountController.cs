@@ -81,7 +81,7 @@ namespace EducationApp.PresentationLayer.Controllers
             Response.Cookies.Append("access", result.AccessToken);
             Response.Cookies.Append("refresh", result.RefreshToken);
 
-            return Ok(Request.Cookies);
+            return Ok(result);
         }         
         [HttpGet("confirmEmail")]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)

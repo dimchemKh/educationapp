@@ -122,9 +122,9 @@ namespace EducationApp.BusinessLayer.Services
 
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionsModelItem.Id);
             printingEdition = printingEditionsModelItem.MapToEntity(printingEdition);
-            var dataAuthors = printingEditionsModelItem.MapToData();
+            //var dataAuthors = printingEditionsModelItem.MapToData();
             // ????
-            await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition, dataAuthors.Authors);
+            //await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition, dataAuthors.Authors);
             await _printingEditionRepository.UpdateAsync(printingEdition); // bad update when use generic mapper
             
             return responseModel;

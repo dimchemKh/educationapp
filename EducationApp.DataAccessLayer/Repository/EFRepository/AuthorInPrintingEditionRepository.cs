@@ -33,7 +33,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                                             PrintingEditionType = x.Select(z => z.PrintingEdition.PrintingEditionType).FirstOrDefault(),
                                             Title = x.Select(z => z.PrintingEdition.Title).FirstOrDefault(),
                                             Description = x.Select(z => z.PrintingEdition.Description).FirstOrDefault(),
-                                            Authors = x.Select(z => new AuthorDataModel { Id = z.Id, Name = z.PrintingEdition.Title }).ToList()
+                                            Authors = x.Select(z => new AuthorDataModel { Name = z.Author.Name }).ToList()
                                         });
 
             if (!string.IsNullOrWhiteSpace(filter.SearchString))

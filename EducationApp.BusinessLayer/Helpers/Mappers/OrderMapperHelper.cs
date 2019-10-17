@@ -1,11 +1,52 @@
-﻿using System;
+﻿using EducationApp.BusinessLayer.Models.OrderItems;
+using EducationApp.BusinessLayer.Models.Orders;
+using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Models.OrderItems;
+using EducationApp.DataAccessLayer.Models.Orders;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EducationApp.BusinessLayer.Helpers.Mappers
 {
-    public class OrderMapperHelper
+    public static class OrderMapperHelper
     {
 
+        public static OrderItem MapTo(this OrderItemModel orderItemModel)
+        {
+            var orderItem = new OrderItem();
+
+            orderItem.PrintingEditionId = orderItemModel.PrintingEditionId;
+            orderItem.Count = orderItemModel.Count;
+            orderItem.Amount = orderItemModel.Count * orderItemModel.Price;
+            orderItem.Currency = orderItemModel.Currency;
+
+            return orderItem;
+        }
+        public static OrderModelItem MapTo(this OrderDataModel orderDataModel)
+        {
+            var orderItem = new OrderModelItem();
+
+            orderItem.Id = orderDataModel.Id;
+            orderItem.Date = orderDataModel.Date;
+            orderItem.Email = orderDataModel.Email;
+            orderItem.UserName = orderDataModel.UserName;
+            orderItem.Amount = orderDataModel.Amount;
+            orderItem.TransactionStatus = orderDataModel.TransactionStatus;
+            orderItem.Currency = orderDataModel.OrderItems.Select(x => x.Currency).FirstOrDefault();
+            orderItem.OrderItems = new List<OrderItemModel>();
+            foreach (var item in orderDataModel.OrderItems)
+            {
+                orderItem.OrderItems.Add(new OrderItemModel
+                {
+                    PrintingEditionType = item.PrintingEditionType,
+                    Title = item.Title,
+                    Count = item.Count
+                });
+            }
+
+            return orderItem;
+        }
     }
 }

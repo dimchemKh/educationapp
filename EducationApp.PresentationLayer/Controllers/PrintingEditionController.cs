@@ -27,13 +27,6 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }
-        //[Authorize(Roles = Constants.Roles.Admin)]
-        //[HttpPost("get/admin")]
-        //public async Task<IActionResult> GetPrintingEditionsForAdminAsync([FromBody]FilterPrintingEditionModel filterModel)
-        //{
-        //    var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel);
-        //    return Ok(responseModel);
-        //}
         [AllowAnonymous]
         [HttpPost("details")]
         public async Task<IActionResult> GetPrintingEditionDetailsAsync([FromBody]PrintingEditionModelItem printingEdition)

@@ -22,20 +22,14 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             _orderService = orderService;
         }
-        [HttpPost("myOrders")]
+        [HttpPost("get")]
         public async Task<IActionResult> GetUserOrdersAsync([FromBody]FilterOrderModel filterOrder)
         {
             var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var responseModel = await _orderService.GetUserOrdersAsync(filterOrder, userId);
             return Ok(responseModel);
         }
-        //[HttpPost("myOrders/transaction")]
-        //public async Task<IActionResult> CreateTransaction([FromBody] string orderId, string transactionId)
-        //{
-        //    var responseModel = await _orderService.CreateTransactionAsync(orderId, transactionId);
-        //    return Ok(responseModel);
-        //}
-        [HttpPost("createOrder")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateOrderAsync([FromBody]OrderModelItem orderModelItem)
         {
             var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;

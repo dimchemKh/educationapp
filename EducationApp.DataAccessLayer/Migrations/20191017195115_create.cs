@@ -75,7 +75,7 @@ namespace EducationApp.DataAccessLayer.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     IsRemoved = table.Column<bool>(nullable: false),
-                    TransactionId = table.Column<long>(nullable: false)
+                    TransactionId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -24,15 +24,15 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
                 }
             }
             // try create generic list properties mapper
-            var queryFrom = propertiesFrom.Where(x => x.PropertyType.IsAbstract && x.PropertyType.IsGenericType).FirstOrDefault();
-            var queryTo = propertiesTo.Where(x => x.PropertyType.IsAbstract && x.PropertyType.IsGenericType).FirstOrDefault();
-            var arrayTypesFrom = queryFrom.PropertyType.GetGenericArguments();
-            var arrayTypesTo = queryTo.PropertyType.GetGenericArguments();
+            //var queryFrom = propertiesFrom.Where(x => x.PropertyType.IsAbstract && x.PropertyType.IsGenericType).FirstOrDefault();
+            //var queryTo = propertiesTo.Where(x => x.PropertyType.IsAbstract && x.PropertyType.IsGenericType).FirstOrDefault();
+            //var arrayTypesFrom = queryFrom.PropertyType.GetGenericArguments();
+            //var arrayTypesTo = queryTo.PropertyType.GetGenericArguments();
 
-            foreach (var item in arrayTypesFrom)
-            {
-                var props = item.GetType().GetProperties();
-            }
+            //foreach (var item in arrayTypesFrom)
+            //{
+            //    var props = item.GetType().GetProperties();
+            //}
 
 
             return instance;

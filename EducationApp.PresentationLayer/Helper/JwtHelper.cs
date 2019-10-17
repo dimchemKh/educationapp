@@ -15,7 +15,8 @@ using System.Text;
 namespace EducationApp.PresentationLayer.Helper
 {
     public class JwtHelper : IJwtHelper
-    {        
+    {
+        public const string SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
         private List<Claim> GetAccessTokenClaims(AuthModel authModel)
         {            
             var claims = new List<Claim>
@@ -39,7 +40,7 @@ namespace EducationApp.PresentationLayer.Helper
         private string Generate(List<Claim> claims, IOptions<Config> configOptions, TimeSpan tokenExpiration)
         {
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configOptions.Value.JwtKey));
-            var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var credential = new SigningCredentials(key, SecurityAlgorithm);
 
             var token = new JwtSecurityToken(
              issuer: configOptions.Value.JwtIssuer,

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationApp.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191017095744_create")]
+    [Migration("20191017195115_create")]
     partial class create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -181,7 +181,7 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<bool>("IsRemoved");
 
-                    b.Property<long>("TransactionId");
+                    b.Property<long?>("TransactionId");
 
                     b.HasKey("Id");
 

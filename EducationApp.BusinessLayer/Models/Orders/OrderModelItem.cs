@@ -18,6 +18,6 @@ namespace EducationApp.BusinessLayer.Models.Orders
         public Enums.Currency Currency { get; set; }
         public Enums.TransactionStatus TransactionStatus { get; set; }
         public long? PaymentId { get; set; }
-        public ICollection<OrderItemDataModel> OrderItems { get; set; }
+        public ICollection<OrderItemModel> OrderItems { get; set; }
     }
 }

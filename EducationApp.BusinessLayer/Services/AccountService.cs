@@ -9,6 +9,7 @@ using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.BusinessLayer.Models.Base;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+using System.Text;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -74,7 +75,10 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var user = _mapperHelper.Map<UserRegistrationModel, ApplicationUser>(userRegModel);
-            
+            var builder = new StringBuilder(user.FirstName);
+            builder.Append(user.LastName);
+            user.UserName = builder.ToString();
+
             if (!await _userRepository.SignUpAsync(user, userRegModel.Password))
             {
                 responseModel.Errors.Add(Constants.Errors.CanNotRegisterUser);
