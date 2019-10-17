@@ -9,8 +9,8 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IAccountService
     {
-        Task<UserModel> SignUpAsync(UserRegistrationModel userModel);
-        Task<string> GetEmailConfirmTokenAsync(long userId);
+        Task<BaseModel> SignUpAsync(UserRegistrationModel userModel);
+        Task<UserShortModel> GetEmailConfirmTokenAsync(string email);
         Task<AuthModel> SignInAsync(UserLoginModel loginModel);
         Task<UserRegistrationModel> ConfirmEmailAsync(string userId, string token);
         Task<BaseModel> ResetPasswordAsync(string email);

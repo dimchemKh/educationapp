@@ -26,21 +26,20 @@ namespace EducationApp.PresentationLayer.Controllers
         public async Task<IActionResult> GetUserOrdersAsync([FromBody]FilterOrderModel filterOrder)
         {
             var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var role = User.Claims.First(x => x.Type == ClaimTypes.Role).Value;
-            var responseModel = await _orderService.GetUserOrdersAsync(filterOrder, userId, role);
+            var responseModel = await _orderService.GetUserOrdersAsync(filterOrder, userId);
             return Ok(responseModel);
         }
-        [HttpPost("myOrders/transaction")]
-        public async Task<IActionResult> CreateTransaction([FromBody] string orderId, string transactionId)
-        {
-            var responseModel = await _orderService.CreateTransactionAsync(orderId, transactionId);
-            return Ok(responseModel);
-        }
+        //[HttpPost("myOrders/transaction")]
+        //public async Task<IActionResult> CreateTransaction([FromBody] string orderId, string transactionId)
+        //{
+        //    var responseModel = await _orderService.CreateTransactionAsync(orderId, transactionId);
+        //    return Ok(responseModel);
+        //}
         [HttpPost("createOrder")]
         public async Task<IActionResult> CreateOrderAsync([FromBody]OrderModelItem orderModelItem)
         {
             var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var responseModel = await _orderService.CreateOrderAsync(orderModelItem, long.Parse(userId));
+            var responseModel = await _orderService.CreateOrderAsync(orderModelItem, userId);
             return Ok(responseModel);
         }
     }

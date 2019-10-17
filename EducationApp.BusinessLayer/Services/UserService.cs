@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
@@ -8,6 +7,10 @@ using EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
+using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+
 namespace EducationApp.BusinessLayer.Services
 {
     public class UserService : IUserService
@@ -30,17 +33,25 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             user.IsRemoved = true;
-
-            await _userRepository.UpdateUserAsync(user);
+            if(!await _userRepository.UpdateUserAsync(user))
+            {
+                responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                return responseModel;
+            }
             return responseModel;
         }
-        public async Task<UserEditModel> EditUserProfileAsync(UserEditModel userModel, bool isAdmin = false)
+        public async Task<UserEditModel> UpdateUserProfileAsync(UserEditModel userModel, bool isAdmin)
         {
             var responseModel = new UserEditModel();
-            var user = await _userRepository.GetUserByIdAsync(userModel.Id);
             if (string.IsNullOrWhiteSpace(userModel.CurrentPassword))
             {
-                responseModel.Errors.Add(Constants.Errors.InvalidPassword);
+                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                return responseModel;
+            }
+            var user = await _userRepository.GetUserByIdAsync(userModel.Id);
+            if(user == null)  // ?? logical
+            {
+                responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
             if (!await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword))
@@ -48,27 +59,41 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidPassword);
                 return responseModel;
             }
-
-            user = _mapperHelper.MapToEntity(userModel, user);
-            
-            var result = await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword);
-            
-            if (!result.Succeeded)
+            user = _mapperHelper.Map<UserEditModel, ApplicationUser>(userModel);
+            if(user == null)
             {
-                result.Errors.ToList().ForEach(x => responseModel.Errors.Add(x.Description));
+                responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            await _userRepository.UpdateUserAsync(user);
+            var result = new List<IdentityError>();
+            if (!isAdmin)
+            {
+                var errorsList = await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword);
+                result = errorsList.ToList();
+            }              
+            if (result.Any())
+            {
+                responseModel.Errors = result.Select(x => x.Description).ToList();
+                return responseModel;
+            }
+            if(!await _userRepository.UpdateUserAsync(user))
+            {
+                responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                return responseModel;
+            }
             return responseModel;
         }
         
-        public async Task<UserModel> GetUsersAsync(FilterUserModel filterModel)
+        public async Task<UserModel> GetAllUsersAsync(FilterUserModel filterModel)
         {
-            var userModel = new UserModel();           
-
-            var repositoryModel = _mapperHelper.MapToModelItem<FilterUserModel, DataFilter.FilterUserModel>(filterModel);
-
-            var filteringUsers = await _userRepository.Filtering(repositoryModel);
+            var userModel = new UserModel();  
+            var repositoryModel = _mapperHelper.Map<FilterUserModel, DataFilter.FilterUserModel>(filterModel);
+            if(repositoryModel == null)
+            {
+                userModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                return userModel;
+            }
+            var filteringUsers = await _userRepository.GetFilteredDataAsync(repositoryModel);
             if(filteringUsers == null)
             {
                 userModel.Errors.Add(Constants.Errors.InvalidFiltteringData);
@@ -76,7 +101,12 @@ namespace EducationApp.BusinessLayer.Services
             }
             foreach (var user in filteringUsers)
             {
-                var userModelItem = _mapperHelper.MapToModelItem<ApplicationUser, UserModelItem>(user);
+                var userModelItem = _mapperHelper.Map<ApplicationUser, UserModelItem>(user);
+                if(userModelItem == null)
+                {
+                    userModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                    return userModel;
+                }
                 userModel.Items.Add(userModelItem);
             }          
             return userModel;
@@ -90,13 +120,16 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-
             user.LockoutEnabled = !(user.LockoutEnabled);
-            await _userRepository.UpdateUserAsync(user);
+            if(!await _userRepository.UpdateUserAsync(user))
+            {
+                responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                return responseModel;
+            }
             return responseModel;
         }
 
-        public async Task<UserEditModel> GetUserAsync(string userId)
+        public async Task<UserEditModel> GetOneUserAsync(string userId)
         {
             var userModel = new UserEditModel();
 
@@ -105,11 +138,22 @@ namespace EducationApp.BusinessLayer.Services
                 userModel.Errors.Add(Constants.Errors.UserNotFound);
                 return userModel;
             }
-            var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
-            // Need Map
-
-            userModel = _mapperHelper.MapToModelItem<ApplicationUser, UserEditModel>(user);
-
+            if(!long.TryParse(userId, out long _userId) && _userId <= 0){
+                userModel.Errors.Add(Constants.Errors.InvalidUserId);
+                return userModel;
+            }
+            var user = await _userRepository.GetUserByIdAsync(_userId);
+            if(user == null)
+            {
+                userModel.Errors.Add(Constants.Errors.UserNotFound);
+                return userModel;
+            }
+            userModel = _mapperHelper.Map<ApplicationUser, UserEditModel>(user);
+            if(userModel == null)
+            {
+                userModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                return userModel;
+            }
             return userModel;
         }
     }

@@ -100,6 +100,12 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<long>("PrintingEditionId");
 
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<long>("Id");
+
+                    b.Property<bool>("IsRemoved");
+
                     b.HasKey("AuthorId", "PrintingEditionId");
 
                     b.HasIndex("PrintingEditionId");
@@ -117,11 +123,9 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<DateTime>("CreationDate");
 
-                    b.Property<int>("Currency");
-
                     b.Property<bool>("IsRemoved");
 
-                    b.Property<long>("PaymentId");
+                    b.Property<long?>("PaymentId");
 
                     b.Property<int>("TransactionStatus");
 
@@ -332,8 +336,7 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     b.HasOne("EducationApp.DataAccessLayer.Entities.Payment", "Payment")
                         .WithMany()
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PaymentId");
 
                     b.HasOne("EducationApp.DataAccessLayer.Entities.ApplicationUser", "User")
                         .WithMany()

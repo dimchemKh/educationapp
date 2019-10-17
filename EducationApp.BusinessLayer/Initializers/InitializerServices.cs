@@ -16,6 +16,8 @@ using System;
 using System.IO;
 using EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLayer.Helpers.Mappers;
 
 namespace EducationApp.BusinessLayer.Initializers
 {
@@ -43,7 +45,7 @@ namespace EducationApp.BusinessLayer.Initializers
 
             services.AddTransient<IEmailHelper, EmailHelper>();
             services.AddTransient<IPasswordHelper, PasswordHelper>();
-            services.AddTransient<IConverterHelper, ConverterHelper>();
+            services.AddTransient<ICurrencyConverterHelper, CurrencyConverterHelper>();
             services.AddTransient<IMapperHelper, MapperHelper>();
 
             #endregion

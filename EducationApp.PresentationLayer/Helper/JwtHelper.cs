@@ -61,7 +61,11 @@ namespace EducationApp.PresentationLayer.Helper
                 return authModel;
             }
             var value = refreshToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            long.TryParse(value, out long userId);
+            if(!long.TryParse(value, out long userId))
+            {
+                authModel.Errors.Add(Constants.Errors.InvalidUserId);
+                return authModel;
+            }
             authModel.UserId = userId;
             return authModel;
         }

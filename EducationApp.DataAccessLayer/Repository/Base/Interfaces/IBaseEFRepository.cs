@@ -15,7 +15,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base.Interfaces
         IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate);
         Task CreateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
-        Task EditAsync(TEntity entity);
+        Task UpdateAsync(TEntity entity);
         Task SaveAsync();
         Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities);
     }

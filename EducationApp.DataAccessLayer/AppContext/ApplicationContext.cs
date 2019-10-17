@@ -17,18 +17,9 @@ namespace EducationApp.DataAccessLayer.AppContext
             Database.EnsureCreated();            
         }
         protected override void OnModelCreating(ModelBuilder builder)
-        {
-
+        {          
             builder.Entity<AuthorInPrintingEdition>()
             .HasKey(key => new { key.AuthorId, key.PrintingEditionId });
-
-            //builder.Entity<AuthorInPrintingEdition>()
-            //    //.HasOne<AuthorInPrintingEdition>()
-            //    //.WithMany()
-            //    //.HasForeignKey(key => key.AuthorId);
-            //    .HasOne(navigationName => navigationName.Author)
-            //    .WithMany(table => table.AuthorInPrintingEdition)
-            //    .HasForeignKey(key => key.AuthorId);
 
             builder.Entity<AuthorInPrintingEdition>()
                 .HasOne(navigationName => navigationName.PrintingEdition)

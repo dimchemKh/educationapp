@@ -43,7 +43,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             entity.IsRemoved = true;
             await _context.SaveChangesAsync();
         }
-        public async Task EditAsync(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
             _context.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;            

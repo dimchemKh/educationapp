@@ -47,23 +47,25 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [AllowAnonymous]
         [HttpPost("signUp")]
-        public async Task<IActionResult> SignUpAsync([FromBody]UserRegistrationModel userRegModel)
+        public async Task<IActionResult> SignUpAsync([FromBody]UserRegistrationModel registrationModel)
         {
-            var responseModel = await _accountService.SignUpAsync(userRegModel);
+            var responseModel = await _accountService.SignUpAsync(registrationModel);
             if (responseModel.Errors.Any())
             {
                 return Ok(responseModel);
             }
-            var userId = await _accountService.GetUserIdByEmailAsync(userRegModel.Email);
-
-            var token = await _accountService.GetEmailConfirmTokenAsync(userId);
-            
+            var userModel = await _accountService.GetEmailConfirmTokenAsync(registrationModel.Email);
+            if (userModel.Errors.Any())
+            {
+                responseModel.Errors = userModel.Errors;
+                return Ok(responseModel);
+            }
             var callbackUrl = Url.Action(
                 "confirmEmailAsync",
                 "Account",
-                new { userId, token },
+                new { userModel.UserId, userModel.ConfirmToken },
                 protocol: HttpContext.Request.Scheme);
-            await _accountService.SendRegistrationMailAsync(userId, callbackUrl);
+            await _accountService.SendRegistrationMailAsync(userModel.UserId, callbackUrl);
             return Ok(responseModel);
         }
         [AllowAnonymous]
@@ -87,7 +89,7 @@ namespace EducationApp.PresentationLayer.Controllers
             var regModel = await _accountService.ConfirmEmailAsync(userId, token);
             if (!regModel.Errors.Any())
             {
-                regModel.Errors.Add(Constants.Errors.EmptyToken);
+                regModel.Errors.Add(Constants.Errors.InvalidConfirmData);
             }
             return Ok(regModel);
         }

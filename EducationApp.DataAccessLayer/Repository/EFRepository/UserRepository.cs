@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Entities.Enums;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
@@ -22,8 +23,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             _signInManager = signInManager;
         }
         public async Task<bool> SignUpAsync(ApplicationUser user, string password)
-        {
-            
+        {            
             var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
@@ -37,9 +37,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             return await _userManager.GetRolesAsync(user);
         }
-        public async Task<string> GetEmailConfirmTokenAsync(long userId)
+        public async Task<string> GetEmailConfirmTokenAsync(ApplicationUser user)
         {
-            var user = await GetUserByIdAsync(userId);
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
         public async Task<ApplicationUser> GetUserByEmailAsync(string email)
@@ -63,7 +62,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             return result.Succeeded;
         }
         public async Task<ApplicationUser> GetUserByIdAsync(long userId)
-        {
+        {            
             var user = await _userManager.FindByIdAsync(userId.ToString());
             return user;
         }
@@ -72,9 +71,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
             return result.Errors;
         }
-        public async Task<string> GenerateResetPasswordTokenAsync(long userId)
+        public async Task<string> GenerateResetPasswordTokenAsync(ApplicationUser user)
         {
-            var user = await GetUserByIdAsync(userId);
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
         public async Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
@@ -82,44 +80,44 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
         }
-        public async Task<IEnumerable<ApplicationUser>> Filtering(FilterUserModel model)
+        public async Task<IEnumerable<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model)
         {
             IQueryable<ApplicationUser> listUsers = null;
 
             if (string.IsNullOrWhiteSpace(model.SearchString))
             {
-                listUsers = _userManager.Users.Where(user => user.IsRemoved == false);
+                listUsers = _userManager.Users.Where(user => user.IsRemoved.Equals(false));
             }
             if (!string.IsNullOrWhiteSpace(model.SearchString))
             {
-                listUsers = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchString)
+                listUsers = _userManager.Users.Where(user => user.IsRemoved.Equals(false)&& user.FirstName.Contains(model.SearchString)
                 || user.LastName.Contains(model.SearchString));
             }
 
             Expression<Func<ApplicationUser, object>> lambda = null;
-            if (model.SortType == Entities.Enums.Enums.SortType.Name)
+            if (model.SortType == Enums.SortType.Name)
             {
                 lambda = x => x.UserName;
             }
-            if (model.SortType == Entities.Enums.Enums.SortType.Email)
+            if (model.SortType == Enums.SortType.Email)
             {
                 lambda = x => x.Email;
             }
 
-            if (model.Blocked.Count == 1 && model.Blocked.Contains(Entities.Enums.Enums.IsBlocked.True))
+            if (model.Blocked.Equals(Enums.IsBlocked.True))
             {
-                listUsers = listUsers.Where(x => x.LockoutEnabled == false);
+                listUsers = listUsers.Where(x => x.LockoutEnabled.Equals(true));
             }
-            if (model.Blocked.Count == 1 && model.Blocked.Contains(Entities.Enums.Enums.IsBlocked.False))
+            if (model.Blocked.Equals(Enums.IsBlocked.False))
             {
-                listUsers = listUsers.Where(x => x.LockoutEnabled == true);
-            }                       
+                listUsers = listUsers.Where(x => x.LockoutEnabled.Equals(false));
+            }
 
-            if(model.SortState == Entities.Enums.Enums.SortState.Asc)
+            if (model.SortState.Equals(Enums.SortState.Asc))
             {
                 listUsers = listUsers.OrderBy(lambda);
             }
-            if (model.SortState == Entities.Enums.Enums.SortState.Desc)
+            if (model.SortState.Equals(Enums.SortState.Desc))
             {
                 listUsers = listUsers.OrderByDescending(lambda);
             }

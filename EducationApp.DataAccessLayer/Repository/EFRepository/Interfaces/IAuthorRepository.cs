@@ -9,7 +9,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IAuthorRepository : IBaseEFRepository<Author>
     {
-        Task<IEnumerable<AuthorDataModel>> FilteringAsync(BaseFilterModel filter);
+
 
     }
 }

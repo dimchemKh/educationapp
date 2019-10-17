@@ -27,20 +27,21 @@ namespace EducationApp.PresentationLayer.Controllers
         public async Task<IActionResult> GetOneUserAsync()
         {
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;             
-            var responseModel = await _userService.GetUserAsync(userId);
+            var responseModel = await _userService.GetOneUserAsync(userId);
 
             return Ok(responseModel);
         }
         [Authorize]
         [HttpPost("edit")]
-        public async Task<IActionResult> EditProfileAsync([FromBody]UserEditModel userModel)
+        public async Task<IActionResult> UpdateProfileAsync([FromBody]UserEditModel userModel)
         {            
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
             var isAdmin = User.IsInRole(Constants.Roles.Admin);
 
-            userModel.Id = long.Parse(userId);
-
-            var responseModel = await _userService.EditUserProfileAsync(userModel, isAdmin);
+            if(!long.TryParse(userId, out long _userId)){
+                userModel.Id = _userId;
+            }            
+            var responseModel = await _userService.UpdateUserProfileAsync(userModel, isAdmin);
             if (responseModel.Errors.Any())
             {
                 return Ok(responseModel);
@@ -51,7 +52,7 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("getUsers")]
         public async Task<IActionResult> GetUsersAsync([FromBody]FilterUserModel filterUserModel)
         {
-            var responseModel = await _userService.GetUsersAsync(filterUserModel);
+            var responseModel = await _userService.GetAllUsersAsync(filterUserModel);
 
             return Ok(responseModel);
         }

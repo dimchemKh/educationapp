@@ -20,7 +20,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public OrderRepository(ApplicationContext context) : base(context)
         {
         }
-        private async Task<IEnumerable<OrderDataModel>> Filtering(FilterOrderModel filterOrder, IQueryable<OrderDataModel> ordersList)
+        private async Task<IEnumerable<OrderDataModel>> GetFilteredDataAsync(FilterOrderModel filterOrder, IQueryable<OrderDataModel> ordersList)
         {
             Expression<Func<OrderDataModel, object>> lambda = null;
             if (filterOrder.SortType == Enums.SortType.Id)
@@ -39,33 +39,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var result = await PaginationAsync(filterOrder, lambda, ordersList);
             return result;
         }
-        public async Task<IEnumerable<OrderDataModel>> GetOrdersAsync(FilterOrderModel filterOrder, long userId)
+        public async Task<IEnumerable<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId)
         {
-            var ordersList = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order).Where(x => x.Order.User.Id == userId).GroupBy(x => x.OrderId)
-                .Select(x => new OrderDataModel
-                {
-                    Id = x.Key,
-                    Amount = x.Select(z => z.Amount).Sum(),
-                    Date = x.Select(z => z.CreationDate).FirstOrDefault(),
-                    TransactionStatus = x.Select(z => z.Order.TransactionStatus).FirstOrDefault(),
-                    PaymentId = x.Select(z => z.Order.PaymentId).FirstOrDefault(),
-                    Currency = x.Select(z => z.Currency).FirstOrDefault(),
-                    OrderItems = x.Select(z => new OrderItemDataModel
-                    {
-                        Title = z.PrintingEdition.Title,
-                        Count = z.Count,
-                        PrintingEditionType = z.PrintingEdition.PrintingEditionType,
-                        Amount = z.Amount,
-                        Currency = z.Currency
-                    }).ToList()
-                });           
-
-            return await Filtering(filterOrder, ordersList);
-        }
-        public async Task<IEnumerable<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder)
-        {
-            var ordersList = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order).ThenInclude(x => x.User).GroupBy(x => x.OrderId)
-                .Select(x => new OrderDataModel
+            var tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order);
+            if (userId > 1 && userId > 0)
+            {
+                tempQuery.Where(x => x.Order.User.Id == userId);
+            }
+            var ordersQuery = tempQuery.GroupBy(x => x.OrderId).Select(x => new OrderDataModel
                 {
                     Id = x.Key,
                     Amount = x.Select(z => z.Amount).Sum(),
@@ -85,7 +66,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     }).ToList()
                 });
 
-            return await Filtering(filterOrder, ordersList);
+            return await GetFilteredDataAsync(filterOrder, ordersQuery);
         }
     }
 }

@@ -8,6 +8,7 @@ using EducationApp.BusinessLayer.Models.Auth;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.BusinessLayer.Models.Base;
+using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -56,30 +57,43 @@ namespace EducationApp.BusinessLayer.Services
         }
         public async Task<BaseModel> SignUpAsync(UserRegistrationModel userRegModel)
         {
-            var userModel = new BaseModel();
+            var responseModel = new BaseModel();
             if(userRegModel == null 
                 || string.IsNullOrWhiteSpace(userRegModel.FirstName)
                 || string.IsNullOrWhiteSpace(userRegModel.LastName)
                 || string.IsNullOrWhiteSpace(userRegModel.Email))
             {
-                userModel.Errors.Add(Constants.Errors.InvalidData);
-                return userModel;
+                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                return responseModel;
             }
             var existedUser = await _userRepository.GetUserByEmailAsync(userRegModel.Email);
 
             if (existedUser != null)
             {
-                userModel.Errors.Add(Constants.Errors.IsExistedUser);
+                responseModel.Errors.Add(Constants.Errors.IsExistedUser);
+                return responseModel;
+            }
+            var user = _mapperHelper.Map<UserRegistrationModel, ApplicationUser>(userRegModel);
+            
+            if (!await _userRepository.SignUpAsync(user, userRegModel.Password))
+            {
+                responseModel.Errors.Add(Constants.Errors.CanNotRegisterUser);
+                return responseModel;
+            }
+            return responseModel;
+        }
+        public async Task<UserShortModel> GetEmailConfirmTokenAsync(string email)
+        {
+            var userModel = new UserShortModel();
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            if(user == null)
+            {
+                userModel.Errors.Add(Constants.Errors.UserNotFound);
                 return userModel;
             }
-            var user = _mapperHelper.MapToModelItem<UserRegistrationModel, ApplicationUser>(userRegModel);
-            
-            await _userRepository.SignUpAsync(user, userRegModel.Password);
+            userModel.UserId = user.Id;
+            userModel.ConfirmToken = await _userRepository.GetEmailConfirmTokenAsync(user);
             return userModel;
-        }
-        public async Task<string> GetEmailConfirmTokenAsync(long userId)
-        {
-            return await _userRepository.GetEmailConfirmTokenAsync(userId);
         }
         public async Task<UserRegistrationModel> ConfirmEmailAsync(string userId, string token)
         {
@@ -87,10 +101,15 @@ namespace EducationApp.BusinessLayer.Services
 
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
             {
-                responseModel.Errors.Add(Constants.Errors.EmptyToken);
+                responseModel.Errors.Add(Constants.Errors.InvalidConfirmData);
                 return responseModel;
             }
-            var user = await _userRepository.GetUserByIdAsync(long.Parse(userId));
+            if(!long.TryParse(userId, out long _userId))
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidConfirmData);
+                return responseModel;
+            }
+            var user = await _userRepository.GetUserByIdAsync(_userId);
             if (user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
@@ -98,23 +117,26 @@ namespace EducationApp.BusinessLayer.Services
             }
             if(!await _userRepository.ConfirmEmailAsync(user, token))
             {
-                responseModel.Errors.Add(Constants.Errors.EmptyToken);
+                responseModel.Errors.Add(Constants.Errors.InvalidConfirmData);
                 return responseModel;
             }
             return responseModel;
         }
-
         public async Task<BaseModel> ResetPasswordAsync(string email)
         {
             var responseModel = new BaseModel();
-
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidEmail);
+                return responseModel;
+            }
             var user = await _userRepository.GetUserByEmailAsync(email);
             if(user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             };
-            var token = await _userRepository.GenerateResetPasswordTokenAsync(user.Id);
+            var token = await _userRepository.GenerateResetPasswordTokenAsync(user);
             var newTempPassword = _passwordHelper.GenerateRandomPassword();
 
             string message = $"This is your Temp password {newTempPassword} ! Please change his, after succesfull authorization";

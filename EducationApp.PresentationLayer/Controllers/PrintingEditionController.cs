@@ -20,51 +20,51 @@ namespace EducationApp.PresentationLayer.Controllers
             _printingEditionService = printingEditionService;
         }
         [AllowAnonymous]
-        [HttpPost("printingEditions")]
-        public async Task<IActionResult> PrintingEditionsAsync([FromBody]FilterPrintingEditionModel filterModel)
+        [HttpPost("get")]
+        public async Task<IActionResult> GetPrintingEditionsAsync([FromBody]FilterPrintingEditionModel filterModel)
         {
             var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel);
 
             return Ok(responseModel);
         }
-        [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPost("printingEditions/admin")]
-        public async Task<IActionResult> PrintingEditionsAdminAsync([FromBody]FilterPrintingEditionModel filterModel)
+        //[Authorize(Roles = Constants.Roles.Admin)]
+        //[HttpPost("get/admin")]
+        //public async Task<IActionResult> GetPrintingEditionsForAdminAsync([FromBody]FilterPrintingEditionModel filterModel)
+        //{
+        //    var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel);
+        //    return Ok(responseModel);
+        //}
+        [AllowAnonymous]
+        [HttpPost("details")]
+        public async Task<IActionResult> GetPrintingEditionDetailsAsync([FromBody]PrintingEditionModelItem printingEdition)
         {
-            var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel, true);
+            var responseModel = await _printingEditionService.GetPrintingEditionDetailsAsync(printingEdition);
 
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPost("createPrintingEdition")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreatePrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
         {          
             var responseModel = await _printingEditionService.CreatePrintingEditionAsync(printingEditionsModelItem);
 
             return Ok(responseModel);
         }
-        [AllowAnonymous]
-        [HttpPost("printingEditionPage")]
-        public async Task<IActionResult> GetPrintingEditionDetailsAsync([FromBody]FilterPrintingEditionDetailsModel pageFilterModel)
-        {            
-            var responseModel = await _printingEditionService.GetPrintingEditionDetailsAsync(pageFilterModel);
 
-            return Ok(responseModel);
-        }
 
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPut("printingEditions/admin")]
-        public async Task<IActionResult> EditPrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdatePrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
         {
-            var responseModel = await _printingEditionService.EditPrintingEditionAsync(printingEditionsModelItem);
+            var responseModel = await _printingEditionService.UpdatePrintingEditionAsync(printingEditionsModelItem);
 
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpDelete("printingEditions/admin")]
-        public async Task<IActionResult> DeletePrintingEditionAsync([FromBody]FilterPrintingEditionDetailsModel pageModel)
+        [HttpDelete("delete/{printingEditionId}")]
+        public async Task<IActionResult> DeletePrintingEditionAsync(long printingEditionId)
         {
-            var responseModel = await _printingEditionService.DeletePrintingEditionAsync(pageModel.Id);
+            var responseModel = await _printingEditionService.DeletePrintingEditionAsync(printingEditionId);
 
             return Ok(responseModel);
         }

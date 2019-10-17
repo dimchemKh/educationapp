@@ -19,25 +19,28 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             _authorService = authorService;
         }
-
-        [HttpPost("get/Authors")]
-        public async Task<IActionResult> GetAuthorsAsync([FromBody]BaseFilterModel authorFilterModel)
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateAuthorAsync([FromBody]AuthorModelItem authorModel)
         {
-            var responseModel = await _authorService.GetAuthorsListAsync(authorFilterModel);
-            
-            return Ok(responseModel);
-        } 
-        [HttpPut("get/Authors")]
-        public async Task<IActionResult> EditAuthorAsync([FromBody]AuthorModelItem authorModelItem)
-        {
-            var responseModel = await _authorService.EditAuthorAsync(authorModelItem);
+            var responseModel = await _authorService.CreateAuthorAsync(authorModel);
             return Ok(responseModel);
         }
-        [HttpDelete("get/Authors")]
-        public async Task<IActionResult> DeleteAync([FromBody]AuthorModelItem authorModel)
+        [HttpPost("get")]
+        public async Task<IActionResult> GetAuthorsAsync([FromBody]BaseFilterModel authorFilterModel)
+        {
+            var responseModel = await _authorService.GetAuthorsListAsync(authorFilterModel);            
+            return Ok(responseModel);
+        } 
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateAuthorAsync([FromBody]AuthorModelItem authorModelItem)
+        {
+            var responseModel = await _authorService.UpdateAuthorAsync(authorModelItem);
+            return Ok(responseModel);
+        }
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteAuthorAsync([FromBody]AuthorModelItem authorModel)
         {
             var responseModel = await _authorService.DeleteAuthorAsync(authorModel.Id);
-
             return Ok(responseModel);
         }
     }
