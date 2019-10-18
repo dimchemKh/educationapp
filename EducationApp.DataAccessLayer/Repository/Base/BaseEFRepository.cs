@@ -27,11 +27,11 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public IQueryable<TEntity> ReadAll()
         {
-            return _dbSet.Where(x => x.IsRemoved == false);
+            return _dbSet.Where(x => x.IsRemoved.Equals(false));
         }
         public IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate);
+            return _dbSet.AsNoTracking().Where(x => x.IsRemoved.Equals(false)).Where(predicate);
         }
         public async Task CreateAsync(TEntity entity)
         {
@@ -53,14 +53,14 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             await _context.SaveChangesAsync();
         }
-        // TODO: need user override expression
+       
         public async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
         {
-            if (baseFilter.SortState == Enums.SortState.Asc)
+            if (baseFilter.SortState.Equals(Enums.SortState.Asc))
             {
                 entities = entities.OrderBy(predicate);
             }
-            if (baseFilter.SortState == Enums.SortState.Desc)
+            if (baseFilter.SortState.Equals(Enums.SortState.Desc))
             {
                 entities = entities.OrderByDescending(predicate);
             }

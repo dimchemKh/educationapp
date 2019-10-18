@@ -42,7 +42,11 @@ namespace EducationApp.PresentationLayer.Controllers
                 return Ok(authModel);
             }
             authModel = await _accountService.IdentifyUser(authModel);
-            var result = _jwtHelper.Generate(authModel, _configOptions);         
+            var result = _jwtHelper.Generate(authModel, _configOptions);
+
+            Response.Cookies.Append("access", result.AccessToken);
+            Response.Cookies.Append("refresh", result.RefreshToken);
+
             return Ok(result);
         }
         [AllowAnonymous]
