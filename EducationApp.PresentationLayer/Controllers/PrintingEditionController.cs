@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Security.Claims;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
@@ -23,7 +25,8 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("get")]
         public async Task<IActionResult> GetPrintingEditionsAsync([FromBody]FilterPrintingEditionModel filterModel)
         {
-            var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel);
+            var role = User.Claims.First(x => x.Type.Equals(ClaimTypes.Role)).Value;            
+            var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel, role.Equals(Constants.Roles.Admin));
 
             return Ok(responseModel);
         }

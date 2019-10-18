@@ -53,7 +53,7 @@ namespace EducationApp.BusinessLayer.Services
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
-            }
+            }            
             if (!await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidPassword);

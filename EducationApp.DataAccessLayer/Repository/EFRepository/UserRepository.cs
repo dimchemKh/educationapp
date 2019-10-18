@@ -95,11 +95,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             }
 
             Expression<Func<ApplicationUser, object>> lambda = null;
-            if (model.SortType == Enums.SortType.Name)
+            if (model.SortType.Equals(Enums.SortType.Name))
             {
                 lambda = x => x.UserName;
             }
-            if (model.SortType == Enums.SortType.Email)
+            if (model.SortType.Equals(Enums.SortType.Email))
             {
                 lambda = x => x.Email;
             }

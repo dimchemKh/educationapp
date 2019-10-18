@@ -11,7 +11,7 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IPrintingEditionService
     {
-        Task<PrintingEditionModel> GetPrintingEditionsAsync(FilterPrintingEditionModel filterModel);
+        Task<PrintingEditionModel> GetPrintingEditionsAsync(FilterPrintingEditionModel filterModel, bool isAdmin);
         Task<PrintingEditionModel> CreatePrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem);
         Task<PrintingEditionModel> GetPrintingEditionDetailsAsync(PrintingEditionModelItem printingEdition);
         Task<PrintingEditionModel> UpdatePrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem);

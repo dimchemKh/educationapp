@@ -13,11 +13,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IAuthorInPrintingEditionRepository : IBaseEFRepository<AuthorInPrintingEdition>
     {
-        Task UpdateAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<AuthorDataModel> authors);
-        Task AddAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<AuthorDataModel> authors);
+        Task<bool> UpdateAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId);
+        Task AddAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId);
         Task<IList<AuthorDataModel>> GetAuthorsInOnePrintingEditionAsync(long printingEditionId);
-        Task DeleteByAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate);
+        Task<bool> DeleteByAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate);
         Task<IEnumerable<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter);
-        Task<IEnumerable<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter);
+        Task<IEnumerable<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter, bool isAdmin);
     }
 }

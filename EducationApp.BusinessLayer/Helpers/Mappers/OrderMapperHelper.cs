@@ -1,12 +1,10 @@
 ﻿using EducationApp.BusinessLayer.Models.OrderItems;
 using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Models.OrderItems;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models.Orders;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EducationApp.BusinessLayer.Helpers.Mappers
 {
@@ -33,7 +31,14 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             orderItem.Email = orderDataModel.Email;
             orderItem.UserName = orderDataModel.UserName;
             orderItem.Amount = orderDataModel.Amount;
-            orderItem.TransactionStatus = orderDataModel.TransactionStatus;
+            if(orderDataModel.PaymentId == null)
+            {
+                orderItem.TransactionStatus = Enums.TransactionStatus.Unpaid;
+            }
+            if (orderDataModel.PaymentId != null)
+            {
+                orderItem.TransactionStatus = Enums.TransactionStatus.Paid;
+            }
             orderItem.Currency = orderDataModel.OrderItems.Select(x => x.Currency).FirstOrDefault();
             orderItem.OrderItems = new List<OrderItemModel>();
             foreach (var item in orderDataModel.OrderItems)

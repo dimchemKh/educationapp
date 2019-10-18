@@ -52,7 +52,7 @@ namespace EducationApp.BusinessLayer.Services
             authModel.UserId = existedUser.Id;
             var roles = await _userRepository.GetRoleAsync(existedUser);
             authModel.UserRole = roles.FirstOrDefault();
-            authModel.UserName = string.Concat(existedUser.FirstName, " ", existedUser.LastName);
+            authModel.UserName = existedUser.UserName;
 
             return authModel;
         }
@@ -75,8 +75,8 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var user = _mapperHelper.Map<UserRegistrationModel, ApplicationUser>(userRegModel);
-            var builder = new StringBuilder(user.FirstName);
-            builder.Append(user.LastName);
+            var builder = new StringBuilder(user.FirstName).Append(user.LastName);
+
             user.UserName = builder.ToString();
 
             if (!await _userRepository.SignUpAsync(user, userRegModel.Password))

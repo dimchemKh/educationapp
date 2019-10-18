@@ -14,7 +14,7 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
 {
     public static class PrintingEditionMapperHelper
     {
-        public static PrintingEditionModelItem MapToModel(this PrintingEditionDataModel source, Enums.Currency currency)
+        public static PrintingEditionModelItem MapToModel(this PrintingEditionDataModel source, Enums.Currency currency = Enums.Currency.USD)
         {
             var instance = new PrintingEditionModelItem();
 
@@ -24,7 +24,8 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             instance.Title = source.Title;
             instance.Currency = currency;
             instance.Description = source.Description;
-            instance.Authors = source.Authors.Select(x => new AuthorModelItem { Name = x.Name }).ToList();
+            instance.Price = source.Price;
+            instance.Authors = source.Authors.Select(x => new AuthorModelItem { Id = x.Id, Name = x.Name }).ToList();
             
             return instance;
         }

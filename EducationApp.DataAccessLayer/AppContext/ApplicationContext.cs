@@ -18,13 +18,6 @@ namespace EducationApp.DataAccessLayer.AppContext
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {          
-            builder.Entity<AuthorInPrintingEdition>()
-            .HasKey(key => new { key.AuthorId, key.PrintingEditionId });
-
-            builder.Entity<AuthorInPrintingEdition>()
-                .HasOne(navigationName => navigationName.PrintingEdition)
-                .WithMany(table => table.AuthorInPrintingEditions)
-                .HasForeignKey(key => key.PrintingEditionId);
 
             base.OnModelCreating(builder);
         }

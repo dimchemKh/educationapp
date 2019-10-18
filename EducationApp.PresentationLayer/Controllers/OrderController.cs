@@ -26,7 +26,7 @@ namespace EducationApp.PresentationLayer.Controllers
         public async Task<IActionResult> GetUserOrdersAsync([FromBody]FilterOrderModel filterOrder)
         {
             var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var responseModel = await _orderService.GetUserOrdersAsync(filterOrder, userId);
+            var responseModel = await _orderService.GetOrdersAsync(filterOrder, userId);
             return Ok(responseModel);
         }
         [HttpPost("create")]
@@ -34,6 +34,12 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             var userId = User.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             var responseModel = await _orderService.CreateOrderAsync(orderModelItem, userId);
+            return Ok(responseModel);
+        }        
+        [HttpPost("update/{orderId}")]
+        public async Task<IActionResult> UdpdateOrderAsync(string orderId)
+        {
+            var responseModel = await _orderService.CreateTransactionAsync(orderId, "2132333323232");
             return Ok(responseModel);
         }
     }

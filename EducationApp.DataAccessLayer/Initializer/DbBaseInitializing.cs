@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace EducationApp.DataAccessLayer.Initializer
 {
@@ -34,15 +35,24 @@ namespace EducationApp.DataAccessLayer.Initializer
         }
         protected void SeedAdminAndUserRoles()
         {
-            string adminEmail = "admin@gmail.com";
-            string password = "QWEqwe123qwe";
+            _roleManager.CreateAsync(new Role()
+            {
+                Name = Constants.Roles.Admin
+            }).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new Role()
+            {
+                Name = Constants.Roles.User
+            }).GetAwaiter().GetResult();
 
-            _roleManager.CreateAsync(new Role() { Name = Constants.Roles.Admin }).GetAwaiter().GetResult();
-            _roleManager.CreateAsync(new Role() { Name = Constants.Roles.User }).GetAwaiter().GetResult();
+            var admin = new ApplicationUser
+            {
+                FirstName = Constants.AdminSettings.FirstName,
+                LastName = Constants.AdminSettings.LastName,
+                Email = Constants.AdminSettings.Email,
+                UserName = string.Concat(Constants.AdminSettings.FirstName, Constants.AdminSettings.LastName)
+            };
 
-            var admin = new ApplicationUser { FirstName = "Main", LastName = "Admin", Email = adminEmail, UserName = adminEmail };
-
-            var result = _userManager.CreateAsync(admin, password).GetAwaiter().GetResult();
+            var result = _userManager.CreateAsync(admin, Constants.AdminSettings.Password).GetAwaiter().GetResult();
 
             if (result.Succeeded)
             {
@@ -98,7 +108,8 @@ namespace EducationApp.DataAccessLayer.Initializer
 
             printingEdition1.AuthorInPrintingEditions = new List<AuthorInPrintingEdition>()
             {
-                new AuthorInPrintingEdition {
+                new AuthorInPrintingEdition
+                {
                     Author = author1,
                     PrintingEdition = printingEdition1
                 },
@@ -131,9 +142,19 @@ namespace EducationApp.DataAccessLayer.Initializer
             };
             
 
-            _context.Authors.AddRange(new List<Author>() { author1, author2, author3 });
+            _context.Authors.AddRange(new List<Author>()
+            {
+                author1,
+                author2,
+                author3
+            });
 
-            _context.PrintingEditions.AddRange(new List<PrintingEdition>() { printingEdition1, printingEdition2, printingEdition3 });
+            _context.PrintingEditions.AddRange(new List<PrintingEdition>()
+            {
+                printingEdition1,
+                printingEdition2,
+                printingEdition3
+            });
 
             _context.SaveChanges();
         }

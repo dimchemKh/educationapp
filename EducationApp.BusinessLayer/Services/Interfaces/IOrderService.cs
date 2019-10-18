@@ -9,7 +9,7 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IOrderService
     {
-        Task<OrderModel> GetUserOrdersAsync(FilterOrderModel filterOrder, string userId);
+        Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId);
         Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, string userId);
         Task<OrderModel> CreateTransactionAsync(string orderId, string transactionId);
     }

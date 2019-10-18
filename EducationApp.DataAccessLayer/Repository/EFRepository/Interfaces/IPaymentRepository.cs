@@ -6,6 +6,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IPaymentRepository : IBaseEFRepository<Payment>
     {
-        Task<bool> CreateTransactionAsync(long orderId, Payment payment);        
+           
     }
 }

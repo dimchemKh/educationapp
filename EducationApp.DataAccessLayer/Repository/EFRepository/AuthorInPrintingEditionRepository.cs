@@ -22,9 +22,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorInPrintingEditionRepository(ApplicationContext context) : base(context)
         {
         }
-        public async Task<IEnumerable<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter)
+        public async Task<IEnumerable<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter, bool isAdmin)
         {
-            var printingEditions = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).GroupBy(x => x.PrintingEditionId)
+            var printingEditions = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition)
+                .Where(x => x.PrintingEdition.IsRemoved.Equals(false) && x.IsRemoved.Equals(false)).GroupBy(x => x.PrintingEditionId)
                                         .Select(x => new PrintingEditionDataModel
                                         {
                                             Id = x.Key,
@@ -33,7 +34,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                                             PrintingEditionType = x.Select(z => z.PrintingEdition.PrintingEditionType).FirstOrDefault(),
                                             Title = x.Select(z => z.PrintingEdition.Title).FirstOrDefault(),
                                             Description = x.Select(z => z.PrintingEdition.Description).FirstOrDefault(),
-                                            Authors = x.Select(z => new AuthorDataModel { Name = z.Author.Name }).ToList()
+                                            Authors = x.Select(z => new AuthorDataModel
+                                            {
+                                                Id = z.Id,
+                                                Name = z.Author.Name
+                                            }).ToList()
                                         });
 
             if (!string.IsNullOrWhiteSpace(filter.SearchString))
@@ -42,43 +47,45 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             }
 
             printingEditions = printingEditions.Where(x => filter.PrintingEditionTypes.Contains(x.PrintingEditionType));
-
-            printingEditions = printingEditions.Where(x => x.Price >= filter.PriceMinValue && x.Price <= filter.PriceMaxValue);
-
-            Expression<Func<PrintingEditionDataModel, object>> lambda = null;
-            if (filter.SortType == Enums.SortType.Id)
+            if (!isAdmin)
             {
-                lambda = x => x.Id;
-            }
-            if (filter.SortType == Enums.SortType.PrintingEditionType)
-            {
-                lambda = x => x.PrintingEditionType;
-            }
-            if (filter.SortType == Enums.SortType.Price)
-            {
-                lambda = x => x.Price;
+                printingEditions = printingEditions.Where(x => x.Price >= filter.PriceMinValue && x.Price <= filter.PriceMaxValue);
             }
 
-            var result = await PaginationAsync(filter, lambda, printingEditions);
+            Expression<Func<PrintingEditionDataModel, object>> expression = null;
+            if (filter.SortType.Equals(Enums.SortType.Id))
+            {
+                expression = x => x.Id;
+            }
+            if (filter.SortType.Equals(Enums.SortType.PrintingEditionType))
+            {
+                expression = x => x.PrintingEditionType;
+            }
+            if (filter.SortType.Equals(Enums.SortType.Price))
+            {
+                expression = x => x.Price;
+            }
+
+            var result = await PaginationAsync(filter, expression, printingEditions);
 
             return result;
         }
         public async Task<IEnumerable<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter)
         {
             var authors = _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition)
-                .Where(x => x.Author.IsRemoved == false).GroupBy(x => x.Author)
+                .Where(x => x.Author.IsRemoved == false).GroupBy(x => x.AuthorId)
                 .Select(group => new AuthorDataModel
                 {
-                    Id = group.Key.Id,
+                    Id = group.Key,
                     Name = group.Select(x => x.Author.Name).FirstOrDefault(),
                     PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToList()
                 });
             Expression<Func<AuthorDataModel, object>> expression = null;
-            if (filter.SortType == Enums.SortType.Id)
+            if (filter.SortType.Equals(Enums.SortType.Id))
             {
                 expression = x => x.Id;
             }
-            if (filter.SortType == Enums.SortType.Name)
+            if (filter.SortType.Equals(Enums.SortType.Name))
             {
                 expression = x => x.Name;
             }
@@ -86,44 +93,61 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             return result;
         } 
         // ???????
-        public async Task UpdateAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<AuthorDataModel> authors)
+        public async Task<bool> UpdateAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId)
         {
-            var query = await _context.AuthorInPrintingEditions.Where(x => x.PrintingEditionId == printingEdition.Id).ToListAsync();
+            var queryAuthorsList = await _context.AuthorInPrintingEditions.Include(x => x.Author)
+                .Where(x => x.PrintingEditionId.Equals(printingEdition.Id))
+                .GroupBy(x => x.Author)
+                .Select(x => x.Key).ToListAsync();
 
-            foreach (var item in query)
+            var list = queryAuthorsList.Select(x => x.Id).ToList();
+            var isEqual = list.SequenceEqual(authorsId.OrderBy(x => x));
+            if (isEqual)
+            {
+                return false;
+            }
+            var removeRange = await _context.AuthorInPrintingEditions.Where(x => x.PrintingEditionId.Equals(printingEdition.Id)).ToListAsync();
+            foreach (var item in removeRange)
             {
                 item.IsRemoved = true;
             }
-            _context.AuthorInPrintingEditions.UpdateRange(query);
-
-            await AddAuthorsInPrintingEditionAsync(printingEdition, authors);
+            _context.AuthorInPrintingEditions.UpdateRange(removeRange);
+            await AddAuthorsInPrintingEditionAsync(printingEdition, authorsId);
+            return true;
         }
-        public async Task AddAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<AuthorDataModel> authors)
+        public async Task AddAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId)
         {
-            foreach (var author in authors)
-            {
-                var findedAuthor = await _context.Authors.FindAsync(author.Id);
-                printingEdition.AuthorInPrintingEditions.Add(new AuthorInPrintingEdition() { PrintingEdition = printingEdition, Author = findedAuthor });
-            }
+            var query = await _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition).Where(x => authorsId.Contains(x.Author.Id))
+                .GroupBy(x => x.Author).Select(x => x.Key).ToListAsync();
+            var tempList = query.Select(z => new AuthorInPrintingEdition { AuthorId = z.Id, PrintingEdition = printingEdition }).ToList();
+            await _context.AddRangeAsync(tempList);
+            await _context.SaveChangesAsync();
         }        
         public async Task<IList<AuthorDataModel>> GetAuthorsInOnePrintingEditionAsync(long printingEditionId)
         {
             var list = await _context.AuthorInPrintingEditions.Include(x => x.Author).Include(x => x.PrintingEdition)
-                                                            .Where(x => x.PrintingEditionId == printingEditionId)
-                                                            .Select(z => new AuthorDataModel { Name = z.Author.Name }).ToListAsync();
+                .Where(x => x.PrintingEditionId == printingEditionId)
+                .Select(z => new AuthorDataModel
+                {
+                    Name = z.Author.Name
+                }).ToListAsync();
 
             return list;
         }
-        public async Task DeleteByAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
+        public async Task<bool> DeleteByAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
         {
             var list = await _context.AuthorInPrintingEditions.Where(predicate).ToListAsync();
+            if(list == null)
+            {
+                return false;
+            }
             _context.AuthorInPrintingEditions.AttachRange(list);
             foreach (var item in list)
             {
                 item.IsRemoved = true;
             }
-
             await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

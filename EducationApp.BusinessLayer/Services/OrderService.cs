@@ -37,7 +37,7 @@ namespace EducationApp.BusinessLayer.Services
             _converterHelper = converterHelper;
             _paymentRepository = paymentRepository;
         }
-        public async Task<OrderModel> GetUserOrdersAsync(FilterOrderModel filterOrder, string userId)
+        public async Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId)
         {
             var responseModel = new OrderModel();
 
@@ -49,9 +49,9 @@ namespace EducationApp.BusinessLayer.Services
             }
             var result = await _orderRepository.GetAllOrdersAsync(repositoryFilter, _userId);
             var orderList = result.ToList();
+            
             foreach (var order in orderList)
-            {          
-                
+            {                         
                 var orderModelItem = order.MapTo();
                 responseModel.Items.Add(orderModelItem);
             }            
@@ -92,6 +92,7 @@ namespace EducationApp.BusinessLayer.Services
             {
                 TransactionId = null
             };
+
             order.Amount = orderItemsList.Select(x => x.Amount).Sum();            
             order.OrderItems = orderItemsList;
             order.TransactionStatus = DataAccessLayer.Entities.Enums.Enums.TransactionStatus.Unpaid;            
@@ -110,13 +111,17 @@ namespace EducationApp.BusinessLayer.Services
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
                 return responseModel;
-            }            
-            //var result = await _paymentRepository.CreateTransactionAsync(long.Parse(orderId), payment);
-            //if (!result)
-            //{
-            //    responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
-            //    return responseModel;
-            //}
+            }
+            if(!long.TryParse(orderId, out long _orderId) || !long.TryParse(transactionId, out long _transactionId))
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                return responseModel;
+            }
+            if(!await _orderRepository.UpdateTransactionAsync(_orderId, _transactionId))
+            {
+                responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                return responseModel;
+            }
             return responseModel;
         }
     }

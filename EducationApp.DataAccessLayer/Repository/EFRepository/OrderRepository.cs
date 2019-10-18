@@ -57,7 +57,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     Date = x.Select(z => z.CreationDate).FirstOrDefault(),
                     Email = x.Select(z => z.Order.User.Email).FirstOrDefault(),
                     UserName = x.Select(z => string.Concat(z.Order.User.FirstName, " ", z.Order.User.LastName)).FirstOrDefault(),
-                    TransactionStatus = x.Select(z => z.Order.TransactionStatus).FirstOrDefault(),
                     PaymentId = x.Select(z => z.Order.Payment.TransactionId).FirstOrDefault(),
                     Currency = x.Select(z => z.Currency).FirstOrDefault(),
                     OrderItems = x.Select(z => new OrderItemDataModel
@@ -71,6 +70,19 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 });
 
             return await GetFilteredDataAsync(filterOrder, ordersQuery);
+        }
+        public async Task<bool> UpdateTransactionAsync(long orderId, long transactionId)
+        {
+            var query = await _context.Orders.Include(x => x.Payment).Where(x => x.Id.Equals(orderId)).Select(x => x.Payment).FirstOrDefaultAsync();
+            if(query == null)
+            {
+                return false;
+            }
+            query.TransactionId = transactionId;
+
+            _context.Payments.Update(query);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
