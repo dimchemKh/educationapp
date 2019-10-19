@@ -7,8 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AccountModule } from './account/account.module';
+
 import { MatSidenavModule } from '@angular/material';
-import { from } from 'rxjs';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { from } from 'rxjs';
     AppRoutingModule,
     RouterModule,
     SharedModule,
-    MatSidenavModule
+    MatSidenavModule,
+    AccountModule
   ],
   providers: [],
   bootstrap: [AppComponent]

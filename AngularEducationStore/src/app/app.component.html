@@ -1,11 +1,12 @@
 
-<mat-sidenav-container class="page-wrap">
+<mat-sidenav-container>
   
-  <app-header></app-header>
-  
-  <router-outlet></router-outlet>
-  <span></span>
-  <app-footer></app-footer>
-  
-</mat-sidenav-container>
+    <app-header></app-header>
 
+    <router-outlet></router-outlet>
+
+    <div class="footer" #footer>
+      <app-footer></app-footer>
+    </div>
+      
+</mat-sidenav-container>
