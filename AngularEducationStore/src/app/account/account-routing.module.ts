@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { RefreshTokenComponent } from './refresh-token/refresh-token.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { SignUpComponent } from 'src/app/account/sign-up/sign-up.component';
+import { SignInComponent } from 'src/app/account/sign-in/sign-in.component';
+import { RefreshTokenComponent } from 'src/app/account/refresh-token/refresh-token.component';
+import { ForgotPasswordComponent } from 'src/app/account/forgot-password/forgot-password.component';
+import { ConfirmEmailComponent } from 'src/app/account/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
     { path: 'signUp', component: SignUpComponent },

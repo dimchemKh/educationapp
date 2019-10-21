@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-up',
@@ -8,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class SignUpComponent implements OnInit {
 
   constructor() { }
+  email = new FormControl('', [Validators.required, Validators.email]);
+  hide = true;
+  checked = false;
 
   ngOnInit() {
   }
 
+  getErrorMessage() {
+    return this.email.hasError('email') ? 'Not a valid email' : '';
+  }
 }

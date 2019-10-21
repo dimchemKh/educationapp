@@ -1,8 +1,28 @@
 .container {
-    margin: 5%;
-    padding: 10% 30%;
+    margin-top: 10%;
     display: flex;
-    flex-direction: column;  
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.container > mat-form-field {
+    width: 25%;
+}
+.row {
+    display: flex;
+    align-items: center;
+}
+.row > mat-checkbox {
+    margin: 0 100px;
+}
+.row > button {
+    margin: 0 100px;
+}
+.row > span {
+    flex: 1 1 auto;
+}
+.mat-hint {
+    color: red;
 }
 .mat-form-field {
     margin-bottom: 10px;
@@ -10,9 +30,24 @@
 .button-right{
     flex: 1 0 auto;
 }
-.label-link {
+.registr-account-label {
+    margin-top: 50px;
+    text-align: center;
+}
+.registr-btn {
+    margin-top: 10px;
+    width: 15%;
+}
+.mat-hint {
+    display: flex;
+}
+.mat-hint > a {
     color: navy;
-    text-align: right;
     font-size: 12px;
     text-decoration: unset;
+    flex-direction: row-reverse;
+}
+.title {
+    
+    font-size: 36px;
 }

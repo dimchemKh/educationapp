@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from 'src/app/material.module';
-
+import { routes } from 'src/app/shared/shared-routing.module';
+import { from } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -11,10 +13,14 @@ import { MaterialModule } from 'src/app/material.module';
     HeaderComponent,
     FooterComponent
   ],
-  exports: [HeaderComponent, FooterComponent],
+  exports: [
+    HeaderComponent,
+    FooterComponent
+  ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule.forChild(routes)
   ],
   bootstrap: []
 })

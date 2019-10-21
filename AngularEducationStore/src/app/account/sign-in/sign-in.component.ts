@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { AccountService } from 'src/app/services/account.service';
+import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
+
+
 
 @Component({
   selector: 'app-sign-in',
@@ -8,14 +12,22 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class SignInComponent {
 
-  constructor() { }
 
+  constructor(private accountService: AccountService) {
+  }
   email = new FormControl('', [Validators.required, Validators.email]);
   hide = true;
   checked = false;
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-        this.email.hasError('email') ? 'Not a valid email' :
-            '';
+
+  user: UserLoginModel = new UserLoginModel();
+  title = 'SignIn';
+
+  submit() {
+    this.accountService.signInUser(this.user).subscribe((data: string) => console.log(data));
   }
+
+  getErrorMessage() {
+    return this.email.hasError('email') ? 'Not a valid email' : '';
+  }
+
 }

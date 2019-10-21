@@ -1,12 +1,11 @@
 
 <mat-toolbar color="accent">
   <mat-toolbar-row>
-    <!-- <i class="material-icons">import_contacts</i> -->
-    <span><i class="fab fa-leanpub"></i></span>
+    <i class="material-icons">import_contacts</i>
     <span>Education Store</span>
     <span class="header-flex"></span>
-    <a mat-raised-button routerLink=""><i class="material-icons">shopping_cart</i>Cart</a>
+    <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active" >Log In<i class="material-icons">account_circle</i></a>
+    <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
   </mat-toolbar-row>
 </mat-toolbar>
-
   

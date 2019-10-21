@@ -69,7 +69,11 @@ namespace EducationApp.PresentationLayer
 
             services.AddScoped<IJwtHelper, JwtHelper>();
 
+
             InitializerServices.InitializeServices(services, Configuration);
+
+            services.AddCors();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Education Store", Version = "v1" });
@@ -107,6 +111,7 @@ namespace EducationApp.PresentationLayer
 
             app.UseAuthentication();
 
+            app.UseCors(builder => builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200"));
 
             app.UseMiddleware<ExceptionMiddleware>();
 
