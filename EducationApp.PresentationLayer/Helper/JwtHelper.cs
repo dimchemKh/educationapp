@@ -72,13 +72,14 @@ namespace EducationApp.PresentationLayer.Helper
         }
         public AuthModel Generate(AuthModel authModel, IOptions<Config> configOptions)
         {
+            var result = new AuthModel();
             var accessClaims = GetAccessTokenClaims(authModel);
             var refreshClaims = GetRefreshTokenClaims(authModel);
-            authModel.AccessToken = Generate(accessClaims, configOptions, configOptions.Value.AccessTokenExpiration);
+            result.AccessToken = Generate(accessClaims, configOptions, configOptions.Value.AccessTokenExpiration);
 
-            authModel.RefreshToken = Generate(refreshClaims, configOptions, configOptions.Value.RefreshTokenExpiration);
+            result.RefreshToken = Generate(refreshClaims, configOptions, configOptions.Value.RefreshTokenExpiration);
 
-            return authModel;
+            return result;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace EducationApp.BusinessLayer.Common.Constants
             public const string UserNotFound = "User not found.";
             public const string InvalidConfirmData = "Get invalid userId or confirmToken.";
             public const string InvalidData = "Invalid input data.";
+            public const string EmptyPassword = "Password is empty!";
             public const string InvalidPassword = "Invalid password.";
             public const string InvalidToken = "Invalid token.";
             public const string IsExistedPrintingEdition = "Printing Edition is existed.";

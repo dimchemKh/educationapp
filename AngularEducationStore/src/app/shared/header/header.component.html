@@ -1,11 +1,27 @@
 
 <mat-toolbar color="accent">
   <mat-toolbar-row>
+
     <i class="material-icons">import_contacts</i>
+
     <span>Education Store</span>
+
     <span class="header-flex"></span>
-    <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active" >Log In<i class="material-icons">account_circle</i></a>
+
+    <ng-template [ngIf]="!isAuthentificated">
+        <p>
+            <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active">Log In<i class="material-icons">account_circle</i></a>
+        </p>
+      </ng-template>
+      
+      <ng-template [ngIf]="isAuthentificated">
+        <p>
+            <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active"><i class="material-icons">account_circle</i></a>
+        </p>
+      </ng-template>
+
     <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
+
   </mat-toolbar-row>
 </mat-toolbar>
   

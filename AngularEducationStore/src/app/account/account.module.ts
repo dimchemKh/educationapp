@@ -12,6 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { from } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../services/account.service';
+import { MatCheckboxModule, MatFormFieldModule, MatButtonModule } from '@angular/material';
+import { AuthService } from '../services/auth.service';
+import { DataService } from '../services/data.service';
+
 
 @NgModule({
   declarations: [
@@ -24,11 +28,14 @@ import { AccountService } from '../services/account.service';
   imports: [
     RouterModule.forChild(routes),
     MaterialModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule
   ],
-  providers: [AccountService],
+  providers: [AccountService, AuthService, DataService],
   schemas: [NO_ERRORS_SCHEMA]
 
 })

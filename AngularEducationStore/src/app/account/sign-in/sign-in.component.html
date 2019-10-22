@@ -1,28 +1,33 @@
 
 <div class="container">  
+
   <label class="title">Sign In</label>
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="user.email"/>
-        <mat-hint *ngIf="email.invalid">{{getErrorMessage()}}</mat-hint>
-      </mat-form-field>  
-    
-      <mat-form-field appearance="outline">        
-        <input  matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="user.password">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        <mat-hint align="end"><a class="label-link" href="">Forgot your password?</a></mat-hint>
-      </mat-form-field>
-      <div class="row">
-        <mat-checkbox class="example-margin" [(ngModel)]="checked">Remember Me</mat-checkbox> 
-        <span></span>
-        <button mat-raised-button color="accent" (click)='submit()'>Sign In</button>
-      </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="userModel.email"/>
+      <mat-hint *ngIf="email.invalid">{{getErrorMessage()}}</mat-hint>
+    </mat-form-field>  
+  
+    <mat-form-field appearance="outline">        
+      <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="userModel.password">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-hint>{{userModel.errors}}</mat-hint>
+      <mat-hint align="end"><a class="label-link" [routerLink]="['/account/forgotPassword']" routerLinkActive="router-link-active"  >Forgot your password?</a></mat-hint>
+    </mat-form-field>
+
+    <div class="row">
+      <mat-checkbox class="example-margin" [(ngModel)]="checked">Remember Me</mat-checkbox>
+      <span></span>
+      <button mat-raised-button color="accent" (click)='submit()'>Sign In</button>
+    </div>
   
     <div class="registr-account-label">
       <label>New to Book Publishng Company?</label>
     </div>
-    <button class="registr-btn" mat-raised-button color="accent" [routerLink]="['/account/signUp']" routerLinkActive="router-link-active" >Sign Up</button>   
-</div>
 
+    <button class="registr-btn" mat-raised-button color="accent" [routerLink]="['/account/signUp']" routerLinkActive="router-link-active" >Sign Up</button>  
+    
+</div>

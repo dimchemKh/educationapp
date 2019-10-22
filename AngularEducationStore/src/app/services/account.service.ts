@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { UserLoginModel } from 'src/app/models/user/userLoginModel';
-import { from } from 'rxjs';
+import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  private url = 'api/account';
+
   constructor(private http: HttpClient) { }
 
   signInUser(user: UserLoginModel) {

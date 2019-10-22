@@ -34,7 +34,7 @@ namespace EducationApp.BusinessLayer.Services
                 || string.IsNullOrWhiteSpace(loginModel.Email) 
                 || string.IsNullOrWhiteSpace(loginModel.Password))
             {
-                authModel.Errors.Add(Constants.Errors.InvalidData);
+                authModel.Errors.Add(Constants.Errors.EmptyPassword);
                 return authModel;
             }
             var existedUser = await _userRepository.GetUserByEmailAsync(loginModel.Email);
@@ -52,7 +52,7 @@ namespace EducationApp.BusinessLayer.Services
             authModel.UserId = existedUser.Id;
             var roles = await _userRepository.GetRoleAsync(existedUser);
             authModel.UserRole = roles.FirstOrDefault();
-            authModel.UserName = existedUser.UserName;
+            authModel.UserName = string.Concat(existedUser.FirstName, " ", existedUser.LastName);
 
             return authModel;
         }
