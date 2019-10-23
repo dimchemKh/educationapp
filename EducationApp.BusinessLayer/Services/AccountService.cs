@@ -79,9 +79,12 @@ namespace EducationApp.BusinessLayer.Services
 
             user.UserName = builder.ToString();
 
-            if (!await _userRepository.SignUpAsync(user, userRegModel.Password))
+            var errorsList = await _userRepository.SignUpAsync(user, userRegModel.Password);
+            var result = errorsList.ToList();
+
+            if (result.Any())
             {
-                responseModel.Errors.Add(Constants.Errors.CanNotRegisterUser);
+                responseModel.Errors = result.Select(x => x.Description).ToList();
                 return responseModel;
             }
             return responseModel;

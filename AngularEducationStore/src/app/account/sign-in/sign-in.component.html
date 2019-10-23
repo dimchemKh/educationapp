@@ -6,15 +6,15 @@
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="userModel.email"/>
-      <mat-hint *ngIf="email.invalid">{{getErrorMessage()}}</mat-hint>
+      <mat-hint *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-hint>
     </mat-form-field>  
   
     <mat-form-field appearance="outline">        
-      <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="userModel.password">
+      <input matInput placeholder="Enter your password" [formControl]="password" [type]="hide ? 'password' : 'text'" [(ngModel)]="userModel.password" required>
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      <mat-hint>{{userModel.errors}}</mat-hint>
+      <mat-hint>{{userModel.errors || getPasswordErrorMessage()}}</mat-hint>
       <mat-hint align="end"><a class="label-link" [routerLink]="['/account/forgotPassword']" routerLinkActive="router-link-active"  >Forgot your password?</a></mat-hint>
     </mat-form-field>
 

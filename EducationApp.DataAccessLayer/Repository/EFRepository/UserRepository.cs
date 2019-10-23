@@ -22,7 +22,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        public async Task<bool> SignUpAsync(ApplicationUser user, string password)
+        public async Task<IEnumerable<IdentityError>> SignUpAsync(ApplicationUser user, string password)
         {            
             var result = await _userManager.CreateAsync(user, password);
 
@@ -31,7 +31,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 await _userManager.AddToRoleAsync(user, Constants.Roles.User);
                 await _signInManager.SignInAsync(user, isPersistent: true);
             }            
-            return result.Succeeded;
+            return result.Errors;
         }
         public async Task<IList<string>> GetRoleAsync(ApplicationUser user)
         {

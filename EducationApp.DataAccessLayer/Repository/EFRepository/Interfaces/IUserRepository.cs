@@ -16,7 +16,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
         Task<string> GenerateResetPasswordTokenAsync(ApplicationUser user);
         Task<string> GetEmailConfirmTokenAsync(ApplicationUser user);
         Task<IList<string>> GetRoleAsync(ApplicationUser user);
-        Task<bool> SignUpAsync(ApplicationUser user, string password);
+        Task<IEnumerable<IdentityError>> SignUpAsync(ApplicationUser user, string password);
         Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
         Task<bool> UpdateUserAsync(ApplicationUser user);
         Task<IEnumerable<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model);

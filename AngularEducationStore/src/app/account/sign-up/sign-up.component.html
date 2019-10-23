@@ -1,28 +1,49 @@
-<mat-form-field appearance="outline">
-    <mat-label>Your First name </mat-label>
-    <input matInput placeholder="Placeholder">
-</mat-form-field>
+<div class="container">
+    <label class="title" for="">{{title}}</label>
 
-<mat-form-field appearance="outline">
-    <mat-label>Your Last name</mat-label>
-    <input matInput placeholder="Placeholder">
-</mat-form-field>
-
-<mat-form-field appearance="outline">
-    <mat-label>Email</mat-label>
-    <input matInput placeholder="Enter your email" [formControl]="email" required />
-    <mat-hint *ngIf="email.invalid">{{getErrorMessage()}}</mat-hint>
-</mat-form-field>
-
-<mat-form-field appearance="outline">
-    <input  matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'">
-    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-    </button>
-</mat-form-field>
-<mat-form-field appearance="outline">
-        <input  matInput placeholder="Confirm Password" [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    <mat-form-field appearance="outline">
+        <mat-label>Your First name </mat-label>
+        <input matInput [formControl]="firstName" [(ngModel)]="userModel.firstName" required>
+        <mat-hint align="end" *ngIf="firstName.invalid">{{getFirstNameErrorMessage()}}</mat-hint>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+        <mat-label>Your Last name</mat-label>
+        <input matInput [formControl]="lastName" [(ngModel)]="userModel.lastName" required>
+        <mat-hint align="end" *ngIf="lastName.invalid">{{getLastNameErrorMessage()}}</mat-hint>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="userModel.email" required />
+        <mat-hint align="end" *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-hint>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+        <input  matInput placeholder="Enter your password" [formControl]="password" [type]="hidePassword ? 'password' : 'text'" required>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-</mat-form-field>
+        <mat-hint align="end" *ngIf="password.invalid">{{getPasswordErrorMessage()}}</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <input  matInput placeholder="Confirm your password" [formControl]="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="userModel.password"  required>
+        <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+            <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-hint align="end" *ngIf="confirmPassword">{{getConfirmPasswordMessage()}}</mat-hint>
+    </mat-form-field>
+    <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+            <mat-chip *ngFor="let error of baseModel.errors" selected color="warn">
+                {{error}}
+            </mat-chip>
+        </mat-chip-list>
+    <button mat-raised-button color="accent" (click)="submit()" >Sign Up your account!</button>  
+
+    <div class="existed-label">
+        <label>Already have an account?</label>
+
+        <button class="registr-btn" mat-raised-button color="accent" [routerLink]="['/account/signIn']" routerLinkActive="router-link-active" >Sign In</button>  
+    </div>      
+</div>

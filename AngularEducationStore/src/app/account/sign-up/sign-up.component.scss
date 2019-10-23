@@ -1,0 +1,40 @@
+.container {
+    margin-top: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.container > mat-form-field {
+    width: 30%;
+}
+.container > mat-form-field > input {
+    padding: 20px;
+}
+.container  > button {
+    width: 20%;
+}
+.existed-label {
+    width: 30%;
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+}
+.existed-label > label {
+    margin-right: 15px;
+}
+.title {
+    width: 30%;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+.mat-hint {
+    color: red;
+}
+.mat-chip-list {
+    margin-bottom: 15px;
+}
+.errors > span {
+    color: red;
+    font-size: 12px;
+}
