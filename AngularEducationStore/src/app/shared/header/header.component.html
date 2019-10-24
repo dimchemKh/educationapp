@@ -8,18 +8,21 @@
 
     <span class="header-flex"></span>
 
-    <ng-template [ngIf]="!isAuthentificated">
-        <p>
-            <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active">Log In<i class="material-icons">account_circle</i></a>
-        </p>
+    <ng-template [ngIf]="!isAuth">
+
+        <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active">Log In<i class="material-icons">account_circle</i></a>
+
       </ng-template>
       
-      <ng-template [ngIf]="isAuthentificated">
-        <p>
-            <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active"><i class="material-icons">account_circle</i></a>
-        </p>
+      <ng-template [ngIf]="isAuth">
+
+        <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active" *ngIf="userName">{{userName}}<i class="material-icons">account_circle</i></a>
+        <button mat-button (click)="signOut()">LogOut</button>
+
       </ng-template>
 
     <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
   </mat-toolbar-row>
 </mat-toolbar>
+<!-- <button (click)="setOne()">One</button>
+<button (click)="setTwo()">Two</button> -->

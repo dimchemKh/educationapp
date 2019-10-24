@@ -1,9 +1,6 @@
 <div class="container">
-    <h2>Confirm your email address</h2>
     <p>
-        We have sent an email with confirmation link to your email address. In order to complete the sign-up process, please click the confirmation link.
+        Dear new {{userName}}, thank you for your registration
     </p>
-    <p>
-        If you do not recieve a confirmation email, please check your spam folder. Also, please verify that you entered a valid email address in our sign-up form.
-    </p>
+    <button mat-raised-button [routerLink]="['/printingedition/get']" routerLinkActive="router-link-active" >Continue</button>
 </div>

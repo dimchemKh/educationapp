@@ -6,7 +6,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { routes } from 'src/app/shared/shared-routing.module';
 import { from } from 'rxjs';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -24,6 +24,8 @@ import { AuthService } from '../services/auth.service';
     RouterModule.forChild(routes)
   ],
   bootstrap: [],
-  providers: [AuthService]
+  providers: [
+    AuthService
+  ]
 })
 export class SharedModule { }

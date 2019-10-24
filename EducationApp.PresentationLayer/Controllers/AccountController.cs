@@ -88,14 +88,15 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(authModel);
         }         
         [HttpGet("confirmEmail")]
-        public async Task<IActionResult> ConfirmEmailAsync(string userId, string token)
+        public async Task<IActionResult> ConfirmEmailAsync(string userId, string confirmToken)
         {
-            var regModel = await _accountService.ConfirmEmailAsync(userId, token);
-            if (!regModel.Errors.Any())
+            var regModel = await _accountService.ConfirmEmailAsync(userId, confirmToken);
+            if (regModel.Errors.Any())
             {
                 regModel.Errors.Add(Constants.Errors.InvalidConfirmData);
             }
-            return Ok(regModel);
+            string url = "http://localhost:4200/account/confirmEmail";
+            return Redirect(url);
         }
     }
 }

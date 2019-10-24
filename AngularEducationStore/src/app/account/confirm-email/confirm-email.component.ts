@@ -11,5 +11,7 @@ export class ConfirmEmailComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  get userName(): string {
+    return localStorage.getItem('userName');
+  }
 }

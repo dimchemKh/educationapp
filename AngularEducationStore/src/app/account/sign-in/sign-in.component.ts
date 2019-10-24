@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AccountService } from 'src/app/services/account.service';
+
 import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
-import { AuthService } from 'src/app/services/auth.service';
-import { DataService } from 'src/app/services/data.service';
 
-
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,13 +13,10 @@ import { DataService } from 'src/app/services/data.service';
 export class SignInComponent {
 
   title = 'SignIn';
-  isAuthentificated: boolean;
-
-  constructor(private accountService: AccountService, private dataService: DataService,
-              private authService: AuthService) {
-    this.authService.authNavStatus$.subscribe(status => this.isAuthentificated = status);
+  userModel: UserLoginModel = new UserLoginModel();
+  constructor(private authService: AuthService) {
   }
-  // tslint:disable-next-line: max-line-length
+
   email = new FormControl('',
   [
     Validators.required,
@@ -30,16 +25,19 @@ export class SignInComponent {
   password = new FormControl('', Validators.required);
   hide = true;
   checked = false;
-  userModel: UserLoginModel = new UserLoginModel();
 
-  submit() {
-    if (this.getEmailErrorMessage() === '' && this.getPasswordErrorMessage() === '') {
-    this.accountService.signInUser(this.userModel).subscribe(
-      (data: UserLoginModel) =>
-        this.mapModel(data)
-      );
+  submit(model: UserLoginModel) {
+    debugger
+    if (!this.email.invalid && !this.password.invalid) {
+      debugger
+      this.authService.responseSI(model)
+        .subscribe((data: UserLoginModel) => {
+          debugger
+          localStorage.setItem('userName', data.userName);
+          debugger
+          this.authService.signIn();
+        });
     }
-    // this.authService.login();
   }
   getEmailErrorMessage() {
     return (this.email.hasError('required') && this.email.touched) ? 'Empty field' :
@@ -48,11 +46,12 @@ export class SignInComponent {
   getPasswordErrorMessage() {
     return (this.password.hasError('required') && this.password.touched) ? 'Empty password' : '';
   }
-  mapModel(userModel: UserLoginModel) {
-    if (userModel.errors.length === 0) {
-      this.userModel.userName = userModel.userName;
-      this.dataService.setUserInfo(this.userModel.userName);
-    }
-    this.userModel.errors = userModel.errors;
-  }
+  // async mapModel(model: UserLoginModel) {
+  //   debugger
+  //   this.userModel.errors = model.errors;
+  //   if (model.errors.length === 0) {
+  //     this.userModel.userName = model.userName;
+  //     localStorage.setItem('userName', this.userModel.userName);
+  //   }
+  // }
 }

@@ -1,26 +1,26 @@
-<div class="container">
+<div class="container" *ngIf="!isSuccessSignUp">
     <label class="title" for="">{{title}}</label>
 
     <mat-form-field appearance="outline">
         <mat-label>Your First name </mat-label>
-        <input matInput [formControl]="firstName" [(ngModel)]="userModel.firstName" required>
+        <input class="customInput" matInput [formControl]="firstName" [(ngModel)]="userModel.firstName" required>
         <mat-hint align="end" *ngIf="firstName.invalid">{{getFirstNameErrorMessage()}}</mat-hint>
     </mat-form-field>
     
     <mat-form-field appearance="outline">
         <mat-label>Your Last name</mat-label>
-        <input matInput [formControl]="lastName" [(ngModel)]="userModel.lastName" required>
+        <input class="customInput" matInput [formControl]="lastName" [(ngModel)]="userModel.lastName" required>
         <mat-hint align="end" *ngIf="lastName.invalid">{{getLastNameErrorMessage()}}</mat-hint>
     </mat-form-field>
     
     <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="userModel.email" required />
+        <input class="customInput" matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="userModel.email" required />
         <mat-hint align="end" *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-hint>
     </mat-form-field>
     
     <mat-form-field appearance="outline">
-        <input  matInput placeholder="Enter your password" [formControl]="password" [type]="hidePassword ? 'password' : 'text'" required>
+        <input class="customInput" matInput placeholder="Enter your password" [formControl]="password" [type]="hidePassword ? 'password' : 'text'" required>
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
@@ -28,7 +28,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-        <input  matInput placeholder="Confirm your password" [formControl]="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="userModel.password"  required>
+        <input class="customInput" matInput placeholder="Confirm your password" [formControl]="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="userModel.password"  required>
         <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
             <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
@@ -46,4 +46,13 @@
 
         <button class="registr-btn" mat-raised-button color="accent" [routerLink]="['/account/signIn']" routerLinkActive="router-link-active" >Sign In</button>  
     </div>      
+</div>
+<div class="container" *ngIf="isSuccessSignUp">
+    <h2>Confirm your email address</h2>
+    <p>
+        We have sent an email with confirmation link to your email address. In order to complete the sign-up process, please click the confirmation link.
+    </p>
+    <p>
+        If you do not recieve a confirmation email, please check your spam folder. Also, please verify that you entered a valid email address in our sign-up form.
+    </p>
 </div>

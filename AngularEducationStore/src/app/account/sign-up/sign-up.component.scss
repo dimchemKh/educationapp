@@ -8,11 +8,16 @@
 .container > mat-form-field {
     width: 30%;
 }
-.container > mat-form-field > input {
-    padding: 20px;
+.customInput {
+    // height: 10px !important;
+    // max-height: 10px !important;
 }
 .container  > button {
     width: 20%;
+}
+.container > p {
+    width: 60%;
+    font-size: 20px;
 }
 .existed-label {
     width: 30%;
