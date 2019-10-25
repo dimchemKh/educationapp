@@ -1,6 +1,10 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, from } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-header',
@@ -13,6 +17,10 @@ export class HeaderComponent implements OnInit {
   subscription: Subscription;
   isAuth = false;
 
+  faUser = faUser;
+  faBookOpen = faBookOpen;
+  faUserCircle = faUserCircle;
+
   get userName(): string {
     return localStorage.getItem('userName');
   }
@@ -24,7 +32,7 @@ export class HeaderComponent implements OnInit {
     this.subscription = this.authService.authNavStatus$.subscribe(status => {
       this.isAuth = status;
     } );
-    
+
   }
   signOut() {
     localStorage.clear();

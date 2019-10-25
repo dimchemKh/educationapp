@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'author', loadChildren: () => import('./author/author.module').then(m => m.AuthorModule) },
   // tslint:disable-next-line: max-line-length
   { path: 'account', loadChildren: () => import('src/app/shared/shared.module').then(m => m.SharedModule) },
+  { path: '', loadChildren: () => import('src/app/printing-edition/printing-edition.module').then(x => x.PrintingEditionModule) }
 
 ];
 

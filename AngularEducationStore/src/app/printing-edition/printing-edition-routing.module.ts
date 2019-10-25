@@ -4,7 +4,8 @@ import { Routes } from '@angular/router';
 import { GetPrintingEditionComponent } from 'src/app/printing-edition/get-printing-edition/get-printing-edition.component';
 
 export const routes: Routes = [
-    { path: 'get', component: GetPrintingEditionComponent }
+    { path: 'get', component: GetPrintingEditionComponent },
+    { path: '', component: GetPrintingEditionComponent }
 ];
 
 @NgModule({

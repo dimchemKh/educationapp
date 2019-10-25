@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormControl,
+  Validators } from '@angular/forms';
 
 import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
 
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { UserRequestModel } from 'src/app/models/user/UserRequestModel';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,6 +17,7 @@ export class SignInComponent {
 
   title = 'SignIn';
   userModel: UserLoginModel = new UserLoginModel();
+  userRequest = new UserRequestModel();
   constructor(private authService: AuthService) {
   }
 
@@ -27,15 +31,11 @@ export class SignInComponent {
   checked = false;
 
   submit(model: UserLoginModel) {
-    debugger
     if (!this.email.invalid && !this.password.invalid) {
-      debugger
-      this.authService.responseSI(model)
-        .subscribe((data: UserLoginModel) => {
-          debugger
-          localStorage.setItem('userName', data.userName);
-          debugger
-          this.authService.signIn();
+      this.authService.responseSignIn(model)
+        .subscribe((data: UserRequestModel) => {
+          this.userRequest = data;
+          this.checkErrors();
         });
     }
   }
@@ -46,12 +46,11 @@ export class SignInComponent {
   getPasswordErrorMessage() {
     return (this.password.hasError('required') && this.password.touched) ? 'Empty password' : '';
   }
-  // async mapModel(model: UserLoginModel) {
-  //   debugger
-  //   this.userModel.errors = model.errors;
-  //   if (model.errors.length === 0) {
-  //     this.userModel.userName = model.userName;
-  //     localStorage.setItem('userName', this.userModel.userName);
-  //   }
-  // }
+  checkErrors() {
+    if (this.userRequest.errors.length > 0) {
+      return;
+    }
+    localStorage.setItem('userName', this.userRequest.userName);
+    this.authService.signIn();
+  }
 }

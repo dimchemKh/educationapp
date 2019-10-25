@@ -7,7 +7,8 @@ import { routes } from 'src/app/shared/shared-routing.module';
 import { from } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
-
+import { FontAwesomeModule  } from '@fortawesome/angular-fontawesome';
+import { MatToolbarModule, MatMenuModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,10 @@ import { AuthService } from './services/auth.service';
   ],
   imports: [
     CommonModule,
-    MaterialModule,
-    RouterModule.forChild(routes)
+    MatToolbarModule,
+    MatMenuModule,
+    RouterModule.forChild(routes),
+    FontAwesomeModule
   ],
   bootstrap: [],
   providers: [

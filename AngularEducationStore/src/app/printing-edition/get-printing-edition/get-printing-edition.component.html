@@ -1,1 +1,54 @@
-<p>get-printing-edition works!</p>
+
+<mat-toolbar-row class="navigation">
+
+    <span>Catalog</span>
+
+    <span class="nav-flex"></span>
+
+    <mat-form-field class="search-input">
+
+        <input matInput type="text" placeholder="Search by book title, by author" >
+
+    </mat-form-field>
+
+</mat-toolbar-row>
+
+<mat-grid-list class="" cols="12" [rowHeight]="100" >
+
+    <mat-grid-tile [colspan]="2" [rowspan]="2">
+        <div class="search-by-types">
+
+            <span>Categories:</span>
+
+            <mat-checkbox>Books</mat-checkbox>
+
+            <mat-checkbox>Magazines</mat-checkbox>
+
+            <mat-checkbox>Newspapres</mat-checkbox>   
+
+        </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="10" [rowspan]="7">
+        
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="2" [rowspan]="4">
+        <div class="search-by-price">
+
+            <span>Price:</span>
+
+            <mat-form-field>
+                <input matInput type="number" autocomplete="off" placeholder="Min">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput type="number" autocomplete="off" placeholder="Max">
+            </mat-form-field>  
+
+            <button mat-raised-button color="accent" type="button" >Search</button>
+
+        </div>
+    </mat-grid-tile>
+
+</mat-grid-list>

@@ -9,7 +9,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
     public interface IUserRepository
     {
         Task<bool> ConfirmEmailAsync(ApplicationUser user, string token);
-        Task<bool> CheckPasswordAsync(ApplicationUser user, string password);
+        Task<bool> IsEmailConfirmedAsync(ApplicationUser user);
+        Task<SignInResult> CheckPasswordAsync(ApplicationUser user, string password);
         Task<IEnumerable<IdentityError>> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task<ApplicationUser> GetUserByIdAsync(long userId);
@@ -20,5 +21,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
         Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
         Task<bool> UpdateUserAsync(ApplicationUser user);
         Task<IEnumerable<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model);
+
+        Task BlockUserAsync(ApplicationUser user, bool isBlocked);
     }
 }

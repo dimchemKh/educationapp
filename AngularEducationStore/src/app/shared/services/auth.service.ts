@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
 import { UserRegistrationModel } from 'src/app/models/user/UserRegistrationModel';
+import { UserRequestModel } from 'src/app/models/user/UserRequestModel';
 import { BaseModel } from 'src/app/models/base/BaseModel';
 
 @Injectable({
@@ -19,33 +20,31 @@ export class AuthService {
   }
 
   isAuth(): boolean {
-    debugger
-    if (localStorage.length > 0) {
+
+    if (this.getUserInfo() !== null) {
       return true;
     }
     return false;
   }
-  responseSI(userModel: UserLoginModel) {
-    return this.http.post<UserLoginModel>('http://localhost:52196/api/account/signIn', userModel);
+  responseSignIn(userModel: UserLoginModel) {
+    return this.http.post<UserRequestModel>('http://localhost:52196/api/account/signIn', userModel);
   }
-  signInUser() {
-    debugger
-    // let qwe = this.responseSI(userModel).subscribe((data: )=> );
-    debugger
-    // qwe.subscribe((data: UserLoginModel ) => this.mapModel(data));
-    debugger
-  }
-  signUpUser(user: UserRegistrationModel) {
+  responseSignUp(user: UserRegistrationModel) {
     return this.http.post('http://localhost:52196/api/account/signUp', user);
   }
+  responseForgotPassword(userModel: UserLoginModel) {
+    return this.http.post<BaseModel>('http://localhost:52196/api/account/forgotPassword', userModel);
+  }
   signIn() {
-    debugger
     this.authNavStatusSource.next(this.isAuth());
-    debugger
     this.router.navigate(['/']);
+  }
+  signUp() {
+
   }
   signOut() {
     this.authNavStatusSource.next(false);
+    this.router.navigate(['/account/signIn']);
   }
   getUserInfo() {
     return localStorage.getItem('userName');

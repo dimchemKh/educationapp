@@ -1,28 +1,37 @@
 
-<mat-toolbar color="accent">
-  <mat-toolbar-row>
+<mat-toolbar class="fixed-header" color="accent">
+    <mat-toolbar-row class="nav-title">
 
-    <i class="material-icons">import_contacts</i>
-
-    <span>Education Store</span>
+    <a class="brand" color="accent" [routerLink]="['/']" routerLinkActive="router-link-active"  >
+      <fa-icon size="2x" [icon]="faBookOpen"></fa-icon>
+      Education Store    
+    </a>
 
     <span class="header-flex"></span>
 
     <ng-template [ngIf]="!isAuth">
 
-        <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active">Log In<i class="material-icons">account_circle</i></a>
-
-      </ng-template>
+      <button class="login" mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active">
+        Log In
+        <fa-icon size="lg" [fixedWidth]="true" [icon]="faUserCircle"></fa-icon>
+      </button>
       
-      <ng-template [ngIf]="isAuth">
+    </ng-template>
+      
+    <ng-template [ngIf]="isAuth">
 
-        <a mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active" *ngIf="userName">{{userName}}<i class="material-icons">account_circle</i></a>
-        <button mat-button (click)="signOut()">LogOut</button>
+      <button class="menu" mat-flat-button [matMenuTriggerFor]="menu" *ngIf="userName">
+          {{userName}}
+          <fa-icon size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
+      </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item>My Profile</button>
+          <button mat-menu-item>My Orders</button>
+          <button mat-menu-item (click)="signOut()">Log Out</button>
+        </mat-menu>
+        
+        <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
 
-      </ng-template>
-
-    <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
+    </ng-template>
   </mat-toolbar-row>
 </mat-toolbar>
-<!-- <button (click)="setOne()">One</button>
-<button (click)="setTwo()">Two</button> -->

@@ -53,8 +53,9 @@ namespace EducationApp.BusinessLayer.Services
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
-            }            
-            if (!await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword))
+            }
+            var checkPasswordResult = await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword);
+            if (!checkPasswordResult.Succeeded)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidPassword);
                 return responseModel;
@@ -65,15 +66,15 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var result = new List<IdentityError>();
+            var errorList = new List<IdentityError>();
             if (!isAdmin)
             {
                 var errorsList = await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword);
-                result = errorsList.ToList();
+                errorList = errorsList.ToList();
             }              
-            if (result.Any())
+            if (errorList.Any())
             {
-                responseModel.Errors = result.Select(x => x.Description).ToList();
+                responseModel.Errors = errorList.Select(x => x.Description).ToList();
                 return responseModel;
             }
             if(!await _userRepository.UpdateUserAsync(user))
@@ -120,12 +121,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-            user.LockoutEnabled = !(user.LockoutEnabled);
-            if(!await _userRepository.UpdateUserAsync(user))
-            {
-                responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
-                return responseModel;
-            }
+            await _userRepository.BlockUserAsync(user, isBlocked);
             return responseModel;
         }
 

@@ -1,0 +1,34 @@
+
+.navigation {
+    position: relative;
+    margin-top: 5%;
+    width: 100%;
+    padding: 10px 5%;
+}
+.nav-flex {
+    flex: 1 1 auto;
+}
+.search-input {
+    width: 30%;
+}
+.mat-grid-tile {
+    border: 1px solid;
+}
+.grid-search {
+    display: flex;
+    flex-direction: column;
+}
+.search-by-types {
+    display: flex;
+    flex-direction: column;
+}
+.search-by-types > span {
+    margin-bottom: 15px;
+}
+.search-by-price {
+    display: flex;
+    flex-direction: column;
+}
+.search-by-price > span {
+    margin-bottom: 15px;
+}

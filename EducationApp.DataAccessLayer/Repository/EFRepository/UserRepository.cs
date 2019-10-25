@@ -46,10 +46,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var user = await _userManager.FindByEmailAsync(email);
             return user;
         }
-        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
+        public async Task<SignInResult> CheckPasswordAsync(ApplicationUser user, string password)
         {
-            var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: true);
-            return result.Succeeded;
+            return await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
         }
         public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token)
         {
@@ -123,6 +122,23 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             }
  
             return await listUsers.Skip(model.Page - 1 * model.PageSize).Take(model.PageSize).ToListAsync();
+        }
+
+        public async Task<bool> IsEmailConfirmedAsync(ApplicationUser user)
+        {
+            return await _userManager.IsEmailConfirmedAsync(user);
+        }
+
+        public async Task BlockUserAsync(ApplicationUser user, bool isBlocked)
+        {
+            if (isBlocked)
+            {
+                await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(1));
+            }
+            if(!isBlocked)
+            {
+                await _userManager.SetLockoutEndDateAsync(user, null);
+            }
         }
     }
 }

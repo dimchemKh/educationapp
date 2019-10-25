@@ -26,9 +26,9 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [AllowAnonymous]
         [HttpPost("forgotPassword")]
-        public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserLoginModel loginModel)
+        public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserLoginModel userModel)
         {
-            var responseModel = await _accountService.ResetPasswordAsync(loginModel.Email);
+            var responseModel = await _accountService.ResetPasswordAsync(userModel.Email);
 
             return Ok(responseModel);
         }
@@ -69,7 +69,9 @@ namespace EducationApp.PresentationLayer.Controllers
                 "Account",
                 new { userModel.UserId, userModel.ConfirmToken },
                 protocol: HttpContext.Request.Scheme);
-            await _accountService.SendRegistrationMailAsync(userModel.UserId, callbackUrl);
+            // TODO: maybe change callback to client?
+            //var callbackUrl = "http://localhost:4200/account/confirmEmail?" + $"UserId={userModel.UserId}" + $"ConfirmToken={userModel.ConfirmToken}";
+            _accountService.SendRegistrationMailAsync(userModel.UserId, callbackUrl);
             return Ok(responseModel);
         }
         [AllowAnonymous]
@@ -91,11 +93,13 @@ namespace EducationApp.PresentationLayer.Controllers
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string confirmToken)
         {
             var regModel = await _accountService.ConfirmEmailAsync(userId, confirmToken);
+            string url = "http://localhost:4200/account/confirmEmail";
             if (regModel.Errors.Any())
             {
-                regModel.Errors.Add(Constants.Errors.InvalidConfirmData);
+                var _str = regModel.Errors.FirstOrDefault();
+                url += $"?error={_str}";
             }
-            string url = "http://localhost:4200/account/confirmEmail";
+
             return Redirect(url);
         }
     }

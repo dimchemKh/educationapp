@@ -6,12 +6,11 @@ import { RefreshTokenComponent } from 'src/app/account/refresh-token/refresh-tok
 import { ForgotPasswordComponent } from 'src/app/account/forgot-password/forgot-password.component';
 import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/account/account-routing.module';
-import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { from } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { MatCheckboxModule, MatFormFieldModule, MatButtonModule } from '@angular/material';
+import { MatCheckboxModule, MatFormFieldModule, MatButtonModule, MatChipsModule, MatIconModule, MatInputModule } from '@angular/material';
 
 
 @NgModule({
@@ -24,12 +23,14 @@ import { MatCheckboxModule, MatFormFieldModule, MatButtonModule } from '@angular
   ],
   imports: [
     RouterModule.forChild(routes),
-    MaterialModule,
     MatCheckboxModule,
     MatButtonModule,
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
+    MatChipsModule,
+    MatIconModule,
+    MatInputModule,
     CommonModule
   ],
   providers: [

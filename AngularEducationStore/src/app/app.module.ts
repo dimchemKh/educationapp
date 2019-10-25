@@ -14,6 +14,7 @@ import { MatSidenavModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { PrintingEditionModule } from 'src/app/printing-edition/printing-edition.module';
 
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [

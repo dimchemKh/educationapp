@@ -3,6 +3,17 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/printing-edition/printing-edition-routing.module';
 import { GetPrintingEditionComponent } from './get-printing-edition/get-printing-edition.component';
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatToolbarModule,
+  MatGridListModule,
+  MatCheckboxModule,
+  MatSliderModule,
+  MatButtonModule,
+  MatAutocompleteModule
+} from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -12,7 +23,15 @@ import { GetPrintingEditionComponent } from './get-printing-edition/get-printing
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatCheckboxModule,
+    MatSliderModule,
+    MatButtonModule
   ],
   exports: []
 })

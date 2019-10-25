@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { UserRegistrationModel } from 'src/app/models/user/UserRegistrationModel';
 import { BaseModel } from 'src/app/models/base/BaseModel';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,7 +17,7 @@ export class SignUpComponent implements OnInit {
   hideConfirmPassword = true;
   checked = false;
 
-  constructor(private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
 
   }
 
@@ -56,22 +57,19 @@ export class SignUpComponent implements OnInit {
     return (this.confirmPassword.hasError('required') && this.confirmPassword.touched) ? 'Empty password' :
            (this.confirmPassword.value !== this.password.value && this.confirmPassword.touched) ? 'Not same passwords' : '';
   }
-  submit() {
-    // if (!this.firstName.invalid && !this.lastName.invalid && !this.email.invalid && this.confirmPassword.value === this.password.value) {
-    //   this.accountService.signUpUser(this.userModel).subscribe(
-    //     (data: BaseModel) =>
-    //       this.mapModel(data)
-    //     );
-    // }
-  }
-  mapModel(baseModel: BaseModel) {
-    if (baseModel.errors.length === 0) {
-      // this.router.navigate(['/account/confirmEmail']);
-      this.isSuccessSignUp = true;
-      localStorage.setItem('userName', this.firstName.value + ' ' + this.lastName.value);
+  submit(userModel: UserRegistrationModel) {
+    if (!this.firstName.invalid && !this.lastName.invalid && !this.email.invalid && this.confirmPassword.value === this.password.value) {
+      this.authService.responseSignUp(userModel).subscribe(
+        (data: BaseModel) => {
+          this.baseModel = data;
+          this.checkErrors();
+        });
     }
-    if (baseModel.errors.length > 0) {
-      this.baseModel.errors = baseModel.errors;
+  }
+  checkErrors() {
+    if (this.baseModel.errors.length === 0) {
+      localStorage.setItem('confirmUserName', this.firstName.value + ' ' + this.lastName.value);
+      this.isSuccessSignUp = true;
     }
   }
 }

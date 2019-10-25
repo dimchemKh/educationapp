@@ -10,10 +10,10 @@ namespace EducationApp.BusinessLayer.Common.Constants
         {
             public const string TokenExpire = "RefreshToken expired.";
             public const string EmailNotFound = "Email not found.";
-            public const string InvalidEmail = "Invalid email.";
+            public const string InvalidEmail = "Invalid email";
             public const string InvalidUserId = "Invalid userId";
             public const string IsExistedUser = "User is created.";
-            public const string UserNotFound = "User not found.";
+            public const string UserNotFound = "User not found";
             public const string InvalidConfirmData = "Get invalid userId or confirmToken.";
             public const string InvalidData = "Invalid input data.";
             public const string EmptyPassword = "Password is empty!";
@@ -23,9 +23,13 @@ namespace EducationApp.BusinessLayer.Common.Constants
             public const string InvalidFiltteringData = "Invalid filtering data.";
             public const string SamePasswords = "New password can't be equals with current password.";
             public const string InvalidTransaction = "Invalid get transaction or order.";
-            public const string RemovedUser = "User with this email maybe was removed.";
+            public const string RemovedUser = "We're sorry, maybe this user with this email was removed, please  ";
             public const string CanNotRegisterUser = "Something wrong with register user.";
             public const string OccuredProcessing = "An error has occurred while processing your request.";
+            public const string IsConfirmedEmail = "User did not confirm email";
+            public const string SuccessConfirmedEmail = "User already confirmed email";
+            public const string FalseIdentityUser = "We're sorry, We weren't able to identity you, given the information provided";
+            public const string BlockedUser = "You're blocked";
 
             public const long NotFindUserId = 0;
         }

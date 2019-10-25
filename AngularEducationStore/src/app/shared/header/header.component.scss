@@ -1,9 +1,37 @@
 .header-flex {
   flex: 1 1 auto;
 }
-.material-icons {
-  font-size: 36px;
+.fixed-header {
+  position: fixed;
+  z-index: 999;
 }
- a{
-  margin-right: 5px;
+.menu {
+  font-weight: 500;
+  margin-right: 15px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+.nav-title > button{
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+}
+.brand {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  text-decoration: none;
+}
+.brand > fa-icon {
+  margin-right: 10px;
+}
+.login {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 }

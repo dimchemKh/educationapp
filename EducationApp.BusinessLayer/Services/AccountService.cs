@@ -44,9 +44,20 @@ namespace EducationApp.BusinessLayer.Services
                 authModel.Errors.Add(Constants.Errors.UserNotFound);
                 return authModel;
             }
-            if(!await _userRepository.CheckPasswordAsync(existedUser, loginModel.Password))
+            var result = await _userRepository.CheckPasswordAsync(existedUser, loginModel.Password);
+            if (result.IsLockedOut)
+            {
+                authModel.Errors.Add(Constants.Errors.BlockedUser);
+                return authModel;
+            }
+            if (!result.Succeeded)
             {
                 authModel.Errors.Add(Constants.Errors.InvalidPassword);
+                return authModel;
+            }
+            if(!await _userRepository.IsEmailConfirmedAsync(existedUser))
+            {
+                authModel.Errors.Add(Constants.Errors.IsConfirmedEmail);
                 return authModel;
             }
             authModel.UserId = existedUser.Id;
@@ -122,6 +133,11 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
+            if (await _userRepository.IsEmailConfirmedAsync(user))
+            {
+                responseModel.Errors.Add(Constants.Errors.SuccessConfirmedEmail);
+                return responseModel;
+            }
             if(!await _userRepository.ConfirmEmailAsync(user, token))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidConfirmData);
@@ -138,18 +154,19 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var user = await _userRepository.GetUserByEmailAsync(email);
-            if(user == null)
+            if(user == null || user.IsRemoved.Equals(true))
             {
-                responseModel.Errors.Add(Constants.Errors.UserNotFound);
+                responseModel.Errors.Add(Constants.Errors.FalseIdentityUser);
                 return responseModel;
             };
+            //if(user.LockoutEnabled)
             var token = await _userRepository.GenerateResetPasswordTokenAsync(user);
             var newTempPassword = _passwordHelper.GenerateRandomPassword();
 
             string message = $"This is your Temp password {newTempPassword} ! Please change his, after succesfull authorization";
             string subject = "NewTempPassword";
 
-            await _emailHelper.SendMailAsync(user.Email, subject, message);
+            _emailHelper.SendMailAsync(user.Email, subject, message);
             if(!await _userRepository.ResetPasswordAsync(user, token, newTempPassword))
             {
                 responseModel.Errors.Add(Constants.Errors.RemovedUser);

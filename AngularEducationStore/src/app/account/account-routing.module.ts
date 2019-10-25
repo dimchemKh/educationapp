@@ -12,7 +12,8 @@ export const routes: Routes = [
     { path: 'signIn', component: SignInComponent },
     { path: 'refresh', component: RefreshTokenComponent, canActivate: [AuthGuardService] },
     { path: 'forgotPassword', component: ForgotPasswordComponent },
-    { path: 'confirmEmail', component: ConfirmEmailComponent }
+    { path: 'confirmEmail', component: ConfirmEmailComponent },
+    { path: 'confirmEmail/:error', component: ConfirmEmailComponent },
 ];
 
 @NgModule({

@@ -49,7 +49,9 @@ namespace EducationApp.DataAccessLayer.Initializer
                 FirstName = Constants.AdminSettings.FirstName,
                 LastName = Constants.AdminSettings.LastName,
                 Email = Constants.AdminSettings.Email,
-                UserName = string.Concat(Constants.AdminSettings.FirstName, Constants.AdminSettings.LastName)
+                UserName = string.Concat(Constants.AdminSettings.FirstName, Constants.AdminSettings.LastName),
+                EmailConfirmed = true,
+                LockoutEnabled = false
             };
 
             var result = _userManager.CreateAsync(admin, Constants.AdminSettings.Password).GetAwaiter().GetResult();

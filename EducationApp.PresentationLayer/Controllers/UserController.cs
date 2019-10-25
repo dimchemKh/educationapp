@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
@@ -56,7 +56,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }
-        [Authorize(Roles = Constants.Roles.Admin)]
+        //[Authorize(Roles = Constants.Roles.Admin)]
         [HttpPut("block")]
         public async Task<IActionResult> BlockUserAsync([FromBody]UserModelItem userModelItem)
         {

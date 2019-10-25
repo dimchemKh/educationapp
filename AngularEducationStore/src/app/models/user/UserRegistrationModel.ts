@@ -3,5 +3,4 @@ export class UserRegistrationModel {
     public lastName?: string;
     public email?: string;
     public password?: string;
-    public errors?: string[];
 }
