@@ -111,7 +111,7 @@ namespace EducationApp.PresentationLayer
 
             app.UseAuthentication();
 
-            app.UseCors(builder => builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200"));
+            app.UseCors(builder => builder.AllowCredentials().AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200"));
 
             app.UseMiddleware<ExceptionMiddleware>();
 

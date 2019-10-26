@@ -24,6 +24,12 @@ namespace EducationApp.PresentationLayer.Controllers
             _configOptions = configOptions;
             _jwtHelper = jwtHelper;
         }
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            Response.Cookies.Append("Test", "this is secret cookie");
+            return Ok();
+        }
         [AllowAnonymous]
         [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserLoginModel userModel)

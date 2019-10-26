@@ -159,7 +159,11 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.FalseIdentityUser);
                 return responseModel;
             };
-            //if(user.LockoutEnabled)
+            if (!user.LockoutEnd.Equals(null))
+            {
+                responseModel.Errors.Add(Constants.Errors.BlockedUser);
+                return responseModel;
+            }
             var token = await _userRepository.GenerateResetPasswordTokenAsync(user);
             var newTempPassword = _passwordHelper.GenerateRandomPassword();
 

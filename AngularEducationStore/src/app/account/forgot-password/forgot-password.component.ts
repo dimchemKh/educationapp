@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { BaseModel } from 'src/app/models/base/BaseModel';
 import { Router } from '@angular/router';
 import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -12,7 +13,8 @@ import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private dataService: DataService) { }
+
   userModel = new UserLoginModel();
   responseModel = new BaseModel();
   isSuccessForgot = false;
@@ -23,9 +25,8 @@ export class ForgotPasswordComponent implements OnInit {
     Validators.pattern(/^[a-zA-Z]{1}[a-zA-Z0-9.\-_]*@[a-zA-Z]{1}[a-zA-Z.-]*[a-zA-Z]{1}[.][a-zA-Z]{2,4}$/)
   ]);
   submit(userModel: UserLoginModel) {
-    debugger
     if (!this.emailForm.invalid) {
-      this.authService.responseForgotPassword(userModel)
+      this.dataService.requestForgotPassword(userModel)
       .subscribe(
         (data: BaseModel) => {
           this.responseModel = data;
@@ -45,4 +46,4 @@ export class ForgotPasswordComponent implements OnInit {
     }
     this.isSuccessForgot = true;
   }
-} 
+}

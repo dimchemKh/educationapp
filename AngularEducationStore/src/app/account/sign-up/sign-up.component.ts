@@ -4,6 +4,7 @@ import { UserRegistrationModel } from 'src/app/models/user/UserRegistrationModel
 import { BaseModel } from 'src/app/models/base/BaseModel';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,7 +18,7 @@ export class SignUpComponent implements OnInit {
   hideConfirmPassword = true;
   checked = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private dataService: DataService, private authService: AuthService, private router: Router) {
 
   }
 
@@ -59,7 +60,7 @@ export class SignUpComponent implements OnInit {
   }
   submit(userModel: UserRegistrationModel) {
     if (!this.firstName.invalid && !this.lastName.invalid && !this.email.invalid && this.confirmPassword.value === this.password.value) {
-      this.authService.responseSignUp(userModel).subscribe(
+      this.dataService.requestSignUp(userModel).subscribe(
         (data: BaseModel) => {
           this.baseModel = data;
           this.checkErrors();

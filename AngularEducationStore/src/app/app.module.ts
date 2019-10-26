@@ -11,10 +11,13 @@ import { AccountModule } from 'src/app/account/account.module';
 import { AuthorModule } from 'src/app/author/author.module';
 
 import { MatSidenavModule } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PrintingEditionModule } from 'src/app/printing-edition/printing-edition.module';
 
 import { from } from 'rxjs';
+import { AuthInterceptor } from './shared/services/auth.interceptor';
+import { CookieService } from 'ngx-cookie-service';
+import { httpInterceptorProviders } from './shared/services';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,7 @@ import { from } from 'rxjs';
     PrintingEditionModule,
     HttpClientModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [httpInterceptorProviders, CookieService],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -18,19 +18,38 @@
       
     </ng-template>
       
-    <ng-template [ngIf]="isAuth">
+    <ng-template [ngIf]="isAuth && userRole === 'user'">
 
       <button class="menu" mat-flat-button [matMenuTriggerFor]="menu" *ngIf="userName">
           {{userName}}
           <fa-icon size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
       </button>
-        <mat-menu #menu="matMenu" xPosition="before">
-          <button mat-menu-item>My Profile</button>
-          <button mat-menu-item>My Orders</button>
-          <button mat-menu-item (click)="signOut()">Log Out</button>
-        </mat-menu>
-        
-        <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item>My Profile</button>
+        <button mat-menu-item>My Orders</button>
+        <button mat-menu-item (click)="signOut()">Log Out</button>
+      </mat-menu>
+      
+      <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
+
+    </ng-template>
+
+    <ng-template [ngIf]="isAuth && userRole === 'admin'">
+
+      <button class="menu" mat-flat-button [matMenuTriggerFor]="menu" *ngIf="userName">
+          {{userName}}
+          <fa-icon size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item>Order managment</button>
+        <button mat-menu-item>Users managment</button>
+        <button mat-menu-item>Products managment</button>
+        <button mat-menu-item [routerLink]="['/author/get']" routerLinkActive="router-link-active" >Authors Page</button>
+        <button mat-menu-item>My Profile</button>
+        <button mat-menu-item (click)="signOut()">Log Out</button>
+      </mat-menu>
+      
+      <button mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</button>
 
     </ng-template>
   </mat-toolbar-row>

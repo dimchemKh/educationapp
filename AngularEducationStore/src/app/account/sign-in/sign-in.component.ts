@@ -7,6 +7,7 @@ import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
 
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserRequestModel } from 'src/app/models/user/UserRequestModel';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,11 +15,12 @@ import { UserRequestModel } from 'src/app/models/user/UserRequestModel';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent {
-
   title = 'SignIn';
+
   userModel: UserLoginModel = new UserLoginModel();
   userRequest = new UserRequestModel();
-  constructor(private authService: AuthService) {
+  cook: string;
+  constructor(private dataService: DataService, private authService: AuthService) {
   }
 
   email = new FormControl('',
@@ -32,7 +34,7 @@ export class SignInComponent {
 
   submit(model: UserLoginModel) {
     if (!this.email.invalid && !this.password.invalid) {
-      this.authService.responseSignIn(model)
+      this.dataService.requestSignIn(model)
         .subscribe((data: UserRequestModel) => {
           this.userRequest = data;
           this.checkErrors();
@@ -51,6 +53,7 @@ export class SignInComponent {
       return;
     }
     localStorage.setItem('userName', this.userRequest.userName);
+    localStorage.setItem('userRole', this.userRequest.userRole);
     this.authService.signIn();
   }
 }

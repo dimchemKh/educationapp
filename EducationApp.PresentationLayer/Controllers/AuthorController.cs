@@ -19,6 +19,12 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             _authorService = authorService;
         }
+        [HttpGet("test")]
+        public async Task<IActionResult> Test()
+        {
+            
+            return Ok("Test");
+        }
         [HttpPost("create")]
         public async Task<IActionResult> CreateAuthorAsync([FromBody]AuthorModelItem authorModel)
         {

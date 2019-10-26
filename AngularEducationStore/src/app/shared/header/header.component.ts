@@ -24,6 +24,9 @@ export class HeaderComponent implements OnInit {
   get userName(): string {
     return localStorage.getItem('userName');
   }
+  get userRole(): string {
+    return localStorage.getItem('userRole');
+  }
 
   constructor(private authService: AuthService) {
   }
@@ -36,6 +39,7 @@ export class HeaderComponent implements OnInit {
   }
   signOut() {
     localStorage.clear();
+    debugger
     this.authService.signOut();
   }
   // tslint:disable-next-line: use-lifecycle-interface
