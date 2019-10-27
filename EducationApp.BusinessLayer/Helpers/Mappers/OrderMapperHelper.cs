@@ -33,7 +33,7 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             orderItem.Amount = orderDataModel.Amount;
             if(orderDataModel.PaymentId == null)
             {
-                orderItem.TransactionStatus = Enums.TransactionStatus.Unpaid;
+                orderItem.TransactionStatus = Enums.TransactionStatus.UnPaid;
             }
             if (orderDataModel.PaymentId != null)
             {

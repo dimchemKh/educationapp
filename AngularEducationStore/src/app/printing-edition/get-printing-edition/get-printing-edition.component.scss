@@ -11,16 +11,20 @@
 .search-input {
     width: 30%;
 }
-.mat-grid-tile {
-    border: 1px solid;
+.mat-grid-list {
+    margin: 0 25px;
 }
-.grid-search {
-    display: flex;
-    flex-direction: column;
+.grid-search-by-price {
+    border-top: 2px solid slategrey;
+}
+.grid-content {
+    border-left: 2px solid slategrey;
 }
 .search-by-types {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin-left: 15%;
 }
 .search-by-types > span {
     margin-bottom: 15px;
@@ -31,4 +35,17 @@
 }
 .search-by-price > span {
     margin-bottom: 15px;
+}
+.form-price > mat-form-field {
+    width: 70px;
+}
+.form-price > mat-form-field:first-of-type {
+    margin-right: 10px;
+}
+.form-price > mat-form-field:last-of-type {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.form-price > button {
+    margin-left: 15px;
 }

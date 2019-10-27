@@ -11,9 +11,11 @@ import {
   MatCheckboxModule,
   MatSliderModule,
   MatButtonModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSelectModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+
 
 
 
@@ -31,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     MatGridListModule,
     MatCheckboxModule,
     MatSliderModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   exports: []
 })

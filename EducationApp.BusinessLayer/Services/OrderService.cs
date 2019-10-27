@@ -95,7 +95,7 @@ namespace EducationApp.BusinessLayer.Services
 
             order.Amount = orderItemsList.Select(x => x.Amount).Sum();            
             order.OrderItems = orderItemsList;
-            order.TransactionStatus = DataAccessLayer.Entities.Enums.Enums.TransactionStatus.Unpaid;            
+            order.TransactionStatus = DataAccessLayer.Entities.Enums.Enums.TransactionStatus.UnPaid;            
             order.Payment = payment;
 
             await _orderRepository.CreateAsync(order);

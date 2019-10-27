@@ -10,7 +10,7 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
         {
             All = 0,
             Paid = 1,
-            Unpaid = 2
+            UnPaid = 2
         }
     }
 }

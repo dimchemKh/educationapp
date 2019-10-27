@@ -2,7 +2,7 @@
     <p>
         Dear new {{userName}}, thank you for your registration
     </p>
-    <button color="accent" mat-raised-button [routerLink]="['/printingedition/get']" routerLinkActive="router-link-active" >Continue</button>
+    <button color="accent" mat-raised-button (click)="submit()" >Continue</button>
 </div>
 <div class="container" *ngIf="error">
         <p>

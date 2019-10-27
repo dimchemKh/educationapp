@@ -49,7 +49,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 printingEditions = printingEditions.Where(x => x.Title.Contains(filter.SearchString));
             }
 
-            printingEditions = printingEditions.Where(x => filter.PrintingEditionTypes.Contains(x.PrintingEditionType));
+            if (filter.PrintingEditionTypes.Any())
+            {
+                printingEditions = printingEditions.Where(x => filter.PrintingEditionTypes.Contains(x.PrintingEditionType));
+            }
 
             if (!isAdmin)
             {

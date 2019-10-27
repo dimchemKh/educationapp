@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
     HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse
 } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 

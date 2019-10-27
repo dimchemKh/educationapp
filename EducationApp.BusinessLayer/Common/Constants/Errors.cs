@@ -26,7 +26,7 @@ namespace EducationApp.BusinessLayer.Common.Constants
             public const string RemovedUser = "We're sorry, maybe this user with this email was removed, please  ";
             public const string CanNotRegisterUser = "Something wrong with register user.";
             public const string OccuredProcessing = "An error has occurred while processing your request.";
-            public const string IsConfirmedEmail = "User did not confirm email";
+            public const string IsConfirmedEmail = "User didn't confirm email";
             public const string SuccessConfirmedEmail = "User already confirmed email";
             public const string FalseIdentityUser = "We're sorry, We weren't able to identity you, given the information provided";
             public const string BlockedUser = "We're sorry, but you're blocked";
