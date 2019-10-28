@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-email',
@@ -9,12 +9,16 @@ import { ActivatedRoute } from '@angular/router';
 export class ConfirmEmailComponent implements OnInit {
 
   error: string;
-  constructor(private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.error = this.route.snapshot.queryParamMap.get('error');
   }
   get userName(): string {
     return localStorage.getItem('confirmUserName');
+  }
+  submit() {
+    localStorage.clear();
+    this.router.navigate(['/account/signIn']);
   }
 }

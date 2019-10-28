@@ -25,8 +25,9 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("get")]
         public async Task<IActionResult> GetPrintingEditionsAsync([FromBody]FilterPrintingEditionModel filterModel)
         {
-            var role = User.Claims.First(x => x.Type.Equals(ClaimTypes.Role)).Value;            
-            var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel, role.Equals(Constants.Roles.Admin));
+            var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
+            var isAdmin = (role == null) ? false : role.Equals(Constants.Roles.Admin);
+            var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel, isAdmin);
 
             return Ok(responseModel);
         }

@@ -13,40 +13,51 @@
 
 </mat-toolbar-row>
 
-<mat-grid-list class="" cols="12" [rowHeight]="100" >
+<mat-grid-list cols="12" [rowHeight]="100" >
 
-    <mat-grid-tile [colspan]="2" [rowspan]="2">
-        <div class="search-by-types">
+    <mat-grid-tile class="grid-search-by-types" [colspan]="2" [rowspan]="2">
+        <div class="search-by-types" >
 
-            <span>Categories:</span>
+            <span>Categories</span>
 
-            <mat-checkbox>Books</mat-checkbox>
+            <mat-checkbox >Books</mat-checkbox>
 
-            <mat-checkbox>Magazines</mat-checkbox>
+            <mat-checkbox >Magazines</mat-checkbox>
 
-            <mat-checkbox>Newspapres</mat-checkbox>   
+            <mat-checkbox >Newspapres</mat-checkbox>   
 
         </div>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="10" [rowspan]="7">
-        
+    <mat-grid-tile class="grid-content" [colspan]="10" [rowspan]="7">
+        <mat-form-field>
+            <mat-label>Select an option</mat-label>
+            <mat-select [(value)]="selected">
+              <mat-option>None</mat-option>
+              <mat-option >USD</mat-option>
+              <mat-option value="option2">EUR</mat-option>
+              <mat-option value="option3">CHF</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p>{{selected}}</p>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="2" [rowspan]="4">
+    <mat-grid-tile class="grid-search-by-price" [colspan]="2" [rowspan]="2">
         <div class="search-by-price">
 
-            <span>Price:</span>
+            <span>Price</span>
 
-            <mat-form-field>
-                <input matInput type="number" autocomplete="off" placeholder="Min">
-            </mat-form-field>
-
-            <mat-form-field>
-                <input matInput type="number" autocomplete="off" placeholder="Max">
-            </mat-form-field>  
-
-            <button mat-raised-button color="accent" type="button" >Search</button>
+            <div class="form-price">
+                <mat-form-field>
+                    <input matInput type="number" autocomplete="off" placeholder="Min" [(ngModel)]="minValue">
+                </mat-form-field>
+                <span>-</span>
+                <mat-form-field>
+                    <input matInput type="number"  autocomplete="off" placeholder="Max" [(ngModel)]="maxValue">
+                </mat-form-field>  
+                <span>$</span>
+                <button mat-raised-button color="accent" type="button" >Ok</button>
+            </div>
 
         </div>
     </mat-grid-tile>
