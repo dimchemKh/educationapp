@@ -87,23 +87,16 @@ namespace EducationApp.BusinessLayer.Services
             }
             var printingEditionsList = await _authorInPrintingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
 
-            if (!isAdmin)
+            foreach (var printingEdition in printingEditionsList)
             {
-                foreach (var printingEdition in printingEditionsList)
+                var modelItem = printingEdition.MapToModel(filter.Currency);
+                if (!isAdmin)
                 {
-                    var modelItem = printingEdition.MapToModel(filter.Currency);
                     modelItem.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, filter.Currency, modelItem.Price);
-                    responseModel.Items.Add(modelItem);
                 }
+                responseModel.Items.Add(modelItem);
             }
-            if (isAdmin)
-            {
-                foreach (var printingEdition in printingEditionsList)
-                {
-                    var modelItem = printingEdition.MapToModel();
-                    responseModel.Items.Add(modelItem);
-                }
-            }                
+                       
             return responseModel;
         }
 
