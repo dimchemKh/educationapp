@@ -41,14 +41,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         }
         public async Task<IEnumerable<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId)
         {
-            IQueryable<OrderItem> tempQuery = null;
+            IQueryable<OrderItem> tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order);
             if (userId > 1)
             {
-                tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order).Where(x => x.Order.User.Id == userId);
-            }
-            if(userId == 1)
-            {
-                tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order)/*.ThenInclude(x => x.User)*/;
+                tempQuery = tempQuery.Where(x => x.Order.User.Id == userId);
             }
             var ordersQuery = tempQuery.GroupBy(x => x.OrderId).Select(x => new OrderDataModel
                 {
