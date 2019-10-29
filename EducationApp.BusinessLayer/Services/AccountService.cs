@@ -10,6 +10,7 @@ using EducationApp.DataAccessLayer.Entities;
 using EducationApp.BusinessLayer.Models.Base;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using System.Text;
+using EducationApp.BusinessLayer.Common;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -27,45 +28,42 @@ namespace EducationApp.BusinessLayer.Services
             _emailHelper = emailHelper;
             _mapperHelper = mapperHelper;
         }
-        public async Task<AuthModel> SignInAsync(UserLoginModel loginModel)
+        public async Task<UserInfoModel> SignInAsync(UserLoginModel loginModel)
         {
-            var authModel = new AuthModel();
-            if (authModel == null 
+            var userInfoModel = new UserInfoModel();
+            if (loginModel == null 
                 || string.IsNullOrWhiteSpace(loginModel.Email) 
                 || string.IsNullOrWhiteSpace(loginModel.Password))
             {
-                authModel.Errors.Add(Constants.Errors.EmptyPassword);
-                return authModel;
+                userInfoModel.Errors.Add(Constants.Errors.EmptyPassword);
+                return userInfoModel;
             }
             var existedUser = await _userRepository.GetUserByEmailAsync(loginModel.Email);
 
             if (existedUser == null)
             {
-                authModel.Errors.Add(Constants.Errors.UserNotFound);
-                return authModel;
+                userInfoModel.Errors.Add(Constants.Errors.UserNotFound);
+                return userInfoModel;
             }
             var result = await _userRepository.CheckPasswordAsync(existedUser, loginModel.Password);
             if (result.IsLockedOut)
             {
-                authModel.Errors.Add(Constants.Errors.BlockedUser);
-                return authModel;
+                userInfoModel.Errors.Add(Constants.Errors.BlockedUser);
+                return userInfoModel;
             }
             if (!result.Succeeded)
             {
-                authModel.Errors.Add(Constants.Errors.InvalidPassword);
-                return authModel;
+                userInfoModel.Errors.Add(Constants.Errors.InvalidPassword);
+                return userInfoModel;
             }
-            if(!await _userRepository.IsEmailConfirmedAsync(existedUser))
+            var confirmResult = await _userRepository.IsEmailConfirmedAsync(existedUser);
+            if (!confirmResult)
             {
-                authModel.Errors.Add(Constants.Errors.IsConfirmedEmail);
-                return authModel;
+                userInfoModel.Errors.Add(Constants.Errors.IsConfirmedEmail);
+                return userInfoModel;
             }
-            authModel.UserId = existedUser.Id;
-            var roles = await _userRepository.GetRoleAsync(existedUser);
-            authModel.UserRole = roles.FirstOrDefault();
-            authModel.UserName = string.Concat(existedUser.FirstName, " ", existedUser.LastName);
-
-            return authModel;
+            var role = (await _userRepository.GetRoleAsync(existedUser)).FirstOrDefault();
+            return existedUser.MapToInfoModel(userInfoModel, role);
         }
         public async Task<BaseModel> SignUpAsync(UserRegistrationModel userRegModel)
         {
@@ -86,17 +84,14 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var user = _mapperHelper.Map<UserRegistrationModel, ApplicationUser>(userRegModel);
-            var builder = new StringBuilder(user.FirstName).Append(user.LastName);
 
-            user.UserName = builder.ToString();
+            user.UserName = $"{user.FirstName}{user.LastName}";
 
-            var errorsList = await _userRepository.SignUpAsync(user, userRegModel.Password);
-            var result = errorsList.ToList();
+            var result = (await _userRepository.SignUpAsync(user, userRegModel.Password)).ToList();
 
             if (result.Any())
             {
                 responseModel.Errors = result.Select(x => x.Description).ToList();
-                return responseModel;
             }
             return responseModel;
         }
@@ -109,8 +104,10 @@ namespace EducationApp.BusinessLayer.Services
                 userModel.Errors.Add(Constants.Errors.UserNotFound);
                 return userModel;
             }
+
             userModel.UserId = user.Id;
             userModel.ConfirmToken = await _userRepository.GetEmailConfirmTokenAsync(user);
+
             return userModel;
         }
         public async Task<UserRegistrationModel> ConfirmEmailAsync(string userId, string token)
@@ -141,7 +138,6 @@ namespace EducationApp.BusinessLayer.Services
             if(!await _userRepository.ConfirmEmailAsync(user, token))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidConfirmData);
-                return responseModel;
             }
             return responseModel;
         }
@@ -154,7 +150,7 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var user = await _userRepository.GetUserByEmailAsync(email);
-            if(user == null || user.IsRemoved.Equals(true))
+            if(user == null || user.IsRemoved)
             {
                 responseModel.Errors.Add(Constants.Errors.FalseIdentityUser);
                 return responseModel;
@@ -168,13 +164,15 @@ namespace EducationApp.BusinessLayer.Services
             var newTempPassword = _passwordHelper.GenerateRandomPassword();
 
             string message = $"This is your Temp password {newTempPassword} ! Please change his, after succesfull authorization";
-            string subject = "NewTempPassword";
+            string subject = Constants.SmtpSettings.SubjectRecovery;
 
-            _emailHelper.SendMailAsync(user.Email, subject, message);
-            if(!await _userRepository.ResetPasswordAsync(user, token, newTempPassword))
+            await _emailHelper.SendMailAsync(user.Email, subject, message);
+
+            var result = await _userRepository.ResetPasswordAsync(user, token, newTempPassword);
+
+            if (!result)
             {
                 responseModel.Errors.Add(Constants.Errors.RemovedUser);
-                return responseModel;
             }
             return responseModel;
         }
@@ -184,21 +182,19 @@ namespace EducationApp.BusinessLayer.Services
             var body = $"Hi, {user.FirstName}!" +
                 $"You have been sent this email because you created an account on our website. " +
                 $"Please click on <a href =\"" + callbackUrl + "\">this link</a> to confirm your email address is correct. ";
-            await _emailHelper.SendMailAsync(user.Email, "ConfirmEmail", body);
+            await _emailHelper.SendMailAsync(user.Email, Constants.SmtpSettings.SubjectConfirmEmail, body);
         }
-        public async Task<AuthModel> IdentifyUser(AuthModel authModel)
+        public async Task<UserInfoModel> IdentifyUser(UserInfoModel userInfoModel)
         {            
-            var user = await _userRepository.GetUserByIdAsync(authModel.UserId);
+            var user = await _userRepository.GetUserByIdAsync(userInfoModel.UserId);
             if(user == null)
             {
-                authModel.Errors.Add(Constants.Errors.UserNotFound);
-                return authModel;
+                userInfoModel.Errors.Add(Constants.Errors.UserNotFound);
+                return userInfoModel;
             }
-            var roles = await _userRepository.GetRoleAsync(user);
-            authModel.UserRole = roles.FirstOrDefault();
-            authModel.UserName = string.Concat(user.FirstName, " ", user.LastName);
+            var role = (await _userRepository.GetRoleAsync(user)).FirstOrDefault();
 
-            return authModel;
+            return user.MapToInfoModel(userInfoModel, role);
         }
     }    
 }

@@ -1,6 +1,4 @@
-﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Models.Authors;
-using EducationApp.BusinessLayer.Models.Filters;
+﻿using EducationApp.BusinessLayer.Models.Authors;
 using EducationApp.BusinessLayer.Models.Filters.Base;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.BusinessLayer.Common.Constants;
@@ -39,15 +37,15 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var listAuthors = await _authorInPrintingEditionRepository.GetAuthorsFilteredDataAsync(repositoryModel);
+            var authors = await _authorInPrintingEditionRepository.GetAuthorsFilteredDataAsync(repositoryModel);
 
-            foreach (var author in listAuthors)
+            foreach (var author in authors)
             {
                 var itemModel = _mapperHelper.Map<AuthorDataModel, AuthorModelItem>(author);
                 if (itemModel == null)
                 {
                     responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
-                    return responseModel;
+                    continue;
                 }
                 responseModel.Items.Add(itemModel);
             }
@@ -67,7 +65,6 @@ namespace EducationApp.BusinessLayer.Services
                 Name = authorModelItem.Name
             };
             await _authorRepository.CreateAsync(author);
-            await _authorRepository.SaveAsync();
             return responseModel;
         }
         public async Task<AuthorModel> DeleteAuthorAsync(long authorId)
@@ -80,14 +77,14 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             await _authorRepository.DeleteAsync(author);
-            await _authorInPrintingEditionRepository.DeleteByAsync(x => x.AuthorId == authorId);
+            await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.AuthorId == authorId);
             return responseModel;
         }
-        // ???
+
         public async Task<AuthorModel> UpdateAuthorAsync(AuthorModelItem authorModelItem)
         {
             var responseModel = new AuthorModel();
-            if(authorModelItem == null || authorModelItem.Name == null)
+            if(authorModelItem == null || string.IsNullOrWhiteSpace(authorModelItem.Name))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;

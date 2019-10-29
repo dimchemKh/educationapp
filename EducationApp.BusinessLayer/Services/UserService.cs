@@ -33,10 +33,10 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             user.IsRemoved = true;
-            if(!await _userRepository.UpdateUserAsync(user))
+            var updateResult = await _userRepository.UpdateUserAsync(user);
+            if (!updateResult)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
-                return responseModel;
             }
             return responseModel;
         }
@@ -49,7 +49,7 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var user = await _userRepository.GetUserByIdAsync(userModel.Id);
-            if(user == null)  // ?? logical
+            if(user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
@@ -66,21 +66,20 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var errorList = new List<IdentityError>();
+            var errors = new List<IdentityError>();
             if (!isAdmin)
             {
-                var errorsList = await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword);
-                errorList = errorsList.ToList();
+                errors = (await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword)).ToList();
             }              
-            if (errorList.Any())
+            if (errors.Any())
             {
-                responseModel.Errors = errorList.Select(x => x.Description).ToList();
+                responseModel.Errors = errors.Select(x => x.Description).ToList();
                 return responseModel;
             }
-            if(!await _userRepository.UpdateUserAsync(user))
+            var updateResult = await _userRepository.UpdateUserAsync(user);
+            if (!updateResult)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
-                return responseModel;
             }
             return responseModel;
         }
@@ -106,7 +105,7 @@ namespace EducationApp.BusinessLayer.Services
                 if(userModelItem == null)
                 {
                     userModel.Errors.Add(Constants.Errors.OccuredProcessing);
-                    return userModel;
+                    continue;
                 }
                 userModel.Items.Add(userModelItem);
             }          
@@ -148,7 +147,6 @@ namespace EducationApp.BusinessLayer.Services
             if(userModel == null)
             {
                 userModel.Errors.Add(Constants.Errors.OccuredProcessing);
-                return userModel;
             }
             return userModel;
         }

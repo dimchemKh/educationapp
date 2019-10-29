@@ -23,17 +23,6 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
                     propertiesTo[i].SetValue(instance, item.GetValue(source));
                 }
             }
-            // try create generic list properties mapper
-            //var queryFrom = propertiesFrom.Where(x => x.PropertyType.IsAbstract && x.PropertyType.IsGenericType).FirstOrDefault();
-            //var queryTo = propertiesTo.Where(x => x.PropertyType.IsAbstract && x.PropertyType.IsGenericType).FirstOrDefault();
-            //var arrayTypesFrom = queryFrom.PropertyType.GetGenericArguments();
-            //var arrayTypesTo = queryTo.PropertyType.GetGenericArguments();
-
-            //foreach (var item in arrayTypesFrom)
-            //{
-            //    var props = item.GetType().GetProperties();
-            //}
-
 
             return instance;
         }

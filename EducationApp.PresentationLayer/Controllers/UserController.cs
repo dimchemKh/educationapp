@@ -1,6 +1,7 @@
 ﻿using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
+using BusinessLayerConstants = EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,7 +45,7 @@ namespace EducationApp.PresentationLayer.Controllers
             var responseModel = await _userService.UpdateUserProfileAsync(userModel, isAdmin);
             if (responseModel.Errors.Any())
             {
-                return Ok(responseModel);
+                responseModel.Errors.Add(BusinessLayerConstants.Constants.Errors.FailedUpdate);
             }
             return Ok(responseModel);
         }

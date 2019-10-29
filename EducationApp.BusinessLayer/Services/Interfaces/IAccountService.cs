@@ -11,10 +11,10 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
     {
         Task<BaseModel> SignUpAsync(UserRegistrationModel userModel);
         Task<UserShortModel> GetEmailConfirmTokenAsync(string email);
-        Task<AuthModel> SignInAsync(UserLoginModel loginModel);
+        Task<UserInfoModel> SignInAsync(UserLoginModel loginModel);
         Task<UserRegistrationModel> ConfirmEmailAsync(string userId, string token);
         Task<BaseModel> ResetPasswordAsync(string email);
         Task SendRegistrationMailAsync(long userId, string callbackUrl);
-        Task<AuthModel> IdentifyUser(AuthModel authModel);
+        Task<UserInfoModel> IdentifyUser(UserInfoModel authModel);
     }
 }

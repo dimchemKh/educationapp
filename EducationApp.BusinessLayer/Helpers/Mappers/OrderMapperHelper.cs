@@ -11,39 +11,37 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
     public static class OrderMapperHelper
     {
 
-        public static OrderItem MapTo(this OrderItemModel orderItemModel)
+        public static OrderItem MapToEntity(this OrderItemModelItem orderItemModel)
         {
-            var orderItem = new OrderItem();
-
-            orderItem.PrintingEditionId = orderItemModel.PrintingEditionId;
-            orderItem.Count = orderItemModel.Count;
-            orderItem.Amount = orderItemModel.Count * orderItemModel.Price;
-            orderItem.Currency = orderItemModel.Currency;
+            var orderItem = new OrderItem
+            {
+                PrintingEditionId = orderItemModel.PrintingEditionId,
+                Count = orderItemModel.Count,
+                Amount = orderItemModel.Count * orderItemModel.Price,
+                Currency = orderItemModel.Currency
+            };
 
             return orderItem;
         }
-        public static OrderModelItem MapTo(this OrderDataModel orderDataModel)
+        public static OrderModelItem MapToModel(this OrderDataModel orderDataModel)
         {
-            var orderItem = new OrderModelItem();
+            var orderItem = new OrderModelItem
+            {
+                Id = orderDataModel.Id,
+                Date = orderDataModel.Date,
+                Email = orderDataModel.Email,
+                UserName = orderDataModel.UserName,
+                Amount = orderDataModel.Amount
+            };
 
-            orderItem.Id = orderDataModel.Id;
-            orderItem.Date = orderDataModel.Date;
-            orderItem.Email = orderDataModel.Email;
-            orderItem.UserName = orderDataModel.UserName;
-            orderItem.Amount = orderDataModel.Amount;
-            if(orderDataModel.PaymentId == null)
-            {
-                orderItem.TransactionStatus = Enums.TransactionStatus.UnPaid;
-            }
-            if (orderDataModel.PaymentId != null)
-            {
-                orderItem.TransactionStatus = Enums.TransactionStatus.Paid;
-            }
+            var result = orderDataModel.PaymentId == null ? Enums.TransactionStatus.UnPaid : Enums.TransactionStatus.Paid;
+            orderItem.TransactionStatus = result;
+
             orderItem.Currency = orderDataModel.OrderItems.Select(x => x.Currency).FirstOrDefault();
-            orderItem.OrderItems = new List<OrderItemModel>();
+            orderItem.OrderItems = new List<OrderItemModelItem>();
             foreach (var item in orderDataModel.OrderItems)
             {
-                orderItem.OrderItems.Add(new OrderItemModel
+                orderItem.OrderItems.Add(new OrderItemModelItem
                 {
                     PrintingEditionType = item.PrintingEditionType,
                     Title = item.Title,

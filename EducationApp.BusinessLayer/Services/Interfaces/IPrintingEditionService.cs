@@ -13,7 +13,6 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
     {
         Task<PrintingEditionModel> GetPrintingEditionsAsync(FilterPrintingEditionModel filterModel, bool isAdmin);
         Task<PrintingEditionModel> CreatePrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem);
-        Task<PrintingEditionModel> GetPrintingEditionDetailsAsync(PrintingEditionModelItem printingEdition);
         Task<PrintingEditionModel> UpdatePrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem);
         Task<PrintingEditionModel> DeletePrintingEditionAsync(long printingEditionId);
     }

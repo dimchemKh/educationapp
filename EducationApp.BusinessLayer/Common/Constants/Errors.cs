@@ -30,8 +30,7 @@ namespace EducationApp.BusinessLayer.Common.Constants
             public const string SuccessConfirmedEmail = "User already confirmed email";
             public const string FalseIdentityUser = "We're sorry, We weren't able to identity you, given the information provided";
             public const string BlockedUser = "We're sorry, but you're blocked";
-
-            public const long NotFindUserId = 0;
+            public const string FailedUpdate = "Failed Update";
         }
     }
 }

@@ -10,7 +10,6 @@ using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using EducationApp.DataAccessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Models.Filters.Base;
 using EducationApp.DataAccessLayer.Entities.Enums;
-using EducationApp.DataAccessLayer.Repository.Base.Interfaces;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Models.Filters;
@@ -59,18 +58,15 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 printingEditions = printingEditions.Where(x => x.Price >= filter.PriceMinValue && x.Price <= filter.PriceMaxValue);
             }
 
-            Expression<Func<PrintingEditionDataModel, object>> expression = null;
-            if (filter.SortType.Equals(Enums.SortType.Id))
+            Expression<Func<PrintingEditionDataModel, object>> expression = x => x.Price;
+                        
+            if (filter.SortType == Enums.SortType.Id)
             {
                 expression = x => x.Id;
             }
-            if (filter.SortType.Equals(Enums.SortType.PrintingEditionType))
+            if (filter.SortType == Enums.SortType.PrintingEditionType)
             {
                 expression = x => x.PrintingEditionType;
-            }
-            if (filter.SortType.Equals(Enums.SortType.Price))
-            {
-                expression = x => x.Price;
             }
             var result = await PaginationAsync(filter, expression, printingEditions);
             return result;
@@ -89,11 +85,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToList()
                 });
             Expression<Func<AuthorDataModel, object>> expression = null;
-            if (filter.SortType.Equals(Enums.SortType.Id))
+
+            if (filter.SortType == Enums.SortType.Id)
             {
                 expression = x => x.Id;
             }
-            if (filter.SortType.Equals(Enums.SortType.Name))
+            if (filter.SortType == Enums.SortType.Name)
             {
                 expression = x => x.Name;
             }
@@ -103,13 +100,13 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
         public async Task<bool> UpdateAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId)
         {
-            var queryAuthorsList = await _context.AuthorInPrintingEditions
+            var queryAuthors = await _context.AuthorInPrintingEditions
                 .Include(x => x.Author)
                 .Where(x => x.PrintingEditionId.Equals(printingEdition.Id))
                 .GroupBy(x => x.Author)
                 .Select(x => x.Key).ToListAsync();
-            var list = queryAuthorsList.Select(x => x.Id).ToList();
-            var isEqual = list.SequenceEqual(authorsId.OrderBy(x => x));
+            var result = queryAuthors.Select(x => x.Id).ToList();
+            var isEqual = result.SequenceEqual(authorsId.OrderBy(x => x));
             if (isEqual)
             {
                 return false;
@@ -153,7 +150,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             return list;
         }
-        public async Task<bool> DeleteByAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
+        public async Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
         {
             var list = await _context.AuthorInPrintingEditions.Where(predicate).ToListAsync();
             if(list == null)

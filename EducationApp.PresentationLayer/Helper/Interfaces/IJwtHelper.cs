@@ -1,4 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Models.Auth;
+using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.PresentationLayer.Common;
 using Microsoft.Extensions.Options;
 using System;
@@ -9,7 +10,7 @@ namespace EducationApp.PresentationLayer.Helper.Interfaces
 {
     public interface IJwtHelper
     {
-        AuthModel ValidateData(string token);
-        AuthModel Generate(AuthModel authModel, IOptions<Config> configOptions);
+        UserInfoModel ValidateData(string token);
+        AuthModel Generate(UserInfoModel userInfoModel, IOptions<Config> configOptions);
     }
 }

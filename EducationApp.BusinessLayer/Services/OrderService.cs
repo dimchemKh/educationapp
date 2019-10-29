@@ -1,20 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.BusinessLayer.Common.Constants;
-using DataConstants = EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
-using DataModel = EducationApp.DataAccessLayer.Models.Orders;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
-using EducationApp.DataAccessLayer.Models.Orders;
-using EducationApp.DataAccessLayer.Models.OrderItems;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
+using EducationApp.BusinessLayer.Common;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -22,20 +18,13 @@ namespace EducationApp.BusinessLayer.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IPrintingEditionRepository _printingEditionRepository;
-        private readonly IPaymentRepository _paymentRepository;
         private readonly IMapperHelper _mapperHelper;
-        private readonly ICurrencyConverterHelper _converterHelper;
 
-        public OrderService(IOrderRepository orderRepository, IUserRepository userRepository, IPrintingEditionRepository printingEditionRepository, 
-            IPaymentRepository paymentRepository, IMapperHelper mapperHelper, ICurrencyConverterHelper converterHelper)
+        public OrderService(IOrderRepository orderRepository, IUserRepository userRepository, IMapperHelper mapperHelper)
         {
             _orderRepository = orderRepository;
             _userRepository = userRepository;
-            _printingEditionRepository = printingEditionRepository;
             _mapperHelper = mapperHelper;
-            _converterHelper = converterHelper;
-            _paymentRepository = paymentRepository;
         }
         public async Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId)
         {
@@ -47,12 +36,11 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-            var result = await _orderRepository.GetAllOrdersAsync(repositoryFilter, _userId);
-            var orderList = result.ToList();
+            var orders = (await _orderRepository.GetAllOrdersAsync(repositoryFilter, _userId)).ToList();
             
-            foreach (var order in orderList)
+            foreach (var order in orders)
             {                         
-                var orderModelItem = order.MapTo();
+                var orderModelItem = order.MapToModel();
                 responseModel.Items.Add(orderModelItem);
             }            
             return responseModel;
@@ -71,7 +59,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }            
-            var orderItemsList = new List<OrderItem>();
+            var orderItems = new List<OrderItem>();
 
             var order = new Order();
             var user = await _userRepository.GetUserByIdAsync(_userId);
@@ -81,25 +69,20 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             order.User = user;
-            
             foreach (var orderPrintingEdition in orderModelItem.OrderItems)
             {
-                var orderItem = orderPrintingEdition.MapTo();
+                var orderItem = orderPrintingEdition.MapToEntity();
                 orderItem.Order = order;
-                orderItemsList.Add(orderItem);
+                orderItems.Add(orderItem);
             }
             var payment = new Payment()
             {
                 TransactionId = null
             };
 
-            order.Amount = orderItemsList.Select(x => x.Amount).Sum();            
-            order.OrderItems = orderItemsList;
-            order.TransactionStatus = DataAccessLayer.Entities.Enums.Enums.TransactionStatus.UnPaid;            
-            order.Payment = payment;
+            var mappedOrder = orderItems.MapToEntity(order, payment);
 
-            await _orderRepository.CreateAsync(order);
-            await _orderRepository.SaveAsync();
+            await _orderRepository.CreateAsync(mappedOrder);
 
             return responseModel;
         }
@@ -117,10 +100,10 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
-            if(!await _orderRepository.UpdateTransactionAsync(_orderId, _transactionId))
+            var updateReuslt = await _orderRepository.UpdateTransactionAsync(_orderId, _transactionId);
+            if (!updateReuslt)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
-                return responseModel;
             }
             return responseModel;
         }

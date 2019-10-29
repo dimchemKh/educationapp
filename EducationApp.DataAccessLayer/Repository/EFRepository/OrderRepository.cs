@@ -20,25 +20,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public OrderRepository(ApplicationContext context) : base(context)
         {
         }
-        private async Task<IEnumerable<OrderDataModel>> GetFilteredDataAsync(FilterOrderModel filterOrder, IQueryable<OrderDataModel> ordersList)
-        {
-            Expression<Func<OrderDataModel, object>> lambda = null;
-            if (filterOrder.SortType == Enums.SortType.Id)
-            {
-                lambda = x => x.Id;
-            }
-            if (filterOrder.SortType == Enums.SortType.PrintingEditionType)
-            {
-                lambda = x => x.Date;
-            }
-            if (filterOrder.SortType == Enums.SortType.TransactionStatus)
-            {
-                lambda = x => x.TransactionStatus;
-            }
 
-            var result = await PaginationAsync(filterOrder, lambda, ordersList);
-            return result;
-        }
         public async Task<IEnumerable<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId)
         {
             IQueryable<OrderItem> tempQuery = _context.OrderItems.Include(x => x.PrintingEdition).Include(x => x.Order);
@@ -79,6 +61,25 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             _context.Payments.Update(query);
             await _context.SaveChangesAsync();
             return true;
+        }
+        private async Task<IEnumerable<OrderDataModel>> GetFilteredDataAsync(FilterOrderModel filterOrder, IQueryable<OrderDataModel> ordersList)
+        {
+            Expression<Func<OrderDataModel, object>> lambda = null;
+            if (filterOrder.SortType == Enums.SortType.Id)
+            {
+                lambda = x => x.Id;
+            }
+            if (filterOrder.SortType == Enums.SortType.PrintingEditionType)
+            {
+                lambda = x => x.Date;
+            }
+            if (filterOrder.SortType == Enums.SortType.TransactionStatus)
+            {
+                lambda = x => x.TransactionStatus;
+            }
+
+            var result = await PaginationAsync(filterOrder, lambda, ordersList);
+            return result;
         }
     }
 }

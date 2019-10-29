@@ -14,6 +14,10 @@ namespace EducationApp.BusinessLayer.Common.Constants
             public const string NetCredentialPass = "f2b28f22609ec7";
 
             public const string TestEmail = "from@example.com";
+            public const string ConfirmEmailUrl = "http://localhost:4200/account/confirmEmail";
+
+            public const string SubjectRecovery = "New Temp Password";
+            public const string SubjectConfirmEmail = "Confirm Email";
         }
     }
 }

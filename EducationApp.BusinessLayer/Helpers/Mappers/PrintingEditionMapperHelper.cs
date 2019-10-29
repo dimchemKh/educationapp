@@ -16,14 +16,15 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
     {
         public static PrintingEditionModelItem MapToModel(this PrintingEditionDataModel source, Enums.Currency currency = Enums.Currency.USD)
         {
-            var instance = new PrintingEditionModelItem();
-
-            instance.Id = source.Id;
-            instance.Price = source.Price;
-            instance.PrintingEditionType = source.PrintingEditionType;
-            instance.Title = source.Title;
-            instance.Currency = currency;
-            instance.Description = source.Description;
+            var instance = new PrintingEditionModelItem
+            {
+                Id = source.Id,
+                Price = source.Price,
+                PrintingEditionType = source.PrintingEditionType,
+                Title = source.Title,
+                Currency = currency,
+                Description = source.Description
+            };
             instance.Price = source.Price;
             instance.Authors = source.Authors.Select(x => new AuthorModelItem { Id = x.Id, Name = x.Name }).ToList();
             
@@ -31,15 +32,16 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
         }
         public static PrintingEditionDataModel MapToData(this PrintingEditionModelItem source)
         {
-            var instance = new PrintingEditionDataModel();
+            var instance = new PrintingEditionDataModel
+            {
+                Id = source.Id,
+                Price = source.Price,
+                PrintingEditionType = source.PrintingEditionType,
+                Title = source.Title,
+                Description = source.Description,
 
-            instance.Id = source.Id;
-            instance.Price = source.Price;
-            instance.PrintingEditionType = source.PrintingEditionType;
-            instance.Title = source.Title;
-            instance.Description = source.Description;
-
-            instance.Authors = source.Authors.Select(x => new AuthorDataModel { Id = x.Id, Name = x.Name, PrintingEditionTitles = x.PrintingEditionTitles }).ToList();
+                Authors = source.Authors.Select(x => new AuthorDataModel { Id = x.Id, Name = x.Name, PrintingEditionTitles = x.PrintingEditionTitles }).ToList()
+            };
 
             return instance;
         }

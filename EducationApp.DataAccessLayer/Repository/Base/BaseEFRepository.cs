@@ -36,6 +36,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public async Task CreateAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
         public async Task DeleteAsync(TEntity entity)
         {
@@ -56,11 +57,12 @@ namespace EducationApp.DataAccessLayer.Repository.Base
        
         public async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
         {
-            if (baseFilter.SortState.Equals(Enums.SortState.Asc))
+
+            if (baseFilter.SortState == Enums.SortState.Asc && predicate != null)
             {
                 entities = entities.OrderBy(predicate);
             }
-            if (baseFilter.SortState.Equals(Enums.SortState.Desc))
+            if (baseFilter.SortState == Enums.SortState.Desc && predicate != null)
             {
                 entities = entities.OrderByDescending(predicate);
             }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using EducationApp.PresentationLayer.Helper.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Common.Constants;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
@@ -39,21 +41,28 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [AllowAnonymous]
-        [HttpPost("refresh")]
+        [HttpGet("refresh")]
         public async Task<IActionResult> RefreshTokenAsync()
-        {            
-            var authModel = _jwtHelper.ValidateData(Request.Cookies["refresh"]);
-            if (!authModel.Errors.Any())
+        {
+            var token = Request.Cookies["Refresh"];
+            var userInfoModel = _jwtHelper.ValidateData(token);
+            if (userInfoModel.Errors.Any())
             {
-                return Ok(authModel);
+                return Ok(userInfoModel);
             }
-            authModel = await _accountService.IdentifyUser(authModel);
-            var result = _jwtHelper.Generate(authModel, _configOptions);
+            userInfoModel = await _accountService.IdentifyUser(userInfoModel);
+            var result = _jwtHelper.Generate(userInfoModel, _configOptions);
 
-            Response.Cookies.Append("access", result.AccessToken);
-            Response.Cookies.Append("refresh", result.RefreshToken);
+            Response.Cookies.Append(_configOptions.Value.AccessName, result.AccessToken, new CookieOptions()
+            {
+                Expires = DateTime.Now.Add(_configOptions.Value.AccessTokenExpiration)
+            });
+            Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
+            {
+                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
+            });
 
-            return Ok(result);
+            return Ok();
         }
         [AllowAnonymous]
         [HttpPost("signUp")]
@@ -75,31 +84,35 @@ namespace EducationApp.PresentationLayer.Controllers
                 "Account",
                 new { userModel.UserId, userModel.ConfirmToken },
                 protocol: HttpContext.Request.Scheme);
-            // TODO: maybe change callback to client?
-            //var callbackUrl = "http://localhost:4200/account/confirmEmail?" + $"UserId={userModel.UserId}" + $"ConfirmToken={userModel.ConfirmToken}";
-            _accountService.SendRegistrationMailAsync(userModel.UserId, callbackUrl);
+            await _accountService.SendRegistrationMailAsync(userModel.UserId, callbackUrl);
             return Ok(responseModel);
         }
         [AllowAnonymous]
         [HttpPost("signIn")]
         public async Task<IActionResult> SignInAsync([FromBody]UserLoginModel loginModel)
         {
-            var authModel = await _accountService.SignInAsync(loginModel);
-            if (authModel.Errors.Any())
+            var userInfoModel = await _accountService.SignInAsync(loginModel);
+            if (userInfoModel.Errors.Any())
             {
-                return Ok(authModel);
+                return Ok(userInfoModel);
             }
-            var result = _jwtHelper.Generate(authModel, _configOptions);
-            Response.Cookies.Append("access", result.AccessToken);
-            Response.Cookies.Append("refresh", result.RefreshToken);
+            var result = _jwtHelper.Generate(userInfoModel, _configOptions);
+            Response.Cookies.Append(_configOptions.Value.AccessName, result.AccessToken, new CookieOptions()
+            {
+                Expires = DateTime.Now.Add(_configOptions.Value.AccessTokenExpiration)
+            });
+            Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
+            {
+                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
+            });
 
-            return Ok(authModel);
+            return Ok(userInfoModel);
         }         
         [HttpGet("confirmEmail")]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string confirmToken)
         {
             var regModel = await _accountService.ConfirmEmailAsync(userId, confirmToken);
-            string url = "http://localhost:4200/account/confirmEmail";
+            string url = Constants.SmtpSettings.ConfirmEmailUrl;
             if (regModel.Errors.Any())
             {
                 var _str = regModel.Errors.FirstOrDefault();

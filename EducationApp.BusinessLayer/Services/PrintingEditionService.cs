@@ -42,7 +42,6 @@ namespace EducationApp.BusinessLayer.Services
                 || !printingEditionsModelItem.Authors.Any() || printingEditionsModelItem.Price == 0)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
-                return responseModel;
             }
             return responseModel;
         }
@@ -99,15 +98,6 @@ namespace EducationApp.BusinessLayer.Services
                        
             return responseModel;
         }
-
-        public async Task<PrintingEditionModel> GetPrintingEditionDetailsAsync(PrintingEditionModelItem printingEdition)
-        {
-            var responseModel = new PrintingEditionModel();
-
-            responseModel.Items.Add(printingEdition);
-
-            return responseModel;
-        }
         public async Task<PrintingEditionModel> DeletePrintingEditionAsync(long printingEditionId)
         {
             var responseModel = new PrintingEditionModel();
@@ -119,11 +109,11 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             await _printingEditionRepository.DeleteAsync(printingEdition);
-            await _authorInPrintingEditionRepository.DeleteByAsync(x => x.PrintingEditionId == printingEditionId);
+            await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.PrintingEditionId == printingEditionId);
 
             return responseModel;
         }
-        public async Task<PrintingEditionModel> UpdatePrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem) // ??????
+        public async Task<PrintingEditionModel> UpdatePrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem)
         {
             var responseModel = ValidateData(printingEditionsModelItem);
 
@@ -138,9 +128,10 @@ namespace EducationApp.BusinessLayer.Services
             }
             printingEdition.Price = _currencyConverterHelper.Converting(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
             await _printingEditionRepository.UpdateAsync(printingEdition);
-            if (!await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition, authorsId))
+            var updateResult = await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition, authorsId);
+            if (!updateResult)
             {
-                return responseModel;
+                responseModel.Errors.Add(Constants.Errors.FailedUpdate);
             }
             return responseModel;            
         }

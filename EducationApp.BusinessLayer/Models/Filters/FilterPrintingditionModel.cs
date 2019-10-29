@@ -8,7 +8,6 @@ namespace EducationApp.BusinessLayer.Models.Filters
 {
     public class FilterPrintingEditionModel : BaseFilterModel
     {
-        public string SearchString { get; set; }
         public Enums.Currency Currency { get; set; }
         public decimal PriceMinValue { get; set; }
         public decimal PriceMaxValue { get; set; }

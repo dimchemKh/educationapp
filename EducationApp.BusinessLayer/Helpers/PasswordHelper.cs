@@ -27,22 +27,22 @@ namespace EducationApp.BusinessLayer.Helpers
             if (options.RequireLowercase)
             {
                 listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count),
-                    Constants.CharsForPassword.ListCharsForPassword[0][random.Next(0, Constants.CharsForPassword.ListCharsForPassword[0].Length)]);
+                    Constants.PasswordGenerationParams.ListCharsForPassword[0][random.Next(0, Constants.PasswordGenerationParams.ListCharsForPassword[0].Length)]);
             }
             if (options.RequireUppercase)
             {
                 listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count), 
-                    Constants.CharsForPassword.ListCharsForPassword[1][random.Next(0, Constants.CharsForPassword.ListCharsForPassword[1].Length)]);
+                    Constants.PasswordGenerationParams.ListCharsForPassword[1][random.Next(0, Constants.PasswordGenerationParams.ListCharsForPassword[1].Length)]);
             }
             if (options.RequireDigit)
             {
                 listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count), 
-                    Constants.CharsForPassword.ListCharsForPassword[2][random.Next(0, Constants.CharsForPassword.ListCharsForPassword[2].Length)]);
+                    Constants.PasswordGenerationParams.ListCharsForPassword[2][random.Next(0, Constants.PasswordGenerationParams.ListCharsForPassword[2].Length)]);
             }
             
             for (int i = listCharsOfPassword.Count; i < options.RequiredLength || listCharsOfPassword.Distinct().Count() < options.RequiredUniqueChars; i++)
             {
-                string result = Constants.CharsForPassword.ListCharsForPassword[random.Next(0, Constants.CharsForPassword.ListCharsForPassword.Length)];
+                string result = Constants.PasswordGenerationParams.ListCharsForPassword[random.Next(0, Constants.PasswordGenerationParams.ListCharsForPassword.Length)];
                 listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count), result[random.Next(0, result.Length)]);
             }
 
