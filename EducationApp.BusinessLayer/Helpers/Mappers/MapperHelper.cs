@@ -1,4 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+using EducationApp.DataAccessLayer.Entities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             var propertiesTo = typeof(MapTo).GetProperties();
 
             var instance = (MapTo)Activator.CreateInstance(typeof(MapTo));
-            
+
             for (int i = 0; i < propertiesTo.Length; i++)
             {
                 var item = propertiesFrom.Where(x => x.Name.Equals(propertiesTo[i].Name) && x.GetValue(source) != null).FirstOrDefault();

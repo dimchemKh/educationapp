@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
-    //[Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
@@ -23,7 +23,6 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             _userService = userService;
         }        
-        [Authorize(Roles = Constants.Roles.User)]
         [HttpPost("get")]
         public async Task<IActionResult> GetUserAsync()
         {
@@ -32,9 +31,8 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }
-        [Authorize]
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateProfileAsync([FromBody]UserEditModel userModel)
+        public async Task<IActionResult> UpdateProfileAsync([FromBody]UserUpdateModel userModel)
         {            
             var userId = User.Claims.First(id => id.Type == ClaimTypes.NameIdentifier)?.Value;
             var isAdmin = User.IsInRole(Constants.Roles.Admin);
@@ -43,10 +41,6 @@ namespace EducationApp.PresentationLayer.Controllers
                 userModel.Id = _userId;
             }            
             var responseModel = await _userService.UpdateUserProfileAsync(userModel, isAdmin);
-            if (responseModel.Errors.Any())
-            {
-                responseModel.Errors.Add(BusinessLayerConstants.Constants.Errors.FailedUpdate);
-            }
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
@@ -57,7 +51,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }
-        //[Authorize(Roles = Constants.Roles.Admin)]
+        [Authorize(Roles = Constants.Roles.Admin)]
         [HttpPut("block")]
         public async Task<IActionResult> BlockUserAsync([FromBody]UserModelItem userModelItem)
         {

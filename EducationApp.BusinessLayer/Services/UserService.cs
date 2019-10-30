@@ -10,6 +10,7 @@ using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using EducationApp.BusinessLayer.Helpers.Mappers;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -40,9 +41,9 @@ namespace EducationApp.BusinessLayer.Services
             }
             return responseModel;
         }
-        public async Task<UserEditModel> UpdateUserProfileAsync(UserEditModel userModel, bool isAdmin)
+        public async Task<UserUpdateModel> UpdateUserProfileAsync(UserUpdateModel userModel, bool isAdmin)
         {
-            var responseModel = new UserEditModel();
+            var responseModel = new UserUpdateModel();
             if (string.IsNullOrWhiteSpace(userModel.CurrentPassword))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
@@ -60,14 +61,15 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidPassword);
                 return responseModel;
             }
-            user = _mapperHelper.Map<UserEditModel, ApplicationUser>(userModel);
+            user = userModel.MapToEntity(user);
+            //user = _mapperHelper.Map<UserUpdateModel, ApplicationUser>(userModel);
             if(user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
             var errors = new List<IdentityError>();
-            if (!isAdmin)
+            if (!isAdmin && !string.IsNullOrWhiteSpace(userModel.NewPassword))
             {
                 errors = (await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword)).ToList();
             }              
@@ -80,7 +82,7 @@ namespace EducationApp.BusinessLayer.Services
             if (!updateResult)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
-            }
+            } 
             return responseModel;
         }
         
@@ -124,9 +126,9 @@ namespace EducationApp.BusinessLayer.Services
             return responseModel;
         }
 
-        public async Task<UserEditModel> GetOneUserAsync(string userId)
+        public async Task<UserUpdateModel> GetOneUserAsync(string userId)
         {
-            var userModel = new UserEditModel();
+            var userModel = new UserUpdateModel();
 
             if (string.IsNullOrWhiteSpace(userId))
             {
@@ -143,7 +145,7 @@ namespace EducationApp.BusinessLayer.Services
                 userModel.Errors.Add(Constants.Errors.UserNotFound);
                 return userModel;
             }
-            userModel = _mapperHelper.Map<ApplicationUser, UserEditModel>(user);
+            userModel = _mapperHelper.Map<ApplicationUser, UserUpdateModel>(user);
             if(userModel == null)
             {
                 userModel.Errors.Add(Constants.Errors.OccuredProcessing);

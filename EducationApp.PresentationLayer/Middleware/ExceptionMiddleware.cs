@@ -23,9 +23,9 @@ namespace EducationApp.PresentationLayer.Middleware
                 _logger.LogInformation("SOME LOGINFO: ", context.Request.Body);
                 await _next(context);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger.LogError("Error", context.Response.StatusCode);
+                _logger.LogError(ex, "Error", context.Response.StatusCode);
             }
         }
     }

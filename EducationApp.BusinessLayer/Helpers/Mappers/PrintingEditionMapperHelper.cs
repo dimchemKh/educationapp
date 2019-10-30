@@ -55,5 +55,5 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
 
             return instance;
         }
-        }
+    }
 }

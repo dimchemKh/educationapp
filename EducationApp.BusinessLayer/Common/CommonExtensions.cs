@@ -12,7 +12,7 @@ namespace EducationApp.BusinessLayer.Common
         public static UserInfoModel MapToInfoModel(this ApplicationUser user, UserInfoModel userInfoModel, string role)
         {
             userInfoModel.UserId = user.Id;
-            userInfoModel.UserName = $"{user.FirstName}{user.LastName}";
+            userInfoModel.UserName = $"{user.FirstName} {user.LastName}";
             userInfoModel.UserRole = role;
 
             return userInfoModel;
