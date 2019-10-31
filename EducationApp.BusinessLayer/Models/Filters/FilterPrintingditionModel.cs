@@ -16,8 +16,6 @@ namespace EducationApp.BusinessLayer.Models.Filters
         public FilterPrintingEditionModel() : base()
         {
             Currency = Enums.Currency.USD;
-            PriceMinValue = 0.0m;
-            PriceMaxValue = 10000.0m;
             PrintingEditionTypes = new List<Enums.PrintingEditionType>();
         }
     }

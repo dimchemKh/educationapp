@@ -45,7 +45,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             if (!string.IsNullOrWhiteSpace(filter.SearchString))
             {
-                printingEditions = printingEditions.Where(x => x.Title.Contains(filter.SearchString));
+                printingEditions = printingEditions.Where(x => x.Title.ToLower().StartsWith(filter.SearchString.ToLower()));
             }
 
             if (filter.PrintingEditionTypes.Any())
