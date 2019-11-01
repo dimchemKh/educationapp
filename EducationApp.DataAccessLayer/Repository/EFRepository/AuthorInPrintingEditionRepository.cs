@@ -13,6 +13,7 @@ using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Models.Filters;
+using EducationApp.DataAccessLayer.Models;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
@@ -21,8 +22,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorInPrintingEditionRepository(ApplicationContext context) : base(context)
         {
         }
-        public async Task<IEnumerable<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter, bool isAdmin)
+        public async Task<GenericModel<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter, bool isAdmin)
         {
+            var model = new GenericModel<PrintingEditionDataModel>();
             var printingEditions = _context.AuthorInPrintingEditions
                 .Include(x => x.Author)
                 .Include(x => x.PrintingEdition)
@@ -68,8 +70,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 expression = x => x.PrintingEditionType;
             }
-            var result = await PaginationAsync(filter, expression, printingEditions);
-            return result;
+            model.Collection = await PaginationAsync(filter, expression, printingEditions);
+
+            model.CollectionCount = await printingEditions.CountAsync();
+
+            return model;
         }
         public async Task<IEnumerable<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter)
         {

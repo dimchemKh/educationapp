@@ -8,6 +8,6 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
     public class PrintingEditionModel : BaseModel
     {
         public ICollection<PrintingEditionModelItem> Items = new List<PrintingEditionModelItem>();
-
+        public int ItemsCount { get; set; }
     }
 }

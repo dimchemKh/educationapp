@@ -13,6 +13,6 @@ namespace EducationApp.DataAccessLayer.Models.PrintingEditions
         public Enums.Currency Currency { get; set; }
         public Enums.PrintingEditionType PrintingEditionType { get; set; }
         public IList<AuthorDataModel> Authors { get; set; }
-
+        
     }
 }

@@ -18,8 +18,8 @@ namespace EducationApp.BusinessLayer.Models.Filters.Base
         {
             SortState = Enums.SortState.Asc;
             SortType = Enums.SortType.None;
-            PageSize = Constants.Pagination.PageSize;
-            Page = Constants.Pagination.Page;
+            //PageSize = Constants.Pagination.PageSize;
+            //Page = Constants.Pagination.Page;
         }
     }
 }

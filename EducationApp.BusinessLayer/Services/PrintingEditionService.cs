@@ -84,9 +84,9 @@ namespace EducationApp.BusinessLayer.Services
                 repositoryFilter.PriceMinValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMinValue);
                 repositoryFilter.PriceMaxValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMaxValue);
             }
-            var printingEditionsList = await _authorInPrintingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
+            var printingEditionsModel = await _authorInPrintingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
 
-            foreach (var printingEdition in printingEditionsList)
+            foreach (var printingEdition in printingEditionsModel.Collection)
             {
                 var modelItem = printingEdition.MapToModel(filter.Currency);
                 if (!isAdmin)
@@ -95,7 +95,8 @@ namespace EducationApp.BusinessLayer.Services
                 }
                 responseModel.Items.Add(modelItem);
             }
-                       
+            responseModel.ItemsCount = printingEditionsModel.CollectionCount;           
+
             return responseModel;
         }
         public async Task<PrintingEditionModel> DeletePrintingEditionAsync(long printingEditionId)
