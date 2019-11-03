@@ -25,24 +25,30 @@ namespace EducationApp.BusinessLayer.Common
         {
             return logLevel != LogLevel.None;
         }
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public async void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             try
             {
-                WriteMessage(logLevel, eventId, state, exception, formatter);
+                await WriteMessageAsync(logLevel, eventId, state, exception, formatter);
             }
             catch (Exception ex)
             {
-                WriteMessage(logLevel, eventId, state, ex, formatter);
+                await WriteMessageAsync(logLevel, eventId, state, ex, formatter);
             }
         }
-        private void WriteMessage<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        private async Task WriteMessageAsync<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            string message = $"{logLevel} :: {_categoryName} :: {formatter(state, exception)} :: Time => {DateTime.Now}";
-
-            using (var writer = File.AppendText(_filePath))
+            if (!File.Exists(_filePath))
             {
-                writer.WriteLine(message);
+                using (var stream = File.Create(_filePath))
+                {
+                    using (TextWriter tw = new StreamWriter(stream))
+                    {
+                        string message = $"{logLevel} :: {_categoryName} :: {formatter(state, exception)} :: Time => {DateTime.Now}";
+
+                        await tw.WriteLineAsync(message);
+                    }
+                }
             }
         }
     }

@@ -7,6 +7,8 @@ namespace EducationApp.BusinessLayer.Common.Interfaces
 {
     public interface ILogger
     {
-        void WriteMessage(string message);
+        //void Debug(string message);
+        //void Fatal(string message);
+        //void WriteMessage(string message);
     }
 }
