@@ -17,5 +17,17 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
 
             return instance;
         }
+        public static T MapToModel<T>(this ApplicationUser source) where T : UserModelItem, new()
+        {
+            var instance = new T();
+            instance.FirstName = source.FirstName;
+            instance.LastName = source.LastName;
+            instance.Email = source.Email;
+            instance.Id = source.Id;
+            var resultBlocked = (source.LockoutEnd != null) ? true : false;
+            instance.IsBlocked = resultBlocked;
+
+            return instance;
+        }
     }
 }

@@ -62,14 +62,14 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             user = userModel.MapToEntity(user);
-            //user = _mapperHelper.Map<UserUpdateModel, ApplicationUser>(userModel);
+
             if(user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
             var errors = new List<IdentityError>();
-            if (!isAdmin && !string.IsNullOrWhiteSpace(userModel.NewPassword))
+            if (!string.IsNullOrWhiteSpace(userModel.NewPassword))
             {
                 errors = (await _userRepository.ChangePasswordAsync(user, userModel.CurrentPassword, userModel.NewPassword)).ToList();
             }              
@@ -101,16 +101,18 @@ namespace EducationApp.BusinessLayer.Services
                 userModel.Errors.Add(Constants.Errors.InvalidFiltteringData);
                 return userModel;
             }
-            foreach (var user in filteringUsers)
+            foreach (var user in filteringUsers.Collection)
             {
-                var userModelItem = _mapperHelper.Map<ApplicationUser, UserModelItem>(user);
+                var userModelItem = user.MapToModel<UserModelItem>();
+
                 if(userModelItem == null)
                 {
                     userModel.Errors.Add(Constants.Errors.OccuredProcessing);
                     continue;
                 }
                 userModel.Items.Add(userModelItem);
-            }          
+            }
+            userModel.ItemsCount = filteringUsers.CollectionCount;
             return userModel;
         }
         public async Task<UserModel> BlockUserAsync(long userId, bool isBlocked)

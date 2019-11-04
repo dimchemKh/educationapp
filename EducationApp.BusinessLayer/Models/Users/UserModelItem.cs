@@ -11,6 +11,6 @@ namespace EducationApp.BusinessLayer.Models.Users
         public string LastName { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
-        public bool LockoutEnabled { get; set; }
+        public bool IsBlocked { get; set; }
     }
 }

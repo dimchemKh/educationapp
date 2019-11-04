@@ -38,7 +38,7 @@ namespace EducationApp.BusinessLayer.Common
         }
         private async Task WriteMessageAsync<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if (!File.Exists(_filePath))
+            if (File.Exists(_filePath))
             {
                 using (var stream = File.Create(_filePath))
                 {

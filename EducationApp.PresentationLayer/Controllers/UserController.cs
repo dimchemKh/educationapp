@@ -55,7 +55,7 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPut("block")]
         public async Task<IActionResult> BlockUserAsync([FromBody]UserModelItem userModelItem)
         {
-            var result = await _userService.BlockUserAsync(userModelItem.Id, userModelItem.LockoutEnabled);
+            var result = await _userService.BlockUserAsync(userModelItem.Id, userModelItem.IsBlocked);
             return Ok(result);
         }
         [Authorize(Roles = Constants.Roles.Admin)]

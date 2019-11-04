@@ -1,4 +1,5 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
+using EducationApp.DataAccessLayer.Models;
 using EducationApp.DataAccessLayer.Models.Filters;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
         Task<IEnumerable<IdentityError>> SignUpAsync(ApplicationUser user, string password);
         Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
         Task<bool> UpdateUserAsync(ApplicationUser user);
-        Task<IEnumerable<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model);
+        Task<GenericModel<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model);
 
         Task BlockUserAsync(ApplicationUser user, bool isBlocked);
     }
