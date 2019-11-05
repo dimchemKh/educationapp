@@ -47,9 +47,13 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var user = await _userManager.FindByEmailAsync(email);
             return user;
         }
-        public async Task<SignInResult> CheckPasswordAsync(ApplicationUser user, string password)
+        public async Task<SignInResult> CheckPasswordAsync(ApplicationUser user, string password, bool isAdmin = false)
         {
-            return await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
+            if(!isAdmin)
+            {
+                return await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
+            }
+            return SignInResult.Success;
         }
         public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token)
         {

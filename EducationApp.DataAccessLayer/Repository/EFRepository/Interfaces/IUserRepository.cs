@@ -11,7 +11,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
     {
         Task<bool> ConfirmEmailAsync(ApplicationUser user, string token);
         Task<bool> IsEmailConfirmedAsync(ApplicationUser user);
-        Task<SignInResult> CheckPasswordAsync(ApplicationUser user, string password);
+        Task<SignInResult> CheckPasswordAsync(ApplicationUser user, string password, bool isAdmin = false);
         Task<IEnumerable<IdentityError>> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword);
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         Task<ApplicationUser> GetUserByIdAsync(long userId);

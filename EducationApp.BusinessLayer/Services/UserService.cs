@@ -44,7 +44,7 @@ namespace EducationApp.BusinessLayer.Services
         public async Task<UserUpdateModel> UpdateUserProfileAsync(UserUpdateModel userModel, bool isAdmin)
         {
             var responseModel = new UserUpdateModel();
-            if (string.IsNullOrWhiteSpace(userModel.CurrentPassword))
+            if (string.IsNullOrWhiteSpace(userModel.CurrentPassword) && !isAdmin)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
@@ -55,7 +55,9 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-            var checkPasswordResult = await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword);
+
+            var checkPasswordResult = await _userRepository.CheckPasswordAsync(user, userModel.CurrentPassword, isAdmin);
+
             if (!checkPasswordResult.Succeeded)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidPassword);
