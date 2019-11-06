@@ -1,4 +1,8 @@
-export class AuthorModel {
-    public authorId: number;
-    public name: string;
+import { BaseModel } from 'src/app/shared/models/base/BaseModel';
+import { AuthorModelItem } from './AuthorModelItem';
+
+export class AuthorModel extends BaseModel {
+
+    public items = new Array<AuthorModelItem>();
+    public itemsCount: number;
 }

@@ -1,4 +1,4 @@
-import { PageSize } from 'src/app/shared/enums/page-size';
+
 
 export class BaseFilterModel {
     searchString?: string;

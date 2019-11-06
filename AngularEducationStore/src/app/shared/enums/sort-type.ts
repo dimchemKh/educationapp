@@ -3,5 +3,6 @@ export enum SortType {
     Id = 1,
     userName = 2,
     userEmail = 3,
-    Price = 4
+    Price = 4,
+    Title = 7
 }

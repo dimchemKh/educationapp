@@ -6,6 +6,7 @@ import { ApiRoutes } from 'src/environments/api-routes';
 import { Observable } from 'rxjs';
 import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/PrintingEditionModel';
 import { PageSize } from 'src/app/shared/enums/page-size';
+import { PrintingEditionModelItem } from '../models/printing-editions/PrintingEditionModelItem';
 
 
 
@@ -18,6 +19,9 @@ export class PrintingEditionService {
 
   getPrintingEditions(filterModel: FilterPrintingEditionModel): Observable<PrintingEditionModel> {
     return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'get', filterModel);
+  }
+  createPrintingEdition(printingEdition: PrintingEditionModelItem) {
+    return this.http.post(this.apiRoutes.printingEditionRoute + 'create', printingEdition);
   }
   getIconStyle(pageSize: number) {
     if (pageSize === PageSize.Six) {

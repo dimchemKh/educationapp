@@ -3,26 +3,53 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/author/author-routing.module';
-
-
-import { CreateAuthorComponent } from './create-author/create-author.component';
-import { UpdateAuthorComponent } from './update-author/update-author.component';
-import { DeleteAuthorComponent } from './delete-author/delete-author.component';
-import { AuthorsComponent } from './authors/authors.component';
-import { AuthorService } from '../shared/services/author.service';
+import { AuthorsComponent } from 'src/app/author/authors/authors.component';
+import {
+  MatSortModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatToolbarModule,
+  MatGridListModule,
+  MatCheckboxModule,
+  MatSliderModule,
+  MatButtonModule,
+  MatSelectModule,
+  MatDividerModule,
+  MatPaginatorModule,
+  MatCardModule,
+  MatTableModule
+} from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AuthorsDialogComponent } from 'src/app/author/authors/authors-dialog/authors-dialog.component';
 
 @NgModule({
   declarations: [
-    CreateAuthorComponent,
-    UpdateAuthorComponent,
-    DeleteAuthorComponent,
-    AuthorsComponent
+    AuthorsComponent,
+    AuthorsDialogComponent
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatCheckboxModule,
+    MatSliderModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatDividerModule,
+    MatPaginatorModule,
+    FontAwesomeModule,
+    MatCardModule,
+    MatTableModule,
+    MatSortModule
   ],
   exports: [],
-  providers: []
+  providers: [],
+  entryComponents: [AuthorsDialogComponent]
 })
 export class AuthorModule { }

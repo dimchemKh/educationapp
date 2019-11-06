@@ -1,0 +1,39 @@
+.title {
+    margin-top: 90px;
+    margin-left: 5%;
+    font-weight: 500;
+}
+.header-row {
+    margin: 0 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-icon {
+    font-size: 30px;
+}
+.table-container {
+    margin: 0 5%;
+}
+table {
+    width: 100%;
+}
+.column-id {
+    width: 10%;
+}
+.column-name {
+    width: 20%;
+}
+.column-products {
+    width: 55%;
+}
+.edit-icon {
+    font-size: 24px;
+}
+.close-icon {
+    font-size: 24px;
+}
+.tool-button {
+    padding: 5px;
+    margin: 0 5px;
+}

@@ -1,6 +1,59 @@
-<p>authors works!</p>
-<p>authors works!</p>
-<p>authors works!</p>
-<p>authors works!</p>
-<p>authors works!</p>
-<p>authors works!</p>
+<div class="title">
+    <span>Authors page</span>
+</div>
+<div class="header-row">
+    <div>
+        <mat-form-field class="filter-search">
+            <input matInput placeholder="Search" [(ngModel)]="filterModel.searchString">
+        </mat-form-field>
+        <button class="search-button" mat-raised-button color="accent">Find</button>
+    </div>
+    <button mat-button class="tool-button" (click)="openCreateDialog()">
+        <fa-icon class="create-icon" [icon]="createIcon" [fixedWidth]="true"></fa-icon>
+    </button>
+</div>
+
+<div class="table-container">
+    <table mat-table [dataSource]="authorModel.items" matSort matSortActive="id" matSortDisableClear
+        matSortDirection="asc" (matSortChange)="sortData($event)">
+
+        <ng-container matColumnDef="id">
+            <th class="column-id" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Id </th>
+            <td class="column-id" mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Name </th>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="products">
+            <th class="column-products" mat-header-cell *matHeaderCellDef> Products </th>
+            <td class="column-products" mat-cell *matCellDef="let element">
+                <div *ngFor="let item of element.printingEditionTitles; let i = index">
+                    {{item}}
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef=" ">
+            <th mat-header-cell *matHeaderCellDef>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-button class="tool-button" (click)="openEditDialog(element)">
+                    <fa-icon class="edit-icon" [icon]="editIcon" [fixedWidth]="true"></fa-icon>
+                </button>
+                <button mat-button class="tool-button">
+                    <fa-icon class="close-icon" [icon]="closeIcon" [fixedWidth]="true"></fa-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator class="paginator" [length]="authorModel.itemsCount" [pageSize]="filterModel.pageSize"
+        [pageIndex]="filterModel.page - 1" [pageSizeOptions]="pageSizes" [showFirstLastButtons]="true"
+        (page)="pageEvent($event)"></mat-paginator>
+
+</div>

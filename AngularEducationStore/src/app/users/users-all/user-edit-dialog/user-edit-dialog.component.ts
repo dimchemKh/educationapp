@@ -14,7 +14,7 @@ import { UserUpdateModel } from 'src/app/shared/models/user/UserUpdateModel';
   templateUrl: './user-edit-dialog.component.html',
   styleUrls: ['./user-edit-dialog.component.scss']
 })
-export class UserEditDialogComponent implements OnInit {
+export class UserEditDialogComponent {
 
   userIcon = faUser;
   form: FormGroup;
@@ -27,9 +27,7 @@ export class UserEditDialogComponent implements OnInit {
       lastName: new FormControl(this.data.lastName, [Validators.pattern(this.patterns.namePattern), Validators.required]),
     });
   }
-  ngOnInit() {
 
-  }
   submit() {
     if (!this.form.invalid) {
       this.userService.updateUser(this.data).subscribe();

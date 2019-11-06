@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SortState } from '../enums/sort-state';
-import { SortType } from '../enums/sort-type';
-import { IsBlocked } from '../enums/is-blocked';
+import { SortType } from 'src/app/shared/enums/sort-type';
+import { IsBlocked } from 'src/app/shared/enums/is-blocked';
 
 Injectable();
 

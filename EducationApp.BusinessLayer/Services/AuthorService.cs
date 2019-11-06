@@ -8,6 +8,7 @@ using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using System.Threading.Tasks;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters.Base;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLayer.Models.Filters;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -23,7 +24,7 @@ namespace EducationApp.BusinessLayer.Services
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _mapperHelper = mapperHelper;
         }
-        public async Task<AuthorModel> GetAuthorsListAsync(BaseFilterModel filterModel)
+        public async Task<AuthorModel> GetAllAuthorsAsync(FilterAuthorModel filterModel)
         {
             var responseModel = new AuthorModel();
             if (filterModel == null)
@@ -31,15 +32,14 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
-            var repositoryModel = _mapperHelper.Map<BaseFilterModel, DataFilter.BaseFilterModel>(filterModel);
-            if(repositoryModel == null)
+            var repositoryModel = _mapperHelper.Map<FilterAuthorModel, DataFilter.BaseFilterModel>(filterModel);
+            if (repositoryModel == null)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var authors = await _authorInPrintingEditionRepository.GetAuthorsFilteredDataAsync(repositoryModel);
-
-            foreach (var author in authors)
+            var authors = await _authorRepository.GetAllAuthorsAsync(repositoryModel);
+            foreach (var author in authors.Collection)
             {
                 var itemModel = _mapperHelper.Map<AuthorDataModel, AuthorModelItem>(author);
                 if (itemModel == null)
@@ -49,6 +49,37 @@ namespace EducationApp.BusinessLayer.Services
                 }
                 responseModel.Items.Add(itemModel);
             }
+            responseModel.ItemsCount = authors.CollectionCount;
+
+            return responseModel;
+        }
+        public async Task<AuthorModel> GetAuthorsInPrintingEditionsAsync(FilterAuthorModel filterModel)
+        {
+            var responseModel = new AuthorModel();
+            if (filterModel == null)
+            {
+                responseModel.Errors.Add(Constants.Errors.InvalidData);
+                return responseModel;
+            }
+            var repositoryModel = _mapperHelper.Map<FilterAuthorModel, DataFilter.BaseFilterModel>(filterModel);
+            if(repositoryModel == null)
+            {
+                responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                return responseModel;
+            }
+            var authors = await _authorInPrintingEditionRepository.GetAuthorsFilteredDataAsync(repositoryModel);
+
+            foreach (var author in authors.Collection)
+            {
+                var itemModel = _mapperHelper.Map<AuthorDataModel, AuthorModelItem>(author);
+                if (itemModel == null)
+                {
+                    responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
+                    continue;
+                }
+                responseModel.Items.Add(itemModel);
+            }
+            responseModel.ItemsCount = authors.CollectionCount;
             return responseModel;
         }
         public async Task<AuthorModel> CreateAuthorAsync(AuthorModelItem authorModelItem)

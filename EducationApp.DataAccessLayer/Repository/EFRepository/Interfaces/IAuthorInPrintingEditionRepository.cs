@@ -18,7 +18,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
         Task AddAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId);
         Task<IList<AuthorDataModel>> GetAuthorsInOnePrintingEditionAsync(long printingEditionId);
         Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate);
-        Task<IEnumerable<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter);
+        Task<GenericModel<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter);
         Task<GenericModel<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter, bool isAdmin);
     }
 }

@@ -60,15 +60,15 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 printingEditions = printingEditions.Where(x => x.Price >= filter.PriceMinValue && x.Price <= filter.PriceMaxValue);
             }
 
-            Expression<Func<PrintingEditionDataModel, object>> expression = x => x.Price;
-                        
+            Expression<Func<PrintingEditionDataModel, object>> expression = x => x.Id;
+
             if (filter.SortType == Enums.SortType.Id)
             {
                 expression = x => x.Id;
             }
-            if (filter.SortType == Enums.SortType.PrintingEditionType)
+            if(filter.SortType == Enums.SortType.Title)
             {
-                expression = x => x.PrintingEditionType;
+                expression = x => x.Title;
             }
             model.Collection = await PaginationAsync(filter, expression, printingEditions);
 
@@ -76,7 +76,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             return model;
         }
-        public async Task<IEnumerable<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter)
+        public async Task<GenericModel<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter)
         {
             var authors = _context.AuthorInPrintingEditions
                 .Include(x => x.Author)
@@ -89,7 +89,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     Name = group.Select(x => x.Author.Name).FirstOrDefault(),
                     PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToList()
                 });
-            Expression<Func<AuthorDataModel, object>> expression = null;
+            Expression<Func<AuthorDataModel, object>> expression = x => x.Name;
+            var responseModel = new GenericModel<AuthorDataModel>();
 
             if (filter.SortType == Enums.SortType.Id)
             {
@@ -99,8 +100,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 expression = x => x.Name;
             }
-            var result = await PaginationAsync(filter, expression, authors);
-            return result;
+            responseModel.Collection = await PaginationAsync(filter, expression, authors);
+            responseModel.CollectionCount = await authors.CountAsync();
+
+            return responseModel;
         } 
 
         public async Task<bool> UpdateAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId)

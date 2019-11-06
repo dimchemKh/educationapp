@@ -20,7 +20,7 @@ export class UserService {
   getAllUsers(filterModel: FilterUserModel): Observable<UserModel> {
     return this.http.post<UserModel>(this.apiRoutes.userRoute + 'getAll', filterModel, {
       withCredentials: true
-    });
+    }).pipe();
   }
   updateUser(userModel: UserUpdateModel): Observable<UserUpdateModel> {
     return this.http.post<UserUpdateModel>(this.apiRoutes.userRoute + 'update', userModel);

@@ -1,4 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Models.Authors;
+using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Filters.Base;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
@@ -19,6 +20,12 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             _authorService = authorService;
         }
+        [HttpPost("getAll")]
+        public async Task<IActionResult> GetAllAuthorsAsync([FromBody]FilterAuthorModel filterModel)
+        {
+            var response = await _authorService.GetAllAuthorsAsync(filterModel);
+            return Ok(response);
+        }
         [HttpPost("create")]
         public async Task<IActionResult> CreateAuthorAsync([FromBody]AuthorModelItem authorModel)
         {
@@ -26,9 +33,9 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [HttpPost("get")]
-        public async Task<IActionResult> GetAuthorsAsync([FromBody]BaseFilterModel authorFilterModel)
+        public async Task<IActionResult> GetAuthorsInPrintingEditionAsync([FromBody]FilterAuthorModel authorFilterModel)
         {
-            var responseModel = await _authorService.GetAuthorsListAsync(authorFilterModel);            
+            var responseModel = await _authorService.GetAuthorsInPrintingEditionsAsync(authorFilterModel);            
             return Ok(responseModel);
         } 
         [HttpPut("update")]

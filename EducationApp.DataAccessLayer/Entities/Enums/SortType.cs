@@ -14,7 +14,8 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
             Email = 3,
             Price = 4,
             TransactionStatus = 5,
-            PrintingEditionType = 6
+            PrintingEditionType = 6,
+            Title = 7
         }
     }
 }

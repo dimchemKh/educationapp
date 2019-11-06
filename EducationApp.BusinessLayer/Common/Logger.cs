@@ -25,30 +25,29 @@ namespace EducationApp.BusinessLayer.Common
         {
             return logLevel != LogLevel.None;
         }
-        public async void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             try
             {
-                await WriteMessageAsync(logLevel, eventId, state, exception, formatter);
+                WriteMessageAsync(logLevel, eventId, state, exception, formatter);
             }
             catch (Exception ex)
             {
-                await WriteMessageAsync(logLevel, eventId, state, ex, formatter);
+                WriteMessageAsync(logLevel, eventId, state, ex, formatter);
             }
         }
-        private async Task WriteMessageAsync<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        private void WriteMessageAsync<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             if (File.Exists(_filePath))
             {
-                using (var stream = File.Create(_filePath))
-                {
-                    using (TextWriter tw = new StreamWriter(stream))
+
+                    using (StreamWriter tw = new StreamWriter(_filePath))
                     {
                         string message = $"{logLevel} :: {_categoryName} :: {formatter(state, exception)} :: Time => {DateTime.Now}";
 
-                        await tw.WriteLineAsync(message);
+                        tw.WriteLine(message);
                     }
-                }
+
             }
         }
     }

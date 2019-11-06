@@ -14,11 +14,14 @@ import { MatSidenavModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { PrintingEditionModule } from 'src/app/printing-edition/printing-edition.module';
 
-import { CookieService } from 'ngx-cookie-service';
-import { httpInterceptorProviders } from './shared/interceptors';
-import { UserModule } from './users/user.module';
+import { httpInterceptorProviders } from 'src/app/shared/interceptors';
+import { UserModule } from 'src/app/users/user.module';
 import { ApiRoutes } from 'src/environments/api-routes';
-import { PrintingEditionsParametrs } from './shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { CookieService } from 'ngx-cookie-service';
+import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
+import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
+import { AuthorParametrs } from './shared/constants/author-parametrs';
 
 
 
@@ -39,7 +42,15 @@ import { PrintingEditionsParametrs } from './shared/constants/printing-editions-
     HttpClientModule,
     UserModule
   ],
-  providers: [httpInterceptorProviders, CookieService, ApiRoutes, PrintingEditionsParametrs],
+  providers: [
+    httpInterceptorProviders,
+    CookieService,
+    ApiRoutes,
+    PrintingEditionsParametrs,
+    UserParametrs,
+    ValidationPatterns,
+    AuthorParametrs
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

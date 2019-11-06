@@ -53,10 +53,7 @@ import { UserRemoveDialogComponent } from './users-all/user-remove-dialog/user-r
         MatDialogModule
     ],
     exports: [],
-    providers: [
-        ValidationPatterns,
-        UserParametrs
-    ],
+    providers: [],
     entryComponents: [UserEditDialogComponent, UserRemoveDialogComponent]
 })
 export class UserModule {}

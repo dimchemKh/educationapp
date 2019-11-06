@@ -1,0 +1,44 @@
+.container-title {
+    margin-left: 30px;
+    // margin-top: 30px;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+}
+.left-content {
+    display: flex;
+    flex-direction: column;
+    margin: 2% 50px 20px 20px;
+}
+.title-content {
+    width: 250px;
+}
+// .description-content {
+//     display: flex;
+//     flex-direction: row;
+// }
+.description-textarea {
+    height: 200px;
+}
+.right-content {
+    display: flex;
+    flex-direction: column;
+    margin: 2% 20px 20px 50px;
+}
+.content-label {
+    font-weight: 600;
+}
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+
+}
+.content-btn {
+    width: 25%;
+    margin: 20px 75px 30px 75px;
+}
+.search-results {
+    height: 20rem;
+    overflow: scroll;
+  }

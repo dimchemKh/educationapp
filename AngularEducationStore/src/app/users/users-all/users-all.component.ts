@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatPaginator, MatSort, PageEvent, MatDialog } from '@angular/material';
 
 import { UserService } from 'src/app/shared/services/user.service';
@@ -18,16 +18,12 @@ import { UserRemoveDialogComponent } from './user-remove-dialog/user-remove-dial
   styleUrls: ['./users-all.component.scss']
 })
 
-export class UsersAllComponent implements AfterViewInit {
+export class UsersAllComponent implements OnInit {
 
 
   constructor(private dialog: MatDialog, private userService: UserService, private userParametrs: UserParametrs) { }
 
   displayedColumns: string[] = ['userName', 'userEmail', 'status', ' '];
-
-
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   editIcon = faHighlighter;
   closeIcon = faTimes;
@@ -41,17 +37,21 @@ export class UsersAllComponent implements AfterViewInit {
   blockedTypes = this.userParametrs.blockedTypes;
 
   filterModel = new FilterUserModel();
-  userModel = new UserModel();
+  userModel: UserModel;
 
   selectedBlockTypes = [IsBlocked.Block, IsBlocked.Unblock];
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    debugger
     // this.userModel = new UserModel();
     this.userService.getAllUsers(this.filterModel).subscribe((data: UserModel) => {
-      this.userModel = data;
+      this.QWE(data);
     });
 
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+  }
+  QWE(data: UserModel) {
+    debugger
+    this.userModel = data;
   }
   sortData(event: MatSort) {
 
@@ -96,15 +96,14 @@ export class UsersAllComponent implements AfterViewInit {
       data: {
         id: element.id,
         firstName: element.firstName,
-        lastName: element.lastName,
-        email: element.email
+        lastName: element.lastName
       }
     });
     dialog.afterClosed().subscribe(() => {
       this.submit(this.filterModel.page);
     });
   }
-  
+
   openRemoveDialog(element) {
     let dialog = this.dialog.open(UserRemoveDialogComponent, {
       data: {

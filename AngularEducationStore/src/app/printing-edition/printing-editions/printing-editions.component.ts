@@ -24,7 +24,7 @@ export class PrintingEditionsComponent implements OnInit {
 
   printingEditionTypes = this.printingEditionParams.printingEditionTypes;
   currencyTypes = this.printingEditionParams.currencyTypes;
-  sortTypes = this.printingEditionParams.sortTypes;
+  sortStates = this.printingEditionParams.sortStates;
   pageSizes = this.printingEditionParams.pageSizes;
   gridLayout = this.printingEditionParams.gridFormationPrintingEditions;
   pageSize = PageSize.Six;
