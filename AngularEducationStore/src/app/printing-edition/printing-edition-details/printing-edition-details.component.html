@@ -1,0 +1,12 @@
+<div class="title">
+    <span>Catalog</span>
+</div>
+<div class="content-row">
+    <fa-icon class="item-icon" [icon]="printingEditionIcon" [fixedWidth]="true" ></fa-icon>
+    <label for="">
+        {{printingEdition.title}}
+    </label>
+    <label *ngFor="let author of printingEdition.authors; let i=index">
+        <span>by </span>{{author.name}}<span *ngIf="i < printingEdition.authors.length - 1">, </span>
+    </label>
+</div>

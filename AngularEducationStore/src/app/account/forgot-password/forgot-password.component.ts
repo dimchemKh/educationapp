@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { BaseModel } from 'src/app/models/base/BaseModel';
-import { Router } from '@angular/router';
-import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
-import { DataService } from 'src/app/shared/services/data.service';
+import { BaseModel } from 'src/app/shared/models/base/BaseModel';
+import { UserLoginModel } from 'src/app/shared/models/user/UserLoginModel';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,30 +12,30 @@ import { DataService } from 'src/app/shared/services/data.service';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(private accountService: AccountService, private patterns: ValidationPatterns) { }
 
   userModel = new UserLoginModel();
   responseModel = new BaseModel();
   isSuccessForgot = false;
 
   emailForm = new FormControl('',
-  [
-    Validators.required,
-    Validators.pattern(/^[a-zA-Z]{1}[a-zA-Z0-9.\-_]*@[a-zA-Z]{1}[a-zA-Z.-]*[a-zA-Z]{1}[.][a-zA-Z]{2,4}$/)
-  ]);
+    [
+      Validators.required,
+      Validators.pattern(this.patterns.emailPattern)
+    ]);
   submit(userModel: UserLoginModel) {
     if (!this.emailForm.invalid) {
-      this.dataService.requestForgotPassword(userModel)
-      .subscribe(
-        (data: BaseModel) => {
-          this.responseModel = data;
-          this.getErrorsFromApi();
-        });
+      this.accountService.forgotPassword(userModel)
+        .subscribe(
+          (data: BaseModel) => {
+            this.responseModel = data;
+            this.getErrorsFromApi();
+          });
     }
   }
   getEmailErrorMessage() {
     return (this.emailForm.hasError('required') && this.emailForm.touched) ? 'Empty field' :
-            this.emailForm.hasError('pattern') ? 'Not a valid email' : '';
+      this.emailForm.hasError('pattern') ? 'Not a valid email' : '';
   }
   ngOnInit() {
   }

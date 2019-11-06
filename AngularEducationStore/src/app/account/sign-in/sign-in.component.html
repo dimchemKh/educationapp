@@ -1,8 +1,8 @@
 
 <div class="container">  
+  <fa-icon class="content-icon" size="6x" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon>
 
   <label class="title">Sign In</label>
-
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
       <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="userModel.email" autocomplete="on" />
@@ -29,5 +29,4 @@
     </div>
 
     <button class="registr-btn" mat-raised-button color="accent" [routerLink]="['/account/signUp']" routerLinkActive="router-link-active" >Sign Up</button>  
-      <span>{{cook}}</span>
 </div>

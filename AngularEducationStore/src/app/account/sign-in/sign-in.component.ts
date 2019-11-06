@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
-import { UserLoginModel } from 'src/app/models/user/UserLoginModel';
+import { UserLoginModel } from 'src/app/shared/models/user/UserLoginModel';
 
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { UserRequestModel } from 'src/app/models/user/UserRequestModel';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { UserRequestModel } from 'src/app/shared/models/user/UserRequestModel';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 import { DataService } from 'src/app/shared/services/data.service';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -16,17 +17,17 @@ import { DataService } from 'src/app/shared/services/data.service';
 })
 export class SignInComponent {
   title = 'SignIn';
+  userIcon = faUser;
 
   userModel: UserLoginModel = new UserLoginModel();
   userRequest = new UserRequestModel();
-  cook: string;
-  constructor(private dataService: DataService, private authService: AuthService) {
+  constructor(private accountService: AccountService, private patterns: ValidationPatterns, private dataService: DataService) {
   }
 
   email = new FormControl('',
   [
     Validators.required,
-    Validators.pattern(/^[a-zA-Z]{1}[a-zA-Z0-9.\-_]*@[a-zA-Z]{1}[a-zA-Z.-]*[a-zA-Z]{1}[.][a-zA-Z]{2,4}$/)
+    Validators.pattern(this.patterns.emailPattern)
   ]);
   password = new FormControl('', Validators.required);
   hide = true;
@@ -34,7 +35,7 @@ export class SignInComponent {
 
   submit(model: UserLoginModel) {
     if (!this.email.invalid && !this.password.invalid) {
-      this.dataService.requestSignIn(model)
+      this.accountService.signInUser(model)
         .subscribe((data: UserRequestModel) => {
           this.userRequest = data;
           this.checkErrors();
@@ -52,8 +53,12 @@ export class SignInComponent {
     if (this.userRequest.errors.length > 0) {
       return;
     }
-    localStorage.setItem('userName', this.userRequest.userName);
-    localStorage.setItem('userRole', this.userRequest.userRole);
-    this.authService.signIn();
+    if (!this.userRequest.userName || !this.userRequest.userRole) {
+      this.userRequest.errors.push('Sorry');
+    }
+    this.dataService.setLocalStorage('userName', this.userRequest.userName);
+    this.dataService.setLocalStorage('userRole', this.userRequest.userRole);
+
+    this.accountService.signIn();
   }
 }

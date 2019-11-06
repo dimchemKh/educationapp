@@ -1,9 +1,10 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { Subscription, Observable, from } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { AccountService } from '../services/account.service';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -13,13 +14,13 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 })
 export class HeaderComponent implements OnInit {
 
-  isLoggedIn$: Observable<boolean>;
   subscription: Subscription;
   isAuth = false;
 
   faUser = faUser;
   faBookOpen = faBookOpen;
   faUserCircle = faUserCircle;
+  faShoppingCart = faShoppingCart;
 
   get userName(): string {
     return localStorage.getItem('userName');
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit {
     return localStorage.getItem('userRole');
   }
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AccountService) {
   }
 
   ngOnInit() {
@@ -38,8 +39,6 @@ export class HeaderComponent implements OnInit {
 
   }
   signOut() {
-    localStorage.clear();
-    debugger
     this.authService.signOut();
   }
   // tslint:disable-next-line: use-lifecycle-interface

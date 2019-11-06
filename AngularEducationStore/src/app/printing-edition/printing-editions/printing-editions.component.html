@@ -1,0 +1,85 @@
+<div class="title">
+    <span>Catalog</span>
+</div>
+<div class="container">
+    <div class="filters">
+        <div class="filter-categories">
+            <label class="filter-categories-title">
+                Categories
+            </label>
+            <label *ngFor="let type of printingEditionTypes; let i = index">
+                <mat-checkbox (change)="onChange($event, i)" [(ngModel)]="printingEditionTypes[i].checked">
+                    {{printingEditionTypes[i].name}}</mat-checkbox>
+            </label>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="filter-sorting">
+            <mat-form-field>
+                <mat-label>Currency</mat-label>
+                <mat-select [(ngModel)]="filterPrintingEditionModel.currency">
+                    <mat-option *ngFor="let item of currencyTypes" [value]="item.value">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Sorting</mat-label>
+                <mat-select [(ngModel)]="filterPrintingEditionModel.sortState">
+                    <mat-option *ngFor="let item of sortTypes" [value]="item.value">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="filter-search">
+                <input matInput type="text" [(ngModel)]="filterPrintingEditionModel.searchString" placeholder="Search"
+                    autocomplete="off">
+            </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="filter-price">
+            <label class="filter-price-title">Price</label>
+            <div>
+                <mat-form-field class="price-min-value">
+                    <input matInput type="number" [(ngModel)]="filterPrintingEditionModel.PriceMinValue"
+                        placeholder="Min" autocomplete="off">
+                </mat-form-field>
+                -
+                <mat-form-field class="price-max-value">
+                    <input matInput type="number" [(ngModel)]="filterPrintingEditionModel.PriceMaxValue"
+                        placeholder="Max" autocomplete="off">
+                </mat-form-field>
+                $
+                <button class="price-button" mat-raised-button color="accent" (click)="submit()">Ok</button>
+            </div>
+        </div>
+    </div>
+    <mat-divider [vertical]="true"></mat-divider>
+    <mat-grid-list class="content" [cols]="pageCols" [rowHeight]="pageRows">
+        <mat-grid-tile *ngFor="let item of printingEditionModel.items" [colspan]="1" [rowspan]="1">
+            <button mat-button class="content-button">
+                <div class="content-item">
+                    <fa-icon [ngStyle]="getIconStyle(pageSize)" class="item-icon" [icon]="printingEditionIcon"
+                        [fixedWidth]="true"></fa-icon>
+                    <label class="item-title">
+                        {{item.title}}
+                    </label>
+                    <div class="item-author">
+                        <label class="item-author-string" *ngFor="let author of item.authors; let i = index">
+                            {{author.name}}
+                            <span *ngIf="i < item.authors.length - 1">,</span>
+                        </label>
+                    </div>
+                    <label class="item-price">
+                        {{currencyTypes[item.currency -1].symbol}} {{item.price | number:'1.1-2'}}
+                    </label>
+                </div>
+            </button>
+
+        </mat-grid-tile>
+    </mat-grid-list>
+
+</div>
+<div class="paginator">
+    <mat-paginator [length]="printingEditionModel.itemsCount" [pageSize]="pageSize" [pageIndex]="page - 1"
+        [showFirstLastButtons]="true" [pageSizeOptions]="pageSizes" (page)="pageEvent($event)"></mat-paginator>
+</div>

@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 3%;
 }
 .title {
     width: 25%;
@@ -52,4 +53,10 @@
     font-size: 12px;
     text-decoration: unset;
     flex-direction: row-reverse;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
 }

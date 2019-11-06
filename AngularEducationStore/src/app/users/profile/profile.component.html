@@ -1,0 +1,80 @@
+<div class="title">
+    <span>Catalog</span>
+</div>
+<div class="container">
+
+    <div class="content-title">
+        <label>My Profile</label>
+        <button class="edit-button" mat-button type="button" matTooltip="Edit profile" matTooltipPosition="right"
+            (click)="changeTemplate()">
+            <fa-icon class="edit-icon" size="sm" [icon]="editIcon"></fa-icon>
+        </button>
+    </div>
+    <div class="content">
+        <fa-icon class="content-icon" size="6x" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon>
+
+        <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+            <mat-label>
+                Your First name
+            </mat-label>
+            <input matInput formControlName="firstName" [(ngModel)]="userUpdateModel.firstName"
+                [readonly]="isDisabled" />
+            <mat-error align="end" *ngIf="!form.valid">{{form.hasError('pattern') ? '' : 'Invalid First Name'}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+            <mat-label>
+                Your Last name
+            </mat-label>
+            <input matInput formControlName="lastName" [(ngModel)]="userUpdateModel.lastName" [readonly]="isDisabled"
+                autocomplete="off" />
+            <mat-error align="end" *ngIf="!form.valid">{{form.hasError('pattern') ? '' : 'Invalid Last Name'}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" [(ngModel)]="userUpdateModel.email" [readonly]="isDisabled"
+                autocomplete="off" />
+            <mat-error align="end" *ngIf="!form.valid">{{form.hasError('pattern') ? '' : 'Invalid Email'}}</mat-error>
+        </mat-form-field>
+
+        <ng-template [ngIf]="!isDisabled">
+
+            <mat-chip-list *ngIf="existedErrors" class="mat-chip-list-stacked" aria-label="Color selection">
+                <mat-chip *ngFor="let error of userUpdateModel.errors" selected color="warn">
+                    {{error}}
+                </mat-chip>
+            </mat-chip-list>
+
+            <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+                <input matInput formControlName="currentPassword" [(ngModel)]="userUpdateModel.currentPassword"
+                    placeholder="Enter your current password" [type]="hidePassword ? 'password' : 'text'"
+                    autocomplete="off" required />
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error align="end" *ngIf="!form.valid">{{form.hasError('required') ? '' : 'Empty password'}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+                <input matInput formControlName="newPassword" [(ngModel)]="userUpdateModel.newPassword"
+                    placeholder="New password" [type]="hideConfirmPassword ? 'password' : 'text'" autocomplete="off" />
+                <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+                    <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-hint align="end"></mat-hint>
+            </mat-form-field>
+            <div >
+                <button class="footer-buttons" mat-raised-button color="accent" (click)="close()">Cancel</button>
+
+                <button class="footer-buttons" mat-raised-button color="accent" (click)="submit(userUpdateModel)">Confirm change</button>
+            </div>
+
+        </ng-template>
+    </div>
+</div>

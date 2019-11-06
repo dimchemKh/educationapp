@@ -1,55 +1,70 @@
-
 <mat-toolbar class="fixed-header" color="accent">
-    <mat-toolbar-row class="nav-title">
-
-    <a class="brand" color="accent" [routerLink]="['/']" routerLinkActive="router-link-active"  >
-      <fa-icon size="2x" [icon]="faBookOpen"></fa-icon>
-      Education Store    
-    </a>
-
-    <span class="header-flex"></span>
+  <mat-toolbar-row class="nav-title">
 
     <ng-template [ngIf]="!isAuth">
 
-      <button class="login" mat-button [routerLink]="['/account/signIn']" routerLinkActive="router-link-active">
-        Log In
+      <a class="brand" color="accent" [routerLink]="['/']" routerLinkActive="router-link-active">
+        <fa-icon class="brand-icon" size="2x" [icon]="faBookOpen"></fa-icon>
+        Education Store
+      </a>
+
+      <span class="header-flex"></span>
+
+      <button mat-button class="login" [routerLink]="['/account/signIn']" routerLinkActive="router-link-active">
+        Sign In
         <fa-icon size="lg" [fixedWidth]="true" [icon]="faUserCircle"></fa-icon>
       </button>
-      
+
     </ng-template>
-      
+
     <ng-template [ngIf]="isAuth && userRole === 'user'">
 
-      <button class="menu" mat-flat-button [matMenuTriggerFor]="menu" *ngIf="userName">
-          {{userName}}
-          <fa-icon size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
+      <a class="brand" color="accent" [routerLink]="['/']" routerLinkActive="router-link-active">
+        <fa-icon class="brand-icon" size="2x" [icon]="faBookOpen"></fa-icon>
+        Education Store
+      </a>
+
+      <span class="header-flex"></span>
+
+      <button mat-flat-button class="menu" [matMenuTriggerFor]="menu" *ngIf="userName">
+        {{userName}}
+        <fa-icon class="menu-icon" size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item>My Profile</button>
+        <button mat-menu-item [routerLink]="['/user/me']" routerLinkActive="router-link-active">My Profile</button>
         <button mat-menu-item>My Orders</button>
         <button mat-menu-item (click)="signOut()">Log Out</button>
       </mat-menu>
-      
-      <a mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</a>
+
+      <button class="cart-btn" mat-raised-button type="button">
+        <fa-icon class="menu-icon" size="2x" [icon]="faShoppingCart" [fixedWidth]="true"
+          transform="shrink-1 down-2 left-1"></fa-icon>
+      </button>
 
     </ng-template>
 
     <ng-template [ngIf]="isAuth && userRole === 'admin'">
 
+      <a class="brand" color="accent" [routerLink]="['/printing-edition/manager']" routerLinkActive="router-link-active">
+        <fa-icon class="brand-icon" size="2x" [icon]="faBookOpen"></fa-icon>
+        Education Store
+      </a>
+
+      <span class="header-flex"></span>
+
       <button class="menu" mat-flat-button [matMenuTriggerFor]="menu" *ngIf="userName">
-          {{userName}}
-          <fa-icon size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
+        {{userName}}
+        <fa-icon size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
         <button mat-menu-item>Order managment</button>
-        <button mat-menu-item>Users managment</button>
-        <button mat-menu-item>Products managment</button>
-        <button mat-menu-item [routerLink]="['/author/get']" routerLinkActive="router-link-active" >Authors Page</button>
-        <button mat-menu-item>My Profile</button>
+        <button mat-menu-item [routerLink]="['/user/all']" routerLinkActive="router-link-active">Users
+          managment</button>
+        <button mat-menu-item [routerLink]="['/printing-edition/manager']" routerLinkActive="router-link-active">Products managment</button>
+        <button mat-menu-item [routerLink]="['/author/get']" routerLinkActive="router-link-active">Authors Page</button>
+        <button mat-menu-item [routerLink]="['/user/me']" routerLinkActive="router-link-active">My Profile</button>
         <button mat-menu-item (click)="signOut()">Log Out</button>
       </mat-menu>
-      
-      <button mat-raised-button ><i class="material-icons">shopping_cart</i>Cart</button>
 
     </ng-template>
   </mat-toolbar-row>

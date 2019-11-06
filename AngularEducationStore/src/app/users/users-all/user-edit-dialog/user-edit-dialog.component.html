@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Change Profile: {{data.firstName}} {{data.lastName}}</h1>
+<div mat-dialog-content class="container">
+    <fa-icon class="content-icon" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon>
+
+    <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+        <mat-label>
+            Your First name
+        </mat-label>
+        <input matInput formControlName="firstName" [(ngModel)]="data.firstName" autocomplete="off" required/>
+        <mat-error align="end" *ngIf="!form.valid">{{form.hasError('pattern') ? '' : 'Invalid First Name'}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+        <mat-label>
+            Your Last name
+        </mat-label>
+        <input matInput formControlName="lastName" [(ngModel)]="data.lastName" autocomplete="off" required/>
+        <mat-error align="end" *ngIf="!form.valid">{{form.hasError('pattern') ? '' : 'Invalid Last Name'}}</mat-error>
+    </mat-form-field>
+    <div class="container-btn">
+        <button class="content-btn" mat-raised-button color="accent" (click)="close()">Cancel</button>
+        <button class="content-btn" mat-raised-button color="accent" (click)="submit()">Save</button>
+    </div>
+</div>

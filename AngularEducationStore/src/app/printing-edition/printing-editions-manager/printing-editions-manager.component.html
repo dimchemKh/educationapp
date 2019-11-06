@@ -1,0 +1,81 @@
+<div class="title">
+    <span>Product managment</span>
+</div>
+<div class="header-row">
+    <div>
+        <mat-form-field class="filter-search">
+            <input matInput placeholder="Search" [(ngModel)]="searchString">
+        </mat-form-field>
+        <button class="search-button" mat-raised-button color="accent">Find</button>
+    </div>
+
+    <button mat-button class="tool-button">
+        <fa-icon class="create-icon" [icon]="createIcon" [fixedWidth]="true"></fa-icon>
+    </button>
+</div>
+
+<div class="table-container">
+    <table mat-table [dataSource]="printingEditionModel.items" matSort matSortActive="id" matSortDisableClear
+        matSortDirection="asc">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Id </th>
+            <td class="" mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th class="" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Name </th>
+            <td class="" mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <th class="" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Description </th>
+            <td class="" mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th class="" mat-header-cell *matHeaderCellDef>
+                <mat-form-field>
+                    <mat-select multiple>
+                        <mat-option *ngFor="let item of printingEditionTypes" [value]="item.value">{{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </th>
+            <td class="" mat-cell *matCellDef="let element"> {{getType(element.printingEditionType)}} </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="author">
+            <th class="" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Authors </th>
+            <td class="" mat-cell *matCellDef="let element"> </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th class="" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Price </th>
+            <td class="" mat-cell *matCellDef="let element"> </td>
+
+        </ng-container>
+
+        <ng-container matColumnDef=" ">
+            <th mat-header-cell *matHeaderCellDef>
+
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-button class="tool-button">
+                    <fa-icon class="edit-icon" [icon]="editIcon" [fixedWidth]="true"></fa-icon>
+                </button>
+                <button mat-button class="tool-button">
+                    <fa-icon class="close-icon" [icon]="closeIcon" [fixedWidth]="true"></fa-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator class="paginator" [length]="printingEditionModel.itemsCount" [pageSize]="pageSize" 
+        [pageSizeOptions]="[3, 5, 10]" [showFirstLastButtons]="true"></mat-paginator>
+
+</div>

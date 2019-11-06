@@ -1,0 +1,60 @@
+.title {
+    margin-top: 5%;
+    margin-left: 5%;
+    font-weight: 500;
+}
+.container {
+    position: relative;
+    margin-top: 2%;
+    margin-left: 5%;
+    display: block;
+    margin-bottom: 3%;
+}
+
+.content-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 30%;
+    margin-bottom: 50px;
+    padding: 0 50px;
+
+}
+
+.content-title :first-child {
+    font-size: 24px;
+    font-weight: 500;
+}
+.edit-button {
+    min-width: 15px;
+    padding: 0 10px;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    width: 30%;
+}
+.content-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+.content-input {
+    width: 60%;
+}
+.mat-chip-list-stacked {
+    margin-bottom: 20px;
+}
+.footer-buttons {
+    margin: 0 10px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}

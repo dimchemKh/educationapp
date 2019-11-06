@@ -4,11 +4,21 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { routes } from 'src/app/shared/shared-routing.module';
 import { RouterModule } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { AccountService } from './services/account.service';
 import { FontAwesomeModule  } from '@fortawesome/angular-fontawesome';
-import { MatToolbarModule, MatMenuModule } from '@angular/material';
+import {
+  MatToolbarModule,
+  MatMenuModule,
+  MatButtonModule
+} from '@angular/material';
+import { AuthorService } from './services/author.service';
+import { PrintingEditionService } from './services/printing-edition.service';
+import { LoaderService } from './services/loader.service';
+import { UserService } from './services/user.service';
 import { DataService } from './services/data.service';
-import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthGuard } from './guards/auth.guard';
+
+
 
 @NgModule({
   declarations: [
@@ -24,12 +34,18 @@ import { AuthInterceptor } from './services/auth.interceptor';
     MatToolbarModule,
     MatMenuModule,
     RouterModule.forChild(routes),
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatButtonModule
   ],
   bootstrap: [],
   providers: [
-    AuthService,
-    DataService
+    AccountService,
+    AuthorService,
+    UserService,
+    PrintingEditionService,
+    LoaderService,
+    DataService,
+    AuthGuard
   ]
 })
 export class SharedModule { }

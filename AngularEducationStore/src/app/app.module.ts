@@ -11,13 +11,16 @@ import { AccountModule } from 'src/app/account/account.module';
 import { AuthorModule } from 'src/app/author/author.module';
 
 import { MatSidenavModule } from '@angular/material';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { PrintingEditionModule } from 'src/app/printing-edition/printing-edition.module';
 
-import { from } from 'rxjs';
-import { AuthInterceptor } from './shared/services/auth.interceptor';
 import { CookieService } from 'ngx-cookie-service';
-import { httpInterceptorProviders } from './shared/services';
+import { httpInterceptorProviders } from './shared/interceptors';
+import { UserModule } from './users/user.module';
+import { ApiRoutes } from 'src/environments/api-routes';
+import { PrintingEditionsParametrs } from './shared/constants/printing-editions-parametrs';
+
+
 
 @NgModule({
   declarations: [
@@ -33,9 +36,10 @@ import { httpInterceptorProviders } from './shared/services';
     AccountModule,
     AuthorModule,
     PrintingEditionModule,
-    HttpClientModule
+    HttpClientModule,
+    UserModule
   ],
-  providers: [httpInterceptorProviders, CookieService],
+  providers: [httpInterceptorProviders, CookieService, ApiRoutes, PrintingEditionsParametrs],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

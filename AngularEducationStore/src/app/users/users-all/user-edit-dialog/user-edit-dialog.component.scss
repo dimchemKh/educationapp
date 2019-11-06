@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+.content-icon {
+    font-size: 60px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.container-btn {
+    display: flex;
+    justify-content: space-between;
+}
+.content-btn {
+    margin: 0 50px 20px 50px;
+}

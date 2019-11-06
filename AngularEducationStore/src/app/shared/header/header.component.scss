@@ -7,31 +7,39 @@
 }
 .menu {
   font-weight: 500;
-  margin-right: 15px;
+  margin-right: 10px;
   font-size: 18px;
   display: flex;
   align-items: center;
-}
-.nav-title > button{
-  font-weight: 500;
-  font-size: 16px;
   cursor: pointer;
   background: none;
   border: none;
   outline: none;
 }
+
 .brand {
   font-size: 24px;
   display: flex;
   align-items: center;
   margin-left: 10px;
   text-decoration: none;
+  color: black;
 }
-.brand > fa-icon {
+.brand-icon {
   margin-right: 10px;
 }
 .login {
   font-size: 18px;
+  font-weight: 500;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  outline: none;
+}
+.cart-btn {
+  padding: 0 0;
+  min-width: 50px;
+  background-color: floralwhite;
 }

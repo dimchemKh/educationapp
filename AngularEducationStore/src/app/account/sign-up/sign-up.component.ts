@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { UserRegistrationModel } from 'src/app/models/user/UserRegistrationModel';
-import { BaseModel } from 'src/app/models/base/BaseModel';
+import { UserRegistrationModel } from 'src/app/shared/models/user/UserRegistrationModel';
+import { BaseModel } from 'src/app/shared/models/base/BaseModel';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
@@ -14,11 +16,12 @@ import { DataService } from 'src/app/shared/services/data.service';
 export class SignUpComponent implements OnInit {
 
   title = 'Create Account';
+  userIcon = faUser;
   hidePassword = true;
   hideConfirmPassword = true;
   checked = false;
 
-  constructor(private dataService: DataService, private authService: AuthService, private router: Router) {
+  constructor(private accountService: AccountService, private patterns: ValidationPatterns, private dataService: DataService) {
 
   }
 
@@ -26,13 +29,13 @@ export class SignUpComponent implements OnInit {
   baseModel = new BaseModel();
   isSuccessSignUp: boolean;
 
-  firstName = new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,}$/)]);
-  lastName = new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z]{3,}$/)]);
+  firstName = new FormControl('', [Validators.required, Validators.pattern(this.patterns.namePattern)]);
+  lastName = new FormControl('', [Validators.required, Validators.pattern(this.patterns.namePattern)]);
   email = new FormControl('',
-  [
-    Validators.required,
-    Validators.pattern(/^[a-zA-Z]{1}[a-zA-Z0-9.\-_]*@[a-zA-Z]{1}[a-zA-Z.-]*[a-zA-Z]{1}[.][a-zA-Z]{2,4}$/)
-  ]);
+    [
+      Validators.required,
+      Validators.pattern(this.patterns.emailPattern)
+    ]);
   password = new FormControl('', [Validators.required]);
   confirmPassword = new FormControl('', [Validators.required]);
 
@@ -41,26 +44,26 @@ export class SignUpComponent implements OnInit {
 
   getFirstNameErrorMessage() {
     return this.firstName.touched && this.firstName.hasError('required') ? 'Please enter your FirstName' :
-           this.firstName.hasError('pattern') ? 'Invalid FirstName!' : '';
+      this.firstName.hasError('pattern') ? 'Invalid FirstName!' : '';
   }
   getLastNameErrorMessage() {
     return this.lastName.touched && this.lastName.hasError('required') ? 'Please enter your LastName' :
-           this.lastName.hasError('pattern') ? 'Invalid LastName!' : '';
+      this.lastName.hasError('pattern') ? 'Invalid LastName!' : '';
   }
   getEmailErrorMessage() {
     return this.email.hasError('pattern') ? 'Not a valid email' :
-          (this.email.hasError('required') && this.email.touched) ? 'Empty field' : '';
+      (this.email.hasError('required') && this.email.touched) ? 'Empty field' : '';
   }
   getPasswordErrorMessage() {
     return (this.password.hasError('required') && this.password.touched) ? 'Empty password' : '';
   }
   getConfirmPasswordMessage() {
     return (this.confirmPassword.hasError('required') && this.confirmPassword.touched) ? 'Empty password' :
-           (this.confirmPassword.value !== this.password.value && this.confirmPassword.touched) ? 'Not same passwords' : '';
+      (this.confirmPassword.value !== this.password.value && this.confirmPassword.touched) ? 'Not same passwords' : '';
   }
   submit(userModel: UserRegistrationModel) {
     if (!this.firstName.invalid && !this.lastName.invalid && !this.email.invalid && this.confirmPassword.value === this.password.value) {
-      this.dataService.requestSignUp(userModel).subscribe(
+      this.accountService.signUpUser(userModel).subscribe(
         (data: BaseModel) => {
           this.baseModel = data;
           this.checkErrors();
@@ -69,7 +72,7 @@ export class SignUpComponent implements OnInit {
   }
   checkErrors() {
     if (this.baseModel.errors.length === 0) {
-      localStorage.setItem('confirmUserName', this.firstName.value + ' ' + this.lastName.value);
+      this.dataService.setLocalStorage('confirmUserName', this.firstName.value + ' ' + this.lastName.value);
       this.isSuccessSignUp = true;
     }
   }

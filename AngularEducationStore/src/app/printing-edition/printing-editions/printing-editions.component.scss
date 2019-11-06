@@ -1,0 +1,89 @@
+.title {
+    margin-top: 90px;
+    margin-left: 5%;
+    font-weight: 500;
+}
+.container {
+    height: 700px;
+}
+.filters {
+    margin-left: 40px;
+    margin-top: 30px;
+    width: 20%;
+    height: 500px;
+}
+.filter-categories {
+    margin-left: 20%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.filter-categories-title {
+    margin-bottom: 10px;
+}
+.filter-sorting {
+    margin-left: 20%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.filter-price {   
+    margin-left: 20%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.filter-price-title {
+    margin-bottom: 20px;
+}
+.price-min-value {
+    width: 60px;
+}
+.price-max-value {
+    width: 60px;
+}
+.price-button {
+    height: 40px;
+    min-width: 50px;
+    margin-left: 10px;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+}
+.content-button {
+    padding: 20%;
+}
+.content-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.item-icon {
+    font-size: 150px;
+
+}
+
+.item-title {
+    font-weight: 700;
+}
+.paginator {
+    margin-top: 50px;
+    margin-right: 200px;
+    margin-bottom: 50px;
+    mat-paginator {
+        background-color: floralwhite;
+    }
+}
+.item-price {
+    color: green;
+}
+.paginator {
+    background-color: floralwhite;
+    margin-left: 50%;
+}

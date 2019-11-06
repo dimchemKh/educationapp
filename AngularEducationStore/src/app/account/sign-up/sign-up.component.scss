@@ -1,9 +1,10 @@
 .container {
-    margin-top: 10%;
+    margin-top: 8%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 3%;
 }
 .container > mat-form-field {
     width: 30%;
@@ -38,4 +39,10 @@
 .errors > span {
     color: red;
     font-size: 12px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
 }
