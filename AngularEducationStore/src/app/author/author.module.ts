@@ -17,7 +17,8 @@ import {
   MatDividerModule,
   MatPaginatorModule,
   MatCardModule,
-  MatTableModule
+  MatTableModule,
+  MatDialogModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -46,7 +47,8 @@ import { AuthorsDialogComponent } from 'src/app/author/authors/authors-dialog/au
     FontAwesomeModule,
     MatCardModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ],
   exports: [],
   providers: [],

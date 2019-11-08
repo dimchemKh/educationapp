@@ -48,7 +48,7 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpDelete("delete/{printingEditionId}")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeletePrintingEditionAsync(long printingEditionId)
         {
             var responseModel = await _printingEditionService.DeletePrintingEditionAsync(printingEditionId);

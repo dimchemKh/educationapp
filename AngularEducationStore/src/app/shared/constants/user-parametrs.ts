@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { SortState } from '../enums/sort-state';
 import { SortType } from 'src/app/shared/enums/sort-type';
 import { IsBlocked } from 'src/app/shared/enums/is-blocked';
+import { BaseParametrs } from 'src/app/shared/constants/base-parametrs';
 
 Injectable();
 
-export class UserParametrs {
-    public readonly sortStates = [
-        { name: SortState[SortState.asc], value:  SortState.asc },
-        { name: SortState[SortState.desc], value: SortState.desc }
-    ];
+export class UserParametrs extends BaseParametrs {
+
     public readonly sortTypes = [
-        { name: SortType[SortType.userName], value: SortType.userName },
+        { name: SortType[SortType.Name], value: SortType.Name },
         { name: SortType[SortType.userEmail], value: SortType.userEmail },
     ];
     public readonly blockedTypes =

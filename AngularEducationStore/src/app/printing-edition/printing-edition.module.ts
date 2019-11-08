@@ -15,7 +15,10 @@ import {
   MatDividerModule,
   MatPaginatorModule,
   MatTableModule,
-  MatSortModule
+  MatSortModule,
+  MatTooltipModule,
+  MatSnackBarModule,
+  MatDialogModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -24,6 +27,7 @@ import { PrintingEdiotionsManagerComponent } from 'src/app/printing-edition/prin
 // tslint:disable-next-line: max-line-length
 import { PrintingEditionEditDialogComponent } from 'src/app/printing-edition/printing-editions-manager/printing-edition-edit-dialog/printing-edition-edit-dialog.component';
 import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +54,9 @@ import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
     FontAwesomeModule,
     MatTableModule,
     MatSortModule,
-    MatSelectInfiniteScrollModule
+    MatSelectInfiniteScrollModule,
+    MatSnackBarModule,
+    MatDialogModule
   ],
   exports: [],
   providers: [],

@@ -99,10 +99,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             }
             listUsers = listUsers.Where(user => user.Email != Constants.AdminSettings.Email);
 
-            Expression<Func<ApplicationUser, object>> lambda = x => x.UserName;
-            if (model.SortType.Equals(Enums.SortType.Name))
+            Expression<Func<ApplicationUser, object>> lambda = x => x.FirstName;
+
+            if (model.SortType.Equals(Enums.SortType.FirstName))
             {
-                lambda = x => x.UserName;
+                lambda = x => x.FirstName;
             }
             if (model.SortType.Equals(Enums.SortType.Email))
             {

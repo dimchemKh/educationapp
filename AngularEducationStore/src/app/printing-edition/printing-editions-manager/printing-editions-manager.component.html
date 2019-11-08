@@ -4,7 +4,7 @@
 <div class="header-row">
     <div>
         <mat-form-field class="filter-search">
-            <input matInput placeholder="Search" [(ngModel)]="searchString">
+            <input matInput placeholder="Search" [(ngModel)]="filterModel.searchString">
         </mat-form-field>
         <button class="search-button" mat-raised-button color="accent">Find</button>
     </div>
@@ -24,12 +24,13 @@
 
         <ng-container matColumnDef="title">
             <th class="column-title" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Title </th>
-            <td class="column-title" mat-cell *matCellDef="let element"> {{element.title}} </td>
+            <td class="column-title" mat-cell *matCellDef="let element"> {{element.title }} </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
             <th class="column-description" mat-header-cell *matHeaderCellDef> Description </th>
-            <td class="column-description" mat-cell *matCellDef="let element"> {{element.description}} </td>
+            <td class="column-description" mat-cell *matCellDef="let element" (click)="openDescription(element.description)" > {{element.description | slice:0:75}}...</td>
+
         </ng-container>
 
         <ng-container matColumnDef="category">
@@ -66,7 +67,7 @@
                 <button mat-button class="tool-button" (click)="openEditDialog(element)">
                     <fa-icon class="edit-icon" [icon]="editIcon" [fixedWidth]="true"></fa-icon>
                 </button>
-                <button mat-button class="tool-button">
+                <button mat-button class="tool-button" (click)="openRemoveDialog(element)">
                     <fa-icon class="close-icon" [icon]="closeIcon" [fixedWidth]="true"></fa-icon>
                 </button>
             </td>

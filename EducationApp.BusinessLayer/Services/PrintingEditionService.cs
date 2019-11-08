@@ -65,7 +65,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             await _printingEditionRepository.CreateAsync(printingEdition);
 
-            await _authorInPrintingEditionRepository.AddAuthorsInPrintingEditionAsync(printingEdition, authorsId);
+            await _authorInPrintingEditionRepository.AddAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
 
             return responseModel;
         }
@@ -130,10 +130,7 @@ namespace EducationApp.BusinessLayer.Services
             printingEdition.Price = _currencyConverterHelper.Converting(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
             await _printingEditionRepository.UpdateAsync(printingEdition);
             var updateResult = await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition, authorsId);
-            if (!updateResult)
-            {
-                responseModel.Errors.Add(Constants.Errors.FailedUpdate);
-            }
+
             return responseModel;            
         }
     }

@@ -27,7 +27,7 @@ table {
     width: 30%;
 }
 .column-category {
-    width: 10%;
+    width: 9%;
 }
 .select-types {
     width: 150px;
@@ -47,4 +47,11 @@ table {
 .tool-button {
     padding: 5px;
     margin: 0 5px;
+}
+.mat-tooltip.tooltip {
+    font-size: 26px;
+}
+.mat-snack-bar-container {
+
+    // margin: 300px 0 !important;
 }

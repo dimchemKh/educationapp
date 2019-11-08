@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { routes } from 'src/app/users/user-routing.module';
-import { ProfileComponent } from './profile/profile.component';
+import { routes } from 'src/app/user/user-routing.module';
+import { ProfileComponent } from 'src/app/user/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
     MatFormFieldModule,
@@ -17,20 +17,16 @@ import {
     MatPaginatorModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatDialogModule} from '@angular/material';
+    MatDialogModule } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ValidationPatterns } from '../shared/constants/validation-patterns';
-import { UsersAllComponent } from './users-all/users-all.component';
-import { UserParametrs } from '../shared/constants/user-parametrs';
-import { UserEditDialogComponent } from './users-all/user-edit-dialog/user-edit-dialog.component';
-import { UserRemoveDialogComponent } from './users-all/user-remove-dialog/user-remove-dialog.component';
+import { UsersAllComponent } from 'src/app/user/users-all/users-all.component';
+import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog/user-edit-dialog.component';
 
 @NgModule({
     declarations: [
         ProfileComponent,
         UsersAllComponent,
-        UserEditDialogComponent,
-        UserRemoveDialogComponent
+        UserEditDialogComponent
     ],
     imports: [
         CommonModule,
@@ -54,6 +50,6 @@ import { UserRemoveDialogComponent } from './users-all/user-remove-dialog/user-r
     ],
     exports: [],
     providers: [],
-    entryComponents: [UserEditDialogComponent, UserRemoveDialogComponent]
+    entryComponents: [UserEditDialogComponent]
 })
 export class UserModule {}

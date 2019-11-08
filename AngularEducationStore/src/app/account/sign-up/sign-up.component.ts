@@ -17,6 +17,7 @@ export class SignUpComponent implements OnInit {
 
   title = 'Create Account';
   userIcon = faUser;
+
   hidePassword = true;
   hideConfirmPassword = true;
   checked = false;
@@ -42,25 +43,6 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
   }
 
-  getFirstNameErrorMessage() {
-    return this.firstName.touched && this.firstName.hasError('required') ? 'Please enter your FirstName' :
-      this.firstName.hasError('pattern') ? 'Invalid FirstName!' : '';
-  }
-  getLastNameErrorMessage() {
-    return this.lastName.touched && this.lastName.hasError('required') ? 'Please enter your LastName' :
-      this.lastName.hasError('pattern') ? 'Invalid LastName!' : '';
-  }
-  getEmailErrorMessage() {
-    return this.email.hasError('pattern') ? 'Not a valid email' :
-      (this.email.hasError('required') && this.email.touched) ? 'Empty field' : '';
-  }
-  getPasswordErrorMessage() {
-    return (this.password.hasError('required') && this.password.touched) ? 'Empty password' : '';
-  }
-  getConfirmPasswordMessage() {
-    return (this.confirmPassword.hasError('required') && this.confirmPassword.touched) ? 'Empty password' :
-      (this.confirmPassword.value !== this.password.value && this.confirmPassword.touched) ? 'Not same passwords' : '';
-  }
   submit(userModel: UserRegistrationModel) {
     if (!this.firstName.invalid && !this.lastName.invalid && !this.email.invalid && this.confirmPassword.value === this.password.value) {
       this.accountService.signUpUser(userModel).subscribe(

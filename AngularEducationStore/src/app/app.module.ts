@@ -15,13 +15,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { PrintingEditionModule } from 'src/app/printing-edition/printing-edition.module';
 
 import { httpInterceptorProviders } from 'src/app/shared/interceptors';
-import { UserModule } from 'src/app/users/user.module';
+import { UserModule } from 'src/app/user/user.module';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
 import { CookieService } from 'ngx-cookie-service';
 import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
-import { AuthorParametrs } from './shared/constants/author-parametrs';
+import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
+import { OrderModule } from 'src/app/order/order.module';
+import { OrderParametrs } from './shared/constants/order-parametrs';
 
 
 
@@ -40,7 +42,8 @@ import { AuthorParametrs } from './shared/constants/author-parametrs';
     AuthorModule,
     PrintingEditionModule,
     HttpClientModule,
-    UserModule
+    UserModule,
+    OrderModule
   ],
   providers: [
     httpInterceptorProviders,
@@ -49,7 +52,8 @@ import { AuthorParametrs } from './shared/constants/author-parametrs';
     PrintingEditionsParametrs,
     UserParametrs,
     ValidationPatterns,
-    AuthorParametrs
+    AuthorParametrs,
+    OrderParametrs
   ],
   bootstrap: [AppComponent],
 })

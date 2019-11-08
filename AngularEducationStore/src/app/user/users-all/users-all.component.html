@@ -2,7 +2,7 @@
   <span>Users managment</span>
 </div>
 <mat-form-field class="filter-search">
-  <input matInput placeholder="Search" [(ngModel)]="searchString">
+  <input matInput placeholder="Search" [(ngModel)]="filterModel.searchString">
 </mat-form-field>
 <button class="search-button" mat-raised-button color="accent" (click)="submit()">Find</button>
 <div class="table-container">
@@ -10,7 +10,7 @@
 
   <table mat-table [dataSource]="userModel.items" matSort matSortActive="userName" matSortDisableClear matSortDirection="asc" (matSortChange)="sortData($event)" >
 
-    <ng-container matColumnDef="userName">
+    <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> User name </th>
       <td class="user-name-column" mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
     </ng-container>
@@ -52,7 +52,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator class="paginator" [length]="userModel.itemsCount" [pageSize]="pageSize" (page)="pageEvent($event)"
+  <mat-paginator class="paginator" [length]="userModel.itemsCount" [pageSize]="filterModel.pageSize" (page)="pageEvent($event)"
     [pageSizeOptions]="[3, 5, 10]" [showFirstLastButtons]="true"></mat-paginator>
 
 </div>

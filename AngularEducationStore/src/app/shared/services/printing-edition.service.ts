@@ -20,8 +20,14 @@ export class PrintingEditionService {
   getPrintingEditions(filterModel: FilterPrintingEditionModel): Observable<PrintingEditionModel> {
     return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'get', filterModel);
   }
-  createPrintingEdition(printingEdition: PrintingEditionModelItem) {
-    return this.http.post(this.apiRoutes.printingEditionRoute + 'create', printingEdition);
+  createPrintingEdition(printingEdition: PrintingEditionModelItem): Observable<PrintingEditionModel> {
+    return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'create', printingEdition);
+  }
+  updatePrintingEdition(printingEdition: PrintingEditionModelItem): Observable<PrintingEditionModel> {
+    return this.http.put<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'update', printingEdition);
+  }
+  removePrintingEdition(printingEditionId: number): Observable<PrintingEditionModel> {
+    return this.http.delete<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'delete?printingEditionId=' + printingEditionId);
   }
   getIconStyle(pageSize: number) {
     if (pageSize === PageSize.Six) {

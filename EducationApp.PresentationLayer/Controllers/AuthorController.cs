@@ -45,9 +45,9 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteAuthorAsync([FromBody]AuthorModelItem authorModel)
+        public async Task<IActionResult> DeleteAuthorAsync(long authorId)
         {
-            var responseModel = await _authorService.DeleteAuthorAsync(authorModel.Id);
+            var responseModel = await _authorService.DeleteAuthorAsync(authorId);
             return Ok(responseModel);
         }
     }

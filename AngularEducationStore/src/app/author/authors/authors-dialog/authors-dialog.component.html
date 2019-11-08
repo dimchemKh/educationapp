@@ -1,1 +1,17 @@
-<p>authors-dialog works!</p>
+<h1 mat-dialog-title>Change Author</h1>
+<div mat-dialog-content class="container">
+    <!-- <fa-icon class="content-icon" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon> -->
+
+    <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+        <mat-label>
+            Author name: 
+        </mat-label>
+        <input matInput formControlName="authorName" [(ngModel)]="data.name" autocomplete="off" required/>
+        <mat-error align="end" *ngIf="!form.valid">{{form.hasError('required') ? '' : 'Empty name'}}</mat-error>
+    </mat-form-field>
+
+    <div class="container-btn">
+        <button class="content-btn" mat-raised-button color="accent" (click)="close()">Cancel</button>
+        <button class="content-btn" mat-raised-button color="accent" [disabled]="!isValidName" [mat-dialog-close]="data">Save</button>
+    </div>
+</div>

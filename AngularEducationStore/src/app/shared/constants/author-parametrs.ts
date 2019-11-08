@@ -1,9 +1,14 @@
-import { PageSize } from '../enums/page-size';
 
-export class AuthorParametrs {
-    public readonly pageSizes = [
-        PageSize.Six,
-        PageSize.Twelve,
-        PageSize.Twenty
+import { SortType } from 'src/app/shared/enums/sort-type';
+import { Injectable } from '@angular/core';
+import { BaseParametrs } from './base-parametrs';
+
+Injectable();
+
+export class AuthorParametrs extends BaseParametrs {
+
+    public readonly SortTypes = [
+        { name: SortType[SortType.Id], value: SortType.Id },
+        { name: SortType[SortType.Name], value: SortType.Name },
     ];
 }

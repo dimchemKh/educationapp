@@ -38,15 +38,16 @@ namespace EducationApp.BusinessLayer.Common
         }
         private void WriteMessageAsync<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
+            
             if (File.Exists(_filePath))
             {
 
-                    using (StreamWriter tw = new StreamWriter(_filePath))
-                    {
-                        string message = $"{logLevel} :: {_categoryName} :: {formatter(state, exception)} :: Time => {DateTime.Now}";
+                    //using (StreamWriter tw = new StreamWriter(_filePath))
+                    //{
+                    //    string message = $"{logLevel} :: {_categoryName} :: {formatter(state, exception)} :: Time => {DateTime.Now}";
 
-                        tw.WriteLine(message);
-                    }
+                    //    tw.WriteLine(message);
+                    //}
 
             }
         }

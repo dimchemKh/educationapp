@@ -1,0 +1,8 @@
+<div class="container">
+  <h2 class="message">{{data.message}}</h2>
+  <fa-icon class="content-icon" [icon]="alertIcon" [fixedWidth]="true" transform=""></fa-icon>
+</div>
+<div mat-dialog-actions class="btn-group">
+  <button mat-raised-button color="accent" (click)="close()">{{data.closeTitle}}</button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="data" cdkFocusInitial>{{data.removeTitle}}</button>
+</div>

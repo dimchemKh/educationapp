@@ -21,14 +21,15 @@ export class SignInComponent {
 
   userModel: UserLoginModel = new UserLoginModel();
   userRequest = new UserRequestModel();
+  
   constructor(private accountService: AccountService, private patterns: ValidationPatterns, private dataService: DataService) {
   }
 
   email = new FormControl('',
-  [
-    Validators.required,
-    Validators.pattern(this.patterns.emailPattern)
-  ]);
+    [
+      Validators.required,
+      Validators.pattern(this.patterns.emailPattern)
+    ]);
   password = new FormControl('', Validators.required);
   hide = true;
   checked = false;
@@ -41,13 +42,6 @@ export class SignInComponent {
           this.checkErrors();
         });
     }
-  }
-  getEmailErrorMessage() {
-    return (this.email.hasError('required') && this.email.touched) ? 'Empty field' :
-            this.email.hasError('pattern') ? 'Not a valid email' : '';
-  }
-  getPasswordErrorMessage() {
-    return (this.password.hasError('required') && this.password.touched) ? 'Empty password' : '';
   }
   checkErrors() {
     if (this.userRequest.errors.length > 0) {

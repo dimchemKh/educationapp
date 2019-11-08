@@ -37,7 +37,7 @@ namespace EducationApp.PresentationLayer.Controllers
         [AllowAnonymous]
         [HttpGet("refresh")]
         public async Task<IActionResult> RefreshTokenAsync()
-        {
+        {      
             var token = Request.Cookies["Refresh"];
             var userInfoModel = _jwtHelper.ValidateData(token);
             if (userInfoModel.Errors.Any())

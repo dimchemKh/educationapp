@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+.container-btn {
+    display: flex;
+    justify-content: space-between;
+}
+.content-btn {
+    margin: 0 50px 20px 50px;
+}

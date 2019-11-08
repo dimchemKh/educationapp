@@ -6,6 +6,10 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { AuthorModel } from 'src/app/shared/models/authors/AuthorModel';
 import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
+import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
+import { MatDialog, MatSort } from '@angular/material';
+import { AuthorsDialogComponent } from './authors-dialog/authors-dialog.component';
+import { AuthorModelItem } from 'src/app/shared/models/authors/AuthorModelItem';
 
 @Component({
   selector: 'app-authors',
@@ -20,26 +24,93 @@ export class AuthorsComponent implements OnInit {
 
   filterModel = new FilterAuthorModel();
   authorModel = new AuthorModel();
+  
   pageSizes = this.authorParametrs.pageSizes;
+  sortStates = this.authorParametrs.sortStates;
+  sortTypes = this.authorParametrs.SortTypes;
 
-  constructor(private authorService: AuthorService, private authorParametrs: AuthorParametrs) { }
   displayedColumns = ['id', 'name', 'products', ' '];
 
+  constructor(private dialog: MatDialog, private authorService: AuthorService, private authorParametrs: AuthorParametrs) {
+
+  }
+
   ngOnInit() {
-    this.authorService.getAuthors(this.filterModel).subscribe((data: AuthorModel) => {
+    this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data: AuthorModel) => {
+      this.authorModel = data;
+    });
+    this.filterModel.pageSize = 12;
+  }
+  pageEvent(event) {
+    let page = event.pageIndex + 1;
+
+    if (event.pageSize !== this.filterModel.pageSize) {
+      page = 1;
+      this.filterModel.pageSize = event.pageSize;
+    }
+    this.submit(page);
+  }
+  sortData(event: MatSort) {
+    let sortState = this.sortStates.find(x => x.direction.toLowerCase() === event.direction.toLowerCase());
+    this.filterModel.sortState = sortState.value;
+
+    let sortTypes = this.sortTypes.find(x => x.name.toLowerCase() === event.active.toLowerCase());
+    this.filterModel.sortType = sortTypes.value;
+
+    this.submit();
+  }
+  submit(page: number = 1) {
+    this.filterModel.page = page;
+    this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data: AuthorModel) => {
       this.authorModel = data;
     });
   }
-  pageEvent(event) {
-
+  openCreateDialog(dialogTilte = 'Create new') {
+    let dialog = this.dialog.open(AuthorsDialogComponent, {
+      data: {
+        dialogTitle: dialogTilte
+      }
+    });
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        debugger
+        this.authorService.createAuthor(result).subscribe(() => {
+          this.submit();
+        });
+      }
+    });
   }
-  sortData(event) {
-
+  openEditDialog(element: AuthorModelItem = null, dialogTilte = 'Change') {
+    let dialog = this.dialog.open(AuthorsDialogComponent, {
+      data: {
+        dialogTitle: dialogTilte,
+        id: element.id,
+        name: element.name
+      }
+    });
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.authorService.updateAuthor(result).subscribe(() => {
+          this.submit();
+        });
+      }
+    });
   }
-  openEditDialog(element) {
-
-  }
-  openCreateDialog() {
-
+  openRemoveDialog(element) {
+    let dialog = this.dialog.open(RemoveDialogComponent, {
+      data: {
+        closeTitle: 'Close',
+        removeTitle: 'Remove',
+        message: 'Do you want`t remove: ' + element.name,
+        id: element.id
+      }
+    });
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.authorService.removeAuthor(result.id).subscribe(() => {
+          this.submit();
+        });
+      }
+    });
   }
 }

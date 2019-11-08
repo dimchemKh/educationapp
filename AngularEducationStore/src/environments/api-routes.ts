@@ -7,4 +7,5 @@ export class ApiRoutes {
     public readonly authorsRoute = 'http://localhost:52196/api/author/';
     public readonly printingEditionRoute = 'http://localhost:52196/api/printingEdition/';
     public readonly userRoute = 'http://localhost:52196/api/user/';
+    public readonly orderRoute = 'http://localhost:52196/api/order/';
 }

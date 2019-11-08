@@ -2,37 +2,49 @@
 <div mat-dialog-content class="container">
     <div class="left-content">
         <label class="content-label">Title</label>
-        <mat-form-field class="title-content">
-            <input matInput #message maxlength="256" [(ngModel)]="data.printingEditionTitle" />
+        <mat-form-field class="title-content" [formGroup]="form">
+            <input matInput #message maxlength="256" formControlName="title" [(ngModel)]="data.title" />
             <mat-hint align="end">
                 {{message.value.length}} / 256
             </mat-hint>
+            <mat-error align="end" *ngIf="!form.valid">
+                {{form.hasError('required') ? '' : 'Empty title'}}
+            </mat-error>
         </mat-form-field>
         <label class="content-label">Description</label>
-        <mat-form-field>
-            <textarea class="description-textarea" matInput [(ngModel)]="data.printingEditionDescription">
+        <mat-form-field [formGroup]="form">
+            <textarea class="description-textarea" formControlName="textarea" matInput [(ngModel)]="data.description">
             </textarea>
+            <mat-error align="end" *ngIf="!form.valid">
+                {{form.hasError('required') ? '' : 'Empty description'}}
+            </mat-error>
         </mat-form-field>
     </div>
     <div class="right-content">
         <label class="content-label">Types</label>
-        <mat-form-field>
-            <mat-select class="types-content" [(ngModel)]="data.printingEditionType">
+        <mat-form-field [formGroup]="form">
+            <mat-select class="types-content" [(ngModel)]="data.printingEditionType" formControlName="types">
                 <mat-option *ngFor="let item of printingEditionTypes" [value]="item.value">{{item.name}}</mat-option>
             </mat-select>
+            <mat-error align="end" *ngIf="!form.valid">
+                {{form.hasError('required') ? '' : 'Empty type of book'}}
+            </mat-error>
         </mat-form-field>
         <label class="content-label">Authors</label>
-        <mat-form-field>
-            <mat-select class="types-content" msInfiniteScroll (infiniteScroll)="getNextBatch(filterModel)" [complete]="offset === 12" multiple>
-                <mat-option *ngFor="let item of authorsModel.items" [value]="item.id">
+        <mat-form-field [formGroup]="form">
+            <mat-select class="types-content" [(ngModel)]="authorsId" formControlName="authors" msInfiniteScroll (infiniteScroll)="getNextBatch()" [complete]="offset >= authorsModel.itemsCount" multiple>
+                <mat-option *ngFor="let item of authorsSubj$ | async" [value]="item.id">
                     {{item.name}}
                 </mat-option>
             </mat-select>
+            <mat-error align="end" *ngIf="!form.valid">
+                {{form.hasError('required') ? '' : 'Need one or more authors'}}
+            </mat-error>
         </mat-form-field>
         <label class="content-label">Price</label>
         <mat-form-field [formGroup]="form">
             <span matPrefix>$ &nbsp;</span>
-            <input class="price-input" matInput formControlName="price" [(ngModel)]="data.printingEditionPrice"
+            <input class="price-input" matInput formControlName="price" [(ngModel)]="data.price"
                 autocomplete="off" required />
             <mat-error align="end" *ngIf="!form.valid">
                 {{form.hasError('required') ? '' : 'Empty price'}}
@@ -40,7 +52,7 @@
         </mat-form-field>
         <label class="content-label">Currency</label>
         <mat-form-field>
-            <mat-select class="currency-content" [(ngModel)]="selectedCurrency">
+            <mat-select class="currency-content" [(ngModel)]="data.currency">
                 <mat-option *ngFor="let item of currencyTypes" [value]="item.value">{{item.name}}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -49,5 +61,5 @@
 </div>
 <div class="footer-container">
     <button class="content-btn" mat-raised-button color="accent" (click)="close()">Cancel</button>
-    <button class="content-btn" mat-raised-button color="accent" (click)="submit()">Save</button>
+    <button class="content-btn" mat-raised-button color="accent" [disabled]="!isValidForm" [mat-dialog-close]="data">Save</button>
 </div>

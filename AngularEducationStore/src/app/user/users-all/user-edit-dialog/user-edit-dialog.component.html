@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Change Profile: {{data.firstName}} {{data.lastName}}</h1>
+<h1 mat-dialog-title>Change User: {{data.firstName}} {{data.lastName}}</h1>
 <div mat-dialog-content class="container">
     <fa-icon class="content-icon" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon>
 
@@ -19,6 +19,6 @@
     </mat-form-field>
     <div class="container-btn">
         <button class="content-btn" mat-raised-button color="accent" (click)="close()">Cancel</button>
-        <button class="content-btn" mat-raised-button color="accent" (click)="submit()">Save</button>
+        <button class="content-btn" mat-raised-button color="accent" [disabled]="!isValidForm" [mat-dialog-close]="data">Save</button>
     </div>
 </div>

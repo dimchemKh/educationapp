@@ -4,5 +4,4 @@ import { AuthorModelItem } from './AuthorModelItem';
 export class AuthorModel extends BaseModel {
 
     public items = new Array<AuthorModelItem>();
-    public itemsCount: number;
 }

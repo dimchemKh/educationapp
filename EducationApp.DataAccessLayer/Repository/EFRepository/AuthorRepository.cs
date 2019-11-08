@@ -26,6 +26,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 .Where(x => x.IsRemoved == false)
                 .Select(x => new AuthorDataModel()
                 {
+                    Id = x.Id,
                     Name = x.Name
                 });
 

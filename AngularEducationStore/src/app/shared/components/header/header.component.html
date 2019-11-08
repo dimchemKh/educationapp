@@ -57,7 +57,7 @@
         <fa-icon size="2x" [icon]="faUser" [fixedWidth]="true" transform="shrink-4 down-2"></fa-icon>
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item>Order managment</button>
+        <button mat-menu-item [routerLink]="['/order/get-all']" routerLinkActive="router-link-active" >Order managment</button>
         <button mat-menu-item [routerLink]="['/user/all']" routerLinkActive="router-link-active">Users
           managment</button>
         <button mat-menu-item [routerLink]="['/printing-edition/manager']" routerLinkActive="router-link-active">Products managment</button>

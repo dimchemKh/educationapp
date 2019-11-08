@@ -33,10 +33,7 @@ export class ForgotPasswordComponent implements OnInit {
           });
     }
   }
-  getEmailErrorMessage() {
-    return (this.emailForm.hasError('required') && this.emailForm.touched) ? 'Empty field' :
-      this.emailForm.hasError('pattern') ? 'Not a valid email' : '';
-  }
+
   ngOnInit() {
   }
   getErrorsFromApi() {

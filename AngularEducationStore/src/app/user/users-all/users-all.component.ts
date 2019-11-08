@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatPaginator, MatSort, PageEvent, MatDialog } from '@angular/material';
+import { MatSort, PageEvent, MatDialog } from '@angular/material';
 
 import { UserService } from 'src/app/shared/services/user.service';
 import { FilterUserModel } from 'src/app/shared/models/filter/filter-user-model';
@@ -9,8 +9,8 @@ import { IsBlocked } from 'src/app/shared/enums/is-blocked';
 import { faHighlighter } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
-import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.component';
-import { UserRemoveDialogComponent } from './user-remove-dialog/user-remove-dialog.component';
+import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
+import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog/user-edit-dialog.component';
 
 @Component({
   selector: 'app-users-all',
@@ -21,41 +21,35 @@ import { UserRemoveDialogComponent } from './user-remove-dialog/user-remove-dial
 export class UsersAllComponent implements OnInit {
 
 
-  constructor(private dialog: MatDialog, private userService: UserService, private userParametrs: UserParametrs) { }
+  constructor(private dialog: MatDialog, private userService: UserService, private userParametrs: UserParametrs) {
+    this.filterModel.pageSize = 3;
+  }
 
-  displayedColumns: string[] = ['userName', 'userEmail', 'status', ' '];
+  displayedColumns: string[] = ['name', 'userEmail', 'status', ' '];
 
   editIcon = faHighlighter;
   closeIcon = faTimes;
   isLoading = true;
 
-  searchString: string;
-  pageSize = 3;
 
   sortStates = this.userParametrs.sortStates;
   sortTypes = this.userParametrs.sortTypes;
   blockedTypes = this.userParametrs.blockedTypes;
 
   filterModel = new FilterUserModel();
-  userModel: UserModel;
+  userModel = new UserModel();
 
   selectedBlockTypes = [IsBlocked.Block, IsBlocked.Unblock];
 
   ngOnInit() {
-    debugger
-    // this.userModel = new UserModel();
     this.userService.getAllUsers(this.filterModel).subscribe((data: UserModel) => {
-      this.QWE(data);
+      this.userModel = data;
     });
+  }
 
-  }
-  QWE(data: UserModel) {
-    debugger
-    this.userModel = data;
-  }
   sortData(event: MatSort) {
 
-    let sortState = this.sortStates.find(x => x.name === event.direction.toLowerCase());
+    let sortState = this.sortStates.find(x => x.direction === event.direction.toLowerCase());
     this.filterModel.sortState = sortState.value;
 
     let sortTypes = this.sortTypes.find(x => x.name.toLowerCase() === event.active.toLowerCase());
@@ -64,8 +58,7 @@ export class UsersAllComponent implements OnInit {
     this.submit();
   }
   submit(page: number = 1) {
-    this.filterModel.pageSize = this.pageSize;
-    this.filterModel.searchString = this.searchString;
+
     if (this.selectedBlockTypes.length >= 2) {
       this.filterModel.isBlocked = IsBlocked.All;
     }
@@ -85,9 +78,9 @@ export class UsersAllComponent implements OnInit {
   pageEvent(event: PageEvent) {
     let page = event.pageIndex + 1;
 
-    if (event.pageSize !== this.pageSize) {
+    if (event.pageSize !== this.filterModel.pageSize) {
       page = 1;
-      this.pageSize = event.pageSize;
+      this.filterModel.pageSize = event.pageSize;
     }
     this.submit(page);
   }
@@ -96,22 +89,33 @@ export class UsersAllComponent implements OnInit {
       data: {
         id: element.id,
         firstName: element.firstName,
-        lastName: element.lastName
+        lastName: element.lastName,
+        email: element.email
       }
     });
-    dialog.afterClosed().subscribe(() => {
-      this.submit(this.filterModel.page);
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.userService.updateUser(result).subscribe(() => {
+          this.submit(this.filterModel.page);
+        });
+      }
     });
   }
-
   openRemoveDialog(element) {
-    let dialog = this.dialog.open(UserRemoveDialogComponent, {
+    let dialog = this.dialog.open(RemoveDialogComponent, {
       data: {
+        message: 'Do you wan`t to delete: ' + element.firstName + ' ' + element.lastName,
+        closeTitle: 'No',
+        removeTitle: 'Yes',
         id: element.id
       }
     });
-    dialog.afterClosed().subscribe(() => {
-      this.submit(this.filterModel.page);
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.userService.removeUser(result.id).subscribe(() => {
+          this.submit();
+        });
+      }
     });
   }
 }
