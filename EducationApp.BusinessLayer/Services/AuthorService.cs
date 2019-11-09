@@ -107,7 +107,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
-            await _authorRepository.DeleteAsync(author);
+            //await _authorRepository.DeleteAsync(author);
             await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.AuthorId == authorId);
             return responseModel;
         }

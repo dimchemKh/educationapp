@@ -62,7 +62,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             Expression<Func<PrintingEditionDataModel, object>> expression = x => x.Id;
 
-            if(filter.SortType == Enums.SortType.Title)
+            if (filter.SortType == Enums.SortType.Title)
             {
                 expression = x => x.Title;
             }
@@ -77,6 +77,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var authors = _context.AuthorInPrintingEditions
                 .Include(x => x.Author)
                 .Include(x => x.PrintingEdition)
+                .Where(x => x.IsRemoved == false)
                 .Where(x => x.Author.IsRemoved == false)
                 .GroupBy(x => x.AuthorId)
                 .Select(group => new AuthorDataModel
@@ -100,7 +101,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             responseModel.CollectionCount = await authors.CountAsync();
 
             return responseModel;
-        } 
+        }
 
         public async Task<bool> UpdateAuthorsInPrintingEditionAsync(PrintingEdition printingEdition, IList<long> authorsId)
         {
@@ -135,49 +136,107 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     PrintingEditionId = printingEditionId
                 });
             }
-            //_context.AuthorInPrintingEditions.
-            //var query = await _context.AuthorInPrintingEditions
-            //    .Include(x => x.Author)
-            //    .Include(x => x.PrintingEdition)
-            //    .Where(x => authorsId.Contains(x.Author.Id))
-            //    .GroupBy(x => x.Author)
-            //    .Select(x => x.Key)
-            //    .ToListAsync();
-            //var tempList = query.Select(z => new AuthorInPrintingEdition
-            //{
-            //    AuthorId = z.Id,
-            //    PrintingEditionId = printingEditionId
-            //}).ToList();
             await _context.AddRangeAsync(authorInPrintingEditions);
             await _context.SaveChangesAsync();
-        }        
-        public async Task<IList<AuthorDataModel>> GetAuthorsInOnePrintingEditionAsync(long printingEditionId)
-        {
-            var list = await _context.AuthorInPrintingEditions
-                .Include(x => x.Author)
-                .Include(x => x.PrintingEdition)
-                .Where(x => x.PrintingEditionId == printingEditionId)
-                .Select(z => new AuthorDataModel
-                {
-                    Name = z.Author.Name
-                }).ToListAsync();
-
-            return list;
         }
         public async Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
         {
-            var list = await _context.AuthorInPrintingEditions.Where(predicate).ToListAsync();
-            if(list == null)
+            var authorsInPe = await _context.AuthorInPrintingEditions.Where(x => x.IsRemoved == false).Where(predicate).ToListAsync();
+            _context.AuthorInPrintingEditions.AttachRange(authorsInPe);
+            foreach (var item in authorsInPe)
             {
-                return false;
+                item.IsRemoved = true;                
             }
-            _context.AuthorInPrintingEditions.AttachRange(list);
-            foreach (var item in list)
-            {
-                item.IsRemoved = true;
-            }
+
             await _context.SaveChangesAsync();
+
+            var pesId = _context.AuthorInPrintingEditions
+                .Include(x => x.PrintingEdition)
+                .Where(predicate)
+                .GroupBy(x => x.PrintingEditionId)
+                .Select(x => new
+                {
+                    peId = x.Key,
+                    authors = x.Select(z => z.AuthorId).ToArray()
+                }).ToList();
+
+            if(pesId.Count == 1)
+            {
+                _context.AuthorInPrintingEditions.Where(x => x.IsRemoved == true).Where(x => x.PrintingEditionId == pesId.FirstOrDefault().peId).FirstOrDefault().PrintingEdition.IsRemoved = true;
+                return true;
+            }
+
+            var authorId = pesId.Where(x => x.authors.Length <= 1).Select(x => x.authors.FirstOrDefault()).FirstOrDefault();
+            if(authorId != null)
+            {
+                var q = pesId.Select(x => x.peId).ToArray();
+                var pes = _context.AuthorInPrintingEditions.Where(x => x.IsRemoved == true).Where(x => q.Contains(x.PrintingEditionId)).ToList();
+                foreach (var item in pes)
+                {
+                    item.PrintingEdition.IsRemoved = true;
+                }
+                _context.AuthorInPrintingEditions.Where(x => x.IsRemoved == true).Where(x => x.Author.Id == authorId).Select(x => x.Author).FirstOrDefault().IsRemoved = true;
+            }
+
+            //if(authorId != null)
+            //{
+            //    var temp = _context.AuthorInPrintingEditions.Where(x => x.IsRemoved == true).Where(x => x.AuthorId == authorId.FirstOrDefault()).ToList();
+            //    foreach (var item in temp)
+            //    {
+            //        item.Author.IsRemoved = true;
+            //    }
+            //}
+
+            //foreach (var item in pesId)
+            //{
+            //    if(item.authors.Length <= 1)
+            //    {
+            //        //_context.AuthorInPrintingEditions.Where(x => x.PrintingEditionId == pesId.FirstOrDefault().peId).FirstOrDefault().PrintingEdition.IsRemoved = true;
+            //    }
+            //}
+
+            await _context.SaveChangesAsync();
+
+            //var pesId = _context.AuthorInPrintingEditions
+            //    .Where(x => x.IsRemoved == false)
+            //    .GroupBy(x => x.PrintingEditionId)
+            //    .Select(x => new
+            //    {
+            //        PeId = x.Key,
+            //        AuthorsId = x.Select(z => z.AuthorId).ToList()
+            //    });
+            //.Where(x => x.AuthorsId.Count <= 1)
+            //.Where(x => x.AuthorsId.Contains(authorsInPe.Select(z => z.AuthorId).FirstOrDefault()))
+            //.Select(x => x.PeId)
+            //.ToArray();
+
+            //var authorsId = _context.AuthorInPrintingEditions
+            //    .Where(x => x.IsRemoved == false)
+            //    .Where(x => pesId.Contains(x.PrintingEditionId))
+            //    .GroupBy(x => x.Author)
+            //    .Select(x => new { AuthorId = x.Key, counts = x.Select(z => z.AuthorId).ToArray() });
+
+            //var printingEditions = await _context.AuthorInPrintingEditions
+            //    .Where(x => x.IsRemoved == false)
+            //    .Include(x => x.PrintingEdition)
+            //    //.Where(x => pesId.Contains(x.PrintingEditionId))
+            //    .Select(z => z.PrintingEdition)
+            //    .ToListAsync();
+
+            //_context.PrintingEditions.AttachRange(printingEditions);
+            
+            //foreach (var printingEdition in printingEditions)
+            //{
+            //    printingEdition.IsRemoved = true;
+            //}
+
+            //await _context.SaveChangesAsync();
             return true;
         }
+    }
+    public class TestModel
+    {
+        public long PeId { get; set; }
+        public ICollection<long> authors = new List<long>();
     }
 }

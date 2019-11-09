@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using NLog;
+using System.IO;
 
 namespace EducationApp.PresentationLayer
 {
@@ -21,12 +23,11 @@ namespace EducationApp.PresentationLayer
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
@@ -79,13 +80,11 @@ namespace EducationApp.PresentationLayer
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Education Store", Version = "v1" });
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, DbBaseInitializing dbBaseInitializing)
-        {
-            //loggerFactory.AddFile(filePath: Path.Combine(Directory.GetCurrentDirectory(), "logging.txt"));
-            
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

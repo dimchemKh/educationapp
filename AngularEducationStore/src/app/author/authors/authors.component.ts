@@ -36,10 +36,10 @@ export class AuthorsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filterModel.pageSize = 12;
     this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data: AuthorModel) => {
       this.authorModel = data;
     });
-    this.filterModel.pageSize = 12;
   }
   pageEvent(event) {
     let page = event.pageIndex + 1;

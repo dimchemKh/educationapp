@@ -18,6 +18,7 @@ using EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
+using EducationApp.BusinessLayer.Common.Interfaces;
 
 namespace EducationApp.BusinessLayer.Initializers
 {
@@ -32,7 +33,7 @@ namespace EducationApp.BusinessLayer.Initializers
                 .AddDefaultTokenProviders();
 
             #region Services
-            services.AddSingleton<ILoggerProvider, LoggerProvider>(sp => new LoggerProvider(Path.Combine(Directory.GetCurrentDirectory(), "logging.txt")));
+            services.AddSingleton<ILog, LoggerNLog>();
 
             services.AddScoped<DbBaseInitializing>();
 

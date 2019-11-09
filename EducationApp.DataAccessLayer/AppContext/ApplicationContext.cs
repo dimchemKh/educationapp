@@ -14,7 +14,6 @@ namespace EducationApp.DataAccessLayer.AppContext
         public DbSet<PrintingEdition> PrintingEditions { get; set; }
         public ApplicationContext(DbContextOptions options) : base(options)
         {
-            Database.EnsureCreated();            
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {          

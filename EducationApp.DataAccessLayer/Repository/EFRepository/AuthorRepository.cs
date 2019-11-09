@@ -32,9 +32,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             Expression<Func<AuthorDataModel, object>> expression = x => x.Name;
 
-            var responseModel = new GenericModel<AuthorDataModel>();
-            responseModel.Collection = await PaginationAsync(filter, expression, authors);
-            responseModel.CollectionCount = await authors.CountAsync();
+            var responseModel = new GenericModel<AuthorDataModel>()
+            {
+                Collection = await PaginationAsync(filter, expression, authors),
+                CollectionCount = await authors.CountAsync()
+            };
             return responseModel;
 
         }

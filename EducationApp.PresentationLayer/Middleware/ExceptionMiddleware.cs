@@ -2,30 +2,29 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using EducationApp.BusinessLayer.Common.Interfaces;
 
 namespace EducationApp.PresentationLayer.Middleware
 {
     public class ExceptionMiddleware
     {
-        private readonly ILoggerProvider _loggerProvider;
+        private ILog _logger;
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
-        public ExceptionMiddleware(RequestDelegate next, ILoggerProvider loggerProvider)
+        public ExceptionMiddleware(RequestDelegate next, ILog logger)
         {
             _next = next;
-            _loggerProvider = loggerProvider;
-            _logger = _loggerProvider.CreateLogger("MiddlewareLoger");            
+            _logger = logger;             
         }
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                _logger.LogInformation("SOME LOGINFO: ", context.Request.Body);
+                _logger.Information($"Status Code: {context.Response.StatusCode.ToString()}");
                 await _next(context);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error", context.Response.StatusCode);
+                _logger.Error($"Status Code: {context.Response.StatusCode.ToString()} => Exception message: {ex.Message}");               
             }
         }
     }
