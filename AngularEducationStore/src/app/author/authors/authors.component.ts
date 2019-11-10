@@ -73,7 +73,6 @@ export class AuthorsComponent implements OnInit {
     });
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        debugger
         this.authorService.createAuthor(result).subscribe(() => {
           this.submit();
         });

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationApp.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191109144920_CreateEducationDb")]
-    partial class CreateEducationDb
+    [Migration("20191110132347_CreateEducationApp")]
+    partial class CreateEducationApp
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

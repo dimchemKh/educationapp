@@ -8,6 +8,7 @@ import { PageEvent } from '@angular/material';
 import { PageSize } from 'src/app/shared/enums/page-size';
 import { PrintingEditionType } from 'src/app/shared/enums/printing-edition-type';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-printing-editions',
@@ -34,7 +35,7 @@ export class PrintingEditionsComponent implements OnInit {
 
   constructor(private printingEditionService: PrintingEditionService,
               private printingEditionParams: PrintingEditionsParametrs,
-              private router: Router) {
+              private dataService: DataService) {
   }
   getIconStyle(pageSize: number) {
     return this.printingEditionService.getIconStyle(pageSize);
@@ -61,7 +62,8 @@ export class PrintingEditionsComponent implements OnInit {
     this.filterPrintingEditionModel.pageSize = this.pageSize;
     this.filterPrintingEditionModel.page = page;
     this.page = page;
-    this.printingEditionService.getPrintingEditions(this.filterPrintingEditionModel).subscribe((data: PrintingEditionModel) => {
+    this.printingEditionService.getPrintingEditions(this.filterPrintingEditionModel, this.dataService.getLocalStorage('userRole'))
+    .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });
   }
@@ -88,7 +90,8 @@ export class PrintingEditionsComponent implements OnInit {
   }
   ngOnInit() {
     this.filterPrintingEditionModel.printingEditionTypes = [PrintingEditionType.Book];
-    this.printingEditionService.getPrintingEditions(this.filterPrintingEditionModel).subscribe((data: PrintingEditionModel) => {
+    this.printingEditionService.getPrintingEditions(this.filterPrintingEditionModel, this.dataService.getLocalStorage('userRole'))
+    .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });
     this.getGridParams(this.pageSize);

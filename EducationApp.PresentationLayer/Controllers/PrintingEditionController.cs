@@ -23,10 +23,21 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [AllowAnonymous]
         [HttpPost("get")]
-        public async Task<IActionResult> GetPrintingEditionsAsync([FromBody]FilterPrintingEditionModel filterModel)
+        public async Task<IActionResult> GetPrintingEditionsAsync(string role, [FromBody]FilterPrintingEditionModel filterModel)
         {
-            var role = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
-            var isAdmin = (role == null) ? false : role.Equals(Constants.Roles.Admin); // not correct
+            var isAdmin = false;
+
+            if(!string.IsNullOrWhiteSpace(role) && role.Equals(Constants.Roles.Admin))
+            {
+                isAdmin = true;
+            }
+
+            if(string.IsNullOrWhiteSpace(role))
+            {
+                var claimRole = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role))?.Value;
+                isAdmin = claimRole.Equals(Constants.Roles.Admin) ? true : false;
+            }
+
             var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel, isAdmin);
 
             return Ok(responseModel);

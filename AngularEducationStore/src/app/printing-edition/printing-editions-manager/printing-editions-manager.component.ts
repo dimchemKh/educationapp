@@ -12,6 +12,7 @@ import { PrintingEditionEditDialogComponent } from './printing-edition-edit-dial
 import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { RemoveModel } from 'src/app/shared/models/RemoveModel';
+import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-printing-editions-manager',
@@ -40,11 +41,13 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   printingEditionModel = new PrintingEditionModel();
 
   constructor(private dialog: MatDialog, private printingEditionService: PrintingEditionService,
-    private printingEditionParams: PrintingEditionsParametrs, private descriptionBar: MatSnackBar) {
+              private printingEditionParams: PrintingEditionsParametrs, private descriptionBar: MatSnackBar,
+              private dataService: DataService) {
   }
 
   ngOnInit() {
-    this.printingEditionService.getPrintingEditions(this.filterModel).subscribe((data: PrintingEditionModel) => {
+    this.printingEditionService.getPrintingEditions(this.filterModel, this.dataService.getLocalStorage('userRole'))
+    .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });
   }
@@ -64,7 +67,8 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   submit(page: number = 1) {
     this.filterModel.printingEditionTypes = this.selectedTypes;
     this.filterModel.page = page;
-    this.printingEditionService.getPrintingEditions(this.filterModel).subscribe((data: PrintingEditionModel) => {
+    this.printingEditionService.getPrintingEditions(this.filterModel, this.dataService.getLocalStorage('userRole'))
+    .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });
   }
@@ -100,7 +104,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     });
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        debugger
         this.printingEditionService.createPrintingEdition(result).subscribe(() => {
           this.submit(this.filterModel.page);
         });
@@ -123,7 +126,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     });
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        debugger
         this.printingEditionService.updatePrintingEdition(result).subscribe(() => {
           this.submit(this.filterModel.page);
         });

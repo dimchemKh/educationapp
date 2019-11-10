@@ -1,4 +1,5 @@
-﻿using EducationApp.DataAccessLayer.Entities;
+﻿using System;
+using EducationApp.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

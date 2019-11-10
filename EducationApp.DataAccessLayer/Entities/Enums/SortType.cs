@@ -16,7 +16,8 @@ namespace EducationApp.DataAccessLayer.Entities.Enums
             TransactionStatus = 5,
             PrintingEditionType = 6,
             Title = 7,
-            FirstName = 8
+            FirstName = 8,
+            Amount = 9
         }
     }
 }

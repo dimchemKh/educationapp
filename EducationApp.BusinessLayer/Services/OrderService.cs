@@ -31,18 +31,23 @@ namespace EducationApp.BusinessLayer.Services
             var responseModel = new OrderModel();
 
             var repositoryFilter = _mapperHelper.Map<FilterOrderModel, DataFilter.FilterOrderModel>(filterOrder);
+
             if (!long.TryParse(userId, out long _userId) || _userId == 0)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-            var orders = (await _orderRepository.GetAllOrdersAsync(repositoryFilter, _userId)).ToList();
-            
-            foreach (var order in orders)
+
+            var orders = await _orderRepository.GetAllOrdersAsync(repositoryFilter, _userId);
+
+            //responseModel.ItemsCount = orders.CollectionCount;
+
+            foreach (var order in orders.Collection)
             {                         
                 var orderModelItem = order.MapToModel();
                 responseModel.Items.Add(orderModelItem);
             }            
+
             return responseModel;
         }
         public async Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, string userId)
@@ -54,27 +59,35 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
+
             if(!long.TryParse(userId, out long _userId) || _userId == 0)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }            
-            var orderItems = new List<OrderItem>();
 
-            var order = new Order();
+            var orderItems = new List<OrderItem>();
+            
             var user = await _userRepository.GetUserByIdAsync(_userId);
+
             if(user == null)
             {
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-            order.User = user;
+
+            var order = new Order()
+            {
+                User = user
+            };
+
             foreach (var orderPrintingEdition in orderModelItem.OrderItems)
             {
                 var orderItem = orderPrintingEdition.MapToEntity();
                 orderItem.Order = order;
                 orderItems.Add(orderItem);
             }
+
             var payment = new Payment()
             {
                 TransactionId = null
@@ -95,16 +108,20 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
                 return responseModel;
             }
+
             if(!long.TryParse(orderId, out long _orderId) || !long.TryParse(transactionId, out long _transactionId))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
+
             var updateReuslt = await _orderRepository.UpdateTransactionAsync(_orderId, _transactionId);
+
             if (!updateReuslt)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
             }
+
             return responseModel;
         }
     }

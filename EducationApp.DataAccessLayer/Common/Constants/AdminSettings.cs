@@ -8,6 +8,7 @@ namespace EducationApp.DataAccessLayer.Common.Constants
     {
         public class AdminSettings
         {
+            public const long AdminId = 1;
             public const string Email = "admin@gmail.com";
             public const string Password = "QWEqwe123qwe";
             public const string FirstName = "Main";

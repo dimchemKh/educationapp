@@ -42,9 +42,6 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
       });
       this.authorsSubj.next(this.data.authors);
     }
-
-    
-
   }
   get isValidForm(): boolean {
     return this.form.valid;

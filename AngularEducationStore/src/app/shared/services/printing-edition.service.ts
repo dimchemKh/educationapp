@@ -17,8 +17,8 @@ export class PrintingEditionService {
 
   constructor(private http: HttpClient, private apiRoutes: ApiRoutes) { }
 
-  getPrintingEditions(filterModel: FilterPrintingEditionModel): Observable<PrintingEditionModel> {
-    return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'get', filterModel);
+  getPrintingEditions(filterModel: FilterPrintingEditionModel, role: string): Observable<PrintingEditionModel> {
+    return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'get?role=' + role, filterModel);
   }
   createPrintingEdition(printingEdition: PrintingEditionModelItem): Observable<PrintingEditionModel> {
     return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'create', printingEdition);

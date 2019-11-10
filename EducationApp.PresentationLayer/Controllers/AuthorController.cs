@@ -25,30 +25,35 @@ namespace EducationApp.PresentationLayer.Controllers
         public async Task<IActionResult> GetAllAuthorsAsync([FromBody]FilterAuthorModel filterModel)
         {
             var response = await _authorService.GetAllAuthorsAsync(filterModel);
+
             return Ok(response);
         }
         [HttpPost("create")]
         public async Task<IActionResult> CreateAuthorAsync([FromBody]AuthorModelItem authorModel)
         {
             var responseModel = await _authorService.CreateAuthorAsync(authorModel);
+
             return Ok(responseModel);
         }
         [HttpPost("get")]
         public async Task<IActionResult> GetAuthorsInPrintingEditionAsync([FromBody]FilterAuthorModel authorFilterModel)
         {
-            var responseModel = await _authorService.GetAuthorsInPrintingEditionsAsync(authorFilterModel);            
+            var responseModel = await _authorService.GetAuthorsInPrintingEditionsAsync(authorFilterModel);     
+            
             return Ok(responseModel);
         } 
         [HttpPut("update")]
         public async Task<IActionResult> UpdateAuthorAsync([FromBody]AuthorModelItem authorModelItem)
         {
             var responseModel = await _authorService.UpdateAuthorAsync(authorModelItem);
+
             return Ok(responseModel);
         }
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAuthorAsync(long authorId)
         {
             var responseModel = await _authorService.DeleteAuthorAsync(authorId);
+
             return Ok(responseModel);
         }
     }

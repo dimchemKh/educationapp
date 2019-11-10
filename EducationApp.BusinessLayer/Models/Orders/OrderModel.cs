@@ -8,6 +8,6 @@ namespace EducationApp.BusinessLayer.Models.Orders
     public class OrderModel : BaseModel
     {
         public ICollection<OrderModelItem> Items = new List<OrderModelItem>();
-
+        public int ItemsCount {get;set;}
     }
 }

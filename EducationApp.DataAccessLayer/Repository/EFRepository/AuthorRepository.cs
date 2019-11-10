@@ -23,6 +23,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter)
         {
             var authors = _context.Authors
+                .AsNoTracking()
                 .Where(x => x.IsRemoved == false)
                 .Select(x => new AuthorDataModel()
                 {
@@ -30,12 +31,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     Name = x.Name
                 });
 
-            Expression<Func<AuthorDataModel, object>> expression = x => x.Name;
-
             var responseModel = new GenericModel<AuthorDataModel>()
             {
-                Collection = await PaginationAsync(filter, expression, authors),
-                CollectionCount = await authors.CountAsync()
+                //Collection = await PaginationAsync(filter, x => x.Name, authors),
+                //CollectionCount = await authors.CountAsync()
             };
             return responseModel;
 

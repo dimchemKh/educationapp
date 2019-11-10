@@ -95,6 +95,7 @@ namespace EducationApp.BusinessLayer.Services
                 }
                 responseModel.Items.Add(modelItem);
             }
+
             responseModel.ItemsCount = printingEditionsModel.CollectionCount;           
 
             return responseModel;
@@ -109,7 +110,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData); 
                 return responseModel;
             }
-            //await _printingEditionRepository.DeleteAsync(printingEdition);
+            await _printingEditionRepository.DeleteAsync(printingEdition);
             await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.PrintingEditionId == printingEditionId);
 
             return responseModel;
@@ -119,9 +120,11 @@ namespace EducationApp.BusinessLayer.Services
             var responseModel = ValidateData(printingEditionsModelItem);
 
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionsModelItem.Id);
+
             printingEdition = printingEditionsModelItem.MapToEntity(printingEdition);
 
-            var authorsId = printingEditionsModelItem.Authors.Select(x => x.Id).ToList();
+            var authorsId = printingEditionsModelItem.Authors.Select(x => x.Id).ToArray();
+
             if (authorsId == null || !authorsId.Any())
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
@@ -129,7 +132,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             printingEdition.Price = _currencyConverterHelper.Converting(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
             await _printingEditionRepository.UpdateAsync(printingEdition);
-            var updateResult = await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition, authorsId);
+            var updateResult = await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
 
             return responseModel;            
         }

@@ -49,7 +49,7 @@ namespace EducationApp.BusinessLayer.Services
                 }
                 responseModel.Items.Add(itemModel);
             }
-            responseModel.ItemsCount = authors.CollectionCount;
+            //responseModel.ItemsCount = authors.CollectionCount;
 
             return responseModel;
         }
@@ -79,7 +79,7 @@ namespace EducationApp.BusinessLayer.Services
                 }
                 responseModel.Items.Add(itemModel);
             }
-            responseModel.ItemsCount = authors.CollectionCount;
+            //responseModel.ItemsCount = authors.CollectionCount;
             return responseModel;
         }
         public async Task<AuthorModel> CreateAuthorAsync(AuthorModelItem authorModelItem)
@@ -107,8 +107,10 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
-            //await _authorRepository.DeleteAsync(author);
+
+            await _authorRepository.DeleteAsync(author);
             await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.AuthorId == authorId);
+
             return responseModel;
         }
 

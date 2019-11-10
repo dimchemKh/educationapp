@@ -77,7 +77,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         }
         public async Task<string> GenerateResetPasswordTokenAsync(ApplicationUser user)
         {
-            return await _userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return token;
         }
         public async Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
         {
@@ -90,21 +91,19 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             if (string.IsNullOrWhiteSpace(model.SearchString))
             {
-                listUsers = _userManager.Users.Where(user => user.IsRemoved.Equals(false));
+                listUsers = _userManager.Users.Where(user => user.IsRemoved == false);
             }
+
             if (!string.IsNullOrWhiteSpace(model.SearchString))
             {
-                listUsers = _userManager.Users.Where(user => user.IsRemoved.Equals(false) && user.FirstName.Contains(model.SearchString)
+                listUsers = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchString)
                 || user.LastName.Contains(model.SearchString));
             }
-            listUsers = listUsers.Where(user => user.Email != Constants.AdminSettings.Email);
+
+            listUsers = listUsers.Where(user => user.Id != Constants.AdminSettings.AdminId);
 
             Expression<Func<ApplicationUser, object>> lambda = x => x.FirstName;
 
-            if (model.SortType.Equals(Enums.SortType.FirstName))
-            {
-                lambda = x => x.FirstName;
-            }
             if (model.SortType.Equals(Enums.SortType.Email))
             {
                 lambda = x => x.Email;
@@ -127,11 +126,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 listUsers = listUsers.OrderByDescending(lambda);
             }
-            var responseModel = new GenericModel<ApplicationUser>();
 
-            var list = await listUsers.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize).ToListAsync();
-            responseModel.Collection = list;
-            responseModel.CollectionCount = await listUsers.CountAsync();
+            var list = await listUsers.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize).ToArrayAsync();
+
+            var responseModel = new GenericModel<ApplicationUser>()
+            {
+                //Collection = list,
+                //CollectionCount = await listUsers.CountAsync()
+            };
 
             return responseModel;
         }

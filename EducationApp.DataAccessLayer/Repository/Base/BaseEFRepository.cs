@@ -27,11 +27,11 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public IQueryable<TEntity> ReadAll()
         {
-            return _dbSet.Where(x => x.IsRemoved.Equals(false));
+            return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false);
         }
         public IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.AsNoTracking().Where(x => x.IsRemoved.Equals(false)).Where(predicate);
+            return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate);
         }
         public async Task CreateAsync(TEntity entity)
         {
@@ -55,18 +55,23 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             await _context.SaveChangesAsync();
         }
        
-        public async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
+        public async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
         {
 
-            if (baseFilter.SortState == Enums.SortState.Asc && predicate != null)
+            if (filter.SortState.Equals(Enums.SortState.Asc))
             {
                 entities = entities.OrderBy(predicate);
             }
-            if (baseFilter.SortState == Enums.SortState.Desc && predicate != null)
+            if (filter.SortState.Equals(Enums.SortState.Desc))
             {
                 entities = entities.OrderByDescending(predicate);
             }
-            var result = await entities.Skip((baseFilter.Page - 1) * baseFilter.PageSize).Take(baseFilter.PageSize).ToListAsync();
+
+            var result = entities
+                .Skip((filter.Page - 1) * filter.PageSize)
+                .Take(filter.PageSize)
+                .ToAsyncEnumerable()
+                .ToEnumerable();
 
             return result;
         }

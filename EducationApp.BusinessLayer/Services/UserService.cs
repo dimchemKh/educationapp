@@ -114,7 +114,7 @@ namespace EducationApp.BusinessLayer.Services
                 }
                 userModel.Items.Add(userModelItem);
             }
-            userModel.ItemsCount = filteringUsers.CollectionCount;
+            //userModel.ItemsCount = filteringUsers.CollectionCount;
             return userModel;
         }
         public async Task<UserModel> BlockUserAsync(long userId, bool isBlocked)
