@@ -57,7 +57,6 @@ namespace EducationApp.DataAccessLayer.Repository.Base
        
         public async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
         {
-
             if (filter.SortState.Equals(Enums.SortState.Asc))
             {
                 entities = entities.OrderBy(predicate);
@@ -72,7 +71,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
                 .Take(filter.PageSize)
                 .ToAsyncEnumerable()
                 .ToEnumerable();
-
+                
             return result;
         }
        

@@ -87,53 +87,47 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         }
         public async Task<GenericModel<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model)
         {
-            IQueryable<ApplicationUser> listUsers = null;
+            IQueryable<ApplicationUser> users = null;
 
             if (string.IsNullOrWhiteSpace(model.SearchString))
             {
-                listUsers = _userManager.Users.Where(user => user.IsRemoved == false);
+                users = _userManager.Users.Where(user => user.IsRemoved == false);
             }
 
             if (!string.IsNullOrWhiteSpace(model.SearchString))
             {
-                listUsers = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchString)
+                users = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchString)
                 || user.LastName.Contains(model.SearchString));
             }
 
-            listUsers = listUsers.Where(user => user.Id != Constants.AdminSettings.AdminId);
+            users = users.Where(user => user.Id != Constants.AdminSettings.AdminId);
 
-            Expression<Func<ApplicationUser, object>> lambda = x => x.FirstName;
+            Expression<Func<ApplicationUser, object>> predicate = x => x.FirstName;
 
             if (model.SortType.Equals(Enums.SortType.Email))
             {
-                lambda = x => x.Email;
+                predicate = x => x.Email;
             }
 
-            if (model.IsBlocked.Equals(Enums.IsBlocked.True))
-            {
-                listUsers = listUsers.Where(x => x.LockoutEnd != null);
-            }
-            if (model.IsBlocked.Equals(Enums.IsBlocked.False))
-            {
-                listUsers = listUsers.Where(x => x.LockoutEnd == null);
-            }
-
-            if (model.SortState.Equals(Enums.SortState.Asc))
-            {
-                listUsers = listUsers.OrderBy(lambda);
-            }
-            if (model.SortState.Equals(Enums.SortState.Desc))
-            {
-                listUsers = listUsers.OrderByDescending(lambda);
-            }
-
-            var list = await listUsers.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize).ToArrayAsync();
+            users = model.IsBlocked.Equals(Enums.IsBlocked.True) ? users.Where(x => x.LockoutEnd != null) : users = users.Where(x => x.LockoutEnd == null);
 
             var responseModel = new GenericModel<ApplicationUser>()
             {
-                //Collection = list,
-                //CollectionCount = await listUsers.CountAsync()
+                CollectionCount = await users.AsNoTracking().CountAsync()
             };
+            
+            if (model.SortState.Equals(Enums.SortState.Asc))
+            {
+                users = users.OrderBy(predicate);
+            }
+            if (model.SortState.Equals(Enums.SortState.Desc))
+            {
+                users = users.OrderByDescending(predicate);
+            }
+
+            var usersPage = await users.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize).ToArrayAsync();
+
+            responseModel.Collection.AddRange(usersPage);
 
             return responseModel;
         }

@@ -12,7 +12,7 @@ namespace EducationApp.DataAccessLayer.Models.PrintingEditions
         public decimal Price { get; set; }
         public Enums.Currency Currency { get; set; }
         public Enums.PrintingEditionType PrintingEditionType { get; set; }
-        public IList<AuthorDataModel> Authors { get; set; }
+        public ICollection<AuthorDataModel> Authors { get; set; }
         
     }
 }

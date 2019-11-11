@@ -17,6 +17,6 @@ namespace EducationApp.DataAccessLayer.Repository.Base.Interfaces
         Task DeleteAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task SaveAsync();
-        Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities);
+        Task<IAsyncEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities);
     }
 }

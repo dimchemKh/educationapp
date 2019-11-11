@@ -12,6 +12,6 @@ namespace EducationApp.BusinessLayer.Models.PrintingEditions
         public decimal Price { get; set; }
         public Enums.Currency Currency { get; set; }
         public Enums.PrintingEditionType PrintingEditionType { get; set; }
-        public IList<AuthorModelItem> Authors { get; set; }
+        public ICollection<AuthorModelItem> Authors { get; set; }
     }
 }

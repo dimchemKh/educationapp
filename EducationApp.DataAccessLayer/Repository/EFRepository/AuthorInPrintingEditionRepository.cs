@@ -25,7 +25,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<GenericModel<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter, bool isAdmin)
         {            
             var printingEditions = _context.AuthorInPrintingEditions
-                .AsNoTracking()
+                //.AsNoTracking()
                 .Include(x => x.Author)
                 .Include(x => x.PrintingEdition)
                 .Where(x => x.IsRemoved == false)
@@ -42,7 +42,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     {
                         Id = z.Author.Id,
                         Name = z.Author.Name
-                    }).ToList()
+                    }).ToArray()
                 });
                        
             if (!string.IsNullOrWhiteSpace(filter.SearchString))
@@ -69,38 +69,26 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 predicate = x => x.Price;
             }
 
-            if (filter.SortState.Equals(Enums.SortState.Asc))
-            {
-                printingEditions = printingEditions.OrderBy(predicate);
-            }
-            if (filter.SortState.Equals(Enums.SortState.Desc))
-            {
-                printingEditions = printingEditions.OrderByDescending(predicate);
-            }
-
             var responseModel = new GenericModel<PrintingEditionDataModel>();
 
-            //var result = printingEditions
-            //    .AsNoTracking()
-            //    .Skip((filter.Page - 1) * filter.PageSize)
-            //    .Take(filter.PageSize)
-            //    .ToAsyncEnumerable()
-            //    .ToEnumerable();
-
-            responseModel.Collection.AddRange(await PaginationAsync(filter, predicate, printingEditions));
-
             responseModel.CollectionCount = await _context.AuthorInPrintingEditions
-                .AsNoTracking()
+                //.AsNoTracking()
+                .Include(x => x.PrintingEdition)
+                .Where(x => x.PrintingEdition.IsRemoved == false)
                 .GroupBy(x => x.PrintingEdition.Id)
                 .Select(x => x.Key)
                 .CountAsync();
+
+            var res = await PaginationAsync(filter, predicate, printingEditions);
+
+            responseModel.Collection.AddRange(res);
 
             return responseModel;
         }
         public async Task<GenericModel<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter)
         {
             var authors = _context.AuthorInPrintingEditions
-                .AsNoTracking()
+                //.AsNoTracking()
                 .Include(x => x.Author)
                 .Include(x => x.PrintingEdition)
                 .Where(x => x.IsRemoved == false)
@@ -112,18 +100,24 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToList()
                 });
 
-            Expression<Func<AuthorDataModel, object>> expression = x => x.Id;
+            Expression<Func<AuthorDataModel, object>> predicate = x => x.Id;
 
             if (filter.SortType == Enums.SortType.Name)
             {
-                expression = x => x.Name;
+                predicate = x => x.Name;
             }
 
             var responseModel = new GenericModel<AuthorDataModel>()
             {
-                //Collection = await PaginationAsync(filter, expression, authors),
-                //CollectionCount = await authors.CountAsync()
+                CollectionCount = await _context.AuthorInPrintingEditions
+                .AsNoTracking()
+                .Where(x => x.Author.IsRemoved == false)
+                .GroupBy(x => x.Author.Id)
+                .Select(x => x.Key)
+                .CountAsync()
             };
+
+            responseModel.Collection.AddRange(await PaginationAsync(filter, predicate, authors));
 
             return responseModel;
         }
@@ -131,7 +125,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var authorsInPrintingEdition = _context.AuthorInPrintingEditions
-                .AsNoTracking()
+                //.AsNoTracking()
                 .Where(x => x.IsRemoved == false)
                 .Include(x => x.Author)
                 .Where(x => x.PrintingEditionId.Equals(printingEditionId));
