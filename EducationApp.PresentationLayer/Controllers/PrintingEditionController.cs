@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
+using EducationApp.DataAccessLayer.Entities.Enums;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
@@ -39,6 +40,14 @@ namespace EducationApp.PresentationLayer.Controllers
             }
 
             var responseModel = await _printingEditionService.GetPrintingEditionsAsync(filterModel, isAdmin);
+
+            return Ok(responseModel);
+        }
+        [Authorize(Roles = Constants.Roles.User)]
+        [HttpGet("details")]
+        public async Task<IActionResult> GetPrintingEditionDetails(long printingEditionId, Enums.Currency currency)
+        {
+            var responseModel = await _printingEditionService.GetPrintingEditionDetailsAsync(printingEditionId, currency);
 
             return Ok(responseModel);
         }

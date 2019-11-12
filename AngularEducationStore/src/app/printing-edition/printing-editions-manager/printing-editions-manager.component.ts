@@ -26,9 +26,11 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   closeIcon = faTimes;
   createIcon = faPlusCircle;
 
+  filterModel = new FilterPrintingEditionModel();
+
   displayedColumns: string[] = ['id', 'title', 'description', 'category', 'author', 'price', ' '];
 
-  selectedTypes = [PrintingEditionType.Book, PrintingEditionType.Magazine, PrintingEditionType.Newspaper];
+  
 
   sortStates = this.printingEditionParams.sortStates;
   sortTypes = this.printingEditionParams.sortTypes;
@@ -37,7 +39,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
 
   page = 1;
 
-  filterModel = new FilterPrintingEditionModel();
+
   printingEditionModel = new PrintingEditionModel();
 
   constructor(private dialog: MatDialog, private printingEditionService: PrintingEditionService,
@@ -46,6 +48,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filterModel.printingEditionTypes = [PrintingEditionType.Book, PrintingEditionType.Magazine, PrintingEditionType.Newspaper];
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
@@ -65,7 +68,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     return PrintingEditionType[id];
   }
   submit(page: number = 1) {
-    this.filterModel.printingEditionTypes = this.selectedTypes;
     this.filterModel.page = page;
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
@@ -114,7 +116,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     let dialog = this.dialog.open(PrintingEditionEditDialogComponent, {
       data: {
         dialogTitle: dialogTilte,
-        // isChangeProduct: true,
         id: element.id,
         title: element.title,
         description: element.description,

@@ -32,13 +32,11 @@ export class AuthorsComponent implements OnInit {
   displayedColumns = ['id', 'name', 'products', ' '];
 
   constructor(private dialog: MatDialog, private authorService: AuthorService, private authorParametrs: AuthorParametrs) {
-
+    // this.authorModel.items = new Array<AuthorModelItem>();
   }
 
   ngOnInit() {
-    this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data: AuthorModel) => {
-      this.authorModel = data;
-    });
+    this.submit();
   }
   pageEvent(event) {
     let page = event.pageIndex + 1;
@@ -59,10 +57,10 @@ export class AuthorsComponent implements OnInit {
     this.submit();
   }
   submit(page: number = 1) {
-    this.filterModel.page = page;
-    this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data: AuthorModel) => {
+    this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data) => {
       this.authorModel = data;
     });
+    this.filterModel.page = page;
   }
   openCreateDialog(dialogTilte = 'Create new') {
     let dialog = this.dialog.open(AuthorsDialogComponent, {

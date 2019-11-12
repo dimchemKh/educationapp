@@ -1,0 +1,32 @@
+.container-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.table-container {
+    // margin: 0 5% 100px 5%;
+}
+table {
+    width: 100%;
+}
+.column-product {
+    width: 200px;
+}
+.column-price {
+    width: 150px;
+}
+.column-qty {
+    width: 50px;
+    margin-right: 25px;
+}
+.column-amount {
+    width: 150px;
+}
+.column-btn {
+    width: 50px;
+}

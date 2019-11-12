@@ -66,14 +66,14 @@ namespace EducationApp.DataAccessLayer.Repository.Base
                 entities = entities.OrderByDescending(predicate);
             }
 
-            var result = entities
+            var result = await entities
                 .Skip((filter.Page - 1) * filter.PageSize)
                 .Take(filter.PageSize)
                 .ToAsyncEnumerable()
-                .ToEnumerable();
+                .ToList();
                 
             return result;
         }
-       
+
     }
 }

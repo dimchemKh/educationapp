@@ -7,7 +7,6 @@ namespace EducationApp.BusinessLayer.Models.Authors
 {
     public class AuthorModel : BaseModel
     {
-        public ICollection<AuthorModelItem> Items = new List<AuthorModelItem>();    
-        public int ItemsCount { get; set; }
+        public ICollection<AuthorModelItem> Items = new List<AuthorModelItem>();
     }
 }

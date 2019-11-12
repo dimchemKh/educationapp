@@ -1,0 +1,45 @@
+<h1 mat-dialog-title class="container-title"> Cart </h1>
+<div mat-dialog-content class="container">
+    <div class="container-empty" *ngIf="isEmptyCart">
+        <h4>Cart is empty!</h4>
+    </div>
+    <div class="table-container" *ngIf="!isEmptyCart">
+        <table mat-table [dataSource]="ordersModel.items">
+            <ng-container matColumnDef="product">
+                <th class="column-product" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Product </th>
+                <td class="column-product" mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <th class="column-price" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Unit price </th>
+                <td class="column-price" mat-cell *matCellDef="let element"> {{element.price}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qty">
+                <th class="column-qty" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Qty </th>
+                <td class="column-qty" mat-cell *matCellDef="let element">
+                    <mat-form-field class="column-qty" >
+                        <mat-select class="column-qty" [(value)]="element.count">
+                            <mat-option *ngFor="let item of quantities" [value]="item">{{item}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th class="column-amount" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Amount </th>
+                <td class="column-amount" mat-cell *matCellDef="let element"> {{element.count * element.price}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef=" ">
+                <th class="column-btn" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> </th>
+                <td class="column-btn" mat-cell *matCellDef="let element">
+                    <button (click)="removeOrderItem(element)">-</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>

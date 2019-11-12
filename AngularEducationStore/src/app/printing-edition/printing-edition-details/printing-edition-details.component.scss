@@ -22,14 +22,10 @@
 }
 .span-content {
     flex: 1 1 auto;
-
 }
 .right-content {
     margin-right: 150px;
     width: 20%;
-}
-.icon-content {
-
 }
 .form-btn {
     display: flex;
@@ -37,14 +33,17 @@
 }
 .amount {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 .quantity-selector {
     width: 50px;
+    margin-right: 5%;
+}
+.currency-selector {
+    width: 60px;
 }
 .content-text {
-    
+    width: 300px;
 }
 .amount-value {
     font-size: 24px;

@@ -8,6 +8,8 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { RemoveDialogComponent } from '../remove-dialog/remove-dialog.component';
 import { MatDialog } from '@angular/material';
 import { RemoveModel } from '../../models/RemoveModel';
+import { DataService } from '../../services/data.service';
+import { CartItemsComponent } from 'src/app/cart/cart-items/cart-items.component';
 
 
 @Component({
@@ -32,7 +34,7 @@ export class HeaderComponent implements OnInit {
     return localStorage.getItem('userRole');
   }
 
-  constructor(private authService: AccountService, private dialog: MatDialog) {
+  constructor(private authService: AccountService, private dialog: MatDialog, private dataService: DataService) {
   }
 
   ngOnInit() {
@@ -40,6 +42,24 @@ export class HeaderComponent implements OnInit {
       this.isAuth = status;
     });
 
+  }
+  getCountPurchase() {
+    let count = this.dataService.getCount();
+    if (count > 0) {
+      return count;
+    }
+  }
+  openCart() {
+    if (this.dataService.getCount() < 0) {
+      let dialog = this.dialog.open(CartItemsComponent, {
+        data: {
+          message: 'Cart is emptry'
+        }
+      });
+    }
+    let dialog = this.dialog.open(CartItemsComponent, {
+      
+    });
   }
   signOut() {
     let dialog = this.dialog.open(RemoveDialogComponent, {

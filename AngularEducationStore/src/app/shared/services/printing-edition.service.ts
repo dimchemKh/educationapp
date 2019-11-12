@@ -20,7 +20,7 @@ export class PrintingEditionService {
   getPrintingEditions(role: string, filterModel: FilterPrintingEditionModel): Observable<PrintingEditionModel> {
     return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'get?role=' + role, filterModel);
   }
-  getPrintingEditionDetails(printingEditionId: number, currency: number = 1): Observable<PrintingEditionModel> {
+  getPrintingEditionDetails(printingEditionId: number, currency: number): Observable<PrintingEditionModel> {
     // tslint:disable-next-line: max-line-length
     return this.http.get<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'details?printingEditionId=' + printingEditionId + '&currency=' + currency);
   }

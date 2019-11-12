@@ -96,6 +96,6 @@ export class PrintingEditionsComponent implements OnInit {
     this.getGridParams(this.filterModel.pageSize);
   }
   getDetails(id: number, currency: number) {
-    this.router.navigate(['/details/', id], {state: {data: { _id: id, _currency: currency}}});
+    this.router.navigate(['/details/', id], {state: {data: { _currency: currency}}});
   }
 }

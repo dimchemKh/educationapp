@@ -10,7 +10,8 @@ import {
   MatToolbarModule,
   MatMenuModule,
   MatButtonModule,
-  MatDialogModule
+  MatDialogModule,
+  MatBadgeModule
 } from '@angular/material';
 import { AuthorService } from './services/author.service';
 import { PrintingEditionService } from './services/printing-edition.service';
@@ -20,6 +21,7 @@ import { DataService } from './services/data.service';
 import { AuthGuard } from './guards/auth.guard';
 import { RemoveDialogComponent } from './components/remove-dialog/remove-dialog.component';
 import { OrderService } from './services/order.service';
+import { CartItemsComponent } from '../cart/cart-items/cart-items.component';
 
 
 
@@ -40,7 +42,8 @@ import { OrderService } from './services/order.service';
     RouterModule.forChild(routes),
     FontAwesomeModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatBadgeModule
   ],
   bootstrap: [],
   providers: [

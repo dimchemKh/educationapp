@@ -56,26 +56,28 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     }).ToList()
                 });
 
-            Expression<Func<OrderDataModel, object>> predicat = x => x.Id;
+            Expression<Func<OrderDataModel, object>> predicate = x => x.Id;
 
             if (filterOrder.SortType.Equals(Enums.SortType.Amount))
             {
-                predicat = x => x.Amount;
+                predicate = x => x.Amount;
             }
             if (filterOrder.SortType.Equals(Enums.SortType.PrintingEditionType))
             {
-                predicat = x => x.Date;
+                predicate = x => x.Date;
             }
             if (filterOrder.SortType.Equals(Enums.SortType.TransactionStatus))
             {
-                predicat = x => x.TransactionStatus;
+                predicate = x => x.TransactionStatus;
             }
 
             var responseModel = new GenericModel<OrderDataModel>()
             {
-                //Collection = await PaginationAsync(filterOrder, predicat, orders),
-                //CollectionCount = await orders.CountAsync()
+                CollectionCount = orders.Count()
             };
+            var ordersPage = await PaginationAsync(filterOrder, predicate, orders);
+
+            responseModel.Collection.AddRange(ordersPage);
 
             return responseModel;
         }

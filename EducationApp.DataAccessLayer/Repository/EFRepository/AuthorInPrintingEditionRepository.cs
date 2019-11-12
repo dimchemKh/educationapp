@@ -22,82 +22,18 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorInPrintingEditionRepository(ApplicationContext context) : base(context)
         {
         }
-        public async Task<GenericModel<PrintingEditionDataModel>> GetPrintingEditionFilteredDataAsync(FilterPrintingEditionModel filter, bool isAdmin)
-        {            
-            var printingEditions = _context.AuthorInPrintingEditions
-                //.AsNoTracking()
-                .Include(x => x.Author)
-                .Include(x => x.PrintingEdition)
-                .Where(x => x.IsRemoved == false)
-                .GroupBy(x => x.PrintingEditionId)
-                .Select(x => new PrintingEditionDataModel
-                {
-                    Id = x.Key,
-                    Currency = x.Select(z => z.PrintingEdition.Currency).FirstOrDefault(),
-                    Price = x.Select(z => z.PrintingEdition.Price).FirstOrDefault(),
-                    PrintingEditionType = x.Select(z => z.PrintingEdition.PrintingEditionType).FirstOrDefault(),
-                    Title = x.Select(z => z.PrintingEdition.Title).FirstOrDefault(),
-                    Description = x.Select(z => z.PrintingEdition.Description).FirstOrDefault(),
-                    Authors = x.Select(z => new AuthorDataModel
-                    {
-                        Id = z.Author.Id,
-                        Name = z.Author.Name
-                    }).ToArray()
-                });
-                       
-            if (!string.IsNullOrWhiteSpace(filter.SearchString))
-            {
-                printingEditions = printingEditions.Where(x => x.Title.ToLower().StartsWith(filter.SearchString.ToLower()));
-            }
-            if (filter.PrintingEditionTypes.Any())
-            {
-                printingEditions = printingEditions.Where(x => filter.PrintingEditionTypes.Contains(x.PrintingEditionType));
-            }
-            if (!isAdmin)
-            {
-                printingEditions = printingEditions.Where(x => x.Price >= filter.PriceMinValue && x.Price <= filter.PriceMaxValue);
-            }
-
-            Expression<Func<PrintingEditionDataModel, object>> predicate = x => x.Id;
-
-            if (filter.SortType.Equals(Enums.SortType.Title))
-            {
-                predicate = x => x.Title;
-            }
-            if (filter.SortType.Equals(Enums.SortType.Price))
-            {
-                predicate = x => x.Price;
-            }
-
-            var responseModel = new GenericModel<PrintingEditionDataModel>();
-
-            responseModel.CollectionCount = await _context.AuthorInPrintingEditions
-                //.AsNoTracking()
-                .Include(x => x.PrintingEdition)
-                .Where(x => x.PrintingEdition.IsRemoved == false)
-                .GroupBy(x => x.PrintingEdition.Id)
-                .Select(x => x.Key)
-                .CountAsync();
-
-            var res = await PaginationAsync(filter, predicate, printingEditions);
-
-            responseModel.Collection.AddRange(res);
-
-            return responseModel;
-        }
         public async Task<GenericModel<AuthorDataModel>> GetAuthorsFilteredDataAsync(BaseFilterModel filter)
         {
             var authors = _context.AuthorInPrintingEditions
-                //.AsNoTracking()
-                .Include(x => x.Author)
-                .Include(x => x.PrintingEdition)
-                .Where(x => x.IsRemoved == false)
-                .GroupBy(x => x.AuthorId)
+                //.Include(x => x.Author)
+                //.Include(x => x.PrintingEdition)
+                .Where(x => x.Author.IsRemoved == false)
+                .GroupBy(x => x.Author.Id)
                 .Select(group => new AuthorDataModel
                 {
                     Id = group.Key,
                     Name = group.Select(x => x.Author.Name).FirstOrDefault(),
-                    PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToList()
+                    PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToArray()
                 });
 
             Expression<Func<AuthorDataModel, object>> predicate = x => x.Id;
@@ -107,17 +43,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 predicate = x => x.Name;
             }
 
-            var responseModel = new GenericModel<AuthorDataModel>()
-            {
-                CollectionCount = await _context.AuthorInPrintingEditions
-                .AsNoTracking()
-                .Where(x => x.Author.IsRemoved == false)
-                .GroupBy(x => x.Author.Id)
-                .Select(x => x.Key)
-                .CountAsync()
-            };
+            var responseModel = new GenericModel<AuthorDataModel>();
 
-            responseModel.Collection.AddRange(await PaginationAsync(filter, predicate, authors));
+            responseModel.CollectionCount = authors.Count();
+
+            var authorsPage = await PaginationAsync(filter, predicate, authors);
+
+
+            responseModel.Collection.AddRange(authorsPage);
 
             return responseModel;
         }
@@ -125,7 +58,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var authorsInPrintingEdition = _context.AuthorInPrintingEditions
-                //.AsNoTracking()
                 .Where(x => x.IsRemoved == false)
                 .Include(x => x.Author)
                 .Where(x => x.PrintingEditionId.Equals(printingEditionId));

@@ -8,6 +8,5 @@ namespace EducationApp.BusinessLayer.Models.Users
     public class UserModel : BaseModel
     {
         public ICollection<UserModelItem> Items = new List<UserModelItem>();
-        public int ItemsCount { get; set; }
     }
 }

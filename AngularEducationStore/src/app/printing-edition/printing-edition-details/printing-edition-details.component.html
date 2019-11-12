@@ -11,39 +11,54 @@
             {{printingEdition.title}}
         </h2>
         <div class="content-text">
-            <label *ngFor="let author of printingEdition.authors; let i=index">
+            <label>
                 by
-                <span>{{author.name}}</span><span *ngIf="i < printingEdition.authors.length - 1">, </span>
+                <span *ngFor="let author of printingEdition.authors; let i=index">
+                    <span *ngIf="i < printingEdition.authors.length - 1">{{author.name}}, </span>
+
+                    <span *ngIf="i == printingEdition.authors.length - 1">{{author.name}}</span>
+                </span>
+
             </label>
         </div>
     </div>
     <span class="span-content"></span>
     <div class="right-content">
-
         <div class="form-btn">
             <div class="amount">
-                    <mat-form-field class="quantity-selector">
-                            <mat-label>Qty</mat-label>
-                            <mat-select [(value)]="quantity">
-                                <mat-option value="1">1</mat-option>
-                                <mat-option value="2">2</mat-option>
-                                <mat-option value="3">3</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                <span class="amount-value">$ 100</span>
+                <mat-form-field class="quantity-selector">
+                    <mat-label>Qty</mat-label>
+                    <mat-select [(ngModel)]="quantity">
+                        <mat-option *ngFor="let item of quantities" [value]="item">{{item}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="currency-selector">
+                    <mat-label>Currency</mat-label>
+                    <mat-select [(ngModel)]="currency" (closed)="convertPrice(currency)">
+                        <mat-option *ngFor="let item of currencyTypes" [value]="item.value">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <span class="span-content"></span>
+                <label class="amount-value">
+                    {{currencyTypes[printingEdition.currency - 1]?.symbol}} {{printingEdition?.price * quantity | number:'1.1-2'}}
+                </label>
             </div>
-            
-            <button class="cart-btn" mat-raised-button color="accent">
+
+            <button class="cart-btn" mat-raised-button color="accent" (click)="addPurchase(printingEdition)">
                 <fa-icon class="menu-icon" size="lg" [icon]="cartIcon" [fixedWidth]="true"
                     transform="shrink-1 down-2 left-1"></fa-icon>
                 Add to cart
             </button>
         </div>
-
+        
     </div>
 </div>
 
-
+<div class="error-message" *ngIf="error">
+        You have already added this product
+    </div>
 <p class="content-description">
     {{printingEdition.description}}
 </p>

@@ -24,6 +24,7 @@ import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns
 import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
 import { OrderModule } from 'src/app/order/order.module';
 import { OrderParametrs } from './shared/constants/order-parametrs';
+import { CartModule } from './cart/cart.module';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { OrderParametrs } from './shared/constants/order-parametrs';
     PrintingEditionModule,
     HttpClientModule,
     UserModule,
-    OrderModule
+    OrderModule,
+    CartModule
   ],
   providers: [
     httpInterceptorProviders,

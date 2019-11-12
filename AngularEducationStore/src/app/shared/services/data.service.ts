@@ -23,6 +23,13 @@ export class DataService {
   setLocalStorage(name: string, value: string) {
     return localStorage.setItem(name, value);
   }
+  getCount() {
+    let countUsersInfo = 2;
+    if (localStorage.length - countUsersInfo > 0) {
+      return localStorage.length - countUsersInfo;
+    }
+    return localStorage.length - countUsersInfo;
+  }
   deleteItemLocalStorage(name: string) {
     localStorage.removeItem(name);
   }

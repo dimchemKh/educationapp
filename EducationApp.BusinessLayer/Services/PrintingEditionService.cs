@@ -84,7 +84,8 @@ namespace EducationApp.BusinessLayer.Services
                 repositoryFilter.PriceMinValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMinValue);
                 repositoryFilter.PriceMaxValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMaxValue);
             }
-            var printingEditionsModel = await _authorInPrintingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
+
+            var printingEditionsModel = await _printingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
 
             foreach (var printingEdition in printingEditionsModel.Collection)
             {
@@ -97,6 +98,20 @@ namespace EducationApp.BusinessLayer.Services
             }
 
             responseModel.ItemsCount = printingEditionsModel.CollectionCount;           
+
+            return responseModel;
+        }
+        public async Task<PrintingEditionModel> GetPrintingEditionDetailsAsync(long printingEditionId, Enums.Currency currency)
+        {
+            var responseModel = new PrintingEditionModel();
+
+            var printingEditionData = await _printingEditionRepository.GetPrintingEditionDetailsAsync(printingEditionId);
+
+            var printingEdition = printingEditionData.MapToModel(currency);
+
+            printingEdition.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, currency, printingEdition.Price);
+
+            responseModel.Items.Add(printingEdition);
 
             return responseModel;
         }
