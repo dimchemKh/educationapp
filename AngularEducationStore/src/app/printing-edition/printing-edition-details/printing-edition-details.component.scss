@@ -1,13 +1,54 @@
 .title {
-    margin-top: 5%;
+    margin-top: 90px;
     margin-left: 5%;
     font-weight: 500;
 }
+.wrapper {
+
+}
 .content-row {
     margin-top: 3%;
-    margin-left: 5%;
+    margin-left: 150px;
+    display: flex;
+    flex-direction: row;
 }
 .item-icon {
     font-size: 150px;
+    width: 200px;
+}
+.left-content {
+    display: flex;
+    flex-direction: column;
+}
+.span-content {
+    flex: 1 1 auto;
+
+}
+.right-content {
+    margin-right: 150px;
     width: 20%;
+}
+.icon-content {
+
+}
+.form-btn {
+    display: flex;
+    flex-direction: column;
+}
+.amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.quantity-selector {
+    width: 50px;
+}
+.content-text {
+    
+}
+.amount-value {
+    font-size: 24px;
+}
+.content-description {
+    margin: 50px 200px;
 }

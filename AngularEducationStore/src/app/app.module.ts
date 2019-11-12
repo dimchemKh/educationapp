@@ -25,8 +25,6 @@ import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
 import { OrderModule } from 'src/app/order/order.module';
 import { OrderParametrs } from './shared/constants/order-parametrs';
 
-
-
 @NgModule({
   declarations: [
     AppComponent

@@ -1,12 +1,49 @@
 <div class="title">
     <span>Catalog</span>
 </div>
+
 <div class="content-row">
-    <fa-icon class="item-icon" [icon]="printingEditionIcon" [fixedWidth]="true" ></fa-icon>
-    <label for="">
-        {{printingEdition.title}}
-    </label>
-    <label *ngFor="let author of printingEdition.authors; let i=index">
-        <span>by </span>{{author.name}}<span *ngIf="i < printingEdition.authors.length - 1">, </span>
-    </label>
+    <div class="icon-content">
+        <fa-icon class="item-icon" [icon]="printingEditionIcon" [fixedWidth]="true"></fa-icon>
+    </div>
+    <div class="left-content">
+        <h2 class="content-text">
+            {{printingEdition.title}}
+        </h2>
+        <div class="content-text">
+            <label *ngFor="let author of printingEdition.authors; let i=index">
+                by
+                <span>{{author.name}}</span><span *ngIf="i < printingEdition.authors.length - 1">, </span>
+            </label>
+        </div>
+    </div>
+    <span class="span-content"></span>
+    <div class="right-content">
+
+        <div class="form-btn">
+            <div class="amount">
+                    <mat-form-field class="quantity-selector">
+                            <mat-label>Qty</mat-label>
+                            <mat-select [(value)]="quantity">
+                                <mat-option value="1">1</mat-option>
+                                <mat-option value="2">2</mat-option>
+                                <mat-option value="3">3</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                <span class="amount-value">$ 100</span>
+            </div>
+            
+            <button class="cart-btn" mat-raised-button color="accent">
+                <fa-icon class="menu-icon" size="lg" [icon]="cartIcon" [fixedWidth]="true"
+                    transform="shrink-1 down-2 left-1"></fa-icon>
+                Add to cart
+            </button>
+        </div>
+
+    </div>
 </div>
+
+
+<p class="content-description">
+    {{printingEdition.description}}
+</p>

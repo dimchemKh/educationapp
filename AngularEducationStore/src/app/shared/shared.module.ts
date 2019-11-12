@@ -19,6 +19,7 @@ import { UserService } from './services/user.service';
 import { DataService } from './services/data.service';
 import { AuthGuard } from './guards/auth.guard';
 import { RemoveDialogComponent } from './components/remove-dialog/remove-dialog.component';
+import { OrderService } from './services/order.service';
 
 
 
@@ -49,6 +50,7 @@ import { RemoveDialogComponent } from './components/remove-dialog/remove-dialog.
     PrintingEditionService,
     LoaderService,
     DataService,
+    OrderService,
     AuthGuard
   ],
   entryComponents: [RemoveDialogComponent]

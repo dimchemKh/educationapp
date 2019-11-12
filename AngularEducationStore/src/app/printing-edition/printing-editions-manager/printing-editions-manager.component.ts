@@ -46,7 +46,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.printingEditionService.getPrintingEditions(this.filterModel, this.dataService.getLocalStorage('userRole'))
+    this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });
@@ -67,7 +67,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   submit(page: number = 1) {
     this.filterModel.printingEditionTypes = this.selectedTypes;
     this.filterModel.page = page;
-    this.printingEditionService.getPrintingEditions(this.filterModel, this.dataService.getLocalStorage('userRole'))
+    this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });

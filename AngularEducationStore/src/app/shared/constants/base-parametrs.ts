@@ -11,7 +11,7 @@ export class BaseParametrs {
         PageSize.Twenty
     ];
     public readonly sortStates = [
-        { name: 'Low to High', direction: SortState[SortState.asc], value: SortState.asc },
-        { name: 'High to Low', direction: SortState[SortState.desc], value: SortState.desc }
+        { direction: 'asc', name: SortState[SortState['Low to hight']], value: SortState['Low to hight'] },
+        { direction: 'desc', name: SortState[SortState['Hight to low']], value: SortState['Hight to low'] }
     ];
 }

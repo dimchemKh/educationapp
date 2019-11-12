@@ -17,8 +17,12 @@ export class PrintingEditionService {
 
   constructor(private http: HttpClient, private apiRoutes: ApiRoutes) { }
 
-  getPrintingEditions(filterModel: FilterPrintingEditionModel, role: string): Observable<PrintingEditionModel> {
+  getPrintingEditions(role: string, filterModel: FilterPrintingEditionModel): Observable<PrintingEditionModel> {
     return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'get?role=' + role, filterModel);
+  }
+  getPrintingEditionDetails(printingEditionId: number, currency: number = 1): Observable<PrintingEditionModel> {
+    // tslint:disable-next-line: max-line-length
+    return this.http.get<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'details?printingEditionId=' + printingEditionId + '&currency=' + currency);
   }
   createPrintingEdition(printingEdition: PrintingEditionModelItem): Observable<PrintingEditionModel> {
     return this.http.post<PrintingEditionModel>(this.apiRoutes.printingEditionRoute + 'create', printingEdition);

@@ -16,7 +16,7 @@
         <div class="filter-sorting">
             <mat-form-field>
                 <mat-label>Currency</mat-label>
-                <mat-select [(ngModel)]="filterPrintingEditionModel.currency">
+                <mat-select [(ngModel)]="filterModel.currency">
                     <mat-option *ngFor="let item of currencyTypes" [value]="item.value">
                         {{item.name}}
                     </mat-option>
@@ -24,14 +24,14 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Sorting</mat-label>
-                <mat-select [(ngModel)]="filterPrintingEditionModel.sortState">
+                <mat-select [(ngModel)]="filterModel.sortState">
                     <mat-option *ngFor="let item of sortStates" [value]="item.value">
                         {{item.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="filter-search">
-                <input matInput type="text" [(ngModel)]="filterPrintingEditionModel.searchString" placeholder="Search"
+                <input matInput type="text" [(ngModel)]="filterModel.searchString" placeholder="Search"
                     autocomplete="off">
             </mat-form-field>
         </div>
@@ -40,12 +40,12 @@
             <label class="filter-price-title">Price</label>
             <div>
                 <mat-form-field class="price-min-value">
-                    <input matInput type="number" [(ngModel)]="filterPrintingEditionModel.PriceMinValue"
+                    <input matInput type="number" [(ngModel)]="filterModel.PriceMinValue"
                         placeholder="Min" autocomplete="off">
                 </mat-form-field>
                 -
                 <mat-form-field class="price-max-value">
-                    <input matInput type="number" [(ngModel)]="filterPrintingEditionModel.PriceMaxValue"
+                    <input matInput type="number" [(ngModel)]="filterModel.PriceMaxValue"
                         placeholder="Max" autocomplete="off">
                 </mat-form-field>
                 $
@@ -56,9 +56,9 @@
     <mat-divider [vertical]="true"></mat-divider>
     <mat-grid-list class="content" [cols]="pageCols" [rowHeight]="pageRows">
         <mat-grid-tile *ngFor="let item of printingEditionModel.items" [colspan]="1" [rowspan]="1">
-            <button mat-button class="content-button">
+            <button mat-button class="content-button" (click)="getDetails(item.id, filterModel.currency)" >
                 <div class="content-item">
-                    <fa-icon [ngStyle]="getIconStyle(pageSize)" class="item-icon" [icon]="printingEditionIcon"
+                    <fa-icon [ngStyle]="getIconStyle(filterModel.pageSize)" class="item-icon" [icon]="printingEditionIcon"
                         [fixedWidth]="true"></fa-icon>
                     <label class="item-title">
                         {{item.title}}
@@ -80,6 +80,6 @@
 
 </div>
 <div class="paginator">
-    <mat-paginator [length]="printingEditionModel.itemsCount" [pageSize]="pageSize" [pageIndex]="page - 1"
+    <mat-paginator [length]="printingEditionModel.itemsCount" [pageSize]="filterModel.pageSize" [pageIndex]="filterModel.page - 1"
         [showFirstLastButtons]="true" [pageSizeOptions]="pageSizes" (page)="pageEvent($event)"></mat-paginator>
 </div>

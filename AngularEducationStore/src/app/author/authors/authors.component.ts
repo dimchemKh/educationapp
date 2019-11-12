@@ -24,7 +24,7 @@ export class AuthorsComponent implements OnInit {
 
   filterModel = new FilterAuthorModel();
   authorModel = new AuthorModel();
-  
+
   pageSizes = this.authorParametrs.pageSizes;
   sortStates = this.authorParametrs.sortStates;
   sortTypes = this.authorParametrs.SortTypes;
@@ -36,7 +36,6 @@ export class AuthorsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filterModel.pageSize = 12;
     this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data: AuthorModel) => {
       this.authorModel = data;
     });

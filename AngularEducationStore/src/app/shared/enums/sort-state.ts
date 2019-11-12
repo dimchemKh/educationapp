@@ -1,4 +1,4 @@
 export enum SortState {
-    asc = 0,
-    desc = 1
+    'Low to hight' = 0,
+    'Hight to low' = 1
 }
