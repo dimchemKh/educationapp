@@ -25,6 +25,7 @@ import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
 import { OrderModule } from 'src/app/order/order.module';
 import { OrderParametrs } from 'src/app/shared/constants/order-parametrs';
 import { CartModule } from 'src/app/cart/cart.module';
+import { NotFoundModule } from './not-found/not-found.module';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CartModule } from 'src/app/cart/cart.module';
     HttpClientModule,
     UserModule,
     OrderModule,
-    CartModule
+    CartModule,
+    NotFoundModule
   ],
   providers: [
     httpInterceptorProviders,

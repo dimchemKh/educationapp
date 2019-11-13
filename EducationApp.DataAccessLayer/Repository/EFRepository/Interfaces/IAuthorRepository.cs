@@ -10,6 +10,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
     public interface IAuthorRepository : IBaseEFRepository<Author>
     {
+        Task<GenericModel<AuthorDataModel>> GetAuthorsLazyLoadAsync(BaseFilterModel filter);
         Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter);
 
     }

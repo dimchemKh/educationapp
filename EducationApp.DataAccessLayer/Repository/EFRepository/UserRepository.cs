@@ -85,49 +85,50 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
         }
-        public async Task<GenericModel<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model)
+        public async Task<GenericModel<ApplicationUser>> GetFilteredDataAsync(FilterUserModel filter)
         {
-            IQueryable<ApplicationUser> users = null;
-
-            if (string.IsNullOrWhiteSpace(model.SearchString))
-            {
-                users = _userManager.Users.Where(user => user.IsRemoved == false);
-            }
-
-            if (!string.IsNullOrWhiteSpace(model.SearchString))
-            {
-                users = _userManager.Users.Where(user => user.IsRemoved == false && user.FirstName.Contains(model.SearchString)
-                || user.LastName.Contains(model.SearchString));
-            }
+            var users = _userManager.Users.Where(user => user.IsRemoved == false);
 
             users = users.Where(user => user.Id != Constants.AdminSettings.AdminId);
 
-            Expression<Func<ApplicationUser, object>> predicate = x => x.FirstName;
+            if (!string.IsNullOrWhiteSpace(filter.SearchString))
+            {
+                users = _userManager.Users.Where(user => user.FirstName.Contains(filter.SearchString));
+            }
 
-            if (model.SortType.Equals(Enums.SortType.Email))
+            if (filter.IsBlocked.Equals(Enums.IsBlocked.True))
+            {
+                users = users.Where(x => x.LockoutEnd != null);
+            }
+            if (filter.IsBlocked.Equals(Enums.IsBlocked.False))
+            {
+                users = users.Where(x => x.LockoutEnd == null);
+            }
+
+            Expression <Func<ApplicationUser, object>> predicate = x => x.FirstName;
+
+            if (filter.SortType.Equals(Enums.SortType.Email))
             {
                 predicate = x => x.Email;
             }
-
-            users = model.IsBlocked.Equals(Enums.IsBlocked.True) ? users.Where(x => x.LockoutEnd != null) : users = users.Where(x => x.LockoutEnd == null);
 
             var responseModel = new GenericModel<ApplicationUser>()
             {
                 CollectionCount = await users.AsNoTracking().CountAsync()
             };
             
-            if (model.SortState.Equals(Enums.SortState.Asc))
+            if (filter.SortState.Equals(Enums.SortState.Asc))
             {
                 users = users.OrderBy(predicate);
             }
-            if (model.SortState.Equals(Enums.SortState.Desc))
+            if (filter.SortState.Equals(Enums.SortState.Desc))
             {
                 users = users.OrderByDescending(predicate);
             }
 
-            var usersPage = await users.Skip((model.Page - 1) * model.PageSize).Take(model.PageSize).ToArrayAsync();
+            var usersPage = await users.Skip((filter.Page - 1) * filter.PageSize).Take(filter.PageSize).ToArrayAsync();
 
-            responseModel.Collection.AddRange(usersPage);
+            responseModel.Collection = usersPage;
 
             return responseModel;
         }
@@ -139,11 +140,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
         public async Task BlockUserAsync(ApplicationUser user, bool isBlocked)
         {
-            if (isBlocked)
+            if (!isBlocked)
             {
                 await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(1));
             }
-            if(!isBlocked)
+            if(isBlocked)
             {
                 await _userManager.SetLockoutEndDateAsync(user, null);
             }

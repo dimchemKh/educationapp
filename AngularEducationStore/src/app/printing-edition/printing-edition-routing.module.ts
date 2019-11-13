@@ -6,7 +6,7 @@ import { PrintingEditionDetailsComponent } from 'src/app/printing-edition/printi
 import { PrintingEdiotionsManagerComponent } from 'src/app/printing-edition/printing-editions-manager/printing-editions-manager.component';
 import { AdminGuard } from 'src/app/shared/guards/admin.guard';
 import { NonAdminGuard } from 'src/app/shared/guards/non-admin.guard';
-import { AuthGuard } from '../shared/guards/auth.guard';
+import { AuthGuard } from 'src/app/shared/guards/auth.guard';
 
 
 

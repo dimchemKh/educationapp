@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RemoveModel } from '../../models/RemoveModel';

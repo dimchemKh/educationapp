@@ -77,7 +77,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             };
             var ordersPage = await PaginationAsync(filterOrder, predicate, orders);
 
-            responseModel.Collection.AddRange(ordersPage);
+            responseModel.Collection = ordersPage;
 
             return responseModel;
         }

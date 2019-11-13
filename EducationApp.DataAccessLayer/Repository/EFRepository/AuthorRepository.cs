@@ -20,7 +20,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorRepository(ApplicationContext context) : base(context)
         {            
         }
-        public async Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter)
+        public async Task<GenericModel<AuthorDataModel>> GetAuthorsLazyLoadAsync(BaseFilterModel filter)
         {            
             var authors = _context.Authors
                 .AsNoTracking()
@@ -33,15 +33,59 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             var responseModel = new GenericModel<AuthorDataModel>()
             {
-                CollectionCount = authors.Count()
+                CollectionCount = await authors.CountAsync()
             };
 
             var authorsPage = await PaginationAsync(filter, x => x.Name, authors);
 
-            responseModel.Collection.AddRange(authorsPage);
+            responseModel.Collection = authorsPage;
 
             return responseModel;
-
         }
+        public async Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter)
+        {
+            var authors = _context.Authors
+                .Where(x => x.IsRemoved == false)
+                .Include(x => x.AuthorInPrintingEditions)
+                .ThenInclude(x => x.PrintingEdition)
+                .Where(x => x.AuthorInPrintingEditions.Select(z => z.IsRemoved == false).FirstOrDefault());
+            //var authors = _context.AuthorInPrintingEditions
+            //    .Where(x => x.IsRemoved == false)
+            //    .Where(x => x.Author.IsRemoved == false)
+            //    .GroupBy(x => x.Author.Id)
+            //    .Select(group => new AuthorDataModel
+            //    {
+            //        Id = group.Key,
+            //        Name = group.Select(x => x.Author.Name).FirstOrDefault(),
+            //        PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToArray()
+            //    });
+
+            Expression<Func<Author, object>> predicate = x => x.Id;
+
+            if (filter.SortType == Enums.SortType.Name)
+            {
+                predicate = x => x.Name;
+            }
+
+            var responseModel = new GenericModel<AuthorDataModel>();
+
+            responseModel.CollectionCount = authors.Count();
+
+
+            var authorsPage = await PaginationAsync(filter, predicate, authors);
+
+            var result = authorsPage.Select(x => new AuthorDataModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                PrintingEditionTitles = x.AuthorInPrintingEditions
+                .Select(z => z.PrintingEdition.Title).ToArray()
+            });
+
+            responseModel.Collection = result;
+
+            return responseModel;
+        }
+
     }
 }

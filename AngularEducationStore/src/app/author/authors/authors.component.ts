@@ -7,7 +7,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { AuthorModel } from 'src/app/shared/models/authors/AuthorModel';
 import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
-import { MatDialog, MatSort } from '@angular/material';
+import { MatDialog, MatSort, PageEvent } from '@angular/material';
 import { AuthorsDialogComponent } from './authors-dialog/authors-dialog.component';
 import { AuthorModelItem } from 'src/app/shared/models/authors/AuthorModelItem';
 
@@ -32,13 +32,15 @@ export class AuthorsComponent implements OnInit {
   displayedColumns = ['id', 'name', 'products', ' '];
 
   constructor(private dialog: MatDialog, private authorService: AuthorService, private authorParametrs: AuthorParametrs) {
-    // this.authorModel.items = new Array<AuthorModelItem>();
   }
 
   ngOnInit() {
-    this.submit();
+    this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data) => {
+      this.authorModel = data;
+    });
   }
-  pageEvent(event) {
+  pageEvent(event: PageEvent) {
+    console.log(event);
     let page = event.pageIndex + 1;
 
     if (event.pageSize !== this.filterModel.pageSize) {
@@ -57,15 +59,15 @@ export class AuthorsComponent implements OnInit {
     this.submit();
   }
   submit(page: number = 1) {
+    this.filterModel.page = page;
     this.authorService.getAuthorsInPrintingEditions(this.filterModel).subscribe((data) => {
       this.authorModel = data;
     });
-    this.filterModel.page = page;
   }
-  openCreateDialog(dialogTilte = 'Create new') {
+  openCreateDialog() {
     let dialog = this.dialog.open(AuthorsDialogComponent, {
       data: {
-        dialogTitle: dialogTilte
+        dialogTitle: 'Create new Author'
       }
     });
     dialog.afterClosed().subscribe((result) => {
@@ -76,10 +78,10 @@ export class AuthorsComponent implements OnInit {
       }
     });
   }
-  openEditDialog(element: AuthorModelItem = null, dialogTilte = 'Change') {
+  openEditDialog(element: AuthorModelItem = null) {
     let dialog = this.dialog.open(AuthorsDialogComponent, {
       data: {
-        dialogTitle: dialogTilte,
+        dialogTitle: 'Change',
         id: element.id,
         name: element.name
       }

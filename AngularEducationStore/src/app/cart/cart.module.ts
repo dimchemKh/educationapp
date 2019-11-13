@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartItemsComponent } from './cart-items/cart-items.component';
-import { MatTableModule, MatSelectModule } from '@angular/material';
+import {
+  MatTableModule,
+  MatSelectModule,
+  MatButtonModule
+} from '@angular/material';
 
 
 
@@ -10,7 +14,8 @@ import { MatTableModule, MatSelectModule } from '@angular/material';
   imports: [
     CommonModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule
   ],
   entryComponents: [CartItemsComponent]
 })

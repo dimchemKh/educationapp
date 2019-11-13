@@ -24,7 +24,7 @@ namespace EducationApp.BusinessLayer.Services
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _mapperHelper = mapperHelper;
         }
-        public async Task<AuthorModel> GetAllAuthorsAsync(FilterAuthorModel filterModel)
+        public async Task<AuthorModel> GetAuthorsLazyLoadAsync(FilterAuthorModel filterModel)
         {
             var responseModel = new AuthorModel();
             if (filterModel == null)
@@ -38,7 +38,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var authors = await _authorRepository.GetAllAuthorsAsync(repositoryModel);
+            var authors = await _authorRepository.GetAuthorsLazyLoadAsync(repositoryModel);
             foreach (var author in authors.Collection)
             {
                 var itemModel = _mapperHelper.Map<AuthorDataModel, AuthorModelItem>(author);
@@ -53,7 +53,7 @@ namespace EducationApp.BusinessLayer.Services
 
             return responseModel;
         }
-        public async Task<AuthorModel> GetAuthorsInPrintingEditionsAsync(FilterAuthorModel filterModel)
+        public async Task<AuthorModel> GetAllAuthorsAsync(FilterAuthorModel filterModel)
         {
             var responseModel = new AuthorModel();
             if (filterModel == null)
@@ -67,7 +67,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var authors = await _authorInPrintingEditionRepository.GetAuthorsFilteredDataAsync(repositoryModel);
+            var authors = await _authorRepository.GetAllAuthorsAsync(repositoryModel);
 
             foreach (var author in authors.Collection)
             {

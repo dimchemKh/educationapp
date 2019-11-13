@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from 'src/app/shared/components/header/header.component';
+import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 import { routes } from 'src/app/shared/shared-routing.module';
 import { RouterModule } from '@angular/router';
-import { AccountService } from './services/account.service';
+import { AccountService } from 'src/app/shared/services/account.service';
 import { FontAwesomeModule  } from '@fortawesome/angular-fontawesome';
 import {
   MatToolbarModule,
@@ -13,15 +13,13 @@ import {
   MatDialogModule,
   MatBadgeModule
 } from '@angular/material';
-import { AuthorService } from './services/author.service';
-import { PrintingEditionService } from './services/printing-edition.service';
-import { LoaderService } from './services/loader.service';
-import { UserService } from './services/user.service';
-import { DataService } from './services/data.service';
-import { AuthGuard } from './guards/auth.guard';
-import { RemoveDialogComponent } from './components/remove-dialog/remove-dialog.component';
-import { OrderService } from './services/order.service';
-import { CartItemsComponent } from '../cart/cart-items/cart-items.component';
+import { AuthorService } from 'src/app/shared/services/author.service';
+import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
+import { UserService } from 'src/app/shared/services/user.service';
+import { DataService } from 'src/app/shared/services/data.service';
+import { AuthGuard } from 'src/app/shared/guards/auth.guard';
+import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
+import { OrderService } from 'src/app/shared/services/order.service';
 
 
 
@@ -51,7 +49,6 @@ import { CartItemsComponent } from '../cart/cart-items/cart-items.component';
     AuthorService,
     UserService,
     PrintingEditionService,
-    LoaderService,
     DataService,
     OrderService,
     AuthGuard

@@ -57,7 +57,7 @@ namespace EducationApp.BusinessLayer.Services
             printingEdition.Price = _currencyConverterHelper.Converting(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
             printingEdition.Currency = Enums.Currency.USD;
 
-            var authorsId = printingEditionsModelItem.Authors.Select(x => x.Id).ToList();
+            var authorsId = printingEditionsModelItem.Authors.Select(x => x.Id).ToArray();
             if (authorsId == null || !authorsId.Any())
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
@@ -146,8 +146,10 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             printingEdition.Price = _currencyConverterHelper.Converting(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
+
             await _printingEditionRepository.UpdateAsync(printingEdition);
-            var updateResult = await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
+
+            await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
 
             return responseModel;            
         }

@@ -326,7 +326,7 @@ namespace EducationApp.DataAccessLayer.Migrations
             modelBuilder.Entity("EducationApp.DataAccessLayer.Entities.AuthorInPrintingEdition", b =>
                 {
                     b.HasOne("EducationApp.DataAccessLayer.Entities.Author", "Author")
-                        .WithMany()
+                        .WithMany("AuthorInPrintingEditions")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
 

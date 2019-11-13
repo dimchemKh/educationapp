@@ -7,16 +7,15 @@ import {
     HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { tap, catchError, switchMap, filter, take } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 
 import { AccountService } from 'src/app/shared/services/account.service';
-import { Router } from '@angular/router';
 import { DataService } from 'src/app/shared/services/data.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private dataSerive: DataService, private accountService: AccountService, private router: Router) {}
+  constructor(private dataSerive: DataService, private accountService: AccountService) {}
   private isRefreshing = false;
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

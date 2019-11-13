@@ -30,14 +30,11 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'title', 'description', 'category', 'author', 'price', ' '];
 
-  
-
   sortStates = this.printingEditionParams.sortStates;
   sortTypes = this.printingEditionParams.sortTypes;
   pageSizes = this.printingEditionParams.pageSizes;
   printingEditionTypes = this.printingEditionParams.printingEditionTypes;
 
-  page = 1;
   isRequire: number;
 
   printingEditionModel = new PrintingEditionModel();
@@ -70,11 +67,12 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   submit(page: number = 1) {
     this.filterModel.page = page;
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
-    .subscribe((data: PrintingEditionModel) => {
+    .subscribe((data) => {
       this.printingEditionModel = data;
     });
   }
   pageEvent(event: PageEvent) {
+    console.log(event);
     let page = event.pageIndex + 1;
 
     if (event.pageSize !== this.filterModel.pageSize) {
@@ -104,13 +102,11 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
       verticalPosition: 'top'
     });
   }
-  close() {
-    this.descriptionBar.dismiss();
-  }
-  openCreateDialog(dialogTilte = 'Create new') {
+
+  openCreateDialog() {
     let dialog = this.dialog.open(PrintingEditionEditDialogComponent, {
       data: {
-        dialogTitle: dialogTilte
+        dialogTitle: 'Create new product'
       }
     });
     dialog.afterClosed().subscribe((result) => {
@@ -121,10 +117,11 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
       }
     });
   }
-  openEditDialog(element: PrintingEditionModelItem = null, dialogTilte = 'Change') {
+  
+  openEditDialog(element: PrintingEditionModelItem) {
     let dialog = this.dialog.open(PrintingEditionEditDialogComponent, {
       data: {
-        dialogTitle: dialogTilte,
+        dialogTitle: 'Change product',
         id: element.id,
         title: element.title,
         description: element.description,
@@ -142,7 +139,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
       }
     });
   }
-
   openRemoveDialog(element) {
     let dialog = this.dialog.open(RemoveDialogComponent, {
       data: {
@@ -160,7 +156,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
       }
     });
   }
-  ngOnDestroy(): void {
-
+  close() {
+    this.descriptionBar.dismiss();
   }
 }

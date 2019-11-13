@@ -4,5 +4,5 @@ export class UserModelItem {
     public lastName: string;
     public email: string;
     public userName: string;
-    public LockoutEnabled: boolean;
+    public isBlocked: boolean;
 }

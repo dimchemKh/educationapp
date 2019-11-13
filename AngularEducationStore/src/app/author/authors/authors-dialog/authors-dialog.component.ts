@@ -1,8 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AuthorsComponent } from '../authors.component';
-import { AuthorModelItem } from 'src/app/shared/models/authors/AuthorModelItem';
 
 
 @Component({
@@ -13,17 +12,16 @@ import { AuthorModelItem } from 'src/app/shared/models/authors/AuthorModelItem';
 export class AuthorsDialogComponent {
 
   isExistedId = false;
-  form: FormGroup;
+
+  authorName = new FormControl('', [Validators.required]);
 
   get isValidName(): boolean {
-    return this.form.valid;
+    return this.authorName.valid;
   }
 
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<AuthorsComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: AuthorModelItem) {
-    this.form = this.fb.group({
-      authorName: new FormControl('', [Validators.required])
-    });
+  constructor(public dialogRef: MatDialogRef<AuthorsComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+
   }
 
   close() {

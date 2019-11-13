@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { OrderModel } from '../models/order/OrderModel';
 import { OrderItemModel } from '../models/order-item/OrderItemModel';
 import { DataService } from './data.service';
-import { OrderItemModelItem } from '../models/order-item/OrderItemModelItem';
 
 @Injectable({
   providedIn: 'root'

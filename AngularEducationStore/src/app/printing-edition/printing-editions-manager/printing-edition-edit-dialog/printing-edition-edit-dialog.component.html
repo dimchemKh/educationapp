@@ -32,7 +32,7 @@
         </mat-form-field>
         <label class="content-label">Authors</label>
         <mat-form-field [formGroup]="form">
-            <mat-select class="types-content" [(ngModel)]="authorsId" formControlName="authors" msInfiniteScroll (infiniteScroll)="getNextBatch()" [complete]="offset >= authorsModel.itemsCount" multiple>
+            <mat-select class="types-content" [(ngModel)]="authorsId" formControlName="authors" msInfiniteScroll (infiniteScroll)="getNextAuthors()" [complete]="offset > authorsModel.itemsCount" multiple>
                 <mat-option *ngFor="let item of authorsSubj$ | async" [value]="item.id">
                     {{item.name}}
                 </mat-option>

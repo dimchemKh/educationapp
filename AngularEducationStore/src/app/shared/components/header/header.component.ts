@@ -1,5 +1,5 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
-import { Subscription, Observable, from } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AccountService } from '../../services/account.service';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,6 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { RemoveDialogComponent } from '../remove-dialog/remove-dialog.component';
 import { MatDialog } from '@angular/material';
-import { RemoveModel } from '../../models/RemoveModel';
 import { DataService } from '../../services/data.service';
 import { CartItemsComponent } from 'src/app/cart/cart-items/cart-items.component';
 import { OrderService } from '../../services/order.service';
@@ -18,7 +17,7 @@ import { OrderService } from '../../services/order.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
   isAuth = false;
@@ -36,7 +35,7 @@ export class HeaderComponent implements OnInit {
   }
 
   constructor(private authService: AccountService, private dialog: MatDialog,
-    private orderService: OrderService, private dataService: DataService) {
+              private orderService: OrderService, private dataService: DataService) {
   }
 
   ngOnInit() {
@@ -58,7 +57,7 @@ export class HeaderComponent implements OnInit {
 
       }
     });
-    dialog.afterClosed().subscribe((result) => {
+    dialog.afterClosed().subscribe(() => {
       
     });
   }

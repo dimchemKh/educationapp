@@ -11,7 +11,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog/user-edit-dialog.component';
-import { EventEmitter } from 'events';
+import { UserModelItem } from 'src/app/shared/models/user/UserModelItem';
 
 @Component({
   selector: 'app-users-all',
@@ -76,8 +76,12 @@ export class UsersAllComponent implements OnInit {
       this.submit();
     }
   }
+  blockUser(user: UserModelItem) {
+    this.userService.blockUser(user).subscribe(() => {
+
+    });
+  }
   changeBlockedUsers(event: MatSelectChange) {
-    console.log(event);
     if (this.selectedBlockTypes.length === 1) {
       this.isRequire = event.value[0];
     }

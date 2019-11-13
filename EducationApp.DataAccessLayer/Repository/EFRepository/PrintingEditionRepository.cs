@@ -27,7 +27,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var queryPrintingEditions = _context.PrintingEditions
                 .Where(x => x.IsRemoved == false)
                 .Include(x => x.AuthorInPrintingEditions)
-                .ThenInclude(x => x.Author);
+                .ThenInclude(x => x.Author)
+                .Where(x => x.AuthorInPrintingEditions.Select(z => z.IsRemoved == false).FirstOrDefault());
 
             IQueryable<PrintingEdition> printingEditions = null;
 
@@ -41,22 +42,14 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 printingEditions = printingEditions.Where(x => x.Title.ToLower().StartsWith(filter.SearchString.ToLower()));
             }
 
+            Expression<Func<PrintingEdition, object>> predicate = x => x.Id;
+
             if (!isAdmin)
             {
                 printingEditions = printingEditions.Where(x => x.Price >= filter.PriceMinValue && x.Price <= filter.PriceMaxValue);
+                predicate = x => x.Price;
             }
 
-            Expression<Func<PrintingEdition, object>> predicate = x => x.Price;
-
-            if(isAdmin)
-            {
-                predicate = x => x.Id;
-            }
-
-            if (filter.SortType.Equals(Enums.SortType.Id))
-            {
-                predicate = x => x.Id;
-            }
             if (filter.SortType.Equals(Enums.SortType.Title))
             {
                 predicate = x => x.Title;
@@ -88,7 +81,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     }).ToArray()
             });
 
-            responseModel.Collection.AddRange(result);
+            responseModel.Collection = result;
 
             return responseModel;
         }

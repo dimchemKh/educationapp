@@ -1,13 +1,12 @@
-<h1 mat-dialog-title>Change Author</h1>
+<h1 mat-dialog-title>{{data.dialogTitle}} {{data.name}}</h1>
 <div mat-dialog-content class="container">
-    <!-- <fa-icon class="content-icon" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon> -->
 
-    <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
+    <mat-form-field class="content-input" appearance="outline">
         <mat-label>
             Author name: 
         </mat-label>
-        <input matInput formControlName="authorName" [(ngModel)]="data.name" autocomplete="off" required/>
-        <mat-error align="end" *ngIf="!form.valid">{{form.hasError('required') ? '' : 'Empty name'}}</mat-error>
+        <input matInput [formControl]="authorName" [(ngModel)]="data.name" autocomplete="off" required/>
+        <mat-error align="end" *ngIf="!authorName.valid">{{authorName.hasError('required') ? '' : 'Empty name'}}</mat-error>
     </mat-form-field>
 
     <div class="container-btn">

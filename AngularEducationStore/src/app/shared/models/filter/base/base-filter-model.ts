@@ -2,7 +2,7 @@
 
 export class BaseFilterModel {
     searchString?: string;
-    sortState = 1;
+    sortState = 0;
     sortType?: number;
     pageSize: number;
     page = 1;

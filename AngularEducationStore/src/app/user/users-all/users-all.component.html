@@ -9,7 +9,7 @@
 
 
   <table mat-table [dataSource]="userModel.items" matSort matSortActive="userName" matSortDisableClear
-    matSortDirection="asc" (matSortChange)="sortData($event)">
+    matSortDirection="desc" (matSortChange)="sortData($event)">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> User name </th>
@@ -29,7 +29,7 @@
       </th>
       <td mat-cell *matCellDef="let element" class="column-slider">
         <section class="slider">
-          <mat-slide-toggle [checked]="element.isBlocked"></mat-slide-toggle>
+          <mat-slide-toggle [checked]="element.isBlocked" (click)="blockUser(element)"></mat-slide-toggle>
         </section>
       </td>
     </ng-container>

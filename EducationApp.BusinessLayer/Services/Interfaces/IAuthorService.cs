@@ -10,10 +10,10 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IAuthorService
     {
-        Task<AuthorModel> GetAuthorsInPrintingEditionsAsync(FilterAuthorModel authorFilterModel);
+        Task<AuthorModel> GetAllAuthorsAsync(FilterAuthorModel authorFilterModel);
         Task<AuthorModel> CreateAuthorAsync(AuthorModelItem authorModelItem);
         Task<AuthorModel> DeleteAuthorAsync(long authorId);
         Task<AuthorModel> UpdateAuthorAsync(AuthorModelItem authorModel);
-        Task<AuthorModel> GetAllAuthorsAsync(FilterAuthorModel filterModel);
+        Task<AuthorModel> GetAuthorsLazyLoadAsync(FilterAuthorModel filterModel);
     }
 }

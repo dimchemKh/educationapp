@@ -6,40 +6,56 @@
     <div class="table-container" *ngIf="!isEmptyCart">
         <table mat-table [dataSource]="orders.items">
             <ng-container matColumnDef="product">
-                <th class="column-product" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Product </th>
+                <th class="column-product" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Product </th>
                 <td class="column-product" mat-cell *matCellDef="let element"> {{element.title}} </td>
             </ng-container>
 
             <ng-container matColumnDef="price">
-                <th class="column-price" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Unit price </th>
-                <td class="column-price" mat-cell *matCellDef="let element"> {{element.price}} </td>
+                <th class="column-price" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Unit price
+                </th>
+                <td class="column-price" mat-cell *matCellDef="let element">
+                    {{currencyTypes[element.currency - 1].symbol}} {{element.price | number:'1.1-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="qty">
-                <th class="column-qty" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Qty </th>
+                <th class="column-qty" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Qty </th>
                 <td class="column-qty" mat-cell *matCellDef="let element">
-                    <mat-form-field class="column-qty" >
-                        <mat-select class="column-qty" [(value)]="element.count">
-                            <mat-option *ngFor="let item of quantities" [value]="item">{{item}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+
+                    <mat-select class="column-qty" [(value)]="element.count">
+                        <mat-option *ngFor="let item of quantities" [value]="item">{{item}}</mat-option>
+                    </mat-select>
+
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="amount">
-                <th class="column-amount" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Amount </th>
-                <td class="column-amount" mat-cell *matCellDef="let element"> {{element.count * element.price}} </td>
+                <th class="column-amount" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Order amount
+                </th>
+                <td class="column-amount" mat-cell *matCellDef="let element">
+                    {{currencyTypes[element.currency - 1].symbol}} {{element.count * element.price | number:'1.1-2'}}
+                </td>
             </ng-container>
 
             <ng-container matColumnDef=" ">
-                <th class="column-btn" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> </th>
+                <th class="column-btn" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> </th>
                 <td class="column-btn" mat-cell *matCellDef="let element">
-                    <button (click)="removeOrderItem(element.printingEditionId)">-</button>
+                    <button mat-stroked-button color="primary" class="remove-btn" (click)="removeOrderItem(element.printingEditionId)">-</button>
                 </td>
             </ng-container>
-            
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns" sticky></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        <div class="total-price">
+            <h4 class="total-price-title">TOTAL PRICE: <span class="total-price-result"> {{getOrdersAmount() | number:'1.1-2'}} </span></h4>
+        </div>
+        <div class="btn-group">
+            <button class="left-btn" mat-raised-button color="accent" (click)="close()">
+                Cancel
+            </button>
+            <button class="right-btn" mat-raised-button color="accent" (click)="buy(orders)">
+                Buy now!
+            </button>
+        </div>
     </div>
 </div>

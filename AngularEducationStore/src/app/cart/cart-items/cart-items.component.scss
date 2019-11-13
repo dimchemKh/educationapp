@@ -16,15 +16,47 @@ table {
     width: 200px;
 }
 .column-price {
-    width: 150px;
+    width: 125px;
 }
 .column-qty {
+    font-weight: 500;
     width: 50px;
-    margin-right: 25px;
+    margin-right: 35px;
 }
 .column-amount {
     width: 150px;
+    padding-left: 20px;
+}
+.total-price {
+    float: right;
+    margin-right: 100px;
+}
+.total-price-title {
+    font-size: 16px;
+}
+.total-price-result {
+    color: green;
+    font-size: 16px;
 }
 .column-btn {
     width: 50px;
+}
+.btn-group {
+    display: inline-flex;
+    align-items: center; 
+    width: 100%;
+}
+.left-btn {
+    margin-right: 10px;
+    width: 50%;
+}
+.right-btn {
+    margin-left: 10px;
+    width: 50%;
+}
+.remove-btn {
+    font-size: 20px;
+    min-width: 15px;
+    min-height: 15px;
+    line-height: 25px;
 }

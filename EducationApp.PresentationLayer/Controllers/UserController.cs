@@ -52,10 +52,10 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [Authorize(Roles = Constants.Roles.Admin)]
-        [HttpPut("block")]
-        public async Task<IActionResult> BlockUserAsync([FromBody]UserModelItem userModelItem)
+        [HttpPost("block")]
+        public async Task<IActionResult> BlockUserAsync([FromBody]UserModelItem userModel)
         {
-            var result = await _userService.BlockUserAsync(userModelItem.Id, userModelItem.IsBlocked);
+            var result = await _userService.BlockUserAsync(userModel.Id, userModel.IsBlocked);
             return Ok(result);
         }
         [Authorize(Roles = Constants.Roles.Admin)]

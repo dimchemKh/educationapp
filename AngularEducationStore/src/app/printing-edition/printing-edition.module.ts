@@ -16,7 +16,6 @@ import {
   MatPaginatorModule,
   MatTableModule,
   MatSortModule,
-  MatTooltipModule,
   MatSnackBarModule,
   MatDialogModule
 } from '@angular/material';
