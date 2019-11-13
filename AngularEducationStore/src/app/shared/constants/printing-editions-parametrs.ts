@@ -11,8 +11,8 @@ Injectable();
 export class PrintingEditionsParametrs extends BaseParametrs {
     public readonly printingEditionTypes = [
         { name: PrintingEditionType[PrintingEditionType.Book], value: PrintingEditionType.Book, checked: true },
-        { name: PrintingEditionType[PrintingEditionType.Magazine], value: PrintingEditionType.Magazine, checked: false },
-        { name: PrintingEditionType[PrintingEditionType.Newspaper], value: PrintingEditionType.Newspaper, checked: false },
+        { name: PrintingEditionType[PrintingEditionType.Magazine], value: PrintingEditionType.Magazine, checked: true },
+        { name: PrintingEditionType[PrintingEditionType.Newspaper], value: PrintingEditionType.Newspaper, checked: true },
     ];
     public readonly currencyTypes = [
         { name: Currency[Currency.USD], value: Currency.USD, symbol: '$' },

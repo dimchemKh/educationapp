@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/account/account-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatCheckboxModule, MatFormFieldModule, MatButtonModule, MatChipsModule, MatIconModule, MatInputModule } from '@angular/material';
+import { MatCheckboxModule, MatFormFieldModule, MatButtonModule, MatChipsModule, MatIconModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ValidationPatterns } from '../shared/constants/validation-patterns';
 
@@ -30,7 +30,8 @@ import { ValidationPatterns } from '../shared/constants/validation-patterns';
     MatIconModule,
     MatInputModule,
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     ValidationPatterns

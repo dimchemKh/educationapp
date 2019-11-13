@@ -23,7 +23,7 @@
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef class="column-slider">
-        <mat-select class="user-block-select" (openedChange)="sortBlockedUsers($event)" [(ngModel)]="selectedBlockTypes" multiple>
+        <mat-select class="user-block-select" (openedChange)="sortBlockedUsers($event)" (selectionChange)="changeBlockedUsers($event)" [(ngModel)]="selectedBlockTypes" multiple>
           <mat-option *ngFor="let item of blockedTypes" [value]="item.value">{{item.name}}</mat-option>
         </mat-select>
       </th>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { OrderItemModel } from '../models/order-item/OrderItemModel';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +23,6 @@ export class DataService {
   }
   setLocalStorage(name: string, value: string) {
     return localStorage.setItem(name, value);
-  }
-  getCount() {
-    let countUsersInfo = 2;
-    if (localStorage.length - countUsersInfo > 0) {
-      return localStorage.length - countUsersInfo;
-    }
-    return localStorage.length - countUsersInfo;
   }
   deleteItemLocalStorage(name: string) {
     localStorage.removeItem(name);

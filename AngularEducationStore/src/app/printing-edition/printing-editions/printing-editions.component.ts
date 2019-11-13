@@ -88,7 +88,11 @@ export class PrintingEditionsComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.filterModel.printingEditionTypes = [PrintingEditionType.Book];
+    this.filterModel.printingEditionTypes = [
+      PrintingEditionType.Book,
+      PrintingEditionType.Magazine,
+      PrintingEditionType.Newspaper
+    ];
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;

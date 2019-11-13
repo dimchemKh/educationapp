@@ -46,8 +46,17 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 printingEditions = printingEditions.Where(x => x.Price >= filter.PriceMinValue && x.Price <= filter.PriceMaxValue);
             }
 
-            Expression<Func<PrintingEdition, object>> predicate = x => x.Id;
+            Expression<Func<PrintingEdition, object>> predicate = x => x.Price;
 
+            if(isAdmin)
+            {
+                predicate = x => x.Id;
+            }
+
+            if (filter.SortType.Equals(Enums.SortType.Id))
+            {
+                predicate = x => x.Id;
+            }
             if (filter.SortType.Equals(Enums.SortType.Title))
             {
                 predicate = x => x.Title;

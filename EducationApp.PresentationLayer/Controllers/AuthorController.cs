@@ -1,12 +1,10 @@
 ﻿using EducationApp.BusinessLayer.Models.Authors;
 using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.Filters.Base;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace EducationApp.PresentationLayer.Controllers

@@ -5,8 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
-import { DataService } from 'src/app/shared/services/data.service';
 import { OrderItemModelItem } from 'src/app/shared/models/order-item/OrderItemModelItem';
+import { OrderItemModel } from 'src/app/shared/models/order-item/OrderItemModel';
+import { OrderService } from 'src/app/shared/services/order.service';
 
 @Component({
   selector: 'app-printing-edition-details',
@@ -15,26 +16,28 @@ import { OrderItemModelItem } from 'src/app/shared/models/order-item/OrderItemMo
 })
 export class PrintingEditionDetailsComponent implements OnInit {
 
+  orders = new OrderItemModel();
   printingEdition = new PrintingEditionModelItem();
   printingEditionIcon = faBook;
   cartIcon = faShoppingCart;
 
   currencyTypes = this.prinringEditionParametrs.currencyTypes;
 
-  error = false;
+  isPurchase = false;
+
   quantity = 1;
   currency = 1;
   quantities = Array<number>();
 
   constructor(private route: ActivatedRoute, private printingEditionService: PrintingEditionService,
-              private prinringEditionParametrs: PrintingEditionsParametrs, private dataService: DataService) {
+    private prinringEditionParametrs: PrintingEditionsParametrs, private orderService: OrderService) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }
-   }
+
+  }
 
   ngOnInit() {
-
     let data = history.state.data;
     data === undefined ? this.getDetails() : this.getDetails(data._currency);
   }
@@ -49,25 +52,29 @@ export class PrintingEditionDetailsComponent implements OnInit {
     });
   }
   addPurchase(printingEdition: PrintingEditionModelItem) {
-    let localPrintingEdition =  {
-      printingEditionId: printingEdition.id,
-      title: printingEdition.title,
-      count: this.quantity,
-      price: printingEdition.price,
-      currency: this.currency
-    };
-    let count = this.dataService.getCount();
-    let orderItem: OrderItemModelItem;
 
-    if (count === 0) {
-      this.dataService.setLocalStorage('cartItem' + count, JSON.stringify(localPrintingEdition));
+    let orders = this.orderService.getAllPurchases();
+    if (orders && this.orderService.checkTheSame(orders, printingEdition.id)) {
+      this.isPurchase = true;
+      return;
     }
-    if (count > 0) {
-      let id = count - 1;
-      orderItem = JSON.parse(this.dataService.getLocalStorage('cartItem' + id));
-      orderItem.printingEditionId === printingEdition.id
-      ? this.error = true
-      : this.dataService.setLocalStorage('cartItem' + count, JSON.stringify(localPrintingEdition));
+    let localPrintingEdition = new OrderItemModelItem();
+
+    localPrintingEdition.printingEditionId = printingEdition.id;
+    localPrintingEdition.title = printingEdition.title;
+    localPrintingEdition.price = printingEdition.price;
+    localPrintingEdition.count = this.quantity;
+    localPrintingEdition.currency = this.currency;
+
+    if (!orders) {
+      this.orders.items.push(localPrintingEdition);
+      this.orderService.addOrder(this.orders);
+      this.isPurchase = true;
+      return;
     }
+
+    orders.items.push(localPrintingEdition);
+    this.orderService.addOrder(orders);
+    this.isPurchase = true;
   }
 }

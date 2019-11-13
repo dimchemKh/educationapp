@@ -66,13 +66,20 @@
             {{error}}
         </mat-chip>
     </mat-chip-list>
-    <button mat-raised-button color="accent" (click)="submit(userModel)">Sign Up your account!</button>
-
+    <div class="register-row">
+        <button class="register-btn" mat-raised-button color="accent" (click)="submit(userModel)" [disabled]="isLoading">
+            Sign Up your account!
+        </button>
+        <mat-spinner class="register-spinner" *ngIf="isLoading" [diameter]="diameter"></mat-spinner>
+    </div>
     <div class="existed-label">
-        <label>Already have an account?</label>
-
-        <button class="registr-btn" mat-raised-button color="accent" [routerLink]="['/account/signIn']"
-            routerLinkActive="router-link-active">Sign In</button>
+        <label>
+            Already have an account?
+        </label>
+        <button mat-raised-button color="accent" [routerLink]="['/account/signIn']"
+            routerLinkActive="router-link-active" [disabled]="isLoading">
+            Sign In
+        </button>
     </div>
 </div>
 <div class="container" *ngIf="isSuccessSignUp">

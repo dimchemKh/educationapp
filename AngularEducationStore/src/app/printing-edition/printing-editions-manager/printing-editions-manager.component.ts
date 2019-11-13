@@ -7,7 +7,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
 import { PrintingEditionType } from 'src/app/shared/enums/printing-edition-type';
-import { MatSort, PageEvent, MatDialog, MatSnackBar } from '@angular/material';
+import { MatSort, PageEvent, MatDialog, MatSnackBar, MatSelectChange } from '@angular/material';
 import { PrintingEditionEditDialogComponent } from './printing-edition-edit-dialog/printing-edition-edit-dialog.component';
 import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
@@ -38,7 +38,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   printingEditionTypes = this.printingEditionParams.printingEditionTypes;
 
   page = 1;
-
+  isRequire: number;
 
   printingEditionModel = new PrintingEditionModel();
 
@@ -86,6 +86,15 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   closedTypeSelect(event: boolean) {
     if (!event) {
       this.submit();
+    }
+  }
+  changeTypeSelect(event: MatSelectChange) {
+    if (event.value.length === 1) {
+      this.isRequire = event.value[0];
+    }
+    if(event.value.length === 0) {
+      event.source.value = [this.isRequire];
+      this.filterModel.printingEditionTypes = [this.isRequire];
     }
   }
   openDescription(dataDescription: string) {

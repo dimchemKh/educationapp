@@ -18,6 +18,8 @@ export class SignUpComponent implements OnInit {
   title = 'Create Account';
   userIcon = faUser;
 
+  diameter = 25;
+  isLoading = false;
   hidePassword = true;
   hideConfirmPassword = true;
   checked = false;
@@ -45,6 +47,7 @@ export class SignUpComponent implements OnInit {
 
   submit(userModel: UserRegistrationModel) {
     if (!this.firstName.invalid && !this.lastName.invalid && !this.email.invalid && this.confirmPassword.value === this.password.value) {
+      this.isLoading = true;
       this.accountService.signUpUser(userModel).subscribe(
         (data: BaseModel) => {
           this.baseModel = data;
@@ -57,5 +60,6 @@ export class SignUpComponent implements OnInit {
       this.dataService.setLocalStorage('confirmUserName', this.firstName.value + ' ' + this.lastName.value);
       this.isSuccessSignUp = true;
     }
+    this.isLoading = false;
   }
 }

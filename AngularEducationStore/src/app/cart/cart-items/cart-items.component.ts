@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrderItemModel } from 'src/app/shared/models/order-item/OrderItemModel';
 import { DataService } from 'src/app/shared/services/data.service';
 import { OrderItemModelItem } from 'src/app/shared/models/order-item/OrderItemModelItem';
+import { OrderService } from 'src/app/shared/services/order.service';
 
 @Component({
   selector: 'app-cart-items',
@@ -14,28 +15,31 @@ export class CartItemsComponent implements OnInit {
   quantities = Array<number>();
   quantity: number;
   
-  ordersModel = new OrderItemModel();
+  orders = new OrderItemModel();
   displayedColumns = ['product', 'price', 'qty', 'amount', ' '];
+  i:number;
   
-  constructor(private dataService: DataService) {
+  constructor(private orderService: OrderService) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }
    }
 
   ngOnInit() {
-    let count = this.dataService.getCount();
-    if (count <= 0) {
-      this.isEmptyCart = true;
-      return
-    }
-    for (let i = 0; i < count; i++) {
-      let orderItem: OrderItemModelItem = JSON.parse(this.dataService.getLocalStorage('cartItem' + i));
-      this.ordersModel.items.push(orderItem);
-    }
-    console.log(this.ordersModel);
+    this.getOrders();
   }
-  removeOrderItem(element) {
-    console.log(element);
+
+  getOrders() {
+    let orders = this.orderService.getAllPurchases();
+    if (!orders || orders.items.length === 0) {
+      // debugger
+      this.isEmptyCart = true;
+      return;
+    }
+    this.orders = orders;
+  }
+  removeOrderItem(printingEditionId: number) {
+    this.orderService.removeOrderItem(printingEditionId);
+    this.getOrders();
   }
 }

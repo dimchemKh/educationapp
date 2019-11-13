@@ -10,6 +10,7 @@ using System.Linq;
 using EducationApp.BusinessLayer.Common.Constants;
 using Microsoft.AspNetCore.Http;
 using System;
+using EducationApp.BusinessLayer.Models.Auth;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
@@ -51,15 +52,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             var result = _jwtHelper.Generate(userInfoModel, _configOptions);
 
-            Response.Cookies.Append(_configOptions.Value.AccessName, result.AccessToken, new CookieOptions()
-            {
-                Expires = DateTime.Now.Add(_configOptions.Value.AccessTokenExpiration)
-            });
-
-            Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
-            {
-                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
-            });
+            GenerateCookie(result);
 
             return Ok();
         }
@@ -104,15 +97,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             var result = _jwtHelper.Generate(userInfoModel, _configOptions);
 
-            Response.Cookies.Append(_configOptions.Value.AccessName, result.AccessToken, new CookieOptions()
-            {
-                Expires = DateTime.Now.Add(_configOptions.Value.AccessTokenExpiration)
-            });
-
-            Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
-            {
-                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
-            });
+            GenerateCookie(result);
 
             return Ok(userInfoModel);
         }         
@@ -130,6 +115,18 @@ namespace EducationApp.PresentationLayer.Controllers
             }
 
             return Redirect(url);
+        }        
+        private void GenerateCookie(AuthModel result)
+        {
+            Response.Cookies.Append(_configOptions.Value.AccessName, result.AccessToken, new CookieOptions()
+            {
+                Expires = DateTime.Now.Add(_configOptions.Value.AccessTokenExpiration)
+            });
+
+            Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
+            {
+                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
+            });
         }
     }
 }

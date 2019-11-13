@@ -4,7 +4,7 @@
         <h4>Cart is empty!</h4>
     </div>
     <div class="table-container" *ngIf="!isEmptyCart">
-        <table mat-table [dataSource]="ordersModel.items">
+        <table mat-table [dataSource]="orders.items">
             <ng-container matColumnDef="product">
                 <th class="column-product" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Product </th>
                 <td class="column-product" mat-cell *matCellDef="let element"> {{element.title}} </td>
@@ -34,10 +34,10 @@
             <ng-container matColumnDef=" ">
                 <th class="column-btn" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> </th>
                 <td class="column-btn" mat-cell *matCellDef="let element">
-                    <button (click)="removeOrderItem(element)">-</button>
+                    <button (click)="removeOrderItem(element.printingEditionId)">-</button>
                 </td>
             </ng-container>
-
+            
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

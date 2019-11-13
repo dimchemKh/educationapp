@@ -1,4 +1,5 @@
 export class OrderItemModelItem {
+     public id: number;
      public printingEditionId: number;
      public title: string;
      public count: number;

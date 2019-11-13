@@ -3,9 +3,6 @@
     margin-left: 5%;
     font-weight: 500;
 }
-.wrapper {
-
-}
 .content-row {
     margin-top: 3%;
     margin-left: 150px;
@@ -50,4 +47,7 @@
 }
 .content-description {
     margin: 50px 200px;
+}
+.mat-raised-button.mat-accent[disabled] {
+    background-color: #ffd740;
 }

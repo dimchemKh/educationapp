@@ -46,7 +46,7 @@
                 </label>
             </div>
 
-            <button class="cart-btn" mat-raised-button color="accent" (click)="addPurchase(printingEdition)">
+            <button class="cart-btn" mat-raised-button color="accent" (click)="addPurchase(printingEdition)" [disabled]="isPurchase">
                 <fa-icon class="menu-icon" size="lg" [icon]="cartIcon" [fixedWidth]="true"
                     transform="shrink-1 down-2 left-1"></fa-icon>
                 Add to cart
@@ -55,10 +55,6 @@
         
     </div>
 </div>
-
-<div class="error-message" *ngIf="error">
-        You have already added this product
-    </div>
 <p class="content-description">
     {{printingEdition.description}}
 </p>

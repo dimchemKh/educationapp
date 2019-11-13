@@ -23,8 +23,8 @@ import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
 import { OrderModule } from 'src/app/order/order.module';
-import { OrderParametrs } from './shared/constants/order-parametrs';
-import { CartModule } from './cart/cart.module';
+import { OrderParametrs } from 'src/app/shared/constants/order-parametrs';
+import { CartModule } from 'src/app/cart/cart.module';
 
 @NgModule({
   declarations: [

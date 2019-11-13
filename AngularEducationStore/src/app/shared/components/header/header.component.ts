@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { RemoveModel } from '../../models/RemoveModel';
 import { DataService } from '../../services/data.service';
 import { CartItemsComponent } from 'src/app/cart/cart-items/cart-items.component';
+import { OrderService } from '../../services/order.service';
 
 
 @Component({
@@ -28,13 +29,14 @@ export class HeaderComponent implements OnInit {
   faShoppingCart = faShoppingCart;
 
   get userName(): string {
-    return localStorage.getItem('userName');
+    return this.dataService.getLocalStorage('userName')
   }
   get userRole(): string {
-    return localStorage.getItem('userRole');
+    return this.dataService.getLocalStorage('userRole')
   }
 
-  constructor(private authService: AccountService, private dialog: MatDialog, private dataService: DataService) {
+  constructor(private authService: AccountService, private dialog: MatDialog,
+    private orderService: OrderService, private dataService: DataService) {
   }
 
   ngOnInit() {
@@ -44,20 +46,19 @@ export class HeaderComponent implements OnInit {
 
   }
   getCountPurchase() {
-    let count = this.dataService.getCount();
-    if (count > 0) {
-      return count;
+    let orders = this.orderService.getAllPurchases();
+    if (!orders || orders.items.length === 0) {
+      return null;
     }
+    return orders.items.length;
   }
   openCart() {
-    if (this.dataService.getCount() < 0) {
-      let dialog = this.dialog.open(CartItemsComponent, {
-        data: {
-          message: 'Cart is emptry'
-        }
-      });
-    }
     let dialog = this.dialog.open(CartItemsComponent, {
+      data: {
+
+      }
+    });
+    dialog.afterClosed().subscribe((result) => {
       
     });
   }

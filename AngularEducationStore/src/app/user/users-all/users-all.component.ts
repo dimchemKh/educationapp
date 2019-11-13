@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSort, PageEvent, MatDialog } from '@angular/material';
+import { MatSort, PageEvent, MatDialog, MatSelectChange } from '@angular/material';
 
 import { UserService } from 'src/app/shared/services/user.service';
 import { FilterUserModel } from 'src/app/shared/models/filter/filter-user-model';
@@ -11,6 +11,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog/user-edit-dialog.component';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-users-all',
@@ -30,7 +31,7 @@ export class UsersAllComponent implements OnInit {
   editIcon = faHighlighter;
   closeIcon = faTimes;
   isLoading = true;
-
+  isRequire: number;
 
   sortStates = this.userParametrs.sortStates;
   sortTypes = this.userParametrs.sortTypes;
@@ -73,6 +74,16 @@ export class UsersAllComponent implements OnInit {
   sortBlockedUsers(event: boolean) {
     if (!event) {
       this.submit();
+    }
+  }
+  changeBlockedUsers(event: MatSelectChange) {
+    console.log(event);
+    if (this.selectedBlockTypes.length === 1) {
+      this.isRequire = event.value[0];
+    }
+    if (this.selectedBlockTypes.length === 0) {
+      event.source.value = [this.isRequire];
+      this.selectedBlockTypes = [this.isRequire];
     }
   }
   pageEvent(event: PageEvent) {

@@ -36,10 +36,27 @@
 .mat-chip-list {
     margin-bottom: 15px;
 }
+.mat-raised-button.mat-accent[disabled] {
+    background-color: #ffd740;
+}
 .errors > span {
     color: red;
     font-size: 12px;
 }
+.register-row {
+    width: 30%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.register-btn {
+    margin-left: 25%;
+    width: 50%;
+}
+.register-spinner {
+    margin-left: 50px
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
