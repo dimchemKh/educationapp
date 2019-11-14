@@ -26,15 +26,15 @@ export class PrintingEditionDetailsComponent implements OnInit {
   isPurchase = false;
 
   quantity = 1;
-  currency = 1;
+  currency: number;
+
   quantities = Array<number>();
 
   constructor(private route: ActivatedRoute, private printingEditionService: PrintingEditionService,
-    private prinringEditionParametrs: PrintingEditionsParametrs, private orderService: OrderService) {
+              private prinringEditionParametrs: PrintingEditionsParametrs, private orderService: OrderService) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }
-
   }
 
   ngOnInit() {
@@ -47,6 +47,7 @@ export class PrintingEditionDetailsComponent implements OnInit {
   }
   getDetails(currency: number = 1) {
     let printingEditionId = +this.route.snapshot.paramMap.get('id');
+    this.currency = currency;
     this.printingEditionService.getPrintingEditionDetails(printingEditionId, currency).subscribe((data) => {
       this.printingEdition = data.items[0];
     });

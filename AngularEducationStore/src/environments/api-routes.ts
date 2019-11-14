@@ -3,9 +3,12 @@ import { Injectable } from '@angular/core';
 @Injectable()
 
 export class ApiRoutes {
-    public readonly accountRoute = 'http://localhost:52196/api/account/';
-    public readonly authorsRoute = 'http://localhost:52196/api/author/';
-    public readonly printingEditionRoute = 'http://localhost:52196/api/printingEdition/';
-    public readonly userRoute = 'http://localhost:52196/api/user/';
-    public readonly orderRoute = 'http://localhost:52196/api/order/';
+    private protocolHttp = 'http:/localhost:52196/';
+    private protocolHttps = 'https:/localhost:44326/';
+
+    public readonly accountRoute = this.protocolHttps + 'api/account/';
+    public readonly authorsRoute = this.protocolHttps + 'api/author/';
+    public readonly printingEditionRoute = this.protocolHttps + 'api/printingEdition/';
+    public readonly userRoute = this.protocolHttps + 'api/user/';
+    public readonly orderRoute = this.protocolHttps + 'api/order/';
 }

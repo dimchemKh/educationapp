@@ -90,7 +90,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     if (event.value.length === 1) {
       this.isRequire = event.value[0];
     }
-    if(event.value.length === 0) {
+    if (event.value.length === 0) {
       event.source.value = [this.isRequire];
       this.filterModel.printingEditionTypes = [this.isRequire];
     }

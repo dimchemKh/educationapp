@@ -30,6 +30,7 @@
     "ng-mat-select-infinite-scroll": "^1.1.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-infinite-scroll": "^8.0.1",
+    "ngx-stripe": "^7.4.4",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "typescript-tslint-plugin": "^0.5.5",

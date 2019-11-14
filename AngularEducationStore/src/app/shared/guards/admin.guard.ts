@@ -10,7 +10,8 @@ export class AdminGuard implements CanActivate {
     constructor(private dataService: DataService, private router: Router) { }
 
     canActivate() {
-        if (this.dataService.getLocalStorage('userRole') === 'admin') {
+        let role = this.dataService.getLocalStorage('userRole');
+        if (role === 'admin') {
             return true;
         }
         this.router.navigate(['/']);

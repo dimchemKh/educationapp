@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -24,7 +23,6 @@ import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns
 import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
 import { OrderModule } from 'src/app/order/order.module';
 import { OrderParametrs } from 'src/app/shared/constants/order-parametrs';
-import { CartModule } from 'src/app/cart/cart.module';
 import { NotFoundModule } from './not-found/not-found.module';
 
 @NgModule({
@@ -44,7 +42,6 @@ import { NotFoundModule } from './not-found/not-found.module';
     HttpClientModule,
     UserModule,
     OrderModule,
-    CartModule,
     NotFoundModule
   ],
   providers: [
