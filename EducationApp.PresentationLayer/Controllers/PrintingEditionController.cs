@@ -22,6 +22,7 @@ namespace EducationApp.PresentationLayer.Controllers
         {
             _printingEditionService = printingEditionService;
         }
+
         [AllowAnonymous]
         [HttpPost("get")]
         public async Task<IActionResult> GetPrintingEditionsAsync(string role, [FromBody]FilterPrintingEditionModel filterModel)

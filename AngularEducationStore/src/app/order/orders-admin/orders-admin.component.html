@@ -13,36 +13,51 @@
     <table mat-table [dataSource]="orderModel.items" matSort matSortActive="id" matSortDisableClear
         matSortDirection="asc" (matSortChange)="sortData($event)">
         <ng-container matColumnDef="id">
-            <th class="column-id" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Id </th>
+            <th class="column-id" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Order </th>
             <td class="column-id" mat-cell *matCellDef="let element"> {{element.id}} </td>
         </ng-container>
-        <ng-container matColumnDef="data">
+        <ng-container matColumnDef="date">
             <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Date </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.date}} </td>
         </ng-container>
         <ng-container matColumnDef="userName">
-            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> User name </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <th class="column-name" mat-header-cell *matHeaderCellDef > User name </th>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.userName}} </td>
         </ng-container>
         <ng-container matColumnDef="userEmail">
-            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> User Email </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <th class="column-name" mat-header-cell *matHeaderCellDef > User Email </th>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.email}} </td>
         </ng-container>
         <ng-container matColumnDef="printingEditionType">
-            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Product </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <th class="column-name" mat-header-cell *matHeaderCellDef > Product </th>
+            <td class="column-name" mat-cell *matCellDef="let element">
+                <div *ngFor="let orderItem of element.orderItems">
+                    {{printingEditionTypes[orderItem.printingEditionType - 1].name}}
+                </div>
+            </td>
         </ng-container>
         <ng-container matColumnDef="quantity">
-            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Qty </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <th class="column-name" mat-header-cell *matHeaderCellDef > Qty </th>
+            <td class="column-name" mat-cell *matCellDef="let element">
+                <div *ngFor="let orderItem of element.orderItems">
+                    {{orderItem.count}}
+                </div>
+            </td>
         </ng-container>
         <ng-container matColumnDef="amount">
             <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Order amount </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.amount}} </td>
         </ng-container>
         <ng-container matColumnDef="transactionStatus">
-            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Status </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <th class="column-name" mat-header-cell *matHeaderCellDef>
+                <mat-select class="select-types" [(ngModel)]="transactionStatus" (closed)="changeTypeSelect($event)" multiple>
+                    <mat-option *ngFor="let item of transactionStatuses" [value]="item.value">{{item.name}}
+                    </mat-option>
+                </mat-select>
+            </th>
+            <td class="column-name" mat-cell *matCellDef="let element">
+                {{transactionStatuses[element.transactionStatus - 1].name}}
+            </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

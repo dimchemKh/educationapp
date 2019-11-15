@@ -62,13 +62,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 predicate = x => x.Amount;
             }
-            if (filterOrder.SortType.Equals(Enums.SortType.PrintingEditionType))
+            if (filterOrder.SortType.Equals(Enums.SortType.Date))
             {
                 predicate = x => x.Date;
-            }
-            if (filterOrder.SortType.Equals(Enums.SortType.TransactionStatus))
-            {
-                predicate = x => x.TransactionStatus;
             }
 
             var responseModel = new GenericModel<OrderDataModel>()

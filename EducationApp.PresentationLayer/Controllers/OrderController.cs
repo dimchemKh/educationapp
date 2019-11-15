@@ -1,11 +1,12 @@
-﻿using EducationApp.BusinessLayer.Models.Filters;
+﻿using EducationApp.BusinessLayer.Models;
+using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
+using EducationApp.DataAccessLayer.Entities.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,6 +22,12 @@ namespace EducationApp.PresentationLayer.Controllers
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
+        }
+        [HttpPost("converting")]
+        public async Task<IActionResult> ConvertingPriceAsync([FromBody] ConverterModel converterModel)
+        {
+            var resultConverting = await _orderService.ConvertingPriceAsync(converterModel);
+            return Ok(resultConverting);
         }
         [HttpPost("get")]
         public async Task<IActionResult> GetOrdersAsync(string role, [FromBody]FilterOrderModel filterOrder)
@@ -56,10 +63,10 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }        
-        [HttpPost("update/{orderId}")]
-        public async Task<IActionResult> UdpdateOrderAsync(string orderId)
+        [HttpPost("update")]
+        public async Task<IActionResult> UdpdateOrderAsync(string orderId, string transactionId)
         {
-            var responseModel = await _orderService.CreateTransactionAsync(orderId, "2132333323232");
+            var responseModel = await _orderService.CreateTransactionAsync(orderId, transactionId);
 
             return Ok(responseModel);
         }

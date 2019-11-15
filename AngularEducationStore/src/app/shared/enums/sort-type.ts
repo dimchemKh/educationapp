@@ -4,5 +4,7 @@ export enum SortType {
     Name = 2,
     userEmail = 3,
     Price = 4,
-    Title = 7
+    Title = 7,
+    Amount = 9,
+    Date = 10
 }

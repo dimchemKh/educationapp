@@ -15,11 +15,11 @@ export class AppComponent implements OnInit {
   loadStripe() {
      
     if (!window.document.getElementById('stripe-script')) {
-      var s = window.document.createElement("script");
-      s.id = "stripe-script";
-      s.type = "text/javascript";
-      s.src = "https://checkout.stripe.com/checkout.js";
-      window.document.body.appendChild(s);
+      let stripe = window.document.createElement('script');
+      stripe.id = 'stripe-script';
+      stripe.type = 'text/javascript';
+      stripe.src = 'https://checkout.stripe.com/checkout.js';
+      window.document.body.appendChild(stripe);
     }
 }
 }

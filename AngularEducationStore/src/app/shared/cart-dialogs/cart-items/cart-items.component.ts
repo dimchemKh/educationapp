@@ -7,6 +7,12 @@ import { PrintingEditionsComponent } from 'src/app/printing-edition/printing-edi
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { PaymentService } from '../../services/payment.service';
 import { CartTransactionComponent } from '../cart-transaction/cart-transaction.component';
+import { Currency } from '../../enums/currency';
+import { ConverterModel } from '../../models/ConverterModel';
+import { PrintingEditionDetailsComponent } from 'src/app/printing-edition/printing-edition-details/printing-edition-details.component';
+import { CartService } from '../../services/cart.service';
+import { DataService } from '../../services/data.service';
+import { OrderModelItem } from '../../models/order/OrderModelItem';
 
 @Component({
   selector: 'app-cart-items',
@@ -19,67 +25,81 @@ export class CartItemsComponent implements OnInit {
   quantities = Array<number>();
   quantity: number;
 
+  converterModel = new ConverterModel();
+
   currencyTypes = this.parametrs.currencyTypes;
-  orders = new OrderItemModel();
+  orders = new OrderModelItem();
+  // orderItemModel = new OrderModelItem();
 
   displayedColumns = ['product', 'price', 'qty', 'amount', ' '];
   invalidError: any;
 
-  constructor(private dialog: MatDialog,
-              public dialogRef: MatDialogRef<PrintingEditionsComponent>, private orderService: OrderService,
-              private parametrs: PrintingEditionsParametrs, private paymentService: PaymentService) {
+  constructor(public dialogRef: MatDialogRef<PrintingEditionDetailsComponent>, private cartService: CartService,
+              private parametrs: PrintingEditionsParametrs, private orderService: OrderService, private dataService: DataService) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }
+    this.converterModel.currencyTo = Currency.USD;
+    this.converterModel.currencyFrom = Currency.USD;
   }
 
   ngOnInit() {
     this.getOrders();
+    this.getOrdersAmount();
   }
-  buy(orders: OrderItemModel) {
-    this.dialogRef.close();
-    this.dialog.open(CartTransactionComponent, {
-      data: { orders }
+  convertAmount() {
+    this.cartService.convertToCart(this.converterModel).then((x) => {
+      this.converterModel.price = x;
     });
+    this.converterModel.currencyFrom = this.converterModel.currencyTo;
+    return this.converterModel.price;
   }
-  pay(amount = 10) {    
- 
-    var handler = (<any>window).StripeCheckout.configure({
-      key: 'pk_test_tlcMD8vu8ttNtVSH6RF3OAkp004sTIYGEr',
-      locale: 'auto',
-      token: function (token: any) {
-        // You can access the token ID with `token.id`.
-        // Get the token ID to your server-side code for use.
-        console.log(token)
-        alert('Token Created!!');
+  pay(orders: OrderModelItem) {
+    this.dialogRef.close();
+    
+    this.orderService.createOrder(this.dataService.getLocalStorage('userRole'), orders).subscribe((data) => {
+      if (data.errors.length <= 0) {
+        this.dataService.deleteItemLocalStorage('cartItems');
+        this.cartService.cartSource.next([]);
       }
     });
- 
+
+    // this.orderItemModel.orderItems.push()
+    let handler = (window as any).StripeCheckout.configure({
+      key: 'pk_test_tlcMD8vu8ttNtVSH6RF3OAkp004sTIYGEr',
+      locale: 'auto',
+      token: (token: any) => {
+        // orders.
+      }
+    });
+
     handler.open({
-      name: 'Demo Site',
-      description: '2 widgets',
-      amount: amount * 100
+      name: 'Localhost',
+      description: 'Payment description',
+      order: orders
     });
- 
-}
+
+  }
   getOrdersAmount() {
-    let amount = 0;
-    this.orders.items.forEach((x: OrderItemModelItem) => {
-      amount += (x.count * x.price);
+    this.converterModel.price = 0;
+    this.orders.orderItems.forEach((x) => {
+      this.converterModel.price += (x.count * x.price);
     });
-    return amount;
+
+    return this.converterModel.price;
   }
   getOrders() {
-    let orders = this.orderService.getAllPurchases();
-    if (!orders || orders.items.length === 0) {
+    let orders = this.cartService.getAllPurchases();
+    if (!orders || orders.orderItems.length === 0) {
       this.isEmptyCart = true;
       return;
     }
     this.orders = orders;
   }
   removeOrderItem(printingEditionId: number) {
-    this.orderService.removeOrderItem(printingEditionId);
+    this.cartService.removeOrderItem(printingEditionId);
     this.getOrders();
+    this.getOrdersAmount();
   }
   close() {
     this.dialogRef.close();

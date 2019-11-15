@@ -72,7 +72,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     });
   }
   pageEvent(event: PageEvent) {
-    console.log(event);
     let page = event.pageIndex + 1;
 
     if (event.pageSize !== this.filterModel.pageSize) {

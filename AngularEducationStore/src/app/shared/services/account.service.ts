@@ -8,6 +8,7 @@ import { UserRegistrationModel } from 'src/app/shared/models/user/UserRegistrati
 import { BaseModel } from 'src/app/shared/models/base/BaseModel';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { DataService } from 'src/app/shared/services/data.service';
+import { CartService } from './cart.service';
 
 
 @Injectable({
@@ -15,7 +16,8 @@ import { DataService } from 'src/app/shared/services/data.service';
 })
 export class AccountService {
 
-  constructor(private dataService: DataService, private router: Router, private http: HttpClient, private apiRoutes: ApiRoutes) {
+  constructor(private dataService: DataService, private router: Router, private http: HttpClient, private apiRoutes: ApiRoutes,
+              private cartService: CartService) {
     this.authNavStatusSource.next(this.isAuth());
   }
 
@@ -61,6 +63,7 @@ export class AccountService {
     this.dataService.clearLocalStorage();
     this.dataService.deleteAllCookie('/');
     this.authNavStatusSource.next(false);
+    this.cartService.cartSource.next(null);
     this.router.navigate(['/account/signIn']);
   }
 }

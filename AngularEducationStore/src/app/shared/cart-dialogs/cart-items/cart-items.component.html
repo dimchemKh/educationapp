@@ -4,7 +4,7 @@
         <h4>Cart is empty!</h4>
     </div>
     <div class="table-container" *ngIf="!isEmptyCart">
-        <table mat-table [dataSource]="orders.items">
+        <table mat-table [dataSource]="orders.orderItems">
             <ng-container matColumnDef="product">
                 <th class="column-product" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky>
                     Product </th>
@@ -22,7 +22,7 @@
             <ng-container matColumnDef="qty">
                 <th class="column-qty" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Qty </th>
                 <td class="column-qty" mat-cell *matCellDef="let element">
-                    <mat-select class="column-qty" [(value)]="element.count">
+                    <mat-select class="column-qty" (closed)="getOrdersAmount()" [(value)]="element.count">
                         <mat-option *ngFor="let item of quantities" [value]="item">{{item}}</mat-option>
                     </mat-select>
                 </td>
@@ -48,16 +48,21 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns" sticky></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
         <div class="total-price">
-            <h4 class="total-price-title">TOTAL PRICE: <span class="total-price-result">
-                    {{getOrdersAmount() | number:'1.1-2'}} </span></h4>
+            <h4 class="total-price-title">
+                TOTAL PRICE:
+                <span class="total-price-result">
+                    {{converterModel.price | number:'1.1-2'}}
+                </span>
+            </h4>
         </div>
         <div class="btn-group">
             <button class="left-btn" mat-raised-button color="accent" (click)="close()">
                 Cancel
             </button>
 
-            <button class="right-btn" mat-raised-button color="accent" (click)="pay()">
+            <button class="right-btn" mat-raised-button color="accent" (click)="pay(orders)">
                 Buy now!
             </button>
 

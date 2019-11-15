@@ -35,7 +35,7 @@ namespace EducationApp.BusinessLayer.Services
                 || string.IsNullOrWhiteSpace(loginModel.Email) 
                 || string.IsNullOrWhiteSpace(loginModel.Password))
             {
-                userInfoModel.Errors.Add(Constants.Errors.EmptyPassword);
+                userInfoModel.Errors.Add(Constants.Errors.PasswordEmpty);
                 return userInfoModel;
             }
             var existedUser = await _userRepository.GetUserByEmailAsync(loginModel.Email);
@@ -48,18 +48,18 @@ namespace EducationApp.BusinessLayer.Services
             var result = await _userRepository.CheckPasswordAsync(existedUser, loginModel.Password);
             if (result.IsLockedOut)
             {
-                userInfoModel.Errors.Add(Constants.Errors.BlockedUser);
+                userInfoModel.Errors.Add(Constants.Errors.UserBloced);
                 return userInfoModel;
             }
             if (!result.Succeeded)
             {
-                userInfoModel.Errors.Add(Constants.Errors.InvalidPassword);
+                userInfoModel.Errors.Add(Constants.Errors.PasswordInvalid);
                 return userInfoModel;
             }
             var confirmResult = await _userRepository.IsEmailConfirmedAsync(existedUser);
             if (!confirmResult)
             {
-                userInfoModel.Errors.Add(Constants.Errors.IsConfirmedEmail);
+                userInfoModel.Errors.Add(Constants.Errors.EmailIsConfirmed);
                 return userInfoModel;
             }
             var role = (await _userRepository.GetRoleAsync(existedUser)).FirstOrDefault();
@@ -80,7 +80,7 @@ namespace EducationApp.BusinessLayer.Services
 
             if (existedUser != null)
             {
-                responseModel.Errors.Add(Constants.Errors.IsExistedUser);
+                responseModel.Errors.Add(Constants.Errors.UserExisted);
                 return responseModel;
             }
             var user = _mapperHelper.Map<UserRegistrationModel, ApplicationUser>(userRegModel);
@@ -132,7 +132,7 @@ namespace EducationApp.BusinessLayer.Services
             }
             if (await _userRepository.IsEmailConfirmedAsync(user))
             {
-                responseModel.Errors.Add(Constants.Errors.SuccessConfirmedEmail);
+                responseModel.Errors.Add(Constants.Errors.EmailConfirmed);
                 return responseModel;
             }
             if(!await _userRepository.ConfirmEmailAsync(user, token))
@@ -146,18 +146,18 @@ namespace EducationApp.BusinessLayer.Services
             var responseModel = new BaseModel();
             if (string.IsNullOrWhiteSpace(email))
             {
-                responseModel.Errors.Add(Constants.Errors.InvalidEmail);
+                responseModel.Errors.Add(Constants.Errors.EmailInvalid);
                 return responseModel;
             }
             var user = await _userRepository.GetUserByEmailAsync(email);
             if(user == null || user.IsRemoved)
             {
-                responseModel.Errors.Add(Constants.Errors.FalseIdentityUser);
+                responseModel.Errors.Add(Constants.Errors.UserFailIdentity);
                 return responseModel;
             };
             if (!user.LockoutEnd.Equals(null))
             {
-                responseModel.Errors.Add(Constants.Errors.BlockedUser);
+                responseModel.Errors.Add(Constants.Errors.UserBloced);
                 return responseModel;
             }
             var token = await _userRepository.GenerateResetPasswordTokenAsync(user);
@@ -172,7 +172,7 @@ namespace EducationApp.BusinessLayer.Services
 
             if (!result)
             {
-                responseModel.Errors.Add(Constants.Errors.RemovedUser);
+                responseModel.Errors.Add(Constants.Errors.UserRemoved);
             }
             return responseModel;
         }

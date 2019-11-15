@@ -66,7 +66,7 @@ namespace EducationApp.PresentationLayer.Helper
             var value = refreshToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
             if(!long.TryParse(value, out long userId))
             {
-                userInfoModel.Errors.Add(Constants.Errors.InvalidUserId);
+                userInfoModel.Errors.Add(Constants.Errors.UserIdInvalid);
                 return userInfoModel;
             }
             userInfoModel.UserId = userId;

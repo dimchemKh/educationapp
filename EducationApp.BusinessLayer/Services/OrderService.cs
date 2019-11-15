@@ -11,6 +11,9 @@ using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
 using EducationApp.BusinessLayer.Common;
+using EducationApp.DataAccessLayer.Entities.Enums;
+using EducationApp.BusinessLayer.Helpers.Interfaces;
+using EducationApp.BusinessLayer.Models;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -19,12 +22,19 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapperHelper _mapperHelper;
+        private readonly ICurrencyConverterHelper _currencyConverterHelper;
 
-        public OrderService(IOrderRepository orderRepository, IUserRepository userRepository, IMapperHelper mapperHelper)
+        public OrderService(IOrderRepository orderRepository, IUserRepository userRepository, IMapperHelper mapperHelper, ICurrencyConverterHelper currencyConverterHelper)
         {
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _mapperHelper = mapperHelper;
+            _currencyConverterHelper = currencyConverterHelper;
+        }
+        public async Task<decimal> ConvertingPriceAsync(ConverterModel converterModel)
+        {
+            var resultConverting = _currencyConverterHelper.Converting(converterModel.CurrencyFrom, converterModel.CurrencyTo, converterModel.Price);
+            return resultConverting;
         }
         public async Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId)
         {
@@ -40,7 +50,7 @@ namespace EducationApp.BusinessLayer.Services
 
             var orders = await _orderRepository.GetAllOrdersAsync(repositoryFilter, _userId);
 
-            //responseModel.ItemsCount = orders.CollectionCount;
+            responseModel.ItemsCount = orders.CollectionCount;
 
             foreach (var order in orders.Collection)
             {                         
@@ -105,7 +115,7 @@ namespace EducationApp.BusinessLayer.Services
             
             if(string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(transactionId))
             {
-                responseModel.Errors.Add(Constants.Errors.InvalidTransaction);
+                responseModel.Errors.Add(Constants.Errors.TransactionInvalid);
                 return responseModel;
             }
 

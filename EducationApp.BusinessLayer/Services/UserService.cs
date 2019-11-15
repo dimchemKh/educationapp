@@ -60,7 +60,7 @@ namespace EducationApp.BusinessLayer.Services
 
             if (!checkPasswordResult.Succeeded)
             {
-                responseModel.Errors.Add(Constants.Errors.InvalidPassword);
+                responseModel.Errors.Add(Constants.Errors.PasswordInvalid);
                 return responseModel;
             }
             user = userModel.MapToEntity(user);
@@ -100,7 +100,7 @@ namespace EducationApp.BusinessLayer.Services
             var filteringUsers = await _userRepository.GetFilteredDataAsync(repositoryModel);
             if(filteringUsers == null)
             {
-                userModel.Errors.Add(Constants.Errors.InvalidFiltteringData);
+                userModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return userModel;
             }
             foreach (var user in filteringUsers.Collection)
@@ -136,11 +136,11 @@ namespace EducationApp.BusinessLayer.Services
 
             if (string.IsNullOrWhiteSpace(userId))
             {
-                userModel.Errors.Add(Constants.Errors.InvalidUserId);
+                userModel.Errors.Add(Constants.Errors.UserIdInvalid);
                 return userModel;
             }
             if(!long.TryParse(userId, out long _userId) && _userId <= 0){
-                userModel.Errors.Add(Constants.Errors.InvalidUserId);
+                userModel.Errors.Add(Constants.Errors.UserIdInvalid);
                 return userModel;
             }
             var user = await _userRepository.GetUserByIdAsync(_userId);

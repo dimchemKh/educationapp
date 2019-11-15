@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { DataService } from 'src/app/shared/services/data.service';
 import { CartItemsComponent } from 'src/app/shared/cart-dialogs/cart-items/cart-items.component';
 import { OrderService } from 'src/app/shared/services/order.service';
+import { CartService } from '../../services/cart.service';
 
 
 @Component({
@@ -22,34 +23,38 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   isAuth = false;
 
+  cartSubscribe: Subscription;
+
+  countOrders: number;
+
   faUser = faUser;
   faBookOpen = faBookOpen;
   faUserCircle = faUserCircle;
   faShoppingCart = faShoppingCart;
 
   get userName(): string {
-    return this.dataService.getLocalStorage('userName')
+    return this.dataService.getLocalStorage('userName');
   }
   get userRole(): string {
-    return this.dataService.getLocalStorage('userRole')
+    return this.dataService.getLocalStorage('userRole');
   }
 
   constructor(private authService: AccountService, private dialog: MatDialog,
-              private orderService: OrderService, private dataService: DataService) {
+              private cartService: CartService, private dataService: DataService) {
   }
 
   ngOnInit() {
     this.subscription = this.authService.authNavStatus$.subscribe(status => {
       this.isAuth = status;
     });
-
+    this.cartService.cartSource.subscribe((data) => {
+      if (data) {
+        this.countOrders = data.length;
+      }
+    });
   }
-  getCountPurchase() {
-    let orders = this.orderService.getAllPurchases();
-    if (!orders || orders.items.length === 0) {
-      return null;
-    }
-    return orders.items.length;
+  getCountPurchase() {   
+    
   }
   openCart() {
     let dialog = this.dialog.open(CartItemsComponent, {
@@ -58,7 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     });
     dialog.afterClosed().subscribe(() => {
-      
+
     });
   }
   signOut() {

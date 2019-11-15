@@ -37,7 +37,7 @@
       </mat-menu>
 
       <p>
-        <button class="cart-btn" mat-raised-button color="basic" (click)="openCart()" [matBadge]="getCountPurchase()" matBadgePosition="before" matBadgeColor="primary">
+        <button class="cart-btn" mat-raised-button color="basic" (click)="openCart()" [matBadge]="countOrders" matBadgePosition="before" matBadgeColor="primary">
           <fa-icon class="menu-icon" size="2x" [icon]="faShoppingCart" [fixedWidth]="true"
             transform="shrink-1 down-2 left-1"></fa-icon>
         </button>
