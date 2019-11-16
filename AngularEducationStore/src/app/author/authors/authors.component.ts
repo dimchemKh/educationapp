@@ -73,7 +73,7 @@ export class AuthorsComponent implements OnInit {
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.authorService.createAuthor(result).subscribe(() => {
-          this.submit();
+
         });
       }
     });

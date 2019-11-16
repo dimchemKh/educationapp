@@ -1,12 +1,13 @@
 <div class="container" *ngIf="!error">
-    <fa-icon class="check-icon" size="6x" [fixedWidth]="true" [icon]="checkIcon" ></fa-icon>
-    <p>
-        Dear new {{userName}}, thank you for your registration
-    </p>
-    <button color="accent" mat-raised-button (click)="submit()" >Continue</button>
+    <fa-icon class="check-icon" size="6x" [fixedWidth]="true" [icon]="checkIcon"></fa-icon>
+    <div class="content-text">
+        Dear new {{userName}}, thank you for your registration.
+    </div>
+    <button color="accent" mat-raised-button (click)="submit()">Continue</button>
 </div>
 <div class="container" *ngIf="error">
-        <p>
-            Sorry, from server get some mistake, {{error.toLocaleLowerCase()}}, pls write to administrator about this problem.
-        </p>
+    <div class="content-text">
+        Sorry, from server get some mistake, {{error.toLocaleLowerCase()}}, pls write to administrator about this
+        problem.
+    </div>
 </div>

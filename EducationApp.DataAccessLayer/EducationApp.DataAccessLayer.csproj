@@ -17,6 +17,10 @@
     <Compile Remove="Migrations\20191113071513_CreateEducationApp.Designer.cs" />
     <Compile Remove="Migrations\20191113103255_CreateEducationApp.cs" />
     <Compile Remove="Migrations\20191113103255_CreateEducationApp.Designer.cs" />
+    <Compile Remove="Migrations\20191113103430_CreateEducationApp.cs" />
+    <Compile Remove="Migrations\20191113103430_CreateEducationApp.Designer.cs" />
+    <Compile Remove="Migrations\20191116155915_CreateEducationAppDb.cs" />
+    <Compile Remove="Migrations\20191116155915_CreateEducationAppDb.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

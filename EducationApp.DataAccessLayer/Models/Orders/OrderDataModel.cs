@@ -14,7 +14,7 @@ namespace EducationApp.DataAccessLayer.Models.Orders
         public string Email { get; set; }
         public Enums.Currency Currency { get; set; }
         public Enums.TransactionStatus TransactionStatus { get; set; }
-        public long? PaymentId { get; set; }
+        public string PaymentId { get; set; }
         public ICollection<OrderItemDataModel> OrderItems { get; set; }
     }
 }

@@ -50,7 +50,7 @@
         </ng-container>
         <ng-container matColumnDef="transactionStatus">
             <th class="column-name" mat-header-cell *matHeaderCellDef>
-                <mat-select class="select-types" [(ngModel)]="transactionStatus" (closed)="changeTypeSelect($event)" multiple>
+                <mat-select class="select-types" [(ngModel)]="transactionStatus" (openedChange)="closedTypeSelect($event)" (selectionChange)="changeTypeSelect($event)" multiple>
                     <mat-option *ngFor="let item of transactionStatuses" [value]="item.value">{{item.name}}
                     </mat-option>
                 </mat-select>

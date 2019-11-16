@@ -46,19 +46,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         {
             var authors = _context.Authors
                 .Where(x => x.IsRemoved == false)
+                .Where(x => x.AuthorInPrintingEditions.Select(z => z.AuthorId == x.Id).FirstOrDefault())
                 .Include(x => x.AuthorInPrintingEditions)
-                .ThenInclude(x => x.PrintingEdition)
-                .Where(x => x.AuthorInPrintingEditions.Select(z => z.IsRemoved == false).FirstOrDefault());
-            //var authors = _context.AuthorInPrintingEditions
-            //    .Where(x => x.IsRemoved == false)
-            //    .Where(x => x.Author.IsRemoved == false)
-            //    .GroupBy(x => x.Author.Id)
-            //    .Select(group => new AuthorDataModel
-            //    {
-            //        Id = group.Key,
-            //        Name = group.Select(x => x.Author.Name).FirstOrDefault(),
-            //        PrintingEditionTitles = group.Select(z => z.PrintingEdition.Title).ToArray()
-            //    });
+                .ThenInclude(x => x.PrintingEdition);
 
             Expression<Func<Author, object>> predicate = x => x.Id;
 
@@ -70,7 +60,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var responseModel = new GenericModel<AuthorDataModel>();
 
             responseModel.CollectionCount = authors.Count();
-
 
             var authorsPage = await PaginationAsync(filter, predicate, authors);
 

@@ -5,9 +5,11 @@
     justify-content: center;
     flex-direction: column;
 }
-.container > p {
-    width: 30%;
+.content-text {
+    margin-top: 50px;
+    margin-bottom: 50px;
     font-size: 20px;
+    font-weight: 500;
 }
 .check-icon {
     color: green;

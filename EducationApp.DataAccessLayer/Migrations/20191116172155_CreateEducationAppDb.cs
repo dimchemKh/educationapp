@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EducationApp.DataAccessLayer.Migrations
 {
-    public partial class CreateEducationApp : Migration
+    public partial class CreateEducationAppDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -243,8 +243,6 @@ namespace EducationApp.DataAccessLayer.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    IsRemoved = table.Column<bool>(nullable: false),
                     AuthorId = table.Column<long>(nullable: false),
                     PrintingEditionId = table.Column<long>(nullable: false)
                 },

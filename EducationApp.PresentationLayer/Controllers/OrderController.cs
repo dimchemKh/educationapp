@@ -50,7 +50,7 @@ namespace EducationApp.PresentationLayer.Controllers
         }
         [Authorize(Roles = Constants.Roles.User)]
         [HttpPost("create")]
-        public async Task<IActionResult> CreateOrderAsync(string role, [FromBody]OrderModelItem orderModelItem)
+        public async Task<IActionResult> CreateOrderAsync(string role, [FromBody] OrderModelItem orderModelItem)
         {
             var userId = string.Empty;
 
@@ -62,13 +62,19 @@ namespace EducationApp.PresentationLayer.Controllers
             var responseModel = await _orderService.CreateOrderAsync(orderModelItem, userId);
 
             return Ok(responseModel);
-        }        
+        }
         [HttpPost("update")]
-        public async Task<IActionResult> UdpdateOrderAsync(string orderId, string transactionId)
+        public async Task<IActionResult> UpdateOrderTransactionAsync([FromBody] Model model)
         {
-            var responseModel = await _orderService.CreateTransactionAsync(orderId, transactionId);
+            var responseModel = await _orderService.CreateTransactionAsync(model.Order, model.Transaction);
 
             return Ok(responseModel);
+        }
+        public class Model
+        {
+            public string Transaction { get; set; }
+            public long Order { get; set; }
+
         }
     }
 }

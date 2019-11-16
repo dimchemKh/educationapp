@@ -77,6 +77,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.authService.signOut();
+        this.cartService.cartSource.next([]);
       }
     });
   }

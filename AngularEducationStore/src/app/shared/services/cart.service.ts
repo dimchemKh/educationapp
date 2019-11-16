@@ -10,26 +10,24 @@ import { OrderModelItem } from '../models/order/OrderModelItem';
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
-  
+export class CartService {  
 
   cartSource = new BehaviorSubject<number[]>([]);
 
   constructor(private http: HttpClient, private apiRoutes: ApiRoutes, private dataService: DataService, private cartService: CartService) { 
     let orders = this.getAllPurchases();
-    
     if (orders) {
       let values = this.cartSource.value;
-      debugger
       orders.orderItems.forEach((x) => {
         values.push(x.printingEditionId);
       });
       this.cartSource.next(values);
+      return;
     }
+    this.cartSource.next([]);
   }
 
   getAllPurchases() {
-    debugger
     let orderModel: OrderModelItem = JSON.parse(this.dataService.getLocalStorage('cartItems'));
     if (orderModel) {
       return orderModel;
@@ -51,17 +49,18 @@ export class CartService {
     this.cartSource.next(cartItems);
     if (orders.orderItems.length === 0) {
       this.dataService.deleteItemLocalStorage('cartItems');
-      this.cartService.cartSource.next(null);
       return;
     }
     await this.addOrder(orders);
     
   }
   checkTheSame(printignEditionsId: number[], printignEditionId: number) {
-    let items = printignEditionsId.filter(id => id === printignEditionId);
-    if (items.length === 1) {
-      return true;
-    }
-    return false;
+    if (printignEditionsId) {
+      let items = printignEditionsId.filter(id => id === printignEditionId);
+      if (items.length === 1) {
+        return true;
+      }
+      return false;
+    }    
   }
 }

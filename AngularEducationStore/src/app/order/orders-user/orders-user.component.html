@@ -1,1 +1,60 @@
-<p>orders-user works!</p>
+<div class="title">
+    <span>My orders</span>
+</div>
+<div class="header-row">
+    <div>
+        <mat-form-field class="filter-search">
+            <input matInput placeholder="Search" [(ngModel)]="filterModel.searchString">
+        </mat-form-field>
+        <button class="search-button" mat-raised-button color="accent">Find</button>
+    </div>
+</div>
+<div class="table-container">
+    <table mat-table [dataSource]="orderModel.items" matSort matSortActive="id" matSortDisableClear
+        matSortDirection="asc" (matSortChange)="sortData($event)">
+        <ng-container matColumnDef="id">
+            <th class="column-id" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Order </th>
+            <td class="column-id" mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Date </th>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="printingEditionType">
+            <th class="column-name" mat-header-cell *matHeaderCellDef > Product </th>
+            <td class="column-name" mat-cell *matCellDef="let element">
+                <div *ngFor="let orderItem of element.orderItems">
+                    {{printingEditionTypes[orderItem.printingEditionType - 1].name}}
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="quantity">
+            <th class="column-name" mat-header-cell *matHeaderCellDef > Qty </th>
+            <td class="column-name" mat-cell *matCellDef="let element">
+                <div *ngFor="let orderItem of element.orderItems">
+                    {{orderItem.count}}
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+            <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Order amount </th>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="transactionStatus">
+            <th class="column-name" mat-header-cell *matHeaderCellDef>
+                Status
+            </th>
+            <td class="column-name" mat-cell *matCellDef="let element">
+                <button *ngIf="element.transactionStatus == 2" mat-raised-button color="accent" (click)="pay(element)" >Pay</button>
+                <span *ngIf="element.transactionStatus == 1">Paid success</span>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator class="paginator" [length]="orderModel.itemsCount" [pageSize]="filterModel.pageSize"
+        [pageIndex]="filterModel.page - 1" [pageSizeOptions]="pageSizes" [showFirstLastButtons]="true"
+        (page)="pageEvent($event)"></mat-paginator>
+
+</div>

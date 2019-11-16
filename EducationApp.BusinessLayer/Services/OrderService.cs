@@ -109,23 +109,17 @@ namespace EducationApp.BusinessLayer.Services
 
             return responseModel;
         }
-        public async Task<OrderModel> CreateTransactionAsync(string orderId, string transactionId)
+        public async Task<OrderModel> CreateTransactionAsync(long orderId, string transactionId)
         {
             var responseModel = new OrderModel();
-            
-            if(string.IsNullOrWhiteSpace(orderId) || string.IsNullOrWhiteSpace(transactionId))
+
+            if (orderId == 0 || string.IsNullOrWhiteSpace(transactionId))
             {
                 responseModel.Errors.Add(Constants.Errors.TransactionInvalid);
                 return responseModel;
             }
 
-            if(!long.TryParse(orderId, out long _orderId) || !long.TryParse(transactionId, out long _transactionId))
-            {
-                responseModel.Errors.Add(Constants.Errors.InvalidData);
-                return responseModel;
-            }
-
-            var updateReuslt = await _orderRepository.UpdateTransactionAsync(_orderId, _transactionId);
+            var updateReuslt = await _orderRepository.UpdateTransactionAsync(orderId, transactionId);
 
             if (!updateReuslt)
             {

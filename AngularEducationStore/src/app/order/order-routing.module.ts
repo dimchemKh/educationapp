@@ -7,7 +7,7 @@ import { UserGuard } from 'src/app/shared/guards/user.guard';
 
 
 export const routes: Routes = [
-    { path: 'get-my-orders', component: OrdersUserComponent, canActivate: [UserGuard] },
+    { path: 'my-orders', component: OrdersUserComponent, canActivate: [UserGuard] },
     { path: 'get-all', component: OrdersAdminComponent, canActivate: [AdminGuard] }
 ];
 

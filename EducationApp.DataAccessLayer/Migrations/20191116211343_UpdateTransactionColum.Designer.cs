@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationApp.DataAccessLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191113103430_CreateEducationApp")]
-    partial class CreateEducationApp
+    [Migration("20191116211343_UpdateTransactionColum")]
+    partial class UpdateTransactionColum
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,10 +104,6 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<long>("AuthorId");
 
-                    b.Property<DateTime>("CreationDate");
-
-                    b.Property<bool>("IsRemoved");
-
                     b.Property<long>("PrintingEditionId");
 
                     b.HasKey("Id");
@@ -185,7 +181,7 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<bool>("IsRemoved");
 
-                    b.Property<long?>("TransactionId");
+                    b.Property<string>("TransactionId");
 
                     b.HasKey("Id");
 

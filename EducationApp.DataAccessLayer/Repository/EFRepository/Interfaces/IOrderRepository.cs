@@ -12,6 +12,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
     public interface IOrderRepository : IBaseEFRepository<Order>
     {
         Task<GenericModel<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId);
-        Task<bool> UpdateTransactionAsync(long orderId, long transactionId);
+        Task<bool> UpdateTransactionAsync(long orderId, string transactionId);
     }
 }

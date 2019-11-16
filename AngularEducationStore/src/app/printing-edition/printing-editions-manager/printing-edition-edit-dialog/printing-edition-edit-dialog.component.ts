@@ -9,6 +9,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthorModelItem } from 'src/app/shared/models/authors/AuthorModelItem';
 import { scan } from 'rxjs/operators';
 import { FilterPrintingEditionModel } from 'src/app/shared/models/filter/filter-printing-edition-model';
+import { FilterAuthorModel } from 'src/app/shared/models/filter/filter-author-model';
+import { PageSize } from 'src/app/shared/enums/page-size';
 
 @Component({
   selector: 'app-printing-edition-edit-dialog',
@@ -48,6 +50,8 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
   authorsSubj$ = new Observable<AuthorModelItem[]>();
 
   filterModel = new FilterPrintingEditionModel();
+
+  authorFilter = new FilterAuthorModel();
   authorsModel = new AuthorModel();
   authorsId = new Array<number>();
 
@@ -74,11 +78,11 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
   }
 
   getNextAuthors() {
-
     let arr = Array<AuthorModelItem>();
-    
-    this.authorService.getAllAuthors(this.filterModel).subscribe((data: AuthorModel) => {
+    this.authorFilter.pageSize = PageSize.Twelve;
+    this.authorService.getAllAuthors(this.authorFilter).subscribe((data: AuthorModel) => {
       this.authorsModel.itemsCount = data.itemsCount;
+      // tslint:disable-next-line: prefer-for-of
       for (let i = 0; i < data.items.length; i++) {
         if (!this.authorsId.includes(data.items[i].id)) {
           arr.push(data.items[i]);
@@ -86,8 +90,8 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
       }
       this.authorsSubj.next(arr);
     });
-    this.filterModel.page += 1;
-    this.offset += this.filterModel.pageSize;
+    this.authorFilter.page += 1;
+    this.offset += PageSize.Twelve;
   }
   ngOnDestroy() {
     this.data.authors = new Array<AuthorModelItem>();

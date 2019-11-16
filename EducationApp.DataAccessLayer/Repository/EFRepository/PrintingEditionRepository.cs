@@ -27,8 +27,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var queryPrintingEditions = _context.PrintingEditions
                 .Where(x => x.IsRemoved == false)
                 .Include(x => x.AuthorInPrintingEditions)
-                .ThenInclude(x => x.Author)
-                .Where(x => x.AuthorInPrintingEditions.Select(z => z.IsRemoved == false).FirstOrDefault());
+                .ThenInclude(x => x.Author);
 
             IQueryable<PrintingEdition> printingEditions = null;
 

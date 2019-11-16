@@ -9,6 +9,8 @@ import { DataService } from './data.service';
 import { OrderItemModelItem } from '../models/order-item/OrderItemModelItem';
 import { ConverterModel } from '../models/ConverterModel';
 import { OrderModelItem } from '../models/order/OrderModelItem';
+import { Model } from 'src/app/shared/models/model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +26,8 @@ export class OrderService {
   createOrder(role: string, orderModel: OrderModelItem): Observable<OrderModel> {
     debugger
     return this.http.post<OrderModel>(this.apiRoutes.orderRoute + 'create?role=' + role, orderModel);
+  }
+  updateOrder(model: Model) {
+    return this.http.post(this.apiRoutes.orderRoute + 'update', model);
   }
 }

@@ -11,6 +11,6 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
         Task<decimal> ConvertingPriceAsync(ConverterModel converterModel);
         Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId);
         Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, string userId);
-        Task<OrderModel> CreateTransactionAsync(string orderId, string transactionId);
+        Task<OrderModel> CreateTransactionAsync(long orderId, string transactionId);
     }
 }

@@ -13,6 +13,7 @@ using System;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 using EducationApp.DataAccessLayer.Models;
+using static EducationApp.DataAccessLayer.Entities.Enums.Enums;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
@@ -24,45 +25,53 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
         public async Task<GenericModel<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId)
         {
-            var query = _context.OrderItems
-                .AsNoTracking()
-                .Include(x => x.PrintingEdition)
-                .Include(x => x.Order)
+            var query = _context.Orders
+                .Include(x => x.Payment)
+                .Include(x => x.User)
+                .Include(x => x.OrderItems)
+                .ThenInclude(x => x.PrintingEdition)
                 .AsQueryable();
 
             if (userId > 1)
             {
-                query = query.Where(x => x.Order.User.Id.Equals(userId));
+                query = query.Where(x => x.User.Id.Equals(userId));
             }
 
-            var orders = query
-                .GroupBy(x => x.OrderId)
-                .Select(x => new OrderDataModel
+            if (filterOrder.TransactionStatus.Equals(TransactionStatus.Paid))
+            {
+                query = query.Where(x => x.Payment.TransactionId != null);
+            }
+            if (filterOrder.TransactionStatus.Equals(TransactionStatus.UnPaid))
+            {
+                query = query.Where(x => x.Payment.TransactionId == null);
+            }
+
+            var orders = query.Select(x => new OrderDataModel
+            {
+                Id = x.Id,
+                Amount = x.Amount,
+                Date = x.CreationDate,
+                Email = x.User.Email,
+                UserName = $"{x.User.FirstName + x.User.LastName}",
+                Currency = x.OrderItems.Select(z => z.Currency).FirstOrDefault(),
+                PaymentId = x.Payment.TransactionId,
+                OrderItems = x.OrderItems.Select(z => new OrderItemDataModel
                 {
-                    Id = x.Key,
-                    Amount = x.Select(z => z.Amount).Sum(),
-                    Date = x.Select(z => z.CreationDate).FirstOrDefault(),
-                    Email = x.Select(z => z.Order.User.Email).FirstOrDefault(),
-                    UserName = x.Select(z => $"{z.Order.User.FirstName} {z.Order.User.LastName}").FirstOrDefault(),
-                    PaymentId = x.Select(z => z.Order.Payment.TransactionId).FirstOrDefault(),
-                    Currency = x.Select(z => z.Currency).FirstOrDefault(),
-                    OrderItems = x.Select(z => new OrderItemDataModel
-                    {
-                        Title = z.PrintingEdition.Title,
-                        Count = z.Count,
-                        PrintingEditionType = z.PrintingEdition.PrintingEditionType,
-                        Amount = z.Amount,
-                        Currency = z.Currency
-                    }).ToList()
-                });
+                    Title = z.PrintingEdition.Title,
+                    Count = z.Count,
+                    PrintingEditionType = z.PrintingEdition.PrintingEditionType,
+                    Amount = z.Amount,
+                    Currency = z.Currency
+                }).ToList()
+            });
 
             Expression<Func<OrderDataModel, object>> predicate = x => x.Id;
 
-            if (filterOrder.SortType.Equals(Enums.SortType.Amount))
+            if (filterOrder.SortType.Equals(SortType.Amount))
             {
                 predicate = x => x.Amount;
             }
-            if (filterOrder.SortType.Equals(Enums.SortType.Date))
+            if (filterOrder.SortType.Equals(SortType.Date))
             {
                 predicate = x => x.Date;
             }
@@ -77,7 +86,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             return responseModel;
         }
-        public async Task<bool> UpdateTransactionAsync(long orderId, long transactionId)
+        public async Task<bool> UpdateTransactionAsync(long orderId, string transactionId)
         {
             var payment = await _context.Orders
                 .Where(x => x.Id.Equals(orderId))

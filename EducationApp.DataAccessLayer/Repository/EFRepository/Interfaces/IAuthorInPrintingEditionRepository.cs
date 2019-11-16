@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces
 {
-    public interface IAuthorInPrintingEditionRepository : IBaseEFRepository<AuthorInPrintingEdition>
+    public interface IAuthorInPrintingEditionRepository
     {
         Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId);
         Task<bool> AddAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId);

@@ -32,7 +32,7 @@
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
         <button mat-menu-item [routerLink]="['/user/me']" routerLinkActive="router-link-active">My Profile</button>
-        <button mat-menu-item>My Orders</button>
+        <button mat-menu-item [routerLink]="['/order/my-orders']" routerLinkActive="router-link-active"  >My Orders</button>
         <button mat-menu-item (click)="signOut()">Log Out</button>
       </mat-menu>
 
