@@ -3,22 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/printing-edition/printing-edition-routing.module';
 import { PrintingEditionsComponent } from 'src/app/printing-edition/printing-editions/printing-editions.component';
-import {
-  MatFormFieldModule,
-  MatInputModule,
-  MatToolbarModule,
-  MatGridListModule,
-  MatCheckboxModule,
-  MatSliderModule,
-  MatButtonModule,
-  MatSelectModule,
-  MatDividerModule,
-  MatPaginatorModule,
-  MatTableModule,
-  MatSortModule,
-  MatSnackBarModule,
-  MatDialogModule
-} from '@angular/material';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PrintingEditionDetailsComponent } from 'src/app/printing-edition/printing-edition-details/printing-edition-details.component';
@@ -26,6 +11,7 @@ import { PrintingEdiotionsManagerComponent } from 'src/app/printing-edition/prin
 // tslint:disable-next-line: max-line-length
 import { PrintingEditionEditDialogComponent } from 'src/app/printing-edition/printing-editions-manager/printing-edition-edit-dialog/printing-edition-edit-dialog.component';
 import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
+import { MaterialModule } from '../material.module';
 
 
 @NgModule({
@@ -38,24 +24,11 @@ import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatGridListModule,
-    MatCheckboxModule,
-    MatSliderModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatDividerModule,
-    MatPaginatorModule,
     FontAwesomeModule,
-    MatTableModule,
-    MatSortModule,
-    MatSelectInfiniteScrollModule,
-    MatSnackBarModule,
-    MatDialogModule
+    MaterialModule,
+    MatSelectInfiniteScrollModule
   ],
   exports: [],
   providers: [],

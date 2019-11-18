@@ -11,7 +11,7 @@ import { MatSort, PageEvent, MatDialog, MatSnackBar, MatSelectChange } from '@an
 import { PrintingEditionEditDialogComponent } from './printing-edition-edit-dialog/printing-edition-edit-dialog.component';
 import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
-import { RemoveModel } from 'src/app/shared/models/RemoveModel';
+import { RemoveModel } from 'src/app/shared/models/dialogs/RemoveModel';
 import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({

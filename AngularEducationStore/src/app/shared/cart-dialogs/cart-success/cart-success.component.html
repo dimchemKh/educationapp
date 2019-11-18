@@ -1,0 +1,12 @@
+<div mat-dialog-content class="container">
+    <fa-icon class="check-icon" size="6x" [fixedWidth]="true" [icon]="checkIcon"></fa-icon>
+    <div class="content-text">
+        <p>
+            Thank you to your purchase!
+        </p>
+        <p>
+            <!-- Order number is: {{data.orderId}} -->
+        </p>
+    </div>
+    <button color="accent" mat-raised-button (click)="submit()">Continue</button>
+</div>

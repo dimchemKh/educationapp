@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorService } from 'src/app/shared/services/author.service';
-import { FilterAuthorModel } from 'src/app/shared/models/filter/filter-author-model';
+import { AuthorService } from 'src/app/shared/services';
+import { FilterAuthorModel, AuthorModel, AuthorModelItem } from 'src/app/shared/models';
 import { faHighlighter } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { AuthorModel } from 'src/app/shared/models/authors/AuthorModel';
 import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { MatDialog, MatSort, PageEvent } from '@angular/material';
 import { AuthorsDialogComponent } from './authors-dialog/authors-dialog.component';
-import { AuthorModelItem } from 'src/app/shared/models/authors/AuthorModelItem';
 
 @Component({
   selector: 'app-authors',

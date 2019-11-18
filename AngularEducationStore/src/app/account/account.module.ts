@@ -7,17 +7,10 @@ import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/account/account-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {
-  MatCheckboxModule,
-  MatFormFieldModule,
-  MatButtonModule,
-  MatChipsModule,
-  MatIconModule,
-  MatInputModule,
-  MatProgressSpinnerModule
-} from '@angular/material';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ValidationPatterns } from '../shared/constants/validation-patterns';
+import { MaterialModule } from '../material.module';
 
 
 @NgModule({
@@ -29,17 +22,13 @@ import { ValidationPatterns } from '../shared/constants/validation-patterns';
   ],
   imports: [
     RouterModule.forChild(routes),
-    MatCheckboxModule,
-    MatButtonModule,
-    MatFormFieldModule,
+    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    MatChipsModule,
-    MatIconModule,
-    MatInputModule,
+
     CommonModule,
     FontAwesomeModule,
-    MatProgressSpinnerModule
+
   ],
   providers: [
     ValidationPatterns

@@ -21,9 +21,17 @@
     <Compile Remove="Migrations\20191113103430_CreateEducationApp.Designer.cs" />
     <Compile Remove="Migrations\20191116155915_CreateEducationAppDb.cs" />
     <Compile Remove="Migrations\20191116155915_CreateEducationAppDb.Designer.cs" />
+    <Compile Remove="Migrations\20191116211343_UpdateTransactionColum.cs" />
+    <Compile Remove="Migrations\20191116211343_UpdateTransactionColum.Designer.cs" />
+    <Compile Remove="Migrations\20191118074849_newChanges.cs" />
+    <Compile Remove="Migrations\20191118074849_newChanges.Designer.cs" />
+    <Compile Remove="Migrations\20191118080344_NewDbName.cs" />
+    <Compile Remove="Migrations\20191118080344_NewDbName.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.30" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.6" />

@@ -1,18 +1,16 @@
-﻿using EducationApp.DataAccessLayer.Entities.Base;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using Dapper.Contrib.Extensions;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
+    [Table("AuthorInPrintingEditions")]
     public class AuthorInPrintingEdition
     {
         public long Id { get; set; }
         public long AuthorId { get; set; }
+        [Write(false)]
         public Author Author { get; set; }
         public long PrintingEditionId { get; set; }
+        [Write(false)]
         public PrintingEdition PrintingEdition { get; set; }
     }
 }

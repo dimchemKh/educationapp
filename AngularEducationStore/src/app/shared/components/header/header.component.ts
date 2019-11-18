@@ -1,16 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, BehaviorSubject } from 'rxjs';
-import { AccountService } from 'src/app/shared/services/account.service';
+import { Subscription } from 'rxjs';
+import { AccountService, CartService, DataService } from 'src/app/shared/services';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
-import { MatDialog } from '@angular/material';
-import { DataService } from 'src/app/shared/services/data.service';
+
 import { CartItemsComponent } from 'src/app/shared/cart-dialogs/cart-items/cart-items.component';
-import { OrderService } from 'src/app/shared/services/order.service';
-import { CartService } from '../../services/cart.service';
+import { MatDialog } from '@angular/material';
 
 
 @Component({

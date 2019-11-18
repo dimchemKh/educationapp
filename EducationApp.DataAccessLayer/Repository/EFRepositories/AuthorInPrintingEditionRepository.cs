@@ -65,28 +65,28 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         // TODO: when remove Author too need remove PE with this the last Author
         public async Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
         {
-            var authorsInPe = await _context.AuthorInPrintingEditions
-                .AsNoTracking()
-                .Where(predicate)
-                .ToListAsync();
+            var query = _context.AuthorInPrintingEditions
+                .Include(x => x.PrintingEdition)
+                .Include(x => x.Author)
+                .Where(predicate);
 
+            _context.AuthorInPrintingEditions.RemoveRange(query);
 
+            //var res = query
+            //    .GroupBy(x => x.PrintingEdition)
+            //    .Select(x => x.Key);
 
-            var printingEditionGroup = await _context.AuthorInPrintingEditions
-                .AsNoTracking()
-                .Where(predicate)
-                .GroupBy(x => x.PrintingEditionId)
-                .Select(x => new
-                {
-                    printingEditionId = x.Key,
-                    authorsId = x.Select(z => z.AuthorId).ToArray()
-                }).ToListAsync();
-
-            if(printingEditionGroup.Count == 1)
-            {
-                
-            }
-
+            //var count = res.Count();
+            //if (count == 1)
+            //{
+            //    var pe = res.FirstOrDefault();
+            //    pe.IsRemoved = true;
+            //}
+            //if(count > 1)
+            //{
+            //    res.Where(x => x.AuthorInPrintingEditions.Select(z => z.PrintingEditionId == x.Id))
+            //}
+           
 
             await _context.SaveChangesAsync();
 

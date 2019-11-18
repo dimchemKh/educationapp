@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserRegistrationModel } from 'src/app/shared/models/user/UserRegistrationModel';
 import { BaseModel } from 'src/app/shared/models/base/BaseModel';
-import { AccountService } from 'src/app/shared/services/account.service';
+import { AccountService, DataService } from 'src/app/shared/services';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
-import { DataService } from 'src/app/shared/services/data.service';
 
 @Component({
   selector: 'app-sign-up',

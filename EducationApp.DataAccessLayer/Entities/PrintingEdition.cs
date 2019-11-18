@@ -1,10 +1,12 @@
-﻿using EducationApp.DataAccessLayer.Entities.Base;
+﻿using Dapper.Contrib.Extensions;
+using EducationApp.DataAccessLayer.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace EducationApp.DataAccessLayer.Entities
 {
+    [Table("PrintingEditions")]
     public class PrintingEdition : BaseEntity
     {
         public string Title { get; set; }
@@ -12,6 +14,7 @@ namespace EducationApp.DataAccessLayer.Entities
         public decimal Price { get; set; }
         public Enums.Enums.Currency Currency { get; set; }
         public Enums.Enums.PrintingEditionType PrintingEditionType { get; set; }
+        [Write(false)]
         public ICollection<AuthorInPrintingEdition> AuthorInPrintingEditions { get; set; }
         public PrintingEdition()
         {

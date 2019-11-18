@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { FilterPrintingEditionModel } from 'src/app/shared/models/filter/filter-printing-edition-model';
+import { FilterPrintingEditionModel, PrintingEditionModel, PrintingEditionModelItem } from 'src/app/shared/models';
+
 import { ApiRoutes } from 'src/environments/api-routes';
 import { Observable } from 'rxjs';
-import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/PrintingEditionModel';
 import { PageSize } from 'src/app/shared/enums/page-size';
-import { PrintingEditionModelItem } from '../models/printing-editions/PrintingEditionModelItem';
 
 
 

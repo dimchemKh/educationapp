@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiRoutes } from 'src/environments/api-routes';
-import { UserUpdateModel } from 'src/app/shared/models/user/UserUpdateModel';
-import { FilterUserModel } from 'src/app/shared/models/filter/filter-user-model';
-import { UserModel } from 'src/app/shared/models/user/UserModel';
+import { FilterUserModel, UserUpdateModel, UserModel, UserModelItem } from 'src/app/shared/models';
+
 import { Observable } from 'rxjs';
-import { UserModelItem } from '../models/user/UserModelItem';
+
 
 @Injectable({
   providedIn: 'root'

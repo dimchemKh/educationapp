@@ -1,6 +1,7 @@
 ﻿using EducationApp.BusinessLayer.Models;
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Orders;
+using EducationApp.BusinessLayer.Models.Payments;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using System.Threading.Tasks;
 
@@ -11,6 +12,6 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
         Task<decimal> ConvertingPriceAsync(ConverterModel converterModel);
         Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId);
         Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, string userId);
-        Task<OrderModel> CreateTransactionAsync(long orderId, string transactionId);
+        Task<OrderModel> CreateTransactionAsync(PaymentModel model);
     }
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { BaseModel } from 'src/app/shared/models/base/BaseModel';
-import { UserLoginModel } from 'src/app/shared/models/user/UserLoginModel';
-import { AccountService } from 'src/app/shared/services/account.service';
+import { BaseModel, UserLoginModel } from 'src/app/shared/models';
+import { AccountService } from 'src/app/shared/services';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSort, PageEvent, MatDialog, MatSelectChange } from '@angular/material';
 
-import { UserService } from 'src/app/shared/services/user.service';
+import { UserService } from 'src/app/shared/services';
 import { FilterUserModel } from 'src/app/shared/models/filter/filter-user-model';
 import { UserModel } from 'src/app/shared/models/user/UserModel';
 

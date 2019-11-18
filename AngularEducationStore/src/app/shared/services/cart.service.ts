@@ -1,8 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { DataService } from './data.service';
-import { OrderItemModel } from '../models/order-item/OrderItemModel';
 import { ConverterModel } from '../models/ConverterModel';
 import { HttpClient } from '@angular/common/http';
 import { OrderModelItem } from '../models/order/OrderModelItem';
@@ -14,7 +13,7 @@ export class CartService {
 
   cartSource = new BehaviorSubject<number[]>([]);
 
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes, private dataService: DataService, private cartService: CartService) { 
+  constructor(private http: HttpClient, private apiRoutes: ApiRoutes, private dataService: DataService) { 
     let orders = this.getAllPurchases();
     if (orders) {
       let values = this.cartSource.value;

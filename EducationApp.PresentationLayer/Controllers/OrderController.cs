@@ -1,6 +1,7 @@
 ﻿using EducationApp.BusinessLayer.Models;
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Orders;
+using EducationApp.BusinessLayer.Models.Payments;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities.Enums;
@@ -64,17 +65,11 @@ namespace EducationApp.PresentationLayer.Controllers
             return Ok(responseModel);
         }
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateOrderTransactionAsync([FromBody] Model model)
+        public async Task<IActionResult> UpdateOrderTransactionAsync([FromBody] PaymentModel payment)
         {
-            var responseModel = await _orderService.CreateTransactionAsync(model.Order, model.Transaction);
+            var responseModel = await _orderService.CreateTransactionAsync(payment);
 
             return Ok(responseModel);
-        }
-        public class Model
-        {
-            public string Transaction { get; set; }
-            public long Order { get; set; }
-
         }
     }
 }

@@ -1,7 +1,13 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from 'src/app/shared/interceptors/auth.interceptor';
+export { AccountService } from 'src/app/shared/services/account.service';
 
-/** Http interceptor providers in outside-in order */
-export const httpInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-];
+export { CartService } from 'src/app/shared/services/cart.service';
+export { AuthService } from 'src/app/shared/services/auth.service';
+export { AuthorService } from 'src/app/shared/services/author.service';
+export { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
+export { DataService } from 'src/app/shared/services/data.service';
+export { OrderService } from 'src/app/shared/services/order.service';
+export { PaymentService } from 'src/app/shared/services/payment.service';
+export { UserService } from 'src/app/shared/services/user.service';
+export { CookieService } from 'ngx-cookie-service';
+
+

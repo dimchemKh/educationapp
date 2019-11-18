@@ -4,24 +4,10 @@ import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/order/order-routing.module';
 import { OrdersUserComponent } from 'src/app/order/orders-user/orders-user.component';
 import { OrdersAdminComponent } from 'src/app/order/orders-admin/orders-admin.component';
-import {
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatGridListModule,
-    MatCheckboxModule,
-    MatSliderModule,
-    MatSelectModule,
-    MatDividerModule,
-    MatPaginatorModule,
-    MatCardModule,
-    MatTableModule,
-    MatSortModule,
-    MatDialogModule
-} from '@angular/material';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MaterialModule } from 'src/app/material.module';
 
 @NgModule({
     declarations: [
@@ -31,25 +17,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
-        MatFormFieldModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatToolbarModule,
-        MatGridListModule,
-        MatCheckboxModule,
-        MatSliderModule,
-        MatButtonModule,
-        MatSelectModule,
-        MatDividerModule,
-        MatPaginatorModule,
         FontAwesomeModule,
-        MatCardModule,
-        MatTableModule,
-        MatSortModule,
-        MatDialogModule
+        MaterialModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     exports: [],
     providers: [],

@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderItemModel } from 'src/app/shared/models/order-item/OrderItemModel';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
-import { OrderItemModelItem } from 'src/app/shared/models/order-item/OrderItemModelItem';
-import { PrintingEditionsComponent } from 'src/app/printing-edition/printing-editions/printing-editions.component';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { PaymentService } from '../../services/payment.service';
-import { CartTransactionComponent } from '../cart-transaction/cart-transaction.component';
 import { Currency } from '../../enums/currency';
 import { ConverterModel } from '../../models/ConverterModel';
 import { PrintingEditionDetailsComponent } from 'src/app/printing-edition/printing-edition-details/printing-edition-details.component';
 import { CartService } from '../../services/cart.service';
 import { DataService } from '../../services/data.service';
 import { OrderModelItem } from '../../models/order/OrderModelItem';
+import { PaymentModel } from '../../models/payment/PaymentModel';
 
 @Component({
   selector: 'app-cart-items',
@@ -29,13 +26,13 @@ export class CartItemsComponent implements OnInit {
 
   currencyTypes = this.parametrs.currencyTypes;
   orders = new OrderModelItem();
-  // orderItemModel = new OrderModelItem();
 
   displayedColumns = ['product', 'price', 'qty', 'amount', ' '];
   invalidError: any;
 
   constructor(public dialogRef: MatDialogRef<PrintingEditionDetailsComponent>, private cartService: CartService,
-              private parametrs: PrintingEditionsParametrs, private orderService: OrderService, private dataService: DataService) {
+              private parametrs: PrintingEditionsParametrs, private orderService: OrderService, private dataService: DataService,
+              private paymentService: PaymentService) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }
@@ -54,31 +51,20 @@ export class CartItemsComponent implements OnInit {
     this.converterModel.currencyFrom = this.converterModel.currencyTo;
     return this.converterModel.price;
   }
-  pay(orders: OrderModelItem) {
+  pay(order: OrderModelItem) {
+    let payment = new PaymentModel();
+
     this.dialogRef.close();
     
-    this.orderService.createOrder(this.dataService.getLocalStorage('userRole'), orders).subscribe((data) => {
+    this.orderService.createOrder(this.dataService.getLocalStorage('userRole'), order).then((data) => {
       if (data.errors.length <= 0) {
         this.dataService.deleteItemLocalStorage('cartItems');
         this.cartService.cartSource.next([]);
+        payment.orderId = data.items[0].id;
       }
     });
-
-    // this.orderItemModel.orderItems.push()
-    let handler = (window as any).StripeCheckout.configure({
-      key: 'pk_test_tlcMD8vu8ttNtVSH6RF3OAkp004sTIYGEr',
-      locale: 'auto',
-      token: (token: any) => {
-        // orders.
-      }
-    });
-
-    handler.open({
-      name: 'Localhost',
-      description: 'Payment description',
-      order: orders
-    });
-
+    
+    this.paymentService.openStripeDialog(payment, this.orderService.updateOrder(payment));
   }
   getOrdersAmount() {
     this.converterModel.price = 0;

@@ -2,7 +2,7 @@
 
 namespace EducationApp.DataAccessLayer.Migrations
 {
-    public partial class UpdateTransactionColum : Migration
+    public partial class NewDbName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -3,11 +3,10 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { UserLoginModel } from 'src/app/shared/models/user/UserLoginModel';
 
-import { AccountService } from 'src/app/shared/services/account.service';
+import { AccountService, DataService } from 'src/app/shared/services';
 import { UserRequestModel } from 'src/app/shared/models/user/UserRequestModel';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
-import { DataService } from 'src/app/shared/services/data.service';
 
 
 @Component({

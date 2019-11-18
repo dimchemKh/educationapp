@@ -13,10 +13,10 @@ namespace EducationApp.DataAccessLayer.Repository.Base.Interfaces
         Task<TEntity> GetByIdAsync(long id);
         IQueryable<TEntity> ReadAll();
         IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate);
-        Task CreateAsync(TEntity entity);
-        Task DeleteAsync(TEntity entity);
-        Task UpdateAsync(TEntity entity);
-        Task SaveAsync();
+        Task<long> CreateAsync(TEntity entity);
+        Task<int> DeleteAsync(TEntity entity);
+        Task<int> UpdateAsync(TEntity entity);
+        Task<int> SaveAsync();
         Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel baseFilter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities);
     }
 }

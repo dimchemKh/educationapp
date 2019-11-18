@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserLoginModel } from 'src/app/shared/models/user/UserLoginModel';
-import { UserRequestModel } from 'src/app/shared/models/user/UserRequestModel';
-import { UserRegistrationModel } from 'src/app/shared/models/user/UserRegistrationModel';
-import { BaseModel } from 'src/app/shared/models/base/BaseModel';
+
+import { BaseModel, UserLoginModel, UserRegistrationModel, UserRequestModel } from 'src/app/shared/models';
+
 import { ApiRoutes } from 'src/environments/api-routes';
-import { DataService } from 'src/app/shared/services/data.service';
-import { CartService } from './cart.service';
+import { DataService, CartService } from 'src/app/shared/services/index';
 
 
 @Injectable({
@@ -23,7 +21,6 @@ export class AccountService {
 
   private authNavStatusSource = new BehaviorSubject<boolean>(false);
   authNavStatus$ = this.authNavStatusSource.asObservable();
-
 
   isAuth(): boolean {
     if (this.dataService.getLocalStorage('userName') !== null) {
@@ -63,7 +60,7 @@ export class AccountService {
     this.dataService.clearLocalStorage();
     this.dataService.deleteAllCookie('/');
     this.authNavStatusSource.next(false);
-    this.cartService.cartSource.next(null);
+    this.cartService.cartSource.next([]);
     this.router.navigate(['/account/signIn']);
   }
 }

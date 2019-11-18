@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
 
 
   constructor(private userService: UserService, private fb: FormBuilder,
-    private patterns: ValidationPatterns, private dataService: DataService) {
+              private patterns: ValidationPatterns, private dataService: DataService) {
     this.form = this.fb.group({
       firstName: new FormControl(this.userUpdateModel.firstName, Validators.pattern(this.patterns.namePattern)),
       lastName: new FormControl(this.userUpdateModel.lastName, Validators.pattern(this.patterns.namePattern)),

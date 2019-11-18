@@ -9,8 +9,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { AccountService } from 'src/app/shared/services/account.service';
-import { DataService } from 'src/app/shared/services/data.service';
+import { AccountService, DataService } from 'src/app/shared/services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

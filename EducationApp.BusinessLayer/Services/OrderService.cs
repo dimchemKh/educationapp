@@ -14,6 +14,7 @@ using EducationApp.BusinessLayer.Common;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models;
+using EducationApp.BusinessLayer.Models.Payments;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -105,21 +106,23 @@ namespace EducationApp.BusinessLayer.Services
 
             var mappedOrder = orderItems.MapToEntity(order, payment);
 
-            await _orderRepository.CreateAsync(mappedOrder);
+            var orderId = await _orderRepository.CreateAsync(mappedOrder);
+
+            responseModel.Items.Add(new OrderModelItem { Id = orderId });
 
             return responseModel;
         }
-        public async Task<OrderModel> CreateTransactionAsync(long orderId, string transactionId)
+        public async Task<OrderModel> CreateTransactionAsync(PaymentModel payment)
         {
             var responseModel = new OrderModel();
 
-            if (orderId == 0 || string.IsNullOrWhiteSpace(transactionId))
+            if (payment.OrderId == 0 || string.IsNullOrWhiteSpace(payment.TransactionId))
             {
                 responseModel.Errors.Add(Constants.Errors.TransactionInvalid);
                 return responseModel;
             }
 
-            var updateReuslt = await _orderRepository.UpdateTransactionAsync(orderId, transactionId);
+            var updateReuslt = await _orderRepository.UpdateTransactionAsync(payment.OrderId, payment.TransactionId);
 
             if (!updateReuslt)
             {

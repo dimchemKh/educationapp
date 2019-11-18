@@ -5,19 +5,7 @@ import { routes } from 'src/app/user/user-routing.module';
 import { ProfileComponent } from 'src/app/user/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatChipsModule,
-    MatProgressSpinnerModule,
-    MatSortModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatDialogModule } from '@angular/material';
+    MaterialModule } from 'src/app/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UsersAllComponent } from 'src/app/user/users-all/users-all.component';
 import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog/user-edit-dialog.component';
@@ -32,21 +20,9 @@ import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog
         CommonModule,
         RouterModule.forChild(routes),
         FontAwesomeModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatButtonModule,
         ReactiveFormsModule,
         FormsModule,
-        MatTooltipModule,
-        MatChipsModule,
-        MatProgressSpinnerModule,
-        MatSortModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSelectModule,
-        MatSlideToggleModule,
-        MatDialogModule
+        MaterialModule
     ],
     exports: [],
     providers: [],

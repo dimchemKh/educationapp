@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import { DataService } from 'src/app/shared/services/data.service';
+import { DataService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-confirm-email',

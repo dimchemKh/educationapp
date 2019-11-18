@@ -33,26 +33,27 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate);
         }
-        public async Task CreateAsync(TEntity entity)
+        public async Task<long> CreateAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
+            return entity.Id;
         }
-        public async Task DeleteAsync(TEntity entity)
+        public async Task<int> DeleteAsync(TEntity entity)
         {
             _dbSet.Attach(entity);
             entity.IsRemoved = true;
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
-        public async Task UpdateAsync(TEntity entity)
+        public async Task<int> UpdateAsync(TEntity entity)
         {
             _context.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;            
-            await _context.SaveChangesAsync();
+            _context.Entry(entity).State = EntityState.Modified;
+            return await _context.SaveChangesAsync();
         }
-        public async Task SaveAsync()
+        public async Task<int> SaveAsync()
         {
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
        
         public async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
