@@ -69,7 +69,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 Price = x.Price,
                 PrintingEditionType = x.PrintingEditionType,
                 Title = x.Title,
-                Description = x.Description,
                 Authors = x.AuthorInPrintingEditions
                     .Select(z => new AuthorDataModel()
                     {

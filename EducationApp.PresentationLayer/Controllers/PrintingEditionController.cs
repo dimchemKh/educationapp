@@ -12,7 +12,7 @@ using EducationApp.DataAccessLayer.Entities.Enums;
 
 namespace EducationApp.PresentationLayer.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class PrintingEditionController : Controller
@@ -44,7 +44,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             return Ok(responseModel);
         }
-        [Authorize(Roles = Constants.Roles.User)]
+        //[Authorize(Roles = Constants.Roles.User)]
         [HttpGet("details")]
         public async Task<IActionResult> GetPrintingEditionDetails(long printingEditionId, Enums.Currency currency)
         {

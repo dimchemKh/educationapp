@@ -10,6 +10,6 @@ namespace EducationApp.DataAccessLayer.Models.Filters
         public Enums.Currency Currency { get; set; }
         public decimal PriceMinValue { get; set; }
         public decimal PriceMaxValue { get; set; }
-        public ICollection<Enums.PrintingEditionType> PrintingEditionTypes { get; set; }
+        public IEnumerable<Enums.PrintingEditionType> PrintingEditionTypes { get; set; }
     }
 }

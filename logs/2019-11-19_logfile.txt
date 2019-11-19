@@ -1,0 +1,113 @@
+2019-11-19 11:18:14.7321 INFO Status Code: 200
+2019-11-19 11:19:25.9041 INFO Status Code: 200
+2019-11-19 11:22:07.7781 INFO Status Code: 200
+2019-11-19 11:34:11.2160 INFO Status Code: 200
+2019-11-19 11:37:07.7163 INFO Status Code: 200
+2019-11-19 11:37:32.7481 ERROR Status Code: 200 => Exception message: Cannot implicitly convert type 'int' to 'EducationApp.DataAccessLayer.Entities.Enums.Enums.PrintingEditionType'. An explicit conversion exists (are you missing a cast?)
+2019-11-19 11:38:23.2468 INFO Status Code: 200
+2019-11-19 12:11:21.5285 INFO Status Code: 200
+2019-11-19 12:11:45.0241 INFO Status Code: 200
+2019-11-19 12:14:18.7552 INFO Status Code: 200
+2019-11-19 12:14:20.6085 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-19 12:14:23.1601 INFO Status Code: 200
+2019-11-19 12:14:31.8498 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-19 12:14:45.5896 INFO Status Code: 200
+2019-11-19 12:15:29.9103 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 12:18:37.8567 INFO Status Code: 200
+2019-11-19 12:35:25.8855 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'LIKE'.
+2019-11-19 12:36:03.1083 INFO Status Code: 200
+2019-11-19 12:38:45.7663 INFO Status Code: 200
+2019-11-19 12:38:54.7834 ERROR Status Code: 200 => Exception message: Invalid column name 'Book'.
+Invalid column name 'Book'.
+2019-11-19 12:39:08.2926 INFO Status Code: 200
+2019-11-19 12:40:41.6563 ERROR Status Code: 200 => Exception message: Invalid column name 'Book'.
+Invalid column name 'Book'.
+2019-11-19 12:40:44.4749 INFO Status Code: 200
+2019-11-19 12:43:08.3619 INFO Status Code: 200
+2019-11-19 12:49:51.2376 INFO Status Code: 200
+2019-11-19 12:51:15.1223 INFO Status Code: 200
+2019-11-19 12:54:41.2004 INFO Status Code: 200
+2019-11-19 12:56:27.8166 INFO Status Code: 200
+2019-11-19 13:27:55.2067 INFO Status Code: 200
+2019-11-19 13:29:06.2007 INFO Status Code: 200
+2019-11-19 13:29:23.7964 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 13:29:26.0356 INFO Status Code: 200
+2019-11-19 13:31:27.0437 INFO Status Code: 200
+2019-11-19 13:32:58.1644 INFO Status Code: 200
+2019-11-19 13:46:40.8954 INFO Status Code: 200
+2019-11-19 13:47:44.5348 INFO Status Code: 200
+2019-11-19 13:48:04.6486 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'CONTAINS'.
+2019-11-19 13:50:12.2349 INFO Status Code: 200
+2019-11-19 14:17:58.5607 INFO Status Code: 200
+2019-11-19 14:19:20.7955 INFO Status Code: 200
+2019-11-19 14:22:03.3880 INFO Status Code: 200
+2019-11-19 14:22:08.3813 ERROR Status Code: 200 => Exception message: Incorrect syntax near ')'.
+2019-11-19 15:09:37.3194 INFO Status Code: 200
+2019-11-19 15:10:03.0438 ERROR Status Code: 200 => Exception message: Incorrect syntax near ')'.
+2019-11-19 15:10:45.0749 INFO Status Code: 200
+2019-11-19 15:12:22.2184 INFO Status Code: 200
+2019-11-19 15:13:59.3481 INFO Status Code: 200
+2019-11-19 15:14:47.5791 INFO Status Code: 200
+2019-11-19 15:15:29.9816 INFO Status Code: 200
+2019-11-19 15:17:54.0755 INFO Status Code: 200
+2019-11-19 15:24:50.5597 INFO Status Code: 200
+2019-11-19 15:44:50.0299 INFO Status Code: 200
+2019-11-19 15:44:50.4166 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:44:54.1284 INFO Status Code: 200
+2019-11-19 15:44:54.2932 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:45:01.8802 INFO Status Code: 200
+2019-11-19 15:45:02.0208 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:45:46.2004 INFO Status Code: 200
+2019-11-19 15:45:46.5519 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:45:57.1055 INFO Status Code: 200
+2019-11-19 15:45:57.2608 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:46:03.2337 INFO Status Code: 200
+2019-11-19 15:46:03.3744 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:46:11.5302 INFO Status Code: 200
+2019-11-19 15:46:11.7330 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:46:28.1562 INFO Status Code: 200
+2019-11-19 15:47:22.4657 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'b'.
+2019-11-19 15:47:59.7572 INFO Status Code: 200
+2019-11-19 15:49:39.0298 INFO Status Code: 200
+2019-11-19 15:49:44.1688 ERROR Status Code: 200 => Exception message: Invalid column name 'Idb'.
+2019-11-19 15:49:55.3256 INFO Status Code: 200
+2019-11-19 15:52:25.5639 INFO Status Code: 200
+2019-11-19 15:55:58.5020 INFO Status Code: 200
+2019-11-19 15:56:59.1704 ERROR Status Code: 200 => Exception message: Value cannot be null.
+Parameter name: source
+2019-11-19 15:57:10.7888 INFO Status Code: 200
+2019-11-19 15:57:39.5428 ERROR Status Code: 200 => Exception message: Value cannot be null.
+Parameter name: source
+2019-11-19 15:59:35.7316 INFO Status Code: 200
+2019-11-19 16:05:18.3779 ERROR Status Code: 200 => Exception message: Value cannot be null.
+Parameter name: source
+2019-11-19 16:06:11.5438 INFO Status Code: 200
+2019-11-19 16:06:27.7195 INFO Status Code: 200
+2019-11-19 16:07:30.0517 INFO Status Code: 200
+2019-11-19 16:15:17.7656 INFO Status Code: 200
+2019-11-19 16:15:53.5514 INFO Status Code: 200
+2019-11-19 16:16:24.2397 INFO Status Code: 200
+2019-11-19 16:16:51.9517 INFO Status Code: 200
+2019-11-19 16:18:57.5937 INFO Status Code: 200
+2019-11-19 16:19:19.8263 INFO Status Code: 200
+2019-11-19 17:15:52.2158 INFO Status Code: 200
+2019-11-19 17:16:24.8537 ERROR Status Code: 200 => Exception message: When using the multi-mapping APIs ensure you set the splitOn param if you have keys other than Id
+Parameter name: splitOn
+2019-11-19 17:17:18.0601 INFO Status Code: 200
+2019-11-19 17:17:18.3113 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-19 17:17:30.1188 INFO Status Code: 200
+2019-11-19 17:17:30.2045 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-19 17:17:32.9849 INFO Status Code: 200
+2019-11-19 17:17:59.8798 ERROR Status Code: 200 => Exception message: When using the multi-mapping APIs ensure you set the splitOn param if you have keys other than Id
+Parameter name: splitOn
+2019-11-19 17:18:45.3099 INFO Status Code: 200
+2019-11-19 17:21:29.6222 INFO Status Code: 200
+2019-11-19 17:35:49.3791 INFO Status Code: 200
+2019-11-19 17:36:17.0923 ERROR Status Code: 200 => Exception message: The multi-part identifier "b.Id" could not be bound.
+The multi-part identifier "b.PrintingEditionType" could not be bound.
+The multi-part identifier "b.PrintingEditionType" could not be bound.
+The multi-part identifier "b.Price" could not be bound.
+The multi-part identifier "b.Price" could not be bound.
+Ambiguous column name 'Id'.
+The multi-part identifier "b.Price" could not be bound.
+2019-11-19 17:37:30.9962 INFO Status Code: 200

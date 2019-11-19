@@ -85,19 +85,20 @@ namespace EducationApp.BusinessLayer.Services
                 repositoryFilter.PriceMaxValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMaxValue);
             }
 
-            //var printingEditionsModel = await _printingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
 
-            //foreach (var printingEdition in printingEditionsModel.Collection)
-            //{
-            //    var modelItem = printingEdition.MapToModel(filter.Currency);
-            //    if (!isAdmin)
-            //    {
-            //        modelItem.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, filter.Currency, modelItem.Price);
-            //    }
-            //    responseModel.Items.Add(modelItem);
-            //}
+            var printingEditionsModel = await _printingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
 
-            //responseModel.ItemsCount = printingEditionsModel.CollectionCount;           
+            foreach (var printingEdition in printingEditionsModel.Collection)
+            {
+                var modelItem = printingEdition.MapToModel(filter.Currency);
+                if (!isAdmin)
+                {
+                    modelItem.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, filter.Currency, modelItem.Price);
+                }
+                responseModel.Items.Add(modelItem);
+            }
+
+            responseModel.ItemsCount = printingEditionsModel.CollectionCount;
 
             return responseModel;
         }
@@ -105,13 +106,14 @@ namespace EducationApp.BusinessLayer.Services
         {
             var responseModel = new PrintingEditionModel();
 
-            //var printingEditionData = await _printingEditionRepository.GetPrintingEditionDetailsAsync(printingEditionId);
+            var q = await _printingEditionRepository.GetPrintingEditionDetailsAsync(printingEditionId);
+            var printingEditionData = await _printingEditionRepository.GetPrintingEditionDetailsAsync(printingEditionId);
 
-            //var printingEdition = printingEditionData.MapToModel(currency);
+            var printingEdition = printingEditionData.MapToModel(currency);
 
-            //printingEdition.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, currency, printingEdition.Price);
+            printingEdition.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, currency, printingEdition.Price);
 
-            //responseModel.Items.Add(printingEdition);
+            responseModel.Items.Add(printingEdition);
 
             return responseModel;
         }

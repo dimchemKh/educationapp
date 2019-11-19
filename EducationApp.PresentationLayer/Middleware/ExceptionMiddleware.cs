@@ -13,7 +13,7 @@ namespace EducationApp.PresentationLayer.Middleware
         public ExceptionMiddleware(RequestDelegate next, ILog logger)
         {
             _next = next;
-            _logger = logger;             
+            _logger = logger;              
         }
         public async Task Invoke(HttpContext context)
         {

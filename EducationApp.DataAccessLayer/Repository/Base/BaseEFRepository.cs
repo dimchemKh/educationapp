@@ -56,7 +56,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             return await _context.SaveChangesAsync();
         }
        
-        public async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
+        protected async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
         {
             if (filter.SortState.Equals(Enums.SortState.Asc))
             {
