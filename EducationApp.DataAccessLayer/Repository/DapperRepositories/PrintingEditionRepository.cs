@@ -68,71 +68,85 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     sqlTypes = sqlTypes.Substring(0, sqlTypes.Length - 1);
                 }
             }
-            var sqlQuery = $@"SELECT Id, Title, Price, Currency, PrintingEditionType, t.Name 
-                                FROM PrintingEditions
-                                LEFT JOIN AuthorInPrintingEditions as ap ON ap.PrintingEditionId = Id 
-                                LEFT JOIN Authors as t ON t.Id = ap.AuthorId
-                                WHERE PrintingEditionType IN {sqlTypes}) ";
-
-            if (!string.IsNullOrWhiteSpace(filter.SearchString))
-            {
-                sqlQuery += $"AND Title LIKE '{filter.SearchString}%' ";
-            }
-            
 
             Expression<Func<PrintingEditionDataModel, object>> predicate = x => x.Id;
-            var orderBySql = "Id";
-
+            var orderBySql = " pe.Id ";
+            var priceSql = string.Empty;
             if (!isAdmin)
             {
-                sqlQuery += $"AND Price BETWEEN {filter.PriceMinValue} AND {filter.PriceMaxValue} ";
-                orderBySql = "Price";
+                priceSql += $"AND pe.Price BETWEEN {filter.PriceMinValue} AND {filter.PriceMaxValue} ";
+                orderBySql = " pe.Price ";
                 predicate = b => b.Price;
             }
 
             if (filter.SortType.Equals(Enums.SortType.Title))
             {
-                orderBySql = "Title";
+                orderBySql = " pe.Title ";
                 predicate = b => b.Title;
             }
             if (filter.SortType.Equals(Enums.SortType.Price))
             {
-                orderBySql = "Price";
+                orderBySql = " pe.Price ";
                 predicate = b => b.Price;
             }
 
-            sqlQuery += $"ORDER BY {orderBySql}";
+            var offsetSql = string.Empty;
 
-            //IQueryable<PrintingEditionDataModel> query = null;
+            var orderBy = $"ORDER BY {orderBySql} ";
+            var selectSql = $@"AiNP.Id, AiNP.AuthorId, AiNP.PrintingEditionId, a.Id, a.CreationDate,
+                                a.IsRemoved, a.Name, pe.Title, pe.Price";
+            var mainSql = $@"SELECT COUNT (pe.Id)
+                                FROM AuthorInPrintingEditions AS AiNP
+                                INNER JOIN Authors AS a ON AiNP.AuthorId = a.Id
+                                INNER JOIN (
+                                    SELECT pe.Id, pe.Price, pe.Title FROM PrintingEditions AS pe ";
 
-            //IEnumerable<dynamic> res;
+            var filterSql = $"\nWHERE (pe.IsRemoved = 0) AND pe.PrintingEditionType IN {sqlTypes}) {priceSql}";
 
-            using(var connection = SqlConnection())
+            var orderSql = $@"{orderBy}
+                            ) AS pe ON AiNP.PrintingEditionId = pe.Id 
+                            WHERE pe.Title LIKE '{filter.SearchString}%' OR a.Name LIKE '{filter.SearchString}%'
+                            {orderBy};";
+
+            var countSql = mainSql + filterSql + orderSql;
+
+            mainSql = mainSql.Replace("COUNT (pe.Id)", selectSql);
+
+            var newOrderSql = $@"{orderBy}
+                                OFFSET { (filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT { filter.PageSize} ROWS ONLY
+                            ) AS pe ON AiNP.PrintingEditionId = pe.Id 
+                            WHERE pe.Title LIKE '{filter.SearchString}%' OR a.Name LIKE '{filter.SearchString}%'
+                            {orderBy};";
+
+            var resultSql = mainSql + filterSql + newOrderSql;
+
+            using (var connection = SqlConnection())
             {
-                var authors = new Dictionary<long, PrintingEdition>();
-
-                var list = connection.Query<PrintingEdition, AuthorInPrintingEdition, Author, PrintingEditionDataModel>(
-                sqlQuery,
-                (printingEdition, AiPe, author) =>
+                try
                 {
-                    PrintingEditionDataModel printingEditionData;
+                    var result = await connection.QueryMultipleAsync(resultSql + countSql);
+                    var pe = result.Read().ToList();
+                    var authors = result.Read().ToArray();
+                    var count = result.Read();
+                    foreach (var item in pe)
+                    {
+                        var authorPe = authors
+                            .Where(x => x.PrintingEditionId == item.Id)
+                            .Select(x => new AuthorDataModel
+                            {
+                                Name = x.Name
+                            }).ToArray();
 
-                    printingEditionData = new PrintingEditionDataModel { Id = printingEdition.Id };
-                    //if (!authors.TryGetValue(printingEdition.Id, out peEntry))
-                    //{
-                    //    peEntry = printingEdition;
-                    //    peEntry.AuthorInPrintingEditions = new List<OrderDetail>();
-                    //    authors.Add(orderEntry.OrderID, orderEntry);
-                    //}
+                        item.Authors = authorPe;
+                    }
+                }
+                catch (Exception ex)
+                {
 
-                    //orderEntry.OrderDetails.Add(orderDetail);
+                    throw;
+                }
 
-                    return printingEditionData;
-                })
-            .Distinct()
-            .ToList();
-
-
+                
             }
 
             //query = res.GroupBy(x => x.Id).Select(x => x.Select(pe => new PrintingEditionDataModel

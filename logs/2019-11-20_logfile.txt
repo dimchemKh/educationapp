@@ -1,0 +1,111 @@
+2019-11-20 09:54:02.9050 INFO Status Code: 200
+2019-11-20 09:54:03.0944 ERROR Status Code: 200 => Exception message: Unable to resolve service for type 'EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces.IUserRepository' while attempting to activate 'EducationApp.BusinessLayer.Services.AccountService'.
+2019-11-20 09:54:13.4731 INFO Status Code: 200
+2019-11-20 09:54:13.5224 ERROR Status Code: 200 => Exception message: Unable to resolve service for type 'EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces.IUserRepository' while attempting to activate 'EducationApp.BusinessLayer.Services.AccountService'.
+2019-11-20 10:13:36.6397 INFO Status Code: 200
+2019-11-20 10:13:36.8223 ERROR Status Code: 200 => Exception message: Ambiguous column name 'Id'.
+Ambiguous column name 'Id'.
+2019-11-20 10:13:48.1688 INFO Status Code: 200
+2019-11-20 10:14:30.0390 ERROR Status Code: 200 => Exception message: Ambiguous column name 'Id'.
+Ambiguous column name 'Id'.
+2019-11-20 10:47:09.7664 INFO Status Code: 200
+2019-11-20 10:48:56.7638 INFO Status Code: 200
+2019-11-20 10:53:20.2046 INFO Status Code: 200
+2019-11-20 11:20:51.4513 INFO Status Code: 200
+2019-11-20 11:21:30.9876 INFO Status Code: 200
+2019-11-20 11:21:45.8813 INFO Status Code: 200
+2019-11-20 11:23:22.9948 INFO Status Code: 200
+2019-11-20 11:23:31.5204 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'INNER'.
+2019-11-20 11:24:02.0665 INFO Status Code: 200
+2019-11-20 11:41:35.3907 INFO Status Code: 200
+2019-11-20 11:45:08.9980 INFO Status Code: 200
+2019-11-20 13:44:48.2020 INFO Status Code: 200
+2019-11-20 13:47:35.2081 INFO Status Code: 200
+2019-11-20 13:48:51.0788 INFO Status Code: 200
+2019-11-20 13:54:02.3718 INFO Status Code: 200
+2019-11-20 13:55:43.7684 INFO Status Code: 200
+2019-11-20 14:03:35.5630 INFO Status Code: 200
+2019-11-20 14:05:32.9471 INFO Status Code: 200
+2019-11-20 14:20:58.2020 INFO Status Code: 200
+2019-11-20 14:21:28.8988 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+2019-11-20 14:21:35.9539 INFO Status Code: 200
+2019-11-20 14:21:55.4189 ERROR Status Code: 200 => Exception message: Incorrect syntax near ';'.
+2019-11-20 14:22:01.1621 INFO Status Code: 200
+2019-11-20 14:22:37.3871 ERROR Status Code: 200 => Exception message: Incorrect syntax near ';'.
+2019-11-20 14:22:40.4970 INFO Status Code: 200
+2019-11-20 14:23:20.1720 ERROR Status Code: 200 => Exception message: Only one expression can be specified in the select list when the subquery is not introduced with EXISTS.
+2019-11-20 14:26:10.4401 INFO Status Code: 200
+2019-11-20 14:28:47.2784 INFO Status Code: 200
+2019-11-20 14:35:40.8819 ERROR Status Code: 200 => Exception message: Only one expression can be specified in the select list when the subquery is not introduced with EXISTS.
+2019-11-20 14:35:43.5807 INFO Status Code: 200
+2019-11-20 14:35:52.4668 INFO Status Code: 200
+2019-11-20 14:44:28.9663 INFO Status Code: 200
+2019-11-20 14:54:03.9873 INFO Status Code: 200
+2019-11-20 15:47:53.3526 INFO Status Code: 200
+2019-11-20 15:50:04.7746 INFO Status Code: 200
+2019-11-20 15:51:05.5638 INFO Status Code: 200
+2019-11-20 15:51:45.9838 ERROR Status Code: 200 => Exception message: Incorrect syntax near '('.
+Invalid usage of the option NEXT in the FETCH statement.
+2019-11-20 15:51:48.2704 INFO Status Code: 200
+2019-11-20 15:55:40.4398 INFO Status Code: 200
+2019-11-20 15:56:51.6912 INFO Status Code: 200
+2019-11-20 15:59:18.3200 INFO Status Code: 200
+2019-11-20 15:59:42.2967 ERROR Status Code: 200 => Exception message: Invalid attempt to call FieldCount when reader is closed.
+2019-11-20 15:59:45.2591 INFO Status Code: 200
+2019-11-20 16:02:28.1923 INFO Status Code: 200
+2019-11-20 16:03:11.1728 INFO Status Code: 200
+2019-11-20 16:03:49.9903 INFO Status Code: 200
+2019-11-20 16:04:42.0476 INFO Status Code: 200
+2019-11-20 16:07:37.5662 INFO Status Code: 200
+2019-11-20 16:10:00.5780 INFO Status Code: 200
+2019-11-20 16:13:10.0067 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:13:12.4003 INFO Status Code: 200
+2019-11-20 16:13:26.5116 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:15:23.2541 INFO Status Code: 200
+2019-11-20 16:15:33.4582 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:16:36.3914 INFO Status Code: 200
+2019-11-20 16:17:23.0931 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:17:28.3895 INFO Status Code: 200
+2019-11-20 16:17:43.9526 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'p'.
+2019-11-20 16:20:27.1908 INFO Status Code: 200
+2019-11-20 16:21:18.9819 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'Price'.
+2019-11-20 16:21:21.2762 INFO Status Code: 200
+2019-11-20 16:21:25.7993 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'Price'.
+2019-11-20 16:21:27.9458 INFO Status Code: 200
+2019-11-20 16:23:23.1904 INFO Status Code: 200
+2019-11-20 16:24:53.5004 INFO Status Code: 200
+2019-11-20 16:26:25.0034 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:26:27.2989 INFO Status Code: 200
+2019-11-20 16:26:53.2364 ERROR Status Code: 200 => Exception message: Incorrect syntax near '('.
+2019-11-20 16:26:56.0524 INFO Status Code: 200
+2019-11-20 16:27:37.7533 ERROR Status Code: 200 => Exception message: Incorrect syntax near '('.
+2019-11-20 16:27:39.9634 INFO Status Code: 200
+2019-11-20 16:27:51.9399 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:27:54.3035 INFO Status Code: 200
+2019-11-20 16:28:31.8117 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:28:54.0328 INFO Status Code: 200
+2019-11-20 16:31:01.5626 INFO Status Code: 200
+2019-11-20 16:32:35.3982 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:32:37.8766 INFO Status Code: 200
+2019-11-20 16:32:39.3370 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:32:41.6179 INFO Status Code: 200
+2019-11-20 16:32:51.6603 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:33:58.1463 INFO Status Code: 200
+2019-11-20 16:34:52.8030 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:34:55.2690 INFO Status Code: 200
+2019-11-20 16:35:23.8384 ERROR Status Code: 200 => Exception message: Incorrect syntax near '\'.
+2019-11-20 16:35:25.9506 INFO Status Code: 200
+2019-11-20 16:39:09.4490 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:39:16.2606 INFO Status Code: 200
+2019-11-20 16:40:59.8200 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:41:03.2219 INFO Status Code: 200
+2019-11-20 16:42:48.1562 INFO Status Code: 200
+2019-11-20 16:42:57.2489 ERROR Status Code: 200 => Exception message: Incorrect syntax near 'pe'.
+2019-11-20 16:44:02.1421 INFO Status Code: 200
+2019-11-20 17:08:11.9225 INFO Status Code: 200
+2019-11-20 17:10:05.4244 INFO Status Code: 200
+2019-11-20 17:13:53.3640 INFO Status Code: 200
+2019-11-20 17:14:25.0183 INFO Status Code: 200
