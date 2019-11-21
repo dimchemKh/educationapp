@@ -58,7 +58,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             var responseModel = new GenericModel<PrintingEditionDataModel>();
 
-            responseModel.CollectionCount = printingEditions.LongCount();
+            responseModel.CollectionCount = printingEditions.Count();
 
             var printingEditionPage = await PaginationAsync(filter, predicate, printingEditions);
 

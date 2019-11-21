@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using Dapper.Contrib.Extensions;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Reflection;
 
 namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 {
@@ -25,7 +27,11 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             foreach(var id in authorsId)
             {
-                entities.Add(new AuthorInPrintingEdition { AuthorId = id, PrintingEditionId = printingEditionId });    
+                entities.Add(new AuthorInPrintingEdition
+                {
+                    AuthorId = id,
+                    PrintingEditionId = printingEditionId
+                });    
             }
             using (var connect = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
             {
@@ -34,8 +40,47 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             return true;
         }
-        public Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId) => throw new NotImplementedException();
+        public async Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
+        {
+            var sql = $@"SELECT aPe.Id, aPe.AuthorId, aPe.PrintingEditionId
+                         FROM AuthorInPrintingEditions AS aPe
+                         WHERE ape.PrintingEditionId = {printingEditionId};";
 
-        public Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate) => throw new NotImplementedException();
+            var authorsInPrintingEdition = new List<AuthorInPrintingEdition>();
+
+            using(var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            {
+                authorsInPrintingEdition = (await connection.QueryAsync<AuthorInPrintingEdition>(sql)).ToList();
+            }
+
+            var sameIds = authorsInPrintingEdition.Select(x => x.AuthorId).ToArray();
+            var isEqual = sameIds.SequenceEqual(authorsId.OrderBy(x => x));
+
+            if (isEqual)
+            {
+                return false;
+            }
+
+            var removeRange = authorsInPrintingEdition.ToArray();
+
+            using(var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            {
+                await connection.DeleteAsync(removeRange);
+            }
+
+            var result = await AddAuthorsInPrintingEditionAsync(printingEditionId, authorsId);
+
+            return result;
+        }
+
+        public async Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
+        {
+            var qw = predicate.Body;
+            var result = qw as BinaryExpression;
+            var right = result.Right;
+
+
+            return true;
+        }
     }
 }

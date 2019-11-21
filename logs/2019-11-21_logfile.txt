@@ -1,0 +1,134 @@
+2019-11-21 10:08:55.0625 INFO Status Code: 200
+2019-11-21 10:22:13.2434 INFO Status Code: 200
+2019-11-21 10:30:53.1723 INFO Status Code: 200
+2019-11-21 10:33:05.4847 INFO Status Code: 200
+2019-11-21 10:33:11.2723 INFO Status Code: 200
+2019-11-21 10:33:20.1061 INFO Status Code: 200
+2019-11-21 10:34:06.8298 INFO Status Code: 200
+2019-11-21 10:35:03.7973 INFO Status Code: 200
+2019-11-21 10:36:22.7996 INFO Status Code: 200
+2019-11-21 10:46:28.1126 INFO Status Code: 200
+2019-11-21 10:49:14.6428 INFO Status Code: 200
+2019-11-21 10:56:39.9110 INFO Status Code: 200
+2019-11-21 10:57:58.1769 INFO Status Code: 200
+2019-11-21 10:59:05.6408 INFO Status Code: 200
+2019-11-21 10:59:26.5475 INFO Status Code: 200
+2019-11-21 11:01:29.9262 INFO Status Code: 200
+2019-11-21 11:04:13.2349 INFO Status Code: 200
+2019-11-21 11:06:39.0324 INFO Status Code: 200
+2019-11-21 11:12:47.5699 INFO Status Code: 200
+2019-11-21 11:14:47.8781 INFO Status Code: 200
+2019-11-21 11:27:06.5370 INFO Status Code: 200
+2019-11-21 11:27:07.0171 ERROR Status Code: 200 => Exception message: Cannot implicitly convert type 'object' to 'long'. An explicit conversion exists (are you missing a cast?)
+2019-11-21 11:27:29.6133 INFO Status Code: 200
+2019-11-21 11:27:42.2332 ERROR Status Code: 200 => Exception message: Cannot implicitly convert type 'object' to 'long'. An explicit conversion exists (are you missing a cast?)
+2019-11-21 11:28:16.6731 INFO Status Code: 200
+2019-11-21 11:29:54.9711 INFO Status Code: 200
+2019-11-21 11:30:40.4293 INFO Status Code: 200
+2019-11-21 11:30:40.6732 ERROR Status Code: 200 => Exception message: Cannot apply indexing with [] to an expression of type 'object'
+2019-11-21 11:30:45.9976 INFO Status Code: 200
+2019-11-21 11:31:29.7278 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-21 11:31:32.0560 INFO Status Code: 200
+2019-11-21 12:02:08.6419 INFO Status Code: 200
+2019-11-21 12:02:33.9748 INFO Status Code: 200
+2019-11-21 12:02:46.5239 INFO Status Code: 200
+2019-11-21 12:02:46.5887 ERROR Status Code: 200 => Exception message: Unable to resolve service for type 'EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces.IAuthorRepository' while attempting to activate 'EducationApp.BusinessLayer.Services.AuthorService'.
+2019-11-21 12:03:28.7048 INFO Status Code: 200
+2019-11-21 12:03:28.7448 ERROR Status Code: 200 => Exception message: Unable to resolve service for type 'EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces.IAuthorRepository' while attempting to activate 'EducationApp.BusinessLayer.Services.AuthorService'.
+2019-11-21 12:03:42.1879 INFO Status Code: 200
+2019-11-21 12:03:42.2246 ERROR Status Code: 200 => Exception message: Unable to resolve service for type 'EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces.IAuthorRepository' while attempting to activate 'EducationApp.BusinessLayer.Services.AuthorService'.
+2019-11-21 12:04:04.1763 INFO Status Code: 200
+2019-11-21 12:04:15.2353 ERROR Status Code: 200 => Exception message: Invalid column name 'AuthorInPrintingEditions'.
+2019-11-21 12:05:26.7853 INFO Status Code: 200
+2019-11-21 12:06:26.4077 INFO Status Code: 200
+2019-11-21 12:06:53.6940 INFO Status Code: 200
+2019-11-21 12:08:43.5217 INFO Status Code: 200
+2019-11-21 12:09:01.5959 INFO Status Code: 200
+2019-11-21 12:09:26.9152 INFO Status Code: 200
+2019-11-21 12:19:16.0035 INFO Status Code: 200
+2019-11-21 12:19:59.3628 INFO Status Code: 200
+2019-11-21 12:22:57.9386 INFO Status Code: 200
+2019-11-21 12:28:58.9121 INFO Status Code: 200
+2019-11-21 16:25:44.6118 INFO Status Code: 200
+2019-11-21 16:28:15.0443 INFO Status Code: 200
+2019-11-21 16:28:19.2396 INFO Status Code: 200
+2019-11-21 16:28:28.1585 INFO Status Code: 200
+2019-11-21 16:38:51.9241 INFO Status Code: 200
+2019-11-21 16:38:56.8923 ERROR Status Code: 200 => Exception message: When using the multi-mapping APIs ensure you set the splitOn param if you have keys other than Id
+Parameter name: splitOn
+2019-11-21 16:43:51.2186 INFO Status Code: 200
+2019-11-21 16:43:55.4725 INFO Status Code: 200
+2019-11-21 16:44:03.7632 INFO Status Code: 200
+2019-11-21 16:44:04.0365 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-21 16:44:10.2922 INFO Status Code: 200
+2019-11-21 16:46:31.1574 INFO Status Code: 200
+2019-11-21 16:46:31.6566 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-21 16:48:26.1092 INFO Status Code: 200
+2019-11-21 16:51:05.4863 INFO Status Code: 200
+2019-11-21 16:59:10.1109 INFO Status Code: 200
+2019-11-21 16:59:28.9414 INFO Status Code: 200
+2019-11-21 17:00:06.6240 INFO Status Code: 200
+2019-11-21 17:01:26.1362 INFO Status Code: 200
+2019-11-21 17:01:32.2091 INFO Status Code: 200
+2019-11-21 17:01:39.8398 INFO Status Code: 200
+2019-11-21 17:01:54.4605 INFO Status Code: 200
+2019-11-21 17:06:35.4220 INFO Status Code: 200
+2019-11-21 17:17:12.4692 INFO Status Code: 200
+2019-11-21 17:17:58.8145 INFO Status Code: 200
+2019-11-21 17:20:19.1995 INFO Status Code: 200
+2019-11-21 17:20:19.3878 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'FROM'.
+Incorrect syntax near the keyword 'ORDER'.
+Invalid usage of the option NEXT in the FETCH statement.
+2019-11-21 17:20:51.8804 INFO Status Code: 200
+2019-11-21 17:20:52.2723 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'FROM'.
+Incorrect syntax near the keyword 'ORDER'.
+Invalid usage of the option NEXT in the FETCH statement.
+2019-11-21 17:21:27.8123 INFO Status Code: 200
+2019-11-21 17:22:17.6721 INFO Status Code: 200
+2019-11-21 18:01:14.0997 INFO Status Code: 200
+2019-11-21 18:01:21.7205 INFO Status Code: 200
+2019-11-21 18:01:26.0411 INFO Status Code: 200
+2019-11-21 18:01:50.2494 INFO Status Code: 200
+2019-11-21 18:04:35.5481 INFO Status Code: 200
+2019-11-21 18:08:13.4892 INFO Status Code: 200
+2019-11-21 18:13:36.1248 INFO Status Code: 200
+2019-11-21 18:21:56.2814 INFO Status Code: 200
+2019-11-21 18:22:18.2069 ERROR Status Code: 200 => Exception message: Expression of type 'System.Func`2[EducationApp.DataAccessLayer.Entities.AuthorInPrintingEdition,System.Boolean]' cannot be used for label of type 'System.Int64'
+2019-11-21 18:27:38.0468 INFO Status Code: 200
+2019-11-21 18:27:42.5326 ERROR Status Code: 200 => Exception message: Unable to cast object of type 'System.Linq.Expressions.LogicalBinaryExpression' to type 'System.Linq.Expressions.MemberExpression'.
+2019-11-21 18:27:46.9139 INFO Status Code: 200
+2019-11-21 18:28:02.5049 ERROR Status Code: 200 => Exception message: Unable to cast object of type 'System.Linq.Expressions.LogicalBinaryExpression' to type 'System.Linq.Expressions.MemberExpression'.
+2019-11-21 18:53:24.1754 INFO Status Code: 200
+2019-11-21 19:02:24.9942 INFO Status Code: 200
+2019-11-21 19:02:25.1742 ERROR Status Code: 200 => Exception message: Column "pe.Price" is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
+2019-11-21 19:03:08.2054 INFO Status Code: 200
+2019-11-21 19:10:14.7038 INFO Status Code: 200
+2019-11-21 19:10:16.8120 INFO Status Code: 200
+2019-11-21 19:10:26.3845 INFO Status Code: 200
+2019-11-21 19:10:37.8052 INFO Status Code: 200
+2019-11-21 19:10:41.7459 INFO Status Code: 200
+2019-11-21 19:10:50.7629 INFO Status Code: 200
+2019-11-21 19:25:19.9093 INFO Status Code: 200
+2019-11-21 19:25:20.1221 INFO Status Code: 200
+2019-11-21 19:25:20.3936 INFO Status Code: 200
+2019-11-21 19:25:26.8037 INFO Status Code: 200
+2019-11-21 19:25:27.9325 INFO Status Code: 200
+2019-11-21 19:25:28.4171 INFO Status Code: 200
+2019-11-21 19:25:31.9363 INFO Status Code: 200
+2019-11-21 19:25:41.3688 INFO Status Code: 200
+2019-11-21 19:25:42.4014 INFO Status Code: 200
+2019-11-21 19:25:44.2772 INFO Status Code: 200
+2019-11-21 19:26:27.4156 INFO Status Code: 200
+2019-11-21 19:26:30.4806 INFO Status Code: 200
+2019-11-21 19:26:31.2956 INFO Status Code: 200
+2019-11-21 19:26:31.8339 INFO Status Code: 200
+2019-11-21 19:26:32.2636 INFO Status Code: 200
+2019-11-21 19:26:35.2679 INFO Status Code: 200
+2019-11-21 19:26:38.0438 INFO Status Code: 200
+2019-11-21 19:26:41.0828 INFO Status Code: 200
+2019-11-21 19:26:45.9590 INFO Status Code: 200
+2019-11-21 19:26:53.6126 INFO Status Code: 200
+2019-11-21 19:26:53.6764 ERROR Status Code: 200 => Exception message: Unable to resolve service for type 'EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces.IOrderRepository' while attempting to activate 'EducationApp.BusinessLayer.Services.OrderService'.
+2019-11-21 19:27:01.3730 INFO Status Code: 200
+2019-11-21 19:27:47.5500 INFO Status Code: 200
+2019-11-21 19:27:53.2696 INFO Status Code: 200

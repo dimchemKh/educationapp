@@ -51,8 +51,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public Task<int> SaveAsync()
         {
             using (var connection = SqlConnection())
-            {
-                   
+            {                   
             }
             return null;
         }
@@ -62,26 +61,6 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             {
                 return await connection.UpdateAsync(entity);
             }
-        }
-
-        protected async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
-        {
-            if (filter.SortState.Equals(Enums.SortState.Asc))
-            {
-                entities = entities.OrderBy(predicate);
-            }
-            if (filter.SortState.Equals(Enums.SortState.Desc))
-            {
-                entities = entities.OrderByDescending(predicate);
-            }
-
-            var result = await entities
-                .Skip((filter.Page - 1) * filter.PageSize)
-                .Take(filter.PageSize)
-                .ToAsyncEnumerable()
-                .ToList();
-
-            return result;
         }
 
         protected SqlConnection SqlConnection()

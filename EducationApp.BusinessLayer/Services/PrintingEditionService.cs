@@ -8,8 +8,8 @@ using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 
-//using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
-using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+//using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
 
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
@@ -127,8 +127,8 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData); 
                 return responseModel;
             }
-            //await _printingEditionRepository.DeleteAsync(printingEdition);
-            //await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.PrintingEditionId == printingEditionId);
+            // await _printingEditionRepository.DeleteAsync(printingEdition);
+            await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.PrintingEditionId == printingEditionId);
 
             return responseModel;
         }

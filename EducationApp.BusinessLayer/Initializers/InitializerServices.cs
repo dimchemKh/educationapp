@@ -7,11 +7,11 @@ using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Initializer;
 
-//using EducationApp.DataAccessLayer.Repository.EFRepository;
-//using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.EFRepository;
+using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
 
-using EducationApp.DataAccessLayer.Repository.DapperRepositories;
-using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+//using EducationApp.DataAccessLayer.Repository.DapperRepositories;
+//using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -59,7 +59,7 @@ namespace EducationApp.BusinessLayer.Initializers
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
-            //services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
             //services.AddTransient<IOrderRepository, OrderRepository>();
             //services.AddTransient<IPaymentRepository, PaymentRepository>();
             #endregion

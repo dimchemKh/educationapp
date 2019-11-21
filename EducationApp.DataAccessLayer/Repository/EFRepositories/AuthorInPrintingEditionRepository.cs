@@ -39,7 +39,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             var removeRange = await authorsInPrintingEdition.ToArrayAsync();
 
-
             _context.AuthorInPrintingEditions.RemoveRange(removeRange);
 
             await AddAuthorsInPrintingEditionAsync(printingEditionId, authorsId);
