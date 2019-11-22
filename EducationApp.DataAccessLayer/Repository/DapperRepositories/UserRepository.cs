@@ -10,7 +10,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Dapper;
 using System.Threading.Tasks;
-using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 
 namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 {

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EducationApp.DataAccessLayer.Repository.Base
 {
-    public class BaseEFRepository<TEntity> : IBaseEFRepository<TEntity> where TEntity : BaseEntity
+    public class BaseEFRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {        
         protected ApplicationContext _context;
         protected DbSet<TEntity> _dbSet;

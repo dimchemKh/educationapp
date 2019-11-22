@@ -8,7 +8,7 @@ using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 //using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
 
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
@@ -84,7 +84,6 @@ namespace EducationApp.BusinessLayer.Services
                 repositoryFilter.PriceMinValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMinValue);
                 repositoryFilter.PriceMaxValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMaxValue);
             }
-
 
             var printingEditionsModel = await _printingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
 

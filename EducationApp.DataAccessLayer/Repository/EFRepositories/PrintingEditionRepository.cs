@@ -6,7 +6,7 @@ using EducationApp.DataAccessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -36,7 +36,9 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             if (!string.IsNullOrWhiteSpace(filter.SearchString))
             {
-                printingEditions = printingEditions.Where(x => x.Title.ToLower().StartsWith(filter.SearchString.ToLower()));
+                printingEditions = printingEditions
+                    .Where(x => x.AuthorInPrintingEditions.Select(z => z.Author.Name.ToLower().StartsWith(filter.SearchString.ToLower())).FirstOrDefault() 
+                             || x.Title.ToLower().StartsWith(filter.SearchString.ToLower()));
             }
 
             Expression<Func<PrintingEdition, object>> predicate = x => x.Id;

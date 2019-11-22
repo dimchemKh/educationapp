@@ -11,7 +11,7 @@ using EducationApp.DataAccessLayer.Models.Filters;
 using System.Linq.Expressions;
 using System;
 using EducationApp.DataAccessLayer.Entities.Enums;
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using EducationApp.DataAccessLayer.Models;
 using static EducationApp.DataAccessLayer.Entities.Enums.Enums;
 
@@ -46,13 +46,16 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 query = query.Where(x => x.Payment.TransactionId == null);
             }
 
+            var qa = query.ToList();
+
             var orders = query.Select(x => new OrderDataModel
             {
                 Id = x.Id,
                 Amount = x.Amount,
-                Date = x.CreationDate,
+                CreationDate = x.CreationDate,
                 Email = x.User.Email,
-                UserName = $"{x.User.FirstName + x.User.LastName}",
+                FirstName = x.User.FirstName,
+                LastName = x.User.LastName,
                 Currency = x.OrderItems.Select(z => z.Currency).FirstOrDefault(),
                 PaymentId = x.Payment.TransactionId,
                 OrderItems = x.OrderItems.Select(z => new OrderItemDataModel
@@ -73,7 +76,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             }
             if (filterOrder.SortType.Equals(SortType.Date))
             {
-                predicate = x => x.Date;
+                predicate = x => x.CreationDate;
             }
 
             var responseModel = new GenericModel<OrderDataModel>()

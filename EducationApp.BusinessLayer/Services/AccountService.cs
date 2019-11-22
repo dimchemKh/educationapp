@@ -4,10 +4,8 @@ using EducationApp.BusinessLayer.Helpers.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Common.Constants;
-using EducationApp.BusinessLayer.Models.Auth;
 
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
-//using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.BusinessLayer.Models.Base;

@@ -3,7 +3,7 @@ using EducationApp.DataAccessLayer.Models;
 using EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -67,10 +67,23 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     sqlTypes = sqlTypes.Substring(0, sqlTypes.Length - 1);
                 }
             }
+            var searchSql = string.Empty;
+            if (!string.IsNullOrWhiteSpace(filter.SearchString))
+            {
+                searchSql = $@"AND (COALESCE((
+						SELECT TOP(1) CASE
+						WHEN (LOWER(aut.Name)) LIKE '{filter.SearchString}%'
+						THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+						END
+						FROM AuthorInPrintingEditions AS aPe
+						INNER JOIN Authors AS aut ON aut.Id = aPe.AuthorId
+						WHERE pe.Id = aPe.PrintingEditionId
+					    ),0) = 1) OR (LOWER(pe.Title) LIKE '{filter.SearchString}%')";
+            }
 
             var orderBySql = "pe.Id";
-
             var priceSql = string.Empty;
+
             if (!isAdmin)
             {
                 priceSql += $"AND pe.Price BETWEEN {filter.PriceMinValue} AND {filter.PriceMaxValue} ";
@@ -85,34 +98,39 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 orderBySql = "pe.Price";
             }
-
+            var sort = string.Empty;
+            if (filter.SortState.Equals(Enums.SortState.Asc))
+            {
+                sort = "ASC";
+            }
+            if (filter.SortState.Equals(Enums.SortState.Desc))
+            {
+                sort = "DESC";
+            }
             var offsetSql = string.Empty;
 
-            var orderBy = $"ORDER BY {orderBySql} ";
+            var orderBy = $"ORDER BY {orderBySql} {sort}";
 
             var columnSelectBuilder = "pe.Id, pe.Title, pe.Price, pe.Description, pe.Currency, pe.PrintingEditionType, a.Id, a.Name";
 
-            var countMailBuilder = new StringBuilder(@"SELECT COUNT(DISTINCT pe.Id)
+            var countBuilder = new StringBuilder(@"SELECT COUNT(DISTINCT pe.Id)
                                                     FROM AuthorInPrintingEditions AS AiNP
                                                     INNER JOIN Authors AS a ON AiNP.AuthorId = a.Id
                                                     INNER JOIN (
                                                         SELECT pe.Id, pe.Price, pe.Title, pe.Description, pe.Currency, pe.PrintingEditionType FROM PrintingEditions AS pe ");
 
-            var mainBuilder = new StringBuilder(countMailBuilder.ToString().Replace("COUNT(DISTINCT pe.Id)", columnSelectBuilder));
+            var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT pe.Id)", columnSelectBuilder));
 
-            var filterSqlBuilder = $"\nWHERE (pe.IsRemoved = 0) AND pe.PrintingEditionType IN {sqlTypes}) {priceSql}";
+            var filterSqlBuilder = $"\nWHERE (pe.IsRemoved = 0) AND pe.PrintingEditionType IN {sqlTypes}) {priceSql} {searchSql}";
 
-            var endBuilder = $@") AS pe ON AiNP.PrintingEditionId = pe.Id 
-                            WHERE pe.Title LIKE '{filter.SearchString}%' OR a.Name LIKE '{filter.SearchString}%'
-                            ;";
+            var endBuilder = $@") AS pe ON AiNP.PrintingEditionId = pe.Id;";
 
             var newOrderSql = $@"{orderBy}
-                                OFFSET { (filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT { filter.PageSize} ROWS ONLY
-                            ) AS pe ON AiNP.PrintingEditionId = pe.Id 
-                            WHERE pe.Title LIKE '{filter.SearchString}%' OR a.Name LIKE '{filter.SearchString}%'
+                                OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY
+                            ) AS pe ON AiNP.PrintingEditionId = pe.Id
                             {orderBy};";
 
-            var countSql = countMailBuilder.Append(filterSqlBuilder).Append(endBuilder);
+            var countSql = countBuilder.Append(filterSqlBuilder).Append(endBuilder);
 
             var mainSql = mainBuilder.Append(filterSqlBuilder).Append(newOrderSql);
 

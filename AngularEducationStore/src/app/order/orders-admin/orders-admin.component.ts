@@ -30,7 +30,6 @@ export class OrdersAdminComponent implements OnInit {
 
   constructor(public parametrs: OrderParametrs, public orderService: OrderService, public dataService: DataService,
               public printingEditionParams: PrintingEditionsParametrs, public orderParametrs: OrderParametrs) {
-
   }
 
   ngOnInit() {

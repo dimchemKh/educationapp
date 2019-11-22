@@ -20,8 +20,6 @@ export class OrdersUserComponent extends OrdersAdminComponent implements OnInit 
   filterModel = new FilterOrderModel();
   orderModel = new OrderModel();
 
-  currencyTypes = this.printingEditionParams.currencyTypes;
-
   displayedColumns = ['id', 'date', 'printingEditionType', 'printingEditionTitle', 'quantity', 'amount', 'transactionStatus'];
 
   constructor(public parametrs: OrderParametrs, public orderService: OrderService, public dataService: DataService,

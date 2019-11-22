@@ -28,9 +28,9 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             var orderItem = new OrderModelItem
             {
                 Id = orderDataModel.Id,
-                Date = orderDataModel.Date,
+                Date = orderDataModel.CreationDate,
                 Email = orderDataModel.Email,
-                UserName = orderDataModel.UserName,
+                UserName = $"{orderDataModel.FirstName} {orderDataModel.LastName}", 
                 Amount = orderDataModel.Amount
             };
 

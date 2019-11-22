@@ -6,14 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
-using EducationApp.DataAccessLayer.Models.Authors;
-using EducationApp.DataAccessLayer.Models.Filters.Base;
-using EducationApp.DataAccessLayer.Entities.Enums;
-using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Models.PrintingEditions;
-using EducationApp.DataAccessLayer.Models.Filters;
-using EducationApp.DataAccessLayer.Models;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {

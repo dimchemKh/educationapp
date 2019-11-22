@@ -5,7 +5,7 @@ using EducationApp.DataAccessLayer.Models;
 using EducationApp.DataAccessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Models.Filters.Base;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
-using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;

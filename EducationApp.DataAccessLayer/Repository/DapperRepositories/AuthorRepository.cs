@@ -4,7 +4,7 @@ using EducationApp.DataAccessLayer.Models;
 using EducationApp.DataAccessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Models.Filters.Base;
 using EducationApp.DataAccessLayer.Repository.Base;
-using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,15 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 predicateSql = $"a.Name";
             }
-
+            var sort = string.Empty;
+            if (filter.SortState.Equals(Enums.SortState.Asc))
+            {
+                sort = "ASC";
+            }
+            if (filter.SortState.Equals(Enums.SortState.Desc))
+            {
+                sort = "DESC";
+            }
 
             var columnSql = $"a.Id, a.Name, p.Id, p.Title";
             var offset = string.Empty;
@@ -75,7 +83,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             countBuilder.Append(orderSql).Append(offset).Append(endSql).Append(orderSql);
 
 
-            orderSql = $"ORDER BY {predicateSql}";
+            orderSql = $"ORDER BY {predicateSql} {sort}";
             offset = $"OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY";
 
             mainBuilder.Append(endSql);

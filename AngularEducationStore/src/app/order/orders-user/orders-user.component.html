@@ -47,7 +47,7 @@
         <ng-container matColumnDef="amount">
             <th class="column-amount" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Order amount </th>
             <td class="column-amount" mat-cell *matCellDef="let element">
-                {{currencyTypes[element.currency - 1].symbol}} {{element.amount}}
+                $ {{element.amount}}
             </td>
         </ng-container>
         <ng-container matColumnDef="transactionStatus">

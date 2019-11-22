@@ -8,7 +8,7 @@ using System;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using EducationApp.DataAccessLayer.Models.Filters;
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models;
 

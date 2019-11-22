@@ -7,11 +7,10 @@ using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Initializer;
 
-using EducationApp.DataAccessLayer.Repository.EFRepository;
-using EducationApp.DataAccessLayer.Repository.EFRepository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Interfaces;
 
-//using EducationApp.DataAccessLayer.Repository.DapperRepositories;
-//using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
+using EF = EducationApp.DataAccessLayer.Repository.EFRepository;
+using dapper = EducationApp.DataAccessLayer.Repository.DapperRepositories;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -56,14 +55,23 @@ namespace EducationApp.BusinessLayer.Initializers
             #endregion
 
             #region Repositories
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
-            services.AddTransient<IAuthorInPrintingEditionRepository, AuthorInPrintingEditionRepository>();
-            services.AddTransient<IAuthorRepository, AuthorRepository>();
-            //services.AddTransient<IOrderRepository, OrderRepository>();
-            //services.AddTransient<IPaymentRepository, PaymentRepository>();
+            //services.AddTransient<IUserRepository, EF.UserRepository>();
+            //services.AddTransient<IPrintingEditionRepository, EF.PrintingEditionRepository>();
+            //services.AddTransient<IAuthorInPrintingEditionRepository, EF.AuthorInPrintingEditionRepository>();
+            //services.AddTransient<IAuthorRepository, EF.AuthorRepository>();
+            //services.AddTransient<IOrderRepository, EF.OrderRepository>();
+            //services.AddTransient<IPaymentRepository, EF.PaymentRepository>();
             #endregion
-             
+
+            #region
+            services.AddTransient<IUserRepository, dapper.UserRepository>();
+            services.AddTransient<IPrintingEditionRepository, dapper.PrintingEditionRepository>();
+            services.AddTransient<IAuthorInPrintingEditionRepository, dapper.AuthorInPrintingEditionRepository>();
+            services.AddTransient<IAuthorRepository, dapper.AuthorRepository>();
+            services.AddTransient<IOrderRepository, dapper.OrderRepository>();
+            services.AddTransient<IPaymentRepository, dapper.PaymentRepository>();
+            #endregion
+
             #region IdentityOptions
             services.Configure<IdentityOptions>(options =>
             {

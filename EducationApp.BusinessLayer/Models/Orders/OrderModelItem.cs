@@ -14,7 +14,6 @@ namespace EducationApp.BusinessLayer.Models.Orders
         public decimal Amount { get; set; }
         public Enums.Currency Currency { get; set; }
         public Enums.TransactionStatus TransactionStatus { get; set; }
-        public long? PaymentId { get; set; }
         public ICollection<OrderItemModelItem> OrderItems { get; set; }
     }
 }
