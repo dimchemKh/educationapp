@@ -6,7 +6,7 @@
         <mat-form-field class="filter-search">
             <input matInput placeholder="Search" [(ngModel)]="filterModel.searchString">
         </mat-form-field>
-        <button class="search-button" mat-raised-button color="accent">Find</button>
+        <button class="search-button" mat-raised-button color="accent" (click)="submit()">Find</button>
     </div>
     <button mat-button class="tool-button" (click)="openCreateDialog()">
         <fa-icon class="create-icon" [icon]="createIcon" [fixedWidth]="true"></fa-icon>

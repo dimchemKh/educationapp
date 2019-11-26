@@ -1,27 +1,24 @@
 ﻿using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Dapper;
-using EducationApp.DataAccessLayer.Repository.Base;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using Dapper.Contrib.Extensions;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
+using EducationApp.DataAccessLayer.Repository.Base;
 
 namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 {
-    public class AuthorInPrintingEditionRepository : IAuthorInPrintingEditionRepository
+    public class AuthorInPrintingEditionRepository : BaseDapperRepository<AuthorInPrintingEdition>, IAuthorInPrintingEditionRepository
     {
-        public readonly IConfiguration _configuration;
-        public AuthorInPrintingEditionRepository(IConfiguration configuration)
+        public AuthorInPrintingEditionRepository(IConfiguration configuration) : base(configuration)
         {
-            _configuration = configuration;
         }
-        public async Task<bool> AddAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
+
+        public async Task<bool> CreateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var entities = new List<AuthorInPrintingEdition>();
 
@@ -33,7 +30,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     PrintingEditionId = printingEditionId
                 });    
             }
-            using (var connect = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            using (var connect = SqlConnection())
             {
                 await connect.InsertAsync(entities);
             }
@@ -48,7 +45,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var authorsInPrintingEdition = new List<AuthorInPrintingEdition>();
 
-            using(var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            using(var connection = SqlConnection())
             {
                 authorsInPrintingEdition = (await connection.QueryAsync<AuthorInPrintingEdition>(sql)).ToList();
             }
@@ -61,14 +58,14 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                 return false;
             }
 
-            var removeRange = authorsInPrintingEdition.ToArray();
+            var removeRange = authorsInPrintingEdition.ToArray(); // todo why range?
 
-            using(var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            using(var connection = SqlConnection())
             {
                 await connection.DeleteAsync(removeRange);
             }
 
-            var result = await AddAuthorsInPrintingEditionAsync(printingEditionId, authorsId);
+            var result = await CreateAuthorsInPrintingEditionAsync(printingEditionId, authorsId);
 
             return result;
         }
@@ -77,7 +74,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var sql = $"DELETE FROM AuthorInPrintingEditions WHERE AuthorId = {authorsId}";
 
-            using(var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            using(var connection = SqlConnection())
             {
                 await connection.QueryAsync(sql);
             }
@@ -88,7 +85,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var sql = $"DELETE FROM AuthorInPrintingEditions WHERE PrintingEditionId = {printingEditionId}";
 
-            using (var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            using (var connection = SqlConnection())
             {
                 await connection.QueryAsync(sql);
             }

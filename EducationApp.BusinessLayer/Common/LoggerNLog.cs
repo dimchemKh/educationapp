@@ -1,16 +1,11 @@
-﻿
-
-using EducationApp.BusinessLayer.Common.Interfaces;
+﻿using EducationApp.BusinessLayer.Common.Interfaces;
 using NLog;
 
 namespace EducationApp.BusinessLayer.Common
 {
-    public class LoggerNLog : ILog
+    public class LoggerNLog : ILoggerNLog
     {
         private static ILogger _logger = LogManager.GetCurrentClassLogger();
-        public LoggerNLog()
-        {
-        }
         public void Debug(string message)
         {
             _logger.Debug(message);

@@ -5,12 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 using EducationApp.DataAccessLayer.Models.Orders;
-using System.Collections.Generic;
 using EducationApp.DataAccessLayer.Models.OrderItems;
 using EducationApp.DataAccessLayer.Models.Filters;
 using System.Linq.Expressions;
 using System;
-using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using EducationApp.DataAccessLayer.Models;
 using static EducationApp.DataAccessLayer.Entities.Enums.Enums;
@@ -45,8 +43,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 query = query.Where(x => x.Payment.TransactionId == null);
             }
-
-            var qa = query.ToList();
 
             var orders = query.Select(x => new OrderDataModel
             {
@@ -103,8 +99,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             payment.TransactionId = transactionId;
 
-            await _context.SaveChangesAsync();
+            var result = await SaveAsync();
 
+            if (result.Equals(0))
+            {
+                return false;
+            }
             return true;
         }
     }

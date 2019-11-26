@@ -1,10 +1,11 @@
 ﻿using EducationApp.BusinessLayer.Models.Authors;
+using EducationApp.BusinessLayer.Models.Base;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using System.Collections.Generic;
 
 namespace EducationApp.BusinessLayer.Models.PrintingEditions
 {
-    public class PrintingEditionModelItem
+    public class PrintingEditionModelItem : BaseModel
     {
         public long Id { get; set; }
         public string Title { get; set; }

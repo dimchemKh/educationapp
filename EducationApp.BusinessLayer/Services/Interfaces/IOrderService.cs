@@ -2,7 +2,6 @@
 using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.BusinessLayer.Models.Payments;
-using EducationApp.DataAccessLayer.Entities.Enums;
 using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Services.Interfaces

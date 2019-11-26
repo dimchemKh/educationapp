@@ -1,8 +1,5 @@
 ﻿using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
-using EducationApp.DataAccessLayer.Entities;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EducationApp.BusinessLayer.Helpers.Mappers

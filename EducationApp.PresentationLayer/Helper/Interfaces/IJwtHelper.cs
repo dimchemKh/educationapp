@@ -2,9 +2,6 @@
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.PresentationLayer.Common;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace EducationApp.PresentationLayer.Helper.Interfaces
 {

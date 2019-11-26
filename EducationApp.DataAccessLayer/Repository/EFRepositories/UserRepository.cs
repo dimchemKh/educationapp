@@ -96,11 +96,11 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 users = _userManager.Users.Where(user => user.FirstName.Contains(filter.SearchString));
             }
 
-            if (filter.IsBlocked.Equals(Enums.IsBlocked.True))
+            if (filter.IsBlocked.Equals(Enums.BlockState.True))
             {
                 users = users.Where(x => x.LockoutEnd != null);
             }
-            if (filter.IsBlocked.Equals(Enums.IsBlocked.False))
+            if (filter.IsBlocked.Equals(Enums.BlockState.False))
             {
                 users = users.Where(x => x.LockoutEnd == null);
             }

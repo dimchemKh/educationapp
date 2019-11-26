@@ -10,8 +10,6 @@ using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
-using EducationApp.BusinessLayer.Common;
-
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models;
 using EducationApp.BusinessLayer.Models.Payments;
@@ -39,7 +37,7 @@ namespace EducationApp.BusinessLayer.Services
         }
         public async Task<decimal> ConvertingPriceAsync(ConverterModel converterModel)
         {
-            var resultConverting = _currencyConverterHelper.Converting(converterModel.CurrencyFrom, converterModel.CurrencyTo, converterModel.Price);
+            var resultConverting = _currencyConverterHelper.Convert(converterModel.CurrencyFrom, converterModel.CurrencyTo, converterModel.Price);
             return resultConverting;
         }
         public async Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId)
@@ -98,7 +96,6 @@ namespace EducationApp.BusinessLayer.Services
 
             var paymentId = await _paymentRepository.CreateAsync(payment);
 
-
             var order = new Order()
             {
                 Amount = orderModelItem.OrderItems.Sum(x => x.Price * x.Count),
@@ -116,7 +113,6 @@ namespace EducationApp.BusinessLayer.Services
             }
 
             var orderItemsResult = await _orderItemRepository.CreateOrderItems(orderItems.ToArray());
-
 
             responseModel.Items.Add(new OrderModelItem
             {

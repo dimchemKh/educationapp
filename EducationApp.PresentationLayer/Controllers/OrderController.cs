@@ -4,7 +4,6 @@ using EducationApp.BusinessLayer.Models.Orders;
 using EducationApp.BusinessLayer.Models.Payments;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.DataAccessLayer.Entities.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

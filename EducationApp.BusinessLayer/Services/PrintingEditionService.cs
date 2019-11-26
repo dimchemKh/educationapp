@@ -7,9 +7,7 @@ using EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models.Filters;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
-
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
 using EducationApp.DataAccessLayer.Entities.Enums;
@@ -45,26 +43,41 @@ namespace EducationApp.BusinessLayer.Services
         public async Task<PrintingEditionModel> CreatePrintingEditionAsync(PrintingEditionModelItem printingEditionsModelItem)
         {
             var responseModel = ValidateData(printingEditionsModelItem);
+
             if (responseModel.Errors.Any())
             {
                 return responseModel;
             }
+
             var printingEdition = _mapperHelper.Map<PrintingEditionModelItem, PrintingEdition>(printingEditionsModelItem);
 
-            printingEdition.Price = _currencyConverterHelper.Converting(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
+            printingEdition.Price = _currencyConverterHelper.Convert(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
+
             printingEdition.Currency = Enums.Currency.USD;
 
             var authorsId = printingEditionsModelItem.Authors.Select(x => x.Id).ToArray();
+
             if (authorsId == null || !authorsId.Any())
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
-            var q = await _printingEditionRepository.GetByIdAsync(2);
 
-            await _printingEditionRepository.CreateAsync(printingEdition);
+            var createResult = await _printingEditionRepository.CreateAsync(printingEdition);
 
-            await _authorInPrintingEditionRepository.AddAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
+            if (createResult.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedCreate);
+                return responseModel;
+            }
+
+            var createAuthorsInPrintingEditionResult = await _authorInPrintingEditionRepository.CreateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
+
+            if (createAuthorsInPrintingEditionResult.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedCreate);
+                return responseModel;
+            }
 
             return responseModel;
         }
@@ -73,6 +86,7 @@ namespace EducationApp.BusinessLayer.Services
             var responseModel = new PrintingEditionModel();
 
             var repositoryFilter = _mapperHelper.Map<FilterPrintingEditionModel, DataFilter.FilterPrintingEditionModel>(filter);
+
             if(repositoryFilter == null)
             {
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
@@ -80,8 +94,8 @@ namespace EducationApp.BusinessLayer.Services
             }
             if (!isAdmin)
             {
-                repositoryFilter.PriceMinValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMinValue);
-                repositoryFilter.PriceMaxValue = _currencyConverterHelper.Converting(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMaxValue);
+                repositoryFilter.PriceMinValue = _currencyConverterHelper.Convert(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMinValue);
+                repositoryFilter.PriceMaxValue = _currencyConverterHelper.Convert(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMaxValue);
             }
 
             var printingEditionsModel = await _printingEditionRepository.GetPrintingEditionFilteredDataAsync(repositoryFilter, isAdmin);
@@ -91,7 +105,7 @@ namespace EducationApp.BusinessLayer.Services
                 var modelItem = printingEdition.MapToModel(filter.Currency);
                 if (!isAdmin)
                 {
-                    modelItem.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, filter.Currency, modelItem.Price);
+                    modelItem.Price = _currencyConverterHelper.Convert(Enums.Currency.USD, filter.Currency, modelItem.Price);
                 }
                 responseModel.Items.Add(modelItem);
             }
@@ -104,12 +118,11 @@ namespace EducationApp.BusinessLayer.Services
         {
             var responseModel = new PrintingEditionModel();
 
-            var q = await _printingEditionRepository.GetPrintingEditionDetailsAsync(printingEditionId);
             var printingEditionData = await _printingEditionRepository.GetPrintingEditionDetailsAsync(printingEditionId);
 
             var printingEdition = printingEditionData.MapToModel(currency);
 
-            printingEdition.Price = _currencyConverterHelper.Converting(Enums.Currency.USD, currency, printingEdition.Price);
+            printingEdition.Price = _currencyConverterHelper.Convert(Enums.Currency.USD, currency, printingEdition.Price);
 
             responseModel.Items.Add(printingEdition);
 
@@ -118,6 +131,7 @@ namespace EducationApp.BusinessLayer.Services
         public async Task<PrintingEditionModel> DeletePrintingEditionAsync(long printingEditionId)
         {
             var responseModel = new PrintingEditionModel();
+
             var printingEdition = await _printingEditionRepository.GetByIdAsync(printingEditionId);
 
             if (printingEdition == null)
@@ -125,9 +139,20 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData); 
                 return responseModel;
             }
-            await _printingEditionRepository.DeleteAsync(printingEdition);
 
-            await _authorInPrintingEditionRepository.DeletePrintingEditionsById(printingEditionId);
+            var deleteResult = await _printingEditionRepository.DeleteAsync(printingEdition);
+
+            if (deleteResult.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedDelete);
+            }
+
+            var deleteAuthorsInPrintingEdition = await _authorInPrintingEditionRepository.DeletePrintingEditionsById(printingEditionId);
+
+            if (deleteAuthorsInPrintingEdition.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedDelete);
+            }
 
             return responseModel;
         }
@@ -146,11 +171,23 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
-            printingEdition.Price = _currencyConverterHelper.Converting(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
+            printingEdition.Price = _currencyConverterHelper.Convert(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
 
-            await _printingEditionRepository.UpdateAsync(printingEdition);
+            var updateResult = await _printingEditionRepository.UpdateAsync(printingEdition);
 
-            await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
+            if (updateResult.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedUpdate);
+                return responseModel;
+            }
+
+            var updateAuthorsProduct = await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
+
+            if (!updateAuthorsProduct)
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedUpdate);
+                return responseModel;
+            }
 
             return responseModel;            
         }

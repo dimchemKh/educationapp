@@ -6,7 +6,6 @@ using EducationApp.DataAccessLayer.Models.Filters.Base;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -20,21 +19,20 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         public AuthorRepository(IConfiguration configuration) : base(configuration)
         {
         }
-        public async Task<GenericModel<AuthorDataModel>> GetAuthorsLazyLoadAsync(BaseFilterModel filter)
+        public async Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter)
         {
             var responseModel = new GenericModel<AuthorDataModel>();
 
-            var sql = $@"SELECT a.Id, a.Name FROM Authors AS a
+            var mainSql = new StringBuilder($@"SELECT a.Id, a.Name FROM Authors AS a
                             WHERE a.IsRemoved = 0
                             ORDER BY a.Name
                             OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY
-
                             SELECT COUNT(a.Id) FROM Authors AS a
-                            WHERE a.IsRemoved = 0";
+                            WHERE a.IsRemoved = 0");
 
             using(var connection = SqlConnection())
             {
-                var result = await connection.QueryMultipleAsync(sql);
+                var result = await connection.QueryMultipleAsync(mainSql.ToString());
 
                 responseModel.Collection = await result.ReadAsync<AuthorDataModel>();
                 responseModel.CollectionCount = (await result.ReadAsync<int>()).FirstOrDefault();
@@ -42,18 +40,19 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             return responseModel;
         }
-        public async Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter)
+        public async Task<GenericModel<AuthorDataModel>> GetFilteredAuthorsAsync(BaseFilterModel filter)
         {
             var responseModel = new GenericModel<AuthorDataModel>();
 
-
-            var predicateSql = $"a.Id";
+            var filterSql = $"a.Id";
 
             if (filter.SortType == Enums.SortType.Name)
             {
-                predicateSql = $"a.Name";
+                filterSql = $"a.Name";
             }
+
             var sort = string.Empty;
+
             if (filter.SortState.Equals(Enums.SortState.Asc))
             {
                 sort = "ASC";
@@ -64,6 +63,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             }
 
             var columnSql = $"a.Id, a.Name, p.Id, p.Title";
+
             var offset = string.Empty;
             var orderSql = string.Empty;
 
@@ -81,11 +81,13 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             countBuilder.Append(endSql);
 
+            orderSql = $"ORDER BY {filterSql} {sort} ";
 
-            orderSql = $"ORDER BY {predicateSql} {sort} ";
             offset = $"OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY ";
 
-            mainBuilder.Append(orderSql).Append(offset).Append(endSql);
+            mainBuilder.Append(orderSql)
+                       .Append(offset)
+                       .Append(endSql);
 
             var mainSql = mainBuilder.Append(countBuilder.ToString()).ToString();
 
@@ -110,9 +112,12 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
                             dict.Add(model.Id, model);
                         }
+
                         model.PrintingEditionTitles.Add(printingEdition.Title);
+
                         return model;
-                    }, splitOn: "Id")
+                    },
+                    splitOn: "Id")
                     .Distinct()
                     .ToList();
                 responseModel.CollectionCount = result.Read<int>().FirstOrDefault();

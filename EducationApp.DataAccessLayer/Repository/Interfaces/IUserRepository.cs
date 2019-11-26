@@ -22,7 +22,6 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
         Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
         Task<bool> UpdateUserAsync(ApplicationUser user);
         Task<GenericModel<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model);
-
         Task BlockUserAsync(ApplicationUser user, bool isBlocked);
     }
 }

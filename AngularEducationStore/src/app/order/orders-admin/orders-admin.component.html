@@ -18,7 +18,7 @@
         </ng-container>
         <ng-container matColumnDef="date">
             <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Date </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.date}} </td>
+            <td class="column-name" mat-cell *matCellDef="let element"> {{element.date | date: ['MMM d, y']}} </td>
         </ng-container>
         <ng-container matColumnDef="userName">
             <th class="column-name" mat-header-cell *matHeaderCellDef > User name </th>
@@ -54,7 +54,7 @@
         </ng-container>
         <ng-container matColumnDef="amount">
             <th class="column-name" mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Order amount </th>
-            <td class="column-name" mat-cell *matCellDef="let element"> {{element.amount}} </td>
+            <td class="column-name" mat-cell *matCellDef="let element"> $ {{element.amount}} </td>
         </ng-container>
         <ng-container matColumnDef="transactionStatus">
             <th class="column-name" mat-header-cell *matHeaderCellDef>

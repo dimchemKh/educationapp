@@ -1,8 +1,5 @@
-﻿using EducationApp.BusinessLayer.Models.Auth;
-using EducationApp.BusinessLayer.Models.Base;
+﻿using EducationApp.BusinessLayer.Models.Base;
 using EducationApp.BusinessLayer.Models.Users;
-using EducationApp.DataAccessLayer.Entities;
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
 namespace EducationApp.BusinessLayer.Services.Interfaces

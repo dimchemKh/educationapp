@@ -54,8 +54,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();
-        }
-       
+        }       
         protected async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
         {
             if (filter.SortState.Equals(Enums.SortState.Asc))
@@ -66,7 +65,6 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             {
                 entities = entities.OrderByDescending(predicate);
             }
-
             var result = await entities
                 .Skip((filter.Page - 1) * filter.PageSize)
                 .Take(filter.PageSize)
@@ -75,6 +73,5 @@ namespace EducationApp.DataAccessLayer.Repository.Base
                 
             return result;
         }
-
     }
 }

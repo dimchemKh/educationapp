@@ -34,10 +34,7 @@ export class OrdersAdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderService.getOrders(this.dataService.getLocalStorage('userRole'), this.filterModel)
-      .subscribe((data) => {
-        this.orderModel = data;
-      });
+    this.submit();
   }
   sortData(event: MatSort) {
     let sortState = this.sortStates.find(x => x.direction.toLowerCase() === event.direction.toLowerCase());

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EducationApp.BusinessLayer.Models.PrintingEditions;
+﻿using EducationApp.BusinessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Models.PrintingEditions;
-using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Models.Authors;

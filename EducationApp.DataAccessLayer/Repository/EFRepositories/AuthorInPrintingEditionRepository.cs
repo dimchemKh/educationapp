@@ -5,24 +5,25 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq.Expressions;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
+using EducationApp.DataAccessLayer.Repository.Base;
 
 namespace EducationApp.DataAccessLayer.Repository.EFRepository
 {
-    public class AuthorInPrintingEditionRepository : IAuthorInPrintingEditionRepository
+    public class AuthorInPrintingEditionRepository : BaseEFRepository<AuthorInPrintingEdition>, IAuthorInPrintingEditionRepository
     {
-        public readonly ApplicationContext _context;
-        public AuthorInPrintingEditionRepository(ApplicationContext context)
+        public AuthorInPrintingEditionRepository(ApplicationContext context) : base(context)
         {
-            _context = context;
         }
         public async Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var authorsInPrintingEdition = _context.AuthorInPrintingEditions
                 .Where(x => x.PrintingEditionId.Equals(printingEditionId));
 
-            var result = await authorsInPrintingEdition.Select(x => x.AuthorId).ToArrayAsync();
+            var result = await authorsInPrintingEdition
+                .Select(x => x.AuthorId)
+                .ToArrayAsync();
+
             var isEqual = result.SequenceEqual(authorsId.OrderBy(x => x));
 
             if (isEqual)
@@ -33,12 +34,16 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             var removeRange = await authorsInPrintingEdition.ToArrayAsync();
 
             _context.AuthorInPrintingEditions.RemoveRange(removeRange);
+            
+            var createResult = await CreateAuthorsInPrintingEditionAsync(printingEditionId, authorsId);
 
-            await AddAuthorsInPrintingEditionAsync(printingEditionId, authorsId);
-
+            if (!createResult)
+            {
+                return false;
+            }
             return true;
         }
-        public async Task<bool> AddAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
+        public async Task<bool> CreateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var authorInPrintingEditions = new List<AuthorInPrintingEdition>();
 
@@ -51,14 +56,20 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 });
             }
             await _context.AuthorInPrintingEditions.AddRangeAsync(authorInPrintingEditions);
-            await _context.SaveChangesAsync();
+            var saveResult = await SaveAsync();
+
+            if (saveResult.Equals(0))
+            {
+                return false;
+            }
             return true;
         }
         // TODO: when remove Author too need remove PE with this the last Author
         public async Task<bool> DeleteAuthorsById(long authorsId)
         {
             var query = await _context.AuthorInPrintingEditions
-                .Where(x => x.AuthorId == authorsId).ToListAsync();
+                .Where(x => x.AuthorId == authorsId)
+                .ToListAsync();
 
             _context.AuthorInPrintingEditions.RemoveRange(query);
             return true;
@@ -66,7 +77,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public async Task<bool> DeletePrintingEditionsById(long printingEditionId)
         {
             var query = await _context.AuthorInPrintingEditions
-                .Where(x => x.PrintingEditionId == printingEditionId).ToListAsync();
+                .Where(x => x.PrintingEditionId == printingEditionId)
+                .ToListAsync();
 
             _context.AuthorInPrintingEditions.RemoveRange(query);
             return true;

@@ -4,14 +4,11 @@ using EducationApp.BusinessLayer.Helpers.Interfaces;
 using System.Linq;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Common.Constants;
-
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.BusinessLayer.Models.Base;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
-using System.Text;
-using EducationApp.BusinessLayer.Common;
+using EducationApp.BusinessLayer.Common.Extensions;
 
 namespace EducationApp.BusinessLayer.Services
 {
@@ -165,10 +162,9 @@ namespace EducationApp.BusinessLayer.Services
             var token = await _userRepository.GenerateResetPasswordTokenAsync(user);
             var newTempPassword = _passwordHelper.GenerateRandomPassword();
 
-            string message = $"This is your Temp password {newTempPassword} ! Please change his, after succesfull authorization";
-            string subject = Constants.SmtpSettings.SubjectRecovery;
+            string message = $"This is your Temp password {newTempPassword} ! Please change it`s, after succesfull authorization";
 
-            await _emailHelper.SendMailAsync(user.Email, subject, message);
+            await _emailHelper.SendMailAsync(user.Email, Constants.SmtpSettings.SubjectRecovery, message);
 
             var result = await _userRepository.ResetPasswordAsync(user, token, newTempPassword);
 
@@ -181,10 +177,10 @@ namespace EducationApp.BusinessLayer.Services
         public async Task SendRegistrationMailAsync(long userId, string callbackUrl)
         {
             var user = await _userRepository.GetUserByIdAsync(userId);
-            var body = $"Hi, {user.FirstName}!" +
+            var body = new System.Text.StringBuilder($"Hi, {user.FirstName}!" +
                 $"You have been sent this email because you created an account on our website. " +
-                $"Please click on <a href =\"" + callbackUrl + "\">this link</a> to confirm your email address is correct. ";
-            await _emailHelper.SendMailAsync(user.Email, Constants.SmtpSettings.SubjectConfirmEmail, body);
+                $"Please click on <a href =\"" + callbackUrl + "\">this link</a> to confirm your email address is correct. ");
+            await _emailHelper.SendMailAsync(user.Email, Constants.SmtpSettings.SubjectConfirmEmail, body.ToString());
         }
         public async Task<UserInfoModel> IdentifyUser(UserInfoModel userInfoModel)
         {            

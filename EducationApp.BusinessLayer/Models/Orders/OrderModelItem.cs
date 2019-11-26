@@ -1,11 +1,12 @@
-﻿using EducationApp.BusinessLayer.Models.OrderItems;
+﻿using EducationApp.BusinessLayer.Models.Base;
+using EducationApp.BusinessLayer.Models.OrderItems;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using System;
 using System.Collections.Generic;
 
 namespace EducationApp.BusinessLayer.Models.Orders
 {
-    public class OrderModelItem
+    public class OrderModelItem : BaseModel
     {
         public long Id { get; set; }
         public DateTime Date { get; set; }

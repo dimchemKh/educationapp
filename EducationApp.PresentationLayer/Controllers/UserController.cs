@@ -1,9 +1,7 @@
 ﻿using EducationApp.BusinessLayer.Models.Filters;
 using EducationApp.BusinessLayer.Models.Users;
 using EducationApp.BusinessLayer.Services.Interfaces;
-using BusinessLayerConstants = EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Common.Constants;
-using EducationApp.DataAccessLayer.Entities.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

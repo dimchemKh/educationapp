@@ -5,16 +5,13 @@ using EducationApp.DataAccessLayer.Models.PrintingEditions;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using System.Linq;
-using Dapper.Contrib.Extensions;
 using EducationApp.DataAccessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Entities.Enums;
-using System.Linq.Expressions;
 
 namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 {
@@ -28,27 +25,34 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var printingEditionData = new PrintingEditionDataModel();
 
-            var sql = "SELECT b.Id, b.Title, b.Price, b.Description, b.Currency, b.PrintingEditionType, t.Name " +
-                "FROM PrintingEditions as b " +
-                "LEFT JOIN AuthorInPrintingEditions as ap ON ap.PrintingEditionId = b.Id " +
-                $"LEFT JOIN Authors as t ON t.Id = ap.AuthorId WHERE b.Id = {printingEditionId}";
+            var sql = new StringBuilder($@"SELECT b.Id, b.Title, b.Price, b.Description, b.Currency, b.PrintingEditionType, t.Name
+                                           FROM PrintingEditions as b
+                                           LEFT JOIN AuthorInPrintingEditions as ap ON ap.PrintingEditionId = b.Id 
+                                           LEFT JOIN Authors as t ON t.Id = ap.AuthorId WHERE b.Id = {printingEditionId}");
+
+            var queryResult = new List<dynamic>();
 
             using(var connection = SqlConnection())
             {
                 connection.Open();
-                var res = await connection.QueryAsync(sql);
-                printingEditionData = res.Select(x => new PrintingEditionDataModel
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    Description = x.Description,
-                    Currency = (Enums.Currency)x.Currency,
-                    Price = x.Price,
-                    PrintingEditionType = (Enums.PrintingEditionType)x.PrintingEditionType
-                }).FirstOrDefault();
-                printingEditionData.Authors = res.Select(x => new AuthorDataModel { Name = x.Name }).ToArray();
 
+                queryResult = (await connection.QueryAsync(sql.ToString())).ToList();
             }
+
+            printingEditionData = queryResult.Select(x => new PrintingEditionDataModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Description = x.Description,
+                Currency = (Enums.Currency)x.Currency,
+                Price = x.Price,
+                PrintingEditionType = (Enums.PrintingEditionType)x.PrintingEditionType
+            }).FirstOrDefault();
+
+            printingEditionData.Authors = queryResult.Select(x => new AuthorDataModel
+            {
+                Name = x.Name
+            }).ToArray();
 
             return printingEditionData;
         }
@@ -56,7 +60,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var responseModel = new GenericModel<PrintingEditionDataModel>();
 
-            var sqlTypes = "(";
+            var sqlTypes = "("; // todo change
             var i = 0;
             foreach (var type in filter.PrintingEditionTypes)
             {
@@ -67,10 +71,10 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     sqlTypes = sqlTypes.Substring(0, sqlTypes.Length - 1);
                 }
             }
-            var searchSql = string.Empty;
+            var searchSql = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(filter.SearchString))
             {
-                searchSql = $@"AND (COALESCE((
+                searchSql.Append($@"AND (COALESCE((
 						SELECT TOP(1) CASE
 						WHEN (LOWER(aut.Name)) LIKE '{filter.SearchString}%'
 						THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
@@ -78,7 +82,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 						FROM AuthorInPrintingEditions AS aPe
 						INNER JOIN Authors AS aut ON aut.Id = aPe.AuthorId
 						WHERE pe.Id = aPe.PrintingEditionId
-					    ),0) = 1) OR (LOWER(pe.Title) LIKE '{filter.SearchString}%')";
+					    ),0) = 1) OR (LOWER(pe.Title) LIKE '{filter.SearchString}%')");
             }
 
             var orderBySql = "pe.Id";
@@ -92,7 +96,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             if (filter.SortType.Equals(Enums.SortType.Title))
             {
-                orderBySql = "pe.Title";
+                orderBySql = "pe.Title"; // todo change
             }
             if (filter.SortType.Equals(Enums.SortType.Price))
             {
@@ -111,7 +115,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var orderBy = $"ORDER BY {orderBySql} {sort}";
 
-            var columnSelectBuilder = "pe.Id, pe.Title, pe.Price, pe.Description, pe.Currency, pe.PrintingEditionType, a.Id, a.Name";
+            var columnSelectBuilder = new StringBuilder("pe.Id, pe.Title, pe.Price, pe.Description, pe.Currency, pe.PrintingEditionType, a.Id, a.Name");
 
             var countBuilder = new StringBuilder(@"SELECT COUNT(DISTINCT pe.Id)
                                                     FROM AuthorInPrintingEditions AS AiNP
@@ -119,20 +123,22 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                                                     INNER JOIN (
                                                         SELECT pe.Id, pe.Price, pe.Title, pe.Description, pe.Currency, pe.PrintingEditionType FROM PrintingEditions AS pe ");
 
-            var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT pe.Id)", columnSelectBuilder));
+            var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT pe.Id)", columnSelectBuilder.ToString()));
 
-            var filterSqlBuilder = $"\nWHERE (pe.IsRemoved = 0) AND pe.PrintingEditionType IN {sqlTypes}) {priceSql} {searchSql}";
+            var filterSqlBuilder = new StringBuilder($"\nWHERE (pe.IsRemoved = 0) AND pe.PrintingEditionType IN {sqlTypes}) {priceSql} {searchSql.ToString()}");
 
             var endBuilder = $@") AS pe ON AiNP.PrintingEditionId = pe.Id;";
 
-            var newOrderSql = $@"{orderBy}
+            var newOrderSql = new StringBuilder($@"{orderBy}
                                 OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY
                             ) AS pe ON AiNP.PrintingEditionId = pe.Id
-                            {orderBy};";
+                            {orderBy};");
 
-            var countSql = countBuilder.Append(filterSqlBuilder).Append(endBuilder);
+            var countSql = countBuilder.Append(filterSqlBuilder.ToString())
+                                       .Append(endBuilder);
 
-            var mainSql = mainBuilder.Append(filterSqlBuilder).Append(newOrderSql);
+            var mainSql = mainBuilder.Append(filterSqlBuilder.ToString())
+                                     .Append(newOrderSql.ToString());
 
             var resultSql = mainSql.Append(countSql.ToString()).ToString();
 

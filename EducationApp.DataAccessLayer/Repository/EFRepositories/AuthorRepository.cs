@@ -8,7 +8,6 @@ using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorRepository(ApplicationContext context) : base(context)
         {            
         }
-        public async Task<GenericModel<AuthorDataModel>> GetAuthorsLazyLoadAsync(BaseFilterModel filter)
+        public async Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter)
         {            
             var authors = _context.Authors
                 .AsNoTracking()
@@ -42,7 +41,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             return responseModel;
         }
-        public async Task<GenericModel<AuthorDataModel>> GetAllAuthorsAsync(BaseFilterModel filter)
+        public async Task<GenericModel<AuthorDataModel>> GetFilteredAuthorsAsync(BaseFilterModel filter)
         {
             var authors = _context.Authors
                 .Where(x => x.IsRemoved == false)

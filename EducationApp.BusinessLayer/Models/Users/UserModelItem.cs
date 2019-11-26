@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EducationApp.BusinessLayer.Models.Base;
 
 namespace EducationApp.BusinessLayer.Models.Users
 {
-   public class UserModelItem
+    public class UserModelItem : BaseModel
     {
         public long Id { get; set; }
         public string FirstName { get; set; }

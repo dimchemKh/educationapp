@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Dapper.Contrib.Extensions;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Models;
 using EducationApp.DataAccessLayer.Models.Filters;
@@ -8,7 +7,6 @@ using EducationApp.DataAccessLayer.Models.Orders;
 using EducationApp.DataAccessLayer.Repository.Base;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +34,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             if (userId > 1)
             {
-                searchUserSql = $"o.UserId = {userId}";
+                searchUserSql = $"AND o.UserId = {userId}";
             }
             var transactionSql = string.Empty;
             if (filterOrder.TransactionStatus.Equals(TransactionStatus.Paid))
@@ -52,17 +50,21 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             if (filterOrder.SortType.Equals(SortType.Amount))
             {
-                predicateSql = $"o.Amount";
+                predicateSql = $"o.Amount"; // todo change
             }
+
             if (filterOrder.SortType.Equals(SortType.Date))
             {
                 predicateSql = $"o.CreationDate";
             }
+
             var sort = string.Empty;
+
             if (filterOrder.SortState.Equals(SortState.Asc))
             {
                 sort = "ASC";
             }
+
             if (filterOrder.SortState.Equals(SortState.Desc))
             {
                 sort = "DESC";
@@ -71,26 +73,29 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             var orderSql = string.Empty;
 
             var countBuilder = new StringBuilder($@"
-            SELECT COUNT(DISTINCT o.Id)
-            FROM OrderItems AS oi
-            INNER JOIN PrintingEditions AS pe ON pe.Id = oi.PrintingEditionId                                                               
-            INNER JOIN (
-	            SELECT  o.Id, o.CreationDate, o.Amount, o.UserId, o.PaymentId
-	            FROM Orders AS o
-	            INNER JOIN Payments AS pa ON o.PaymentId = pa.Id
-	            WHERE o.IsRemoved = 0 {transactionSql} AND {searchUserSql} ");
+                                SELECT COUNT(DISTINCT o.Id)
+                                FROM OrderItems AS oi
+                                INNER JOIN PrintingEditions AS pe ON pe.Id = oi.PrintingEditionId                                                               
+                                INNER JOIN (
+	                                SELECT  o.Id, o.CreationDate, o.Amount, o.UserId, o.PaymentId
+	                                FROM Orders AS o
+	                                INNER JOIN Payments AS pa ON o.PaymentId = pa.Id
+	                                WHERE o.IsRemoved = 0 {transactionSql} {searchUserSql} ");
 
             var endSql = $@"
-            ) AS o ON o.Id = oi.OrderId
-            INNER JOIN Payments AS pa ON pa.Id = o.PaymentId
-            INNER JOIN AspNetUsers AS u ON u.Id = o.UserId;";
+                    ) AS o ON o.Id = oi.OrderId
+                    INNER JOIN Payments AS pa ON pa.Id = o.PaymentId
+                    INNER JOIN AspNetUsers AS u ON u.Id = o.UserId;";
 
             var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT o.Id)", columnSql));
 
             orderSql = $@"ORDER BY {predicateSql} {sort}
                           OFFSET {(filterOrder.Page - 1) * filterOrder.PageSize} ROWS FETCH NEXT {filterOrder.PageSize} ROWS ONLY";
 
-            var resultSql = mainBuilder.Append(orderSql).Append(endSql).Append(countBuilder.Append(endSql).ToString()).ToString();
+            var resultSql = mainBuilder.Append(orderSql)
+                                       .Append(endSql)
+                                       .Append(countBuilder.Append(endSql).ToString()).ToString();
+
             var orders = new List<OrderDataModel>();
             
             using (var connection = SqlConnection())
@@ -127,7 +132,8 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                         });
 
                         return model;
-                    }, splitOn: "Id")
+                    },
+                    splitOn: "Id")
                     .Distinct()
                     .ToList();
                 responseModel.CollectionCount = result.Read<int>().FirstOrDefault();                    
@@ -139,15 +145,15 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         }
         public async Task<bool> UpdateTransactionAsync(long orderId, string transactionId)
         {
-            var sql = $@"UPDATE Payments
+            var sql = new StringBuilder($@"UPDATE Payments
                          SET TransactionId = '{transactionId}'
                          WHERE Id = (SELECT o.PaymentId
                          FROM Orders AS o
-                         WHERE o.Id = {orderId})";
+                         WHERE o.Id = {orderId})");
 
             using(var connection = SqlConnection())
             {
-                 await connection.QueryFirstOrDefaultAsync(sql);
+                 await connection.QueryFirstOrDefaultAsync(sql.ToString());
             }
             return true;
         }

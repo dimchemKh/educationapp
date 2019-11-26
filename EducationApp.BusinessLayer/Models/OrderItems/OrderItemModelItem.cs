@@ -1,11 +1,9 @@
-﻿using EducationApp.DataAccessLayer.Entities.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EducationApp.BusinessLayer.Models.Base;
+using EducationApp.DataAccessLayer.Entities.Enums;
 
 namespace EducationApp.BusinessLayer.Models.OrderItems
 {
-    public class OrderItemModelItem
+    public class OrderItemModelItem : BaseModel
     {
         public long PrintingEditionId { get; set; }
         public string Title { get; set; }

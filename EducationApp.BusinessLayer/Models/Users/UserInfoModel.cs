@@ -1,8 +1,4 @@
 ﻿using EducationApp.BusinessLayer.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static EducationApp.BusinessLayer.Common.Constants.Constants;
 
 namespace EducationApp.BusinessLayer.Models.Users
 {

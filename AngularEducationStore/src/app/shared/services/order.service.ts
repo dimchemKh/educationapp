@@ -4,7 +4,6 @@ import { ApiRoutes } from 'src/environments/api-routes';
 import { FilterOrderModel } from '../models/filter/filter-order-model';
 import { Observable } from 'rxjs';
 import { OrderModel } from '../models/order/OrderModel';
-import { DataService } from './data.service';
 import { OrderModelItem } from '../models/order/OrderModelItem';
 import { PaymentModel } from 'src/app/shared/models/payment/PaymentModel';
 
@@ -14,7 +13,7 @@ import { PaymentModel } from 'src/app/shared/models/payment/PaymentModel';
 })
 export class OrderService {
 
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes, private dataService: DataService) {
+  constructor(private http: HttpClient, private apiRoutes: ApiRoutes) {
   }
 
   getOrders(role: string, filterModel: FilterOrderModel): Observable<OrderModel> {

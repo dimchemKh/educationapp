@@ -6,19 +6,14 @@ using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.DataAccessLayer.AppContext;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Initializer;
-
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-
-using EF = EducationApp.DataAccessLayer.Repository.EFRepository;
 using dapper = EducationApp.DataAccessLayer.Repository.DapperRepositories;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using EducationApp.BusinessLayer.Common.Constants;
-
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
 using EducationApp.BusinessLayer.Common.Interfaces;
@@ -36,7 +31,7 @@ namespace EducationApp.BusinessLayer.Initializers
                 .AddDefaultTokenProviders();
 
             #region Services
-            services.AddSingleton<ILog, LoggerNLog>();
+            services.AddSingleton<ILoggerNLog, LoggerNLog>();
 
             services.AddScoped<DbBaseInitializing>();
 

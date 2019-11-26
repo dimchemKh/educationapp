@@ -1,12 +1,9 @@
 ﻿using EducationApp.BusinessLayer.Models.Authors;
-using EducationApp.BusinessLayer.Models.Filters.Base;
 using EducationApp.BusinessLayer.Services.Interfaces;
 using EducationApp.BusinessLayer.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Models.Authors;
-
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-
 using System.Threading.Tasks;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters.Base;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
@@ -26,7 +23,7 @@ namespace EducationApp.BusinessLayer.Services
             _authorInPrintingEditionRepository = authorInPrintingEditionRepository;
             _mapperHelper = mapperHelper;
         }
-        public async Task<AuthorModel> GetAuthorsLazyLoadAsync(FilterAuthorModel filterModel)
+        public async Task<AuthorModel> GetAllAuthorsAsync(FilterAuthorModel filterModel)
         {
             var responseModel = new AuthorModel();
             if (filterModel == null)
@@ -40,7 +37,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var authors = await _authorRepository.GetAuthorsLazyLoadAsync(repositoryModel);
+            var authors = await _authorRepository.GetAllAuthorsAsync(repositoryModel);
             foreach (var author in authors.Collection)
             {
                 var itemModel = _mapperHelper.Map<AuthorDataModel, AuthorModelItem>(author);
@@ -55,7 +52,7 @@ namespace EducationApp.BusinessLayer.Services
 
             return responseModel;
         }
-        public async Task<AuthorModel> GetAllAuthorsAsync(FilterAuthorModel filterModel)
+        public async Task<AuthorModel> GetFilteredAuthorsAsync(FilterAuthorModel filterModel)
         {
             var responseModel = new AuthorModel();
             if (filterModel == null)
@@ -69,7 +66,7 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
-            var authors = await _authorRepository.GetAllAuthorsAsync(repositoryModel);
+            var authors = await _authorRepository.GetFilteredAuthorsAsync(repositoryModel);
 
             foreach (var author in authors.Collection)
             {
@@ -97,34 +94,52 @@ namespace EducationApp.BusinessLayer.Services
             {
                 Name = authorModelItem.Name
             };
-            await _authorRepository.CreateAsync(author);
+            var createResult = await _authorRepository.CreateAsync(author);
+            if (createResult.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedCreate);
+            }
             return responseModel;
         }
         public async Task<AuthorModel> DeleteAuthorAsync(long authorId)
         {
             var responseModel = new AuthorModel();
+
             var author = await _authorRepository.GetByIdAsync(authorId);
+
             if(author == null)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
 
-            await _authorRepository.DeleteAsync(author);
-            await _authorInPrintingEditionRepository.DeleteAuthorsById(authorId);
+            var deleteResult = await _authorRepository.DeleteAsync(author);
 
+            if(deleteResult.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedDelete);
+            }
+            var deleteAuthorsProduct = await _authorInPrintingEditionRepository.DeleteAuthorsById(authorId);
+
+            if (!deleteAuthorsProduct)
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedDelete);
+            }
             return responseModel;
         }
 
         public async Task<AuthorModel> UpdateAuthorAsync(AuthorModelItem authorModelItem)
         {
             var responseModel = new AuthorModel();
+
             if(authorModelItem == null || string.IsNullOrWhiteSpace(authorModelItem.Name))
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
+
             var author = await _authorRepository.GetByIdAsync(authorModelItem.Id);
+
             if(author == null)
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
@@ -132,7 +147,13 @@ namespace EducationApp.BusinessLayer.Services
             }
             author.Name = authorModelItem.Name;
 
-            await _authorRepository.UpdateAsync(author);
+            var updateResult = await _authorRepository.UpdateAsync(author);
+
+            if (updateResult.Equals(0))
+            {
+                responseModel.Errors.Add(Constants.Errors.FailedUpdate);
+            }
+
             return responseModel;
         }
     }

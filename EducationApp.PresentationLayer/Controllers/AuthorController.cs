@@ -22,7 +22,7 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("getAll")]
         public async Task<IActionResult> GetAllAuthorsAsync([FromBody]FilterAuthorModel filterModel)
         {
-            var response = await _authorService.GetAuthorsLazyLoadAsync(filterModel);
+            var response = await _authorService.GetAllAuthorsAsync(filterModel);
 
             return Ok(response);
         }
@@ -36,7 +36,7 @@ namespace EducationApp.PresentationLayer.Controllers
         [HttpPost("get")]
         public async Task<IActionResult> GetAuthorsInPrintingEditionAsync([FromBody]FilterAuthorModel authorFilterModel)
         {
-            var responseModel = await _authorService.GetAllAuthorsAsync(authorFilterModel);     
+            var responseModel = await _authorService.GetFilteredAuthorsAsync(authorFilterModel);     
             
             return Ok(responseModel);
         } 

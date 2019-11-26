@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EducationApp.BusinessLayer.Common.Constants
+﻿namespace EducationApp.BusinessLayer.Common.Constants
 {
     public partial class Constants
     {
-        public partial class Errors
+        public class Errors
         {
             public const string EmailNotFound = "Email not found";
             public const string EmailInvalid = "Invalid email";
@@ -38,6 +34,8 @@ namespace EducationApp.BusinessLayer.Common.Constants
             public const string OccuredProcessing = "An error has occurred while processing your request";
 
             public const string FailedUpdate = "Failed update";
+            public const string FailedDelete = "Failed delete";
+            public const string FailedCreate = "Failed create";
         }
     }
 }

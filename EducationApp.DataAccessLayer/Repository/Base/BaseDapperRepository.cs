@@ -39,20 +39,12 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             using(var connection = SqlConnection())
             {
-                connection.Open();
                 return await connection.GetAsync<TEntity>(id);
             }
         }
         public IQueryable<TEntity> ReadAll() => throw new NotImplementedException();
         public IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate) => throw new NotImplementedException();
-        public Task<int> SaveAsync()
-        {
-            using (var connection = SqlConnection())
-            {                   
-                
-            }
-            return null;
-        }
+        public Task<int> SaveAsync() => throw new NotImplementedException();
         public async Task<int> UpdateAsync(TEntity entity)
         {
             var result = false;
