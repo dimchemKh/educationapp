@@ -14,6 +14,7 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             instance.LastName = source.LastName;
             instance.Email = source.Email;
             instance.UserName = $"{source.FirstName}{source.LastName}";
+            instance.Image = source.Image;
 
             return instance;
         }
@@ -24,6 +25,7 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
             instance.LastName = source.LastName;
             instance.Email = source.Email;
             instance.Id = source.Id;
+
             var resultBlocked = (source.LockoutEnd != null) ? true : false;
             instance.IsBlocked = resultBlocked;
 

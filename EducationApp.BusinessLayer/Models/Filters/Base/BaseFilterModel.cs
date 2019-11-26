@@ -13,11 +13,5 @@ namespace EducationApp.BusinessLayer.Models.Filters.Base
         public Enums.SortType SortType{ get; set; }
         public int PageSize { get; set; }
         public int Page { get; set; }
-
-        //public BaseFilterModel()
-        //{
-        //    SortState = Enums.SortState.Asc;
-        //    SortType = Enums.SortType.None;
-        //}
     }
 }

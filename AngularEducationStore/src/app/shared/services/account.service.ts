@@ -19,6 +19,7 @@ export class AccountService {
     this.authNavStatusSource.next(this.isAuth());
   }
 
+
   private authNavStatusSource = new BehaviorSubject<boolean>(false);
   authNavStatus$ = this.authNavStatusSource.asObservable();
 

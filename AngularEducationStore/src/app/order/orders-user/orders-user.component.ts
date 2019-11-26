@@ -32,7 +32,7 @@ export class OrdersUserComponent extends OrdersAdminComponent implements OnInit 
     let payment = new PaymentModel();
     payment.orderId = order.id;
 
-    this.paymentService.openStripeDialog(payment, this.orderService.updateOrder(payment));
+    this.paymentService.openStripeDialog(payment);
     
     this.submit();
   }

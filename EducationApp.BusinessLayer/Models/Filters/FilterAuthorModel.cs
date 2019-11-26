@@ -7,9 +7,5 @@ namespace EducationApp.BusinessLayer.Models.Filters
 {
     public class FilterAuthorModel : BaseFilterModel
     {
-        public FilterAuthorModel()
-        {
-            PageSize = 10;
-        }
     }
 }

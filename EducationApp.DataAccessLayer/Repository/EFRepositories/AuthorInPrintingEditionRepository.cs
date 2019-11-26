@@ -55,33 +55,20 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             return true;
         }
         // TODO: when remove Author too need remove PE with this the last Author
-        public async Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
+        public async Task<bool> DeleteAuthorsById(long authorsId)
         {
-            var query = _context.AuthorInPrintingEditions
-                .Include(x => x.PrintingEdition)
-                .Include(x => x.Author)
-                .Where(predicate);
+            var query = await _context.AuthorInPrintingEditions
+                .Where(x => x.AuthorId == authorsId).ToListAsync();
 
             _context.AuthorInPrintingEditions.RemoveRange(query);
+            return true;
+        }
+        public async Task<bool> DeletePrintingEditionsById(long printingEditionId)
+        {
+            var query = await _context.AuthorInPrintingEditions
+                .Where(x => x.PrintingEditionId == printingEditionId).ToListAsync();
 
-            //var res = query
-            //    .GroupBy(x => x.PrintingEdition)
-            //    .Select(x => x.Key);
-
-            //var count = res.Count();
-            //if (count == 1)
-            //{
-            //    var pe = res.FirstOrDefault();
-            //    pe.IsRemoved = true;
-            //}
-            //if(count > 1)
-            //{
-            //    res.Where(x => x.AuthorInPrintingEditions.Select(z => z.PrintingEditionId == x.Id))
-            //}
-           
-
-            await _context.SaveChangesAsync();
-
+            _context.AuthorInPrintingEditions.RemoveRange(query);
             return true;
         }
     }

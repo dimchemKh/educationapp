@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AccountService, CartService, DataService } from 'src/app/shared/services';
+import { AccountService, CartService, DataService, UserService } from 'src/app/shared/services';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,7 @@ import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/r
 
 import { CartItemsComponent } from 'src/app/shared/cart-dialogs/cart-items/cart-items.component';
 import { MatDialog } from '@angular/material';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -19,9 +20,12 @@ import { MatDialog } from '@angular/material';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
-  isAuth = false;
-
   cartSubscribe: Subscription;
+
+  isAuth = false;
+  image: SafeUrl = null;
+  userImage: string;
+
 
   countOrders: number;
 
@@ -36,22 +40,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
   get userRole(): string {
     return this.dataService.getLocalStorage('userRole');
   }
+  getUserImage() {
+    this.userImage = this.dataService.getLocalStorage('userImage');
 
-  constructor(private authService: AccountService, private dialog: MatDialog,
-              private cartService: CartService, private dataService: DataService) {
+    if (this.userImage) {
+      this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
+    }
+
+  }
+
+  constructor(private authService: AccountService, private userService: UserService, private dialog: MatDialog,
+              private cartService: CartService, private dataService: DataService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
+    this.userService.userImageSubject.subscribe((image) => {
+      this.userImage = image;
+      this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
+    });
     this.subscription = this.authService.authNavStatus$.subscribe(status => {
       this.isAuth = status;
+      this.getUserImage();
     });
     this.cartService.cartSource.subscribe((data) => {
       if (data) {
         this.countOrders = data.length;
       }
     });
-  }
-  getCountPurchase() {   
     
   }
   openCart() {

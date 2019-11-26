@@ -1,64 +1,71 @@
 <div class="container" *ngIf="!isSuccessSignUp">
-
-    <fa-icon class="content-icon" size="6x" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon>
+    <div class="head-photo" *ngIf="!image">
+        <h3>Choose your photo:</h3>
+        <label for="file" class="content-icon">
+            <fa-icon size="6x" [icon]="userIcon" [fixedWidth]="true" transform=""></fa-icon>
+            <input type="file" id="file" (change)="onFileChange($event.target.files)" hidden>
+        </label>
+    </div>
+    <div *ngIf="image">
+        <label for="file">
+            <img [src]='image' alt="" height=150>
+            <input type="file" id="file" (change)="onFileChange($event.target.files)" hidden>
+        </label>
+    </div>
 
     <label class="title">
         {{title}}
     </label>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" [formGroup]="form">
         <mat-label>
             Your First name
         </mat-label>
-        <input matInput [formControl]="firstName" [(ngModel)]="userModel.firstName" autocomplete="off" required />
-        <mat-hint align="end" *ngIf="firstName.invalid">
-            {{firstName.touched && this.firstName.hasError('required') ? 'Please enter your FirstName' :
-                firstName.hasError('pattern') ? 'Invalid FirstName!' : ''}}
+        <input matInput formControlName="firstName" [(ngModel)]="userModel.firstName" autocomplete="off" required />
+        <mat-hint align="end" *ngIf="isControlInvalid('firstName')">
+            {{'Invalid First Name'}}
         </mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" [formGroup]="form">
         <mat-label>Your Last name</mat-label>
-        <input matInput [formControl]="lastName" [(ngModel)]="userModel.lastName" autocomplete="off" required />
-        <mat-hint align="end" *ngIf="lastName.invalid">
-            {{lastName.touched && this.lastName.hasError('required') ? 'Please enter your LastName' :
-                lastName.hasError('pattern') ? 'Invalid LastName!' : ''}}
+        <input matInput formControlName="lastName" [(ngModel)]="userModel.lastName" autocomplete="off" required />
+        <mat-hint align="end" *ngIf="isControlInvalid('lastName')">
+            {{'Invalid Last Name'}}
         </mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" [formGroup]="form">
         <mat-label>Email</mat-label>
-        <input matInput placeholder="Enter your email" [formControl]="email" [(ngModel)]="userModel.email"
+        <input matInput placeholder="Enter your email" formControlName="email" [(ngModel)]="userModel.email"
             autocomplete="off" required />
-        <mat-hint align="end" *ngIf="email.invalid">
-            {{email.hasError('pattern') ? 'Not a valid email' :
-            (email.hasError('required') && email.touched) ? 'Empty field' : ''}}
+        <mat-hint align="end" *ngIf="isControlInvalid('email')">
+            {{'Invalid Email'}}
         </mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <input matInput placeholder="Enter your password" [formControl]="password"
+    <mat-form-field appearance="outline" [formGroup]="form">
+        <input matInput placeholder="Enter your password" formControlName="password"
             [type]="hidePassword ? 'password' : 'text'" autocomplete="off" required />
         <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hidePassword">
             <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-hint align="end" *ngIf="password.invalid">
-            {{(password.hasError('required') && password.touched) ? 'Empty password' : ''}}
+        <mat-hint align="end" *ngIf="isControlInvalid('password')">
+            {{'Empty password'}}
         </mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <input matInput placeholder="Confirm your password" [formControl]="confirmPassword"
+    <mat-form-field appearance="outline" [formGroup]="form">
+        <input matInput placeholder="Confirm your password" formControlName="confirmPassword"
             [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="userModel.password" autocomplete="off"
             required />
         <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword"
             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
             <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-hint align="end" *ngIf="confirmPassword">
-            {{(confirmPassword.hasError('required') && confirmPassword.touched) ? 'Empty password' :
-            (confirmPassword.value !== password.value && confirmPassword.touched) ? 'Not same passwords' : ''}}
+        <mat-hint align="end" *ngIf="isSamePasswords('confirmPassword')">
+            {{'Not same passwords'}}
         </mat-hint>
     </mat-form-field>
     <mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
@@ -67,7 +74,8 @@
         </mat-chip>
     </mat-chip-list>
     <div class="register-row">
-        <button class="register-btn" mat-raised-button color="accent" (click)="submit(userModel)" [disabled]="isLoading">
+        <button class="register-btn" mat-raised-button color="accent" (click)="submit(userModel)"
+            [disabled]="isLoading">
             Sign Up your account!
         </button>
         <mat-spinner class="register-spinner" *ngIf="isLoading" [diameter]="diameter"></mat-spinner>

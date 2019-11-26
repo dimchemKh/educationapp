@@ -12,8 +12,8 @@ export class DataService {
   getCookie(name: string) {
     return this.cookieService.get(name);
   }
-  setCookie(name: string, value: string) {
-    return this.cookieService.set(name, value);
+  setCookie(name: string, value: string, expires?: Date | number) {
+    return this.cookieService.set(name, value, expires, '/');
   }
   deleteAllCookie(path: string) {
     this.cookieService.deleteAll(path);

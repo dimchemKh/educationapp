@@ -42,7 +42,6 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    debugger
     this.cartSubscription = this.cartService.cartSource.subscribe((numbers) => {
       if (!this.cartService.checkTheSame(numbers, +this.route.snapshot.paramMap.get('id'))) {
         this.isPurchase = false;
@@ -57,7 +56,6 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     this.getDetails(currency);
   }
   getDetails(currency: number = 1) {
-    debugger
     let printingEditionId = +this.route.snapshot.paramMap.get('id');
     this.currency = currency;
     this.printingEditionService.getPrintingEditionDetails(printingEditionId, currency).subscribe((data) => {

@@ -4,4 +4,5 @@ export class UserRequestModel extends BaseModel {
     userName?: string;
     userId?: string;
     userRole?: string;
+    image?: string;
 }

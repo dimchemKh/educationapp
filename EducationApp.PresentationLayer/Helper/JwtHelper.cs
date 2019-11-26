@@ -79,7 +79,7 @@ namespace EducationApp.PresentationLayer.Helper
             var refreshClaims = GetRefreshTokenClaims(userInfoModel);
             result.AccessToken = Generate(accessClaims, configOptions, configOptions.Value.AccessTokenExpiration);
 
-            result.RefreshToken = Generate(refreshClaims, configOptions, configOptions.Value.RefreshTokenExpiration);
+            result.RefreshToken = Generate(refreshClaims, configOptions, configOptions.Value.RefreshTokenLongExpiration);
 
             return result;
         }

@@ -9,7 +9,6 @@ using EducationApp.BusinessLayer.Models.Filters;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-//using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
 
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
@@ -63,9 +62,9 @@ namespace EducationApp.BusinessLayer.Services
             }
             var q = await _printingEditionRepository.GetByIdAsync(2);
 
-            //await _printingEditionRepository.CreateAsync(printingEdition);
+            await _printingEditionRepository.CreateAsync(printingEdition);
 
-            //await _authorInPrintingEditionRepository.AddAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
+            await _authorInPrintingEditionRepository.AddAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
 
             return responseModel;
         }
@@ -126,8 +125,9 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData); 
                 return responseModel;
             }
-            // await _printingEditionRepository.DeleteAsync(printingEdition);
-            await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.PrintingEditionId == printingEditionId);
+            await _printingEditionRepository.DeleteAsync(printingEdition);
+
+            await _authorInPrintingEditionRepository.DeletePrintingEditionsById(printingEditionId);
 
             return responseModel;
         }
@@ -150,7 +150,7 @@ namespace EducationApp.BusinessLayer.Services
 
             await _printingEditionRepository.UpdateAsync(printingEdition);
 
-            //await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
+            await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
 
             return responseModel;            
         }

@@ -1,5 +1,5 @@
 .title {
-    margin-top: 5%;
+    margin-top: 90px;
     margin-left: 5%;
     font-weight: 500;
 }
@@ -20,7 +20,12 @@
     padding: 0 50px;
 
 }
-
+img {
+    border-radius: 50%;
+}
+.image {
+    margin-bottom: 20px;
+}
 .content-title :first-child {
     font-size: 24px;
     font-weight: 500;
@@ -41,7 +46,6 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-
 }
 .content-input {
     width: 60%;

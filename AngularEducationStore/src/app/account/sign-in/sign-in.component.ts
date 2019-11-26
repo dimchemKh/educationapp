@@ -22,6 +22,7 @@ export class SignInComponent {
   userRequest = new UserRequestModel();
   
   constructor(private accountService: AccountService, private patterns: ValidationPatterns, private dataService: DataService) {
+
   }
 
   email = new FormControl('',
@@ -31,9 +32,11 @@ export class SignInComponent {
     ]);
   password = new FormControl('', Validators.required);
   hide = true;
-  checked = false;
+
+  checkedRemember = false;
 
   submit(model: UserLoginModel) {
+
     if (!this.email.invalid && !this.password.invalid) {
       this.accountService.signInUser(model)
         .subscribe((data: UserRequestModel) => {
@@ -47,11 +50,22 @@ export class SignInComponent {
       return;
     }
     if (!this.userRequest.userName || !this.userRequest.userRole) {
-      this.userRequest.errors.push('Sorry');
+      this.userRequest.errors.push('Occuring process');
+      return;
     }
     this.dataService.setLocalStorage('userName', this.userRequest.userName);
     this.dataService.setLocalStorage('userRole', this.userRequest.userRole);
 
+    if (this.userRequest.image) {
+      this.dataService.setLocalStorage('userImage', this.userRequest.image);
+    }
+    let date = new Date();
+    if (!this.checkedRemember) {
+      this.dataService.setCookie('expire', 'time', date.setHours(date.getHours() + 12));
+    }
+    if (this.checkedRemember) {
+      this.dataService.setCookie('expire', 'time', date.setMonth(date.getMonth() + 2));
+    }
     this.accountService.signIn();
   }
 }

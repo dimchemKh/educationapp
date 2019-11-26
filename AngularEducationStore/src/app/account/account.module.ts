@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ValidationPatterns } from '../shared/constants/validation-patterns';
 import { MaterialModule } from '../material.module';
-
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { MaterialModule } from '../material.module';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-
+    MaterialFileInputModule,
     CommonModule,
     FontAwesomeModule,
 

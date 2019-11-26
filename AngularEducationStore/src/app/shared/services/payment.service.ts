@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PaymentModel } from '../models/payment/PaymentModel';
 import { MatDialog } from '@angular/material';
 import { CartSuccessComponent } from '../cart-dialogs/cart-success/cart-success.component';
+import { OrderService } from './order.service';
 
 
 
@@ -11,18 +12,17 @@ import { CartSuccessComponent } from '../cart-dialogs/cart-success/cart-success.
 
 export class PaymentService {
 
-  
-
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private orderService: OrderService) {
   }
 
-  openStripeDialog(payment: PaymentModel, updateMethod: Promise<object>) {
+  openStripeDialog(payment: PaymentModel) {
+
     let handler = (window as any).StripeCheckout.configure({
       key: 'pk_test_tlcMD8vu8ttNtVSH6RF3OAkp004sTIYGEr',
       locale: 'auto',
       token: (token: any) => {
         payment.transactionId = token.id;
-        updateMethod.then();
+        this.orderService.updateOrder(payment).then();
       }
     });
 
@@ -30,11 +30,13 @@ export class PaymentService {
       name: 'Localhost',
       description: 'Payment description',
       closed: () => {
+        if (payment.transactionId) {
           this.dialog.open(CartSuccessComponent, {
-          data: {
-            orderId: payment.orderId
-          }
-        });
+            data: {
+              orderId: payment.orderId
+            }
+          });
+        }
       }
     });
   }

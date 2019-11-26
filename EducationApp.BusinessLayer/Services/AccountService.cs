@@ -87,6 +87,7 @@ namespace EducationApp.BusinessLayer.Services
             var user = _mapperHelper.Map<UserRegistrationModel, ApplicationUser>(userRegModel);
 
             user.UserName = $"{user.FirstName}{user.LastName}";
+            user.Image = userRegModel.Image;
 
             var result = (await _userRepository.SignUpAsync(user, userRegModel.Password)).ToList();
 

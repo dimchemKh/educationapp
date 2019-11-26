@@ -11,7 +11,7 @@ using EducationApp.DataAccessLayer.Repository.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
 using EducationApp.BusinessLayer.Helpers.Mappers;
 using EducationApp.BusinessLayer.Common;
-using EducationApp.DataAccessLayer.Entities.Enums;
+
 using EducationApp.BusinessLayer.Helpers.Interfaces;
 using EducationApp.BusinessLayer.Models;
 using EducationApp.BusinessLayer.Models.Payments;
@@ -24,13 +24,18 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapperHelper _mapperHelper;
         private readonly ICurrencyConverterHelper _currencyConverterHelper;
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly IOrderItemRepository _orderItemRepository;
 
-        public OrderService(IOrderRepository orderRepository, IUserRepository userRepository, IMapperHelper mapperHelper, ICurrencyConverterHelper currencyConverterHelper)
+        public OrderService(IOrderRepository orderRepository, IUserRepository userRepository, IMapperHelper mapperHelper, ICurrencyConverterHelper currencyConverterHelper,
+                            IPaymentRepository paymentRepository, IOrderItemRepository orderItemRepository)
         {
             _orderRepository = orderRepository;
             _userRepository = userRepository;
             _mapperHelper = mapperHelper;
             _currencyConverterHelper = currencyConverterHelper;
+            _paymentRepository = paymentRepository;
+            _orderItemRepository = orderItemRepository;
         }
         public async Task<decimal> ConvertingPriceAsync(ConverterModel converterModel)
         {
@@ -86,29 +91,37 @@ namespace EducationApp.BusinessLayer.Services
                 responseModel.Errors.Add(Constants.Errors.UserNotFound);
                 return responseModel;
             }
-
-            var order = new Order()
-            {
-                User = user
-            };
-
-            foreach (var orderPrintingEdition in orderModelItem.OrderItems)
-            {
-                var orderItem = orderPrintingEdition.MapToEntity();
-                orderItem.Order = order;
-                orderItems.Add(orderItem);
-            }
-
             var payment = new Payment()
             {
                 TransactionId = null
             };
 
-            var mappedOrder = orderItems.MapToEntity(order, payment);
+            var paymentId = await _paymentRepository.CreateAsync(payment);
 
-            var orderId = await _orderRepository.CreateAsync(mappedOrder);
 
-            responseModel.Items.Add(new OrderModelItem { Id = orderId });
+            var order = new Order()
+            {
+                Amount = orderModelItem.OrderItems.Sum(x => x.Price * x.Count),
+                PaymentId = paymentId,
+                UserId = user.Id
+            };
+
+            var orderId = await _orderRepository.CreateAsync(order);
+
+            foreach (var orderPrintingEdition in orderModelItem.OrderItems)
+            {
+                var orderItem = orderPrintingEdition.MapToEntity();
+                orderItem.OrderId = orderId;
+                orderItems.Add(orderItem);
+            }
+
+            var orderItemsResult = await _orderItemRepository.CreateOrderItems(orderItems.ToArray());
+
+
+            responseModel.Items.Add(new OrderModelItem
+            {
+                Id = orderId
+            });
 
             return responseModel;
         }

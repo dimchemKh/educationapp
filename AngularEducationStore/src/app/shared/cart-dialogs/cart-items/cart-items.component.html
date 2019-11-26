@@ -6,13 +6,13 @@
     <div class="table-container" *ngIf="!isEmptyCart">
         <table mat-table [dataSource]="orders.orderItems">
             <ng-container matColumnDef="product">
-                <th class="column-product" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky>
+                <th class="column-product" mat-header-cell *matHeaderCellDef  disableClear sticky>
                     Product </th>
                 <td class="column-product" mat-cell *matCellDef="let element"> {{element.title}} </td>
             </ng-container>
 
             <ng-container matColumnDef="price">
-                <th class="column-price" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Unit
+                <th class="column-price" mat-header-cell *matHeaderCellDef  disableClear sticky> Unit
                     price
                 </th>
                 <td class="column-price" mat-cell *matCellDef="let element">
@@ -20,7 +20,7 @@
             </ng-container>
 
             <ng-container matColumnDef="qty">
-                <th class="column-qty" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Qty </th>
+                <th class="column-qty" mat-header-cell *matHeaderCellDef  disableClear sticky> Qty </th>
                 <td class="column-qty" mat-cell *matCellDef="let element">
                     <mat-select class="column-qty" (closed)="getOrdersAmount()" [(value)]="element.count">
                         <mat-option *ngFor="let item of quantities" [value]="item">{{item}}</mat-option>
@@ -29,7 +29,7 @@
             </ng-container>
 
             <ng-container matColumnDef="amount">
-                <th class="column-amount" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> Order
+                <th class="column-amount" mat-header-cell *matHeaderCellDef  disableClear sticky> Order
                     amount
                 </th>
                 <td class="column-amount" mat-cell *matCellDef="let element">
@@ -38,7 +38,7 @@
             </ng-container>
 
             <ng-container matColumnDef=" ">
-                <th class="column-btn" mat-header-cell *matHeaderCellDef mat-sort-header disableClear sticky> </th>
+                <th class="column-btn" mat-header-cell *matHeaderCellDef disableClear sticky> </th>
                 <td class="column-btn" mat-cell *matCellDef="let element">
                     <button mat-stroked-button color="primary" class="remove-btn"
                         (click)="removeOrderItem(element.printingEditionId)">-</button>

@@ -18,7 +18,8 @@ export class OrdersAdminComponent implements OnInit {
   filterModel = new FilterOrderModel();
   orderModel = new OrderModel();
   isRequire: number;
-  displayedColumns = ['id', 'date', 'userName', 'userEmail', 'printingEditionType', 'quantity', 'amount', 'transactionStatus'];
+  displayedColumns = ['id', 'date', 'userName', 'userEmail', 'printingEditionType',
+  'printingEditionTitle', 'quantity', 'amount', 'transactionStatus'];
 
   pageSizes = this.parametrs.pageSizes;
   printingEditionTypes = this.printingEditionParams.printingEditionTypes;

@@ -6,7 +6,6 @@ using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Models.Authors;
 
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-//using EducationApp.DataAccessLayer.Repository.DapperRepositories.Interfaces;
 
 using System.Threading.Tasks;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters.Base;
@@ -112,7 +111,7 @@ namespace EducationApp.BusinessLayer.Services
             }
 
             await _authorRepository.DeleteAsync(author);
-            await _authorInPrintingEditionRepository.DeleteByIdAsync(x => x.AuthorId == authorId);
+            await _authorInPrintingEditionRepository.DeleteAuthorsById(authorId);
 
             return responseModel;
         }

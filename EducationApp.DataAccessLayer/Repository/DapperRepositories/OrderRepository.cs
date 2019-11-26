@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Models;
 using EducationApp.DataAccessLayer.Models.Filters;
@@ -35,7 +36,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             if (userId > 1)
             {
-                searchUserSql = $"WHERE u.Id = {userId}";
+                searchUserSql = $"o.UserId = {userId}";
             }
             var transactionSql = string.Empty;
             if (filterOrder.TransactionStatus.Equals(TransactionStatus.Paid))
@@ -77,13 +78,12 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 	            SELECT  o.Id, o.CreationDate, o.Amount, o.UserId, o.PaymentId
 	            FROM Orders AS o
 	            INNER JOIN Payments AS pa ON o.PaymentId = pa.Id
-	            WHERE o.IsRemoved = 0 {transactionSql}");
+	            WHERE o.IsRemoved = 0 {transactionSql} AND {searchUserSql} ");
 
             var endSql = $@"
             ) AS o ON o.Id = oi.OrderId
             INNER JOIN Payments AS pa ON pa.Id = o.PaymentId
-            INNER JOIN AspNetUsers AS u ON u.Id = o.UserId
-            {searchUserSql};";
+            INNER JOIN AspNetUsers AS u ON u.Id = o.UserId;";
 
             var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT o.Id)", columnSql));
 
@@ -107,12 +107,24 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                         if (!dict.TryGetValue(order.Id, out model))
                         {
                             model = new OrderDataModel();
+                            model.Id = order.Id;
+                            model.CreationDate = order.CreationDate;
+                            model.Amount = order.Amount;
+                            model.FirstName = user.FirstName;
+                            model.LastName = user.LastName;
+                            model.Email = user.Email;
+                            model.PaymentId = payment.TransactionId;
 
                             model.OrderItems = new List<OrderItemDataModel>();
 
                             dict.Add(model.Id, model);
                         }
-
+                        model.OrderItems.Add(new OrderItemDataModel
+                        {
+                            PrintingEditionType = printingEdition.PrintingEditionType,
+                            Count = orderItem.Count,
+                            Title = printingEdition.Title
+                        });
 
                         return model;
                     }, splitOn: "Id")
@@ -121,19 +133,23 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                 responseModel.CollectionCount = result.Read<int>().FirstOrDefault();                    
             }
 
-            //var qwe = orders.Select(x => new OrderDataModel
-            //{
-            //    Id = x.Id,
-            //    CreationDate = x.CreationDate,
-            //    Amount = x.Amount,
-            //    Email = x.Email,
-            //    FirstName = x.FirstName,
-            //    LastName = x.LastName,
-            //    PaymentId = x.TransactionId
-            //}).ToList();
+            responseModel.Collection = orders;
 
             return responseModel;
         }
-        public Task<bool> UpdateTransactionAsync(long orderId, string transactionId) => throw new NotImplementedException();
+        public async Task<bool> UpdateTransactionAsync(long orderId, string transactionId)
+        {
+            var sql = $@"UPDATE Payments
+                         SET TransactionId = '{transactionId}'
+                         WHERE Id = (SELECT o.PaymentId
+                         FROM Orders AS o
+                         WHERE o.Id = {orderId})";
+
+            using(var connection = SqlConnection())
+            {
+                 await connection.QueryFirstOrDefaultAsync(sql);
+            }
+            return true;
+        }
     }
 }

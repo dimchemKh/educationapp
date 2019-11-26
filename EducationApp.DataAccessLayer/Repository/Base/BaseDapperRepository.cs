@@ -24,13 +24,16 @@ namespace EducationApp.DataAccessLayer.Repository.Base
                 return await connection.InsertAsync(entity);
             }
         }
-        public async Task<bool> DeleteAsync(TEntity entity)
+        public async Task<int> DeleteAsync(TEntity entity)
         {
+            var result = false;
             using(var connection = SqlConnection())
             {
                 entity.IsRemoved = true;
-                return await connection.UpdateAsync(entity);
+                result = await connection.UpdateAsync(entity);
             }
+            var response = result ? 1 : 0;
+            return response;
         }
         public async Task<TEntity> GetByIdAsync(long id)
         {
@@ -46,23 +49,24 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             using (var connection = SqlConnection())
             {                   
+                
             }
             return null;
         }
-        public async Task<bool> UpdateAsync(TEntity entity)
+        public async Task<int> UpdateAsync(TEntity entity)
         {
+            var result = false;
             using (var connection = SqlConnection())
             {
-                return await connection.UpdateAsync(entity);
+                result = await connection.UpdateAsync(entity);
             }
+            var response = result ? 1 : 0;
+            return response;
         }
 
         protected SqlConnection SqlConnection()
         {
             return new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
         }
-
-        Task<int> IBaseRepository<TEntity>.DeleteAsync(TEntity entity) => throw new NotImplementedException();
-        Task<int> IBaseRepository<TEntity>.UpdateAsync(TEntity entity) => throw new NotImplementedException();
     }
 }

@@ -37,6 +37,8 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<string>("Image");
+
                     b.Property<bool>("IsRemoved");
 
                     b.Property<string>("LastName");

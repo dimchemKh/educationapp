@@ -14,23 +14,29 @@ import { AccountService, DataService } from 'src/app/shared/services';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private dataSerive: DataService, private accountService: AccountService) {}
+  constructor(private dataSerive: DataService, private accountService: AccountService) {
+  }
+  
   private isRefreshing = false;
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const idToken = this.dataSerive.getCookie('Access');
-    const refreshToken = this.dataSerive.getCookie('Refresh');
+    let accessToken = this.dataSerive.getCookie('Access');
+    let refreshToken = this.dataSerive.getCookie('Refresh');
+    let expireRemember = this.dataSerive.getCookie('expire');
 
-    if (idToken) {
-      req = this.addToken(req, idToken);
+
+    if (accessToken && expireRemember) {
+      req = this.addToken(req, accessToken);
     }
-    if (!idToken) {
+    if (!accessToken && expireRemember) {
       return next.handle(req).pipe(catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
-          if (refreshToken) {
+          if (refreshToken && expireRemember) {
             return this.handle401Error(req, next);
           }
-          this.accountService.signOut();
+          if (!expireRemember || !refreshToken) {
+            this.accountService.signOut();
+          }
           return throwError('');
         } else {
         return throwError(error);

@@ -10,6 +10,7 @@ export class NonAdminGuard implements CanActivate {
     constructor(private dataService: DataService, private router: Router) { }
 
     canActivate() {
+        debugger
         if (this.dataService.getLocalStorage('userRole') !== 'admin') {
             return true;
         }

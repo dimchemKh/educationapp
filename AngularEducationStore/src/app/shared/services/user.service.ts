@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { FilterUserModel, UserUpdateModel, UserModel, UserModelItem } from 'src/app/shared/models';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -11,7 +11,11 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
+  public userImageSubject = new BehaviorSubject<string>(null);
+
+
   constructor(private http: HttpClient, private apiRoutes: ApiRoutes) { }
+
   getUserOne(): Observable<UserUpdateModel> {
     return this.http.post<UserUpdateModel>(this.apiRoutes.userRoute + 'get', {
       withCredentials: true

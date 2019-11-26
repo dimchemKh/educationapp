@@ -64,7 +64,7 @@ export class CartItemsComponent implements OnInit {
       }
     });
     
-    this.paymentService.openStripeDialog(payment, this.orderService.updateOrder(payment));
+    this.paymentService.openStripeDialog(payment);
   }
   getOrdersAmount() {
     this.converterModel.price = 0;

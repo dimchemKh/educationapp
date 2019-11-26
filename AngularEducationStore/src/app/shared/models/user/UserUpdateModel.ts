@@ -7,4 +7,5 @@ export class UserUpdateModel extends BaseModel {
     public email: string;
     public currentPassword: string;
     public newPassword?: string;
+    public image?: string;
 }

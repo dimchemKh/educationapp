@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Linq.Expressions;
 using EducationApp.DataAccessLayer.Entities.Enums;
 
 namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
@@ -74,27 +73,27 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                         INNER JOIN (
 	                        SELECT a.Id, a.Name
 	                        FROM Authors AS a
-	                        WHERE a.IsRemoved = 0");
+	                        WHERE a.IsRemoved = 0 ");
 
             var mainBuilder = new StringBuilder(countBuilder.ToString()).Replace("COUNT(DISTINCT a.Id)", columnSql);
 
-            var endSql = $@") AS a ON aInP.AuthorId = a.Id";
+            var endSql = $@") AS a ON aInP.AuthorId = a.Id; ";
 
-            countBuilder.Append(orderSql).Append(offset).Append(endSql).Append(orderSql);
+            countBuilder.Append(endSql);
 
 
-            orderSql = $"ORDER BY {predicateSql} {sort}";
-            offset = $"OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY";
+            orderSql = $"ORDER BY {predicateSql} {sort} ";
+            offset = $"OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY ";
 
-            mainBuilder.Append(endSql);
+            mainBuilder.Append(orderSql).Append(offset).Append(endSql);
 
-            var res = mainBuilder.Append(countBuilder.ToString()).ToString();
+            var mainSql = mainBuilder.Append(countBuilder.ToString()).ToString();
 
             var authors = new List<AuthorDataModel>();
 
             using(var connection = SqlConnection())
             {
-                var result = await connection.QueryMultipleAsync(countBuilder.ToString());
+                var result = await connection.QueryMultipleAsync(mainSql);
 
                 var dict = new Dictionary<long, AuthorDataModel>();
 
@@ -117,8 +116,10 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     .Distinct()
                     .ToList();
                 responseModel.CollectionCount = result.Read<int>().FirstOrDefault();
-            }            
-            
+            }
+
+            responseModel.Collection = authors;
+
             return responseModel;
         }
 

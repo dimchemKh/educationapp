@@ -13,7 +13,7 @@ export class CartSuccessComponent implements OnInit {
 
   checkIcon = faCheckSquare;
 
-  constructor(public dialogRef: MatDialogRef<OrdersUserComponent>, @Inject(MAT_DIALOG_DATA) public data: number) { }
+  constructor(public dialogRef: MatDialogRef<OrdersUserComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }

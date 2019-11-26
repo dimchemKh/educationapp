@@ -73,12 +73,25 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             return result;
         }
 
-        public async Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate)
+        public async Task<bool> DeleteAuthorsById(long authorsId)
         {
-            var qw = predicate.Body;
-            var result = qw as BinaryExpression;
-            var right = result.Right;
+            var sql = $"DELETE FROM AuthorInPrintingEditions WHERE AuthorId = {authorsId}";
 
+            using(var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            {
+                await connection.QueryAsync(sql);
+            }
+
+            return true;
+        }
+        public async Task<bool> DeletePrintingEditionsById(long printingEditionId)
+        {
+            var sql = $"DELETE FROM AuthorInPrintingEditions WHERE PrintingEditionId = {printingEditionId}";
+
+            using (var connection = new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value))
+            {
+                await connection.QueryAsync(sql);
+            }
 
             return true;
         }

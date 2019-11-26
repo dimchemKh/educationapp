@@ -36,6 +36,14 @@
                 </div>
             </td>
         </ng-container>
+        <ng-container matColumnDef="printingEditionTitle">
+            <th class="column-title" mat-header-cell *matHeaderCellDef > Title </th>
+            <td class="column-title" mat-cell *matCellDef="let element">
+                <div *ngFor="let orderItem of element.orderItems">
+                    {{orderItem.title}}
+                </div>
+            </td>
+        </ng-container>
         <ng-container matColumnDef="quantity">
             <th class="column-name" mat-header-cell *matHeaderCellDef > Qty </th>
             <td class="column-name" mat-cell *matCellDef="let element">

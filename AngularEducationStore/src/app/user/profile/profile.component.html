@@ -11,8 +11,19 @@
         </button>
     </div>
     <div class="content">
-        <fa-icon class="content-icon" size="6x" [icon]="userIcon" [fixedWidth]="true" ></fa-icon>
-
+        <div *ngIf="!userUpdateModel.image">
+            <h3>Choose your photo:</h3>
+            <label for="file">
+                <fa-icon class="content-icon" size="6x" [icon]="userIcon" [fixedWidth]="true"></fa-icon>
+                <input *ngIf="!userUpdateModel.image && !isDisabled" type="file" id="file" (change)="onFileChange($event.target.files)" hidden>
+            </label>
+        </div>
+        <div *ngIf="userUpdateModel.image" class="image">
+            <label for="file">
+                <img [src]='image' alt="" height=125>
+                <input *ngIf="!isDisabled" type="file" id="file" (change)="onFileChange($event.target.files)" hidden>
+            </label>
+        </div>
         <mat-form-field [formGroup]="form" class="content-input" appearance="outline">
             <mat-label>
                 Your First name
@@ -69,10 +80,11 @@
                 </button>
                 <mat-hint align="end"></mat-hint>
             </mat-form-field>
-            <div >
+            <div>
                 <button class="footer-buttons" mat-raised-button color="accent" (click)="close()">Cancel</button>
 
-                <button class="footer-buttons" mat-raised-button color="accent" (click)="submit(userUpdateModel)">Confirm change</button>
+                <button class="footer-buttons" mat-raised-button color="accent"
+                    (click)="submit(userUpdateModel)">Confirm change</button>
             </div>
 
         </ng-template>

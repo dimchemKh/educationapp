@@ -9,6 +9,7 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
     {
         Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId);
         Task<bool> AddAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId);
-        Task<bool> DeleteByIdAsync(Expression<Func<AuthorInPrintingEdition, bool>> predicate);
+        Task<bool> DeleteAuthorsById(long auhorsId);
+        Task<bool> DeletePrintingEditionsById(long printingEditionsId);
     }
 }

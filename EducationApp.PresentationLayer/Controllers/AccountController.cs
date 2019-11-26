@@ -125,7 +125,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
             {
-                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
+                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenShortExpiration)
             });
         }
     }

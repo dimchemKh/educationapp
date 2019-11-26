@@ -69,7 +69,9 @@ namespace EducationApp.BusinessLayer.Initializers
             services.AddTransient<IAuthorInPrintingEditionRepository, dapper.AuthorInPrintingEditionRepository>();
             services.AddTransient<IAuthorRepository, dapper.AuthorRepository>();
             services.AddTransient<IOrderRepository, dapper.OrderRepository>();
+            services.AddTransient<IOrderItemRepository, dapper.OrderItemRepository>();
             services.AddTransient<IPaymentRepository, dapper.PaymentRepository>();
+
             #endregion
 
             #region IdentityOptions
