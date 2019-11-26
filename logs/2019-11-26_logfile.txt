@@ -391,3 +391,14 @@ Incorrect syntax near ')'.
 2019-11-26 15:49:04.2159 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'ORDER'.
 Invalid usage of the option NEXT in the FETCH statement.
 Incorrect syntax near ')'.
+2019-11-26 16:49:39.0188 ERROR Status Code: 200 => Exception message: Incorrect syntax near the keyword 'AND'.
+Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near the keyword 'AND'.
+2019-11-26 17:04:34.5401 ERROR Status Code: 200 => Exception message: Incorrect syntax near '('.
+Incorrect syntax near ','.
+Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near '('.
+Incorrect syntax near ','.
+2019-11-26 17:05:57.4890 ERROR Status Code: 200 => Exception message: Incorrect syntax near '('.
+Invalid usage of the option NEXT in the FETCH statement.
+Incorrect syntax near '('.

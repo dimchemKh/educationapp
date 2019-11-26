@@ -60,17 +60,8 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var responseModel = new GenericModel<PrintingEditionDataModel>();
 
-            var sqlTypes = "("; // todo change
-            var i = 0;
-            foreach (var type in filter.PrintingEditionTypes)
-            {
-                sqlTypes += $"{(int)type},";
-                ++i;
-                if (i == filter.PrintingEditionTypes.Count())
-                {
-                    sqlTypes = sqlTypes.Substring(0, sqlTypes.Length - 1);
-                }
-            }
+
+
             var searchSql = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(filter.SearchString))
             {
@@ -85,22 +76,22 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 					    ),0) = 1) OR (LOWER(pe.Title) LIKE '{filter.SearchString}%')");
             }
 
-            var orderBySql = "pe.Id";
+            var sortTypeSql = "Id";
             var priceSql = string.Empty;
 
             if (!isAdmin)
             {
-                priceSql += $"AND pe.Price BETWEEN {filter.PriceMinValue} AND {filter.PriceMaxValue} ";
-                orderBySql = "pe.Price";
+                priceSql = $"AND pe.Price BETWEEN {filter.PriceMinValue} AND {filter.PriceMaxValue} ";
+                sortTypeSql = "Price";
             }
 
             if (filter.SortType.Equals(Enums.SortType.Title))
             {
-                orderBySql = "pe.Title"; // todo change
+                sortTypeSql = "Title";
             }
             if (filter.SortType.Equals(Enums.SortType.Price))
             {
-                orderBySql = "pe.Price";
+                sortTypeSql = "Price";
             }
             var sort = string.Empty;
             if (filter.SortState.Equals(Enums.SortState.Asc))
@@ -111,9 +102,18 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 sort = "DESC";
             }
+            var orderBySql = $"pe.{sortTypeSql}";
+
             var offsetSql = string.Empty;
 
             var orderBy = $"ORDER BY {orderBySql} {sort}";
+
+            var sqlPrintingEditionTypes = new StringBuilder($"AND (pe.PrintingEditionType = {(int)filter.PrintingEditionTypes.FirstOrDefault()} ");
+
+            foreach (var type in filter.PrintingEditionTypes.Skip(1))
+            {
+                sqlPrintingEditionTypes.Append($"OR pe.PrintingEditionType = {(int)type} ");
+            }
 
             var columnSelectBuilder = new StringBuilder("pe.Id, pe.Title, pe.Price, pe.Description, pe.Currency, pe.PrintingEditionType, a.Id, a.Name");
 
@@ -125,7 +125,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT pe.Id)", columnSelectBuilder.ToString()));
 
-            var filterSqlBuilder = new StringBuilder($"\nWHERE (pe.IsRemoved = 0) AND pe.PrintingEditionType IN {sqlTypes}) {priceSql} {searchSql.ToString()}");
+            var filterSqlBuilder = new StringBuilder($"\nWHERE (pe.IsRemoved = 0) {sqlPrintingEditionTypes.ToString()}) {priceSql} {searchSql.ToString()}");
 
             var endBuilder = $@") AS pe ON AiNP.PrintingEditionId = pe.Id;";
 

@@ -44,12 +44,15 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var responseModel = new GenericModel<AuthorDataModel>();
 
-            var filterSql = $"a.Id";
+
+            var sortType = $"Id";
 
             if (filter.SortType == Enums.SortType.Name)
             {
-                filterSql = $"a.Name";
+                sortType = $"Name";
             }
+
+            var filterSql = $"a.{sortType}";
 
             var sort = string.Empty;
 

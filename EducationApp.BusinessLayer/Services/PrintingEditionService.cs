@@ -183,7 +183,7 @@ namespace EducationApp.BusinessLayer.Services
 
             var updateAuthorsProduct = await _authorInPrintingEditionRepository.UpdateAuthorsInPrintingEditionAsync(printingEdition.Id, authorsId);
 
-            if (!updateAuthorsProduct)
+            if (updateAuthorsProduct.Equals(0))
             {
                 responseModel.Errors.Add(Constants.Errors.FailedUpdate);
                 return responseModel;

@@ -15,7 +15,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorInPrintingEditionRepository(ApplicationContext context) : base(context)
         {
         }
-        public async Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
+        public async Task<int> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var authorsInPrintingEdition = _context.AuthorInPrintingEditions
                 .Where(x => x.PrintingEditionId.Equals(printingEditionId));
@@ -28,22 +28,19 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
 
             if (isEqual)
             {
-                return false;
+                return 0;
             }
 
             var removeRange = await authorsInPrintingEdition.ToArrayAsync();
 
             _context.AuthorInPrintingEditions.RemoveRange(removeRange);
-            
+
             var createResult = await CreateAuthorsInPrintingEditionAsync(printingEditionId, authorsId);
 
-            if (!createResult)
-            {
-                return false;
-            }
-            return true;
+            return createResult;
+
         }
-        public async Task<bool> CreateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
+        public async Task<int> CreateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var authorInPrintingEditions = new List<AuthorInPrintingEdition>();
 
@@ -56,13 +53,8 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 });
             }
             await _context.AuthorInPrintingEditions.AddRangeAsync(authorInPrintingEditions);
-            var saveResult = await SaveAsync();
 
-            if (saveResult.Equals(0))
-            {
-                return false;
-            }
-            return true;
+            return await SaveAsync();
         }
         // TODO: when remove Author too need remove PE with this the last Author
         public async Task<bool> DeleteAuthorsById(long authorsId)

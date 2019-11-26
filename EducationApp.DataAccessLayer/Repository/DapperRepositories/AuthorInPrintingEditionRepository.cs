@@ -18,7 +18,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
         }
 
-        public async Task<bool> CreateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
+        public async Task<int> CreateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var entities = new List<AuthorInPrintingEdition>();
 
@@ -32,12 +32,10 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             }
             using (var connect = SqlConnection())
             {
-                await connect.InsertAsync(entities);
+                return await connect.InsertAsync(entities);
             }
-
-            return true;
         }
-        public async Task<bool> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
+        public async Task<int> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var sql = $@"SELECT aPe.Id, aPe.AuthorId, aPe.PrintingEditionId
                          FROM AuthorInPrintingEditions AS aPe
@@ -55,14 +53,14 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             if (isEqual)
             {
-                return false;
+                return 0;
             }
 
-            var removeRange = authorsInPrintingEdition.ToArray(); // todo why range?
+            var removedAuthors = authorsInPrintingEdition.ToArray(); // todo why range?
 
             using(var connection = SqlConnection())
             {
-                await connection.DeleteAsync(removeRange);
+                await connection.DeleteAsync(removedAuthors);
             }
 
             var result = await CreateAuthorsInPrintingEditionAsync(printingEditionId, authorsId);

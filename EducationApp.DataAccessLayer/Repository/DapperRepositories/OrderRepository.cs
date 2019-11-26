@@ -46,17 +46,19 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                 transactionSql = $"AND pa.TransactionId IS NULL ";
             }
 
-            var predicateSql = $"o.Id";
+            var sortType = $"Id";
 
             if (filterOrder.SortType.Equals(SortType.Amount))
             {
-                predicateSql = $"o.Amount"; // todo change
+                sortType = $"Amount";
             }
 
             if (filterOrder.SortType.Equals(SortType.Date))
             {
-                predicateSql = $"o.CreationDate";
+                sortType = $"CreationDate";
             }
+
+            var filterTypeSql = $"o.{sortType}";
 
             var sort = string.Empty;
 
@@ -89,7 +91,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT o.Id)", columnSql));
 
-            orderSql = $@"ORDER BY {predicateSql} {sort}
+            orderSql = $@"ORDER BY {filterTypeSql} {sort}
                           OFFSET {(filterOrder.Page - 1) * filterOrder.PageSize} ROWS FETCH NEXT {filterOrder.PageSize} ROWS ONLY";
 
             var resultSql = mainBuilder.Append(orderSql)
