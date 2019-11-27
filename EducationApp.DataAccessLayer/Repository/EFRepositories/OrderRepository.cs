@@ -20,7 +20,6 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public OrderRepository(ApplicationContext context) : base(context)
         {
         }
-
         public async Task<GenericModel<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId)
         {
             var query = _context.Orders

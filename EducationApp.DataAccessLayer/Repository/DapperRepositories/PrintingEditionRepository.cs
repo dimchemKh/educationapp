@@ -60,9 +60,12 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var responseModel = new GenericModel<PrintingEditionDataModel>();
 
-
+            var priceSql = string.Empty;
+            var sort = string.Empty;
+            var offsetSql = string.Empty;
 
             var searchSql = new StringBuilder();
+
             if (!string.IsNullOrWhiteSpace(filter.SearchString))
             {
                 searchSql.Append($@"AND (COALESCE((
@@ -77,7 +80,6 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             }
 
             var sortTypeSql = "Id";
-            var priceSql = string.Empty;
 
             if (!isAdmin)
             {
@@ -93,7 +95,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 sortTypeSql = "Price";
             }
-            var sort = string.Empty;
+
             if (filter.SortState.Equals(Enums.SortState.Asc))
             {
                 sort = "ASC";
@@ -103,8 +105,6 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                 sort = "DESC";
             }
             var orderBySql = $"pe.{sortTypeSql}";
-
-            var offsetSql = string.Empty;
 
             var orderBy = $"ORDER BY {orderBySql} {sort}";
 

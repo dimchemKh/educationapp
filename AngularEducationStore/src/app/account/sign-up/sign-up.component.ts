@@ -12,7 +12,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
 
   title = 'Create Account';
   userIcon = faUser;
@@ -44,9 +44,6 @@ export class SignUpComponent implements OnInit {
   userModel = new UserRegistrationModel();
   baseModel = new BaseModel();
   isSuccessSignUp: boolean;
-
-  ngOnInit() {
-  }
 
   isControlInvalid(controlName: string): boolean {
     let control = this.form.controls[controlName];

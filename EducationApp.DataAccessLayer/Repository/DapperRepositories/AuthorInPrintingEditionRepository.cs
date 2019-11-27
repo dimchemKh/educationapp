@@ -6,7 +6,6 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using Dapper.Contrib.Extensions;
-using System.Data.SqlClient;
 using System.Linq;
 using EducationApp.DataAccessLayer.Repository.Base;
 
@@ -39,7 +38,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var sql = $@"SELECT aPe.Id, aPe.AuthorId, aPe.PrintingEditionId
                          FROM AuthorInPrintingEditions AS aPe
-                         WHERE ape.PrintingEditionId = {printingEditionId};";
+                         WHERE ape.PrintingEditionId = @printingEditionId;";
 
             var authorsInPrintingEdition = new List<AuthorInPrintingEdition>();
 
@@ -56,7 +55,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                 return 0;
             }
 
-            var removedAuthors = authorsInPrintingEdition.ToArray(); // todo why range?
+            var removedAuthors = authorsInPrintingEdition.ToArray();
 
             using(var connection = GetSqlConnection())
             {
@@ -70,7 +69,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
         public async Task<bool> DeleteAuthorsById(long authorsId)
         {
-            var sql = $"DELETE FROM AuthorInPrintingEditions WHERE AuthorId = {authorsId}";
+            var sql = $@"DELETE FROM AuthorInPrintingEditions WHERE AuthorId = @authorsId";
 
             var result = await DeleteBySqlAsync(sql);
 
@@ -78,7 +77,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         }
         public async Task<bool> DeletePrintingEditionsById(long printingEditionId)
         {
-            var sql = $"DELETE FROM AuthorInPrintingEditions WHERE PrintingEditionId = {printingEditionId}";
+            var sql = $@"DELETE FROM AuthorInPrintingEditions WHERE PrintingEditionId = @printingEditionId";
 
             var result = await DeleteBySqlAsync(sql);
 

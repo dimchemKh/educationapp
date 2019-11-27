@@ -1,33 +1,48 @@
 ﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Common.Constants;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace EducationApp.BusinessLayer.Helpers
 {
     public class EmailHelper : IEmailHelper
     {
-        private readonly NetworkCredential _networkCredential = new NetworkCredential(Constants.SmtpSettings.NetCredentialName, Constants.SmtpSettings.NetCredentialPass);
+        private readonly IConfigurationSection _configurationSection;
         private readonly MailMessage _mailMessage = new MailMessage();
+        private readonly NetworkCredential _networkCredential;
+
+        public EmailHelper(IConfiguration configuration)
+        {
+            _configurationSection = configuration.GetSection("EmailConfig");
+
+            _networkCredential = new NetworkCredential(GetSectionValue("NetCredentialName"), GetSectionValue("NetCredentialPass"));
+        }
+        private string GetSectionValue(string section)
+        {
+            return _configurationSection.GetSection(section).Value;
+        }
         public async Task SendMailAsync(string userEmail, string subject, string body)
         {
-            using (SmtpClient _smtpClient = new SmtpClient(Constants.SmtpSettings.SmtpHost, Constants.SmtpSettings.SmtpPort))
+            if(int.TryParse(GetSectionValue("SmtpPort"), out int _port))
             {
-                _smtpClient.Credentials = _networkCredential;
-                _smtpClient.EnableSsl = true;
-                _smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                using (SmtpClient _smtpClient = new SmtpClient(GetSectionValue("SmtpHost"), _port))
+                {
+                    _smtpClient.Credentials = _networkCredential;
+                    _smtpClient.EnableSsl = true;
+                    _smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                _mailMessage.Subject = subject;
+                    _mailMessage.Subject = subject;
 
-                _mailMessage.Body = body;
-                _mailMessage.IsBodyHtml = true;
+                    _mailMessage.Body = body;
+                    _mailMessage.IsBodyHtml = true;
 
-                _mailMessage.From = new MailAddress(Constants.SmtpSettings.TestEmail);
-                _mailMessage.To.Add(new MailAddress(userEmail));
+                    _mailMessage.From = new MailAddress(GetSectionValue("TestEmail"));
+                    _mailMessage.To.Add(new MailAddress(userEmail));
 
-                await _smtpClient.SendMailAsync(_mailMessage);
-            }           
+                    await _smtpClient.SendMailAsync(_mailMessage);
+                }
+            }                 
         }
     }
 }

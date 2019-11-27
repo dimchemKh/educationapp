@@ -8,3 +8,19 @@ Invalid column name 'IsRemoved'.
 The statement has been terminated.
 2019-11-27 12:56:39.6425 ERROR Status Code: 200 => Exception message: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_AuthorInPrintingEditions_Authors_AuthorId". The conflict occurred in database "EducationAppDb", table "dbo.Authors", column 'Id'.
 The statement has been terminated.
+2019-11-27 16:36:29.7700 ERROR Status Code: 200 => Exception message: Incorrect syntax near '@sort'.
+Must declare the scalar variable "@filter".
+2019-11-27 16:37:04.7911 ERROR Status Code: 200 => Exception message: Incorrect syntax near '@sort'.
+Must declare the scalar variable "@filter".
+2019-11-27 16:38:52.3918 ERROR Status Code: 200 => Exception message: Incorrect syntax near '@sort'.
+Must declare the scalar variable "@filter".
+2019-11-27 16:40:45.0816 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".
+2019-11-27 16:41:48.7717 ERROR Status Code: 200 => Exception message: The SELECT item identified by the ORDER BY number 1 contains a variable as part of the expression identifying a column position. Variables are only allowed when ordering by an expression referencing a column name.
+2019-11-27 16:43:23.8509 ERROR Status Code: 200 => Exception message: The SELECT item identified by the ORDER BY number 1 contains a variable as part of the expression identifying a column position. Variables are only allowed when ordering by an expression referencing a column name.
+2019-11-27 16:44:15.8752 ERROR Status Code: 200 => Exception message: Incorrect syntax near '@sortType'.
+Invalid usage of the option NEXT in the FETCH statement.
+2019-11-27 16:50:42.3186 ERROR Status Code: 200 => Exception message: Incorrect syntax near '@sortType'.
+Invalid usage of the option NEXT in the FETCH statement.
+2019-11-27 17:12:49.5781 ERROR Status Code: 200 => Exception message: The member filter of type EducationApp.DataAccessLayer.Models.Filters.Base.BaseFilterModel cannot be used as a parameter value
+2019-11-27 17:15:12.2565 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".
+2019-11-27 17:15:48.5024 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".

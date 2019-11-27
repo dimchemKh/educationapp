@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BaseModel, UserLoginModel } from 'src/app/shared/models';
 import { AccountService } from 'src/app/shared/services';
@@ -9,7 +9,7 @@ import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent {
 
   constructor(private accountService: AccountService, private patterns: ValidationPatterns) { }
 
@@ -31,9 +31,6 @@ export class ForgotPasswordComponent implements OnInit {
             this.getErrorsFromApi();
           });
     }
-  }
-
-  ngOnInit() {
   }
   getErrorsFromApi() {
     if (this.responseModel.errors.length > 0) {

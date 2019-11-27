@@ -44,15 +44,14 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var responseModel = new GenericModel<AuthorDataModel>();
 
-
-            var sortType = $"Id";
+            var sortType = "Id";
 
             if (filter.SortType == Enums.SortType.Name)
             {
-                sortType = $"Name";
+                sortType = "Name";
             }
 
-            var filterSql = $"a.{sortType}";
+            var filterSql = $@"a.{sortType}";
 
             var sort = string.Empty;
 
@@ -60,14 +59,16 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 sort = "ASC";
             }
+
             if (filter.SortState.Equals(Enums.SortState.Desc))
             {
                 sort = "DESC";
             }
 
-            var columnSql = $"a.Id, a.Name, p.Id, p.Title";
+            var columnSql = "a.Id, a.Name, p.Id, p.Title";
 
             var offset = string.Empty;
+
             var orderSql = string.Empty;
 
             var countBuilder = new StringBuilder($@"SELECT COUNT(DISTINCT a.Id)
@@ -80,13 +81,13 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var mainBuilder = new StringBuilder(countBuilder.ToString()).Replace("COUNT(DISTINCT a.Id)", columnSql);
 
-            var endSql = $@") AS a ON aInP.AuthorId = a.Id; ";
+            var endSql = $") AS a ON aInP.AuthorId = a.Id; ";
 
             countBuilder.Append(endSql);
 
-            orderSql = $"ORDER BY {filterSql} {sort} ";
+            orderSql = $" ORDER BY {filterSql} {sort} ";
 
-            offset = $"OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY ";
+            offset = $@"OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT @filter.PageSize ROWS ONLY ";
 
             mainBuilder.Append(orderSql)
                        .Append(offset)
@@ -98,11 +99,14 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             using(var connection = GetSqlConnection())
             {
-                var result = await connection.QueryMultipleAsync(mainSql);
+                connection.Open();
+
+                var result = await connection.QueryMultipleAsync(mainSql, new { filter });
 
                 var dict = new Dictionary<long, AuthorDataModel>();
 
                 authors = result.Read<Author, PrintingEdition, AuthorDataModel>(
+
                     (author, printingEdition) =>
                     {
                         AuthorDataModel model;
@@ -127,6 +131,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     splitOn: "Id")
                     .Distinct()
                     .ToList();
+
                 responseModel.CollectionCount = result.Read<int>().FirstOrDefault();
             }
 
