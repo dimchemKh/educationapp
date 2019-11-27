@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiRoutes } from 'src/environments/api-routes';
-import { FilterOrderModel } from '../models/filter/filter-order-model';
 import { Observable } from 'rxjs';
-import { OrderModel } from '../models/order/OrderModel';
-import { OrderModelItem } from '../models/order/OrderModelItem';
-import { PaymentModel } from 'src/app/shared/models/payment/PaymentModel';
-
+import { FilterOrderModel, OrderModel, OrderModelItem, PaymentModel } from 'src/app/shared/models';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ApiRoutes } from 'src/environments/api-routes';
-import { DataService } from './data.service';
-import { ConverterModel } from '../models/ConverterModel';
+import { DataService } from 'src/app/shared/services/data.service';
 import { HttpClient } from '@angular/common/http';
-import { OrderModelItem } from '../models/order/OrderModelItem';
+import { ConverterModel, OrderModelItem } from 'src/app/shared/models';
 
 @Injectable({
   providedIn: 'root'

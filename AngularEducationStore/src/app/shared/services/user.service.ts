@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { FilterUserModel, UserUpdateModel, UserModel, UserModelItem } from 'src/app/shared/models';
-
 import { Observable, BehaviorSubject } from 'rxjs';
 
 

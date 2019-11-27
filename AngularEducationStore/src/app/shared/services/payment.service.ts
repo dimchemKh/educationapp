@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { PaymentModel } from '../models/payment/PaymentModel';
+import { PaymentModel } from 'src/app/shared/models';
 import { MatDialog } from '@angular/material';
-import { CartSuccessComponent } from '../components/cart-dialogs/cart-success/cart-success.component';
-import { OrderService } from './order.service';
+import { CartSuccessComponent } from 'src/app/shared/components/cart-dialogs/cart-success/cart-success.component';
+import { OrderService } from 'src/app/shared/services/order.service';
 
 
 

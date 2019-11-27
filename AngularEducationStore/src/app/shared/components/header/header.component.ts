@@ -46,7 +46,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.userImage) {
       this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
     }
-
   }
 
   constructor(private authService: AccountService, private userService: UserService, private dialog: MatDialog,

@@ -6,8 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BaseModel, UserLoginModel, UserRegistrationModel, UserRequestModel } from 'src/app/shared/models';
 
 import { ApiRoutes } from 'src/environments/api-routes';
-import { DataService, CartService } from 'src/app/shared/services/index';
-
+import { DataService } from 'src/app/shared/services/data.service';
+import { CartService } from 'src/app/shared/services/cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,6 @@ export class AccountService {
               private cartService: CartService) {
     this.authNavStatusSource.next(this.isAuth());
   }
-
 
   private authNavStatusSource = new BehaviorSubject<boolean>(false);
   authNavStatus$ = this.authNavStatusSource.asObservable();
