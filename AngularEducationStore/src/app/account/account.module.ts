@@ -28,7 +28,6 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     MaterialFileInputModule,
     CommonModule,
     FontAwesomeModule,
-
   ],
   providers: [
     ValidationPatterns

@@ -4,7 +4,7 @@ import { FilterAuthorModel, AuthorModel, AuthorModelItem } from 'src/app/shared/
 import { faHighlighter } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
+import { AuthorParameters } from 'src/app/shared/constants/author-parameters';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { MatDialog, MatSort, PageEvent } from '@angular/material';
 import { AuthorsDialogComponent } from './authors-dialog/authors-dialog.component';
@@ -29,7 +29,7 @@ export class AuthorsComponent implements OnInit {
 
   displayedColumns = ['id', 'name', 'products', ' '];
 
-  constructor(private dialog: MatDialog, private authorService: AuthorService, private authorParametrs: AuthorParametrs) {
+  constructor(private dialog: MatDialog, private authorService: AuthorService, private authorParametrs: AuthorParameters) {
   }
 
   ngOnInit() {

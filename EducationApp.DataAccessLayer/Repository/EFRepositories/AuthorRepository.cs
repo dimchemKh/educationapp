@@ -56,9 +56,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 predicate = x => x.Name;
             }
 
-            var responseModel = new GenericModel<AuthorDataModel>();
-
-            responseModel.CollectionCount = authors.Count();
+            var responseModel = new GenericModel<AuthorDataModel>
+            {
+                CollectionCount = authors.Count()
+            };
 
             var authorsPage = await PaginationAsync(filter, predicate, authors);
 

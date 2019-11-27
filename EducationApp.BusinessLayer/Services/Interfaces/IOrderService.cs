@@ -8,7 +8,7 @@ namespace EducationApp.BusinessLayer.Services.Interfaces
 {
     public interface IOrderService
     {
-        Task<decimal> ConvertingPriceAsync(ConverterModel converterModel);
+        Task<decimal> ConvertPriceAsync(ConverterModel converterModel);
         Task<OrderModel> GetOrdersAsync(FilterOrderModel filterOrder, string userId);
         Task<OrderModel> CreateOrderAsync(OrderModelItem orderModelItem, string userId);
         Task<OrderModel> CreateTransactionAsync(PaymentModel model);

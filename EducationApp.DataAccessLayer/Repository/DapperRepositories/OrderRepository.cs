@@ -113,16 +113,18 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
                         if (!dict.TryGetValue(order.Id, out model))
                         {
-                            model = new OrderDataModel();
-                            model.Id = order.Id;
-                            model.CreationDate = order.CreationDate;
-                            model.Amount = order.Amount;
-                            model.FirstName = user.FirstName;
-                            model.LastName = user.LastName;
-                            model.Email = user.Email;
-                            model.PaymentId = payment.TransactionId;
+                            model = new OrderDataModel
+                            {
+                                Id = order.Id,
+                                CreationDate = order.CreationDate,
+                                Amount = order.Amount,
+                                FirstName = user.FirstName,
+                                LastName = user.LastName,
+                                Email = user.Email,
+                                PaymentId = payment.TransactionId,
 
-                            model.OrderItems = new List<OrderItemDataModel>();
+                                OrderItems = new List<OrderItemDataModel>()
+                            };
 
                             dict.Add(model.Id, model);
                         }

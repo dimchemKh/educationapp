@@ -24,9 +24,9 @@ namespace EducationApp.PresentationLayer.Controllers
             _orderService = orderService;
         }
         [HttpPost("converting")]
-        public async Task<IActionResult> ConvertingPriceAsync([FromBody] ConverterModel converterModel)
+        public async Task<IActionResult> ConvertPriceAsync([FromBody] ConverterModel converterModel)
         {
-            var resultConverting = await _orderService.ConvertingPriceAsync(converterModel);
+            var resultConverting = await _orderService.ConvertPriceAsync(converterModel);
             return Ok(resultConverting);
         }
         [HttpPost("get")]

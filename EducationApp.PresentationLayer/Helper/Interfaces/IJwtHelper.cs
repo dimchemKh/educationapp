@@ -8,6 +8,6 @@ namespace EducationApp.PresentationLayer.Helper.Interfaces
     public interface IJwtHelper
     {
         UserInfoModel ValidateData(string token);
-        AuthModel Generate(UserInfoModel userInfoModel, IOptions<Config> configOptions);
+        AuthModel Generate(UserInfoModel userInfoModel, IOptions<AuthConfig> configOptions);
     }
 }

@@ -19,14 +19,12 @@ namespace EducationApp.PresentationLayer.Helper
         public const string SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
 
         private List<Claim> GetAccessTokenClaims(UserInfoModel authModel)
-        {            
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, authModel.UserId.ToString()),
-                new Claim(ClaimTypes.Role, authModel.UserRole),
-                new Claim(ClaimTypes.Name, authModel.UserName)
-            };
+        {
+            var claims = GetRefreshTokenClaims(authModel);
+
+            claims.Add(new Claim(ClaimTypes.Role, authModel.UserRole));
+            claims.Add(new Claim(ClaimTypes.Name, authModel.UserName));
+
             return claims;
         }
         private List<Claim> GetRefreshTokenClaims(UserInfoModel authModel)
@@ -38,7 +36,7 @@ namespace EducationApp.PresentationLayer.Helper
             };
             return claims;
         }
-        private string Generate(List<Claim> claims, IOptions<Config> configOptions, TimeSpan tokenExpiration)
+        private string Generate(List<Claim> claims, IOptions<AuthConfig> configOptions, TimeSpan tokenExpiration)
         {
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configOptions.Value.JwtKey));
             var credential = new SigningCredentials(key, SecurityAlgorithm);
@@ -71,14 +69,14 @@ namespace EducationApp.PresentationLayer.Helper
             userInfoModel.UserId = userId;
             return userInfoModel;
         }
-        public AuthModel Generate(UserInfoModel userInfoModel, IOptions<Config> configOptions)
+        public AuthModel Generate(UserInfoModel userInfoModel, IOptions<AuthConfig> configOptions)
         {
             var result = new AuthModel();
             var accessClaims = GetAccessTokenClaims(userInfoModel);
             var refreshClaims = GetRefreshTokenClaims(userInfoModel);
             result.AccessToken = Generate(accessClaims, configOptions, configOptions.Value.AccessTokenExpiration);
 
-            result.RefreshToken = Generate(refreshClaims, configOptions, configOptions.Value.RefreshTokenLongExpiration);
+            result.RefreshToken = Generate(refreshClaims, configOptions, configOptions.Value.RefreshTokenExpiration);
 
             return result;
         }

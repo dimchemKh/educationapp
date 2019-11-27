@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterOrderModel } from 'src/app/shared/models/filter/filter-order-model';
 import { OrderModel } from 'src/app/shared/models/order/OrderModel';
-import { OrderParametrs } from 'src/app/shared/constants/order-parametrs';
+import { OrderParameters } from 'src/app/shared/constants/order-parameters';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { DataService } from 'src/app/shared/services/data.service';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { OrdersAdminComponent } from '../orders-admin/orders-admin.component';
 import { PaymentModel } from 'src/app/shared/models/payment/PaymentModel';
 import { PaymentService } from 'src/app/shared/services';
@@ -22,8 +22,8 @@ export class OrdersUserComponent extends OrdersAdminComponent implements OnInit 
 
   displayedColumns = ['id', 'date', 'printingEditionType', 'printingEditionTitle', 'quantity', 'amount', 'transactionStatus'];
 
-  constructor(public parametrs: OrderParametrs, public orderService: OrderService, public dataService: DataService,
-              public printingEditionParams: PrintingEditionsParametrs, public orderParametrs: OrderParametrs,
+  constructor(public parametrs: OrderParameters, public orderService: OrderService, public dataService: DataService,
+              public printingEditionParams: PrintingEditionsParameters, public orderParametrs: OrderParameters,
               private paymentService: PaymentService) {
 
     super(parametrs, orderService, dataService, printingEditionParams, orderParametrs);

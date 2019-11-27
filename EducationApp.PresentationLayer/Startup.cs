@@ -36,9 +36,9 @@ namespace EducationApp.PresentationLayer
             });
 
             var jwtConfig = Configuration.GetSection("JwtConfig");
-            services.Configure<Config>(jwtConfig);
+            services.Configure<AuthConfig>(jwtConfig);
 
-            var appSettings = jwtConfig.Get<Config>();
+            var appSettings = jwtConfig.Get<AuthConfig>();
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.JwtKey));
 
             var tokenValidationParametr = new TokenValidationParameters()

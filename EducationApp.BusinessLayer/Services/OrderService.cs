@@ -35,7 +35,7 @@ namespace EducationApp.BusinessLayer.Services
             _paymentRepository = paymentRepository;
             _orderItemRepository = orderItemRepository;
         }
-        public async Task<decimal> ConvertingPriceAsync(ConverterModel converterModel)
+        public async Task<decimal> ConvertPriceAsync(ConverterModel converterModel)
         {
             var resultConverting = _currencyConverterHelper.Convert(converterModel.CurrencyFrom, converterModel.CurrencyTo, converterModel.Price);
             return resultConverting;

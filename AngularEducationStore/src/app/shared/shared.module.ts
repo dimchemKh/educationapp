@@ -29,8 +29,9 @@ import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/r
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 
-import { CartItemsComponent } from 'src/app/shared/cart-dialogs/cart-items/cart-items.component';
-import { CartSuccessComponent } from './cart-dialogs/cart-success/cart-success.component';
+import { CartItemsComponent } from 'src/app/shared/components/cart-dialogs/cart-items/cart-items.component';
+import { CartSuccessComponent } from 'src/app/shared/components/cart-dialogs/cart-success/cart-success.component';
+import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 
 
 
@@ -40,7 +41,8 @@ import { CartSuccessComponent } from './cart-dialogs/cart-success/cart-success.c
     FooterComponent,
     RemoveDialogComponent,
     CartItemsComponent,
-    CartSuccessComponent
+    CartSuccessComponent,
+    NotFoundComponent
   ],
   exports: [
     HeaderComponent,

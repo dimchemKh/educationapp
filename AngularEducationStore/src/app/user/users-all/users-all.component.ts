@@ -8,7 +8,7 @@ import { UserModel } from 'src/app/shared/models/user/UserModel';
 import { IsBlocked } from 'src/app/shared/enums/is-blocked';
 import { faHighlighter } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
+import { UserParameters } from 'src/app/shared/constants/user-parametrs';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog/user-edit-dialog.component';
 import { UserModelItem } from 'src/app/shared/models/user/UserModelItem';
@@ -22,7 +22,7 @@ import { UserModelItem } from 'src/app/shared/models/user/UserModelItem';
 export class UsersAllComponent implements OnInit {
 
 
-  constructor(private dialog: MatDialog, private userService: UserService, private userParametrs: UserParametrs) {
+  constructor(private dialog: MatDialog, private userService: UserService, private userParametrs: UserParameters) {
     this.filterModel.pageSize = 3;
   }
 

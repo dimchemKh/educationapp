@@ -5,7 +5,7 @@ import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/Pr
 import { faHighlighter } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { PrintingEditionType } from 'src/app/shared/enums/printing-edition-type';
 import { MatSort, PageEvent, MatDialog, MatSnackBar, MatSelectChange } from '@angular/material';
 import { PrintingEditionEditDialogComponent } from './printing-edition-edit-dialog/printing-edition-edit-dialog.component';
@@ -40,7 +40,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   printingEditionModel = new PrintingEditionModel();
 
   constructor(private dialog: MatDialog, private printingEditionService: PrintingEditionService,
-              private printingEditionParams: PrintingEditionsParametrs, private descriptionBar: MatSnackBar,
+              private printingEditionParams: PrintingEditionsParameters, private descriptionBar: MatSnackBar,
               private dataService: DataService) {
   }
 

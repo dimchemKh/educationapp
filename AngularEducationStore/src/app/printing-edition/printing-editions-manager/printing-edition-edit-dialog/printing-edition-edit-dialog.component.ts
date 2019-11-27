@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PrintingEdiotionsManagerComponent } from 'src/app/printing-edition/printing-editions-manager/printing-editions-manager.component';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthorService } from 'src/app/shared/services/author.service';
 import { AuthorModel } from 'src/app/shared/models/authors/AuthorModel';
@@ -23,7 +23,7 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
   isExistedData = false;
 
   constructor(public dialogRef: MatDialogRef<PrintingEdiotionsManagerComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any, private printingEditionParams: PrintingEditionsParametrs,
+              @Inject(MAT_DIALOG_DATA) public data: any, private printingEditionParams: PrintingEditionsParameters,
               private fb: FormBuilder, private authorService: AuthorService, private changeDetector: ChangeDetectorRef) {
     this.form = this.fb.group({
       title: new FormControl('', [Validators.required]),

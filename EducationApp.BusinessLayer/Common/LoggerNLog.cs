@@ -5,7 +5,7 @@ namespace EducationApp.BusinessLayer.Common
 {
     public class LoggerNLog : ILoggerNLog
     {
-        private static ILogger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         public void Debug(string message)
         {
             _logger.Debug(message);

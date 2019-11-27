@@ -19,9 +19,9 @@ namespace EducationApp.PresentationLayer.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly IOptions<Config> _configOptions;
+        private readonly IOptions<AuthConfig> _configOptions;
         private readonly IJwtHelper _jwtHelper;
-        public AccountController(IAccountService accountService, IOptions<Config> configOptions, IJwtHelper jwtHelper)
+        public AccountController(IAccountService accountService, IOptions<AuthConfig> configOptions, IJwtHelper jwtHelper)
         {
             _accountService = accountService;
             _configOptions = configOptions;
@@ -54,7 +54,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             GenerateCookie(result);
 
-            return Ok();
+            return Ok(userInfoModel);
         }
         [AllowAnonymous]
         [HttpPost("signUp")]
@@ -125,7 +125,7 @@ namespace EducationApp.PresentationLayer.Controllers
 
             Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
             {
-                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenShortExpiration)
+                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
             });
         }
     }

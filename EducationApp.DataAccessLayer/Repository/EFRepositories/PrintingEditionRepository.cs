@@ -58,9 +58,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 predicate = x => x.Price;
             }
 
-            var responseModel = new GenericModel<PrintingEditionDataModel>();
-
-            responseModel.CollectionCount = printingEditions.Count();
+            var responseModel = new GenericModel<PrintingEditionDataModel>
+            {
+                CollectionCount = printingEditions.Count()
+            };
 
             var printingEditionPage = await PaginationAsync(filter, predicate, printingEditions);
 

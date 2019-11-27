@@ -4,11 +4,11 @@ import { Currency } from 'src/app/shared/enums/currency';
 
 import { PageSize } from 'src/app/shared/enums/page-size';
 import { SortType } from 'src/app/shared/enums/sort-type';
-import { BaseParametrs } from 'src/app/shared/constants/base-parametrs';
+import { BaseParameters } from 'src/app/shared/constants/base-parameters';
 
 Injectable();
 
-export class PrintingEditionsParametrs extends BaseParametrs {
+export class PrintingEditionsParameters extends BaseParameters {
     public readonly printingEditionTypes = [
         { name: PrintingEditionType[PrintingEditionType.Book], value: PrintingEditionType.Book, checked: true },
         { name: PrintingEditionType[PrintingEditionType.Magazine], value: PrintingEditionType.Magazine, checked: true },

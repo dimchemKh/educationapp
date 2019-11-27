@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from 'src/app/shared/services/order.service';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { MatDialogRef } from '@angular/material';
-import { PaymentService } from '../../services/payment.service';
-import { Currency } from '../../enums/currency';
-import { ConverterModel } from '../../models/ConverterModel';
+import { Currency } from '../../../enums/currency';
+import { ConverterModel, PaymentModel, OrderModelItem } from 'src/app/shared/models';
 import { PrintingEditionDetailsComponent } from 'src/app/printing-edition/printing-edition-details/printing-edition-details.component';
-import { CartService } from '../../services/cart.service';
-import { DataService } from '../../services/data.service';
-import { OrderModelItem } from '../../models/order/OrderModelItem';
-import { PaymentModel } from '../../models/payment/PaymentModel';
+import { OrderService, PaymentService, CartService, DataService } from 'src/app/shared/services';
+
 
 @Component({
   selector: 'app-cart-items',
@@ -31,7 +27,7 @@ export class CartItemsComponent implements OnInit {
   invalidError: any;
 
   constructor(public dialogRef: MatDialogRef<PrintingEditionDetailsComponent>, private cartService: CartService,
-              private parametrs: PrintingEditionsParametrs, private orderService: OrderService, private dataService: DataService,
+              private parametrs: PrintingEditionsParameters, private orderService: OrderService, private dataService: DataService,
               private paymentService: PaymentService) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);

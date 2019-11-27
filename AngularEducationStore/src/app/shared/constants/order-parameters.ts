@@ -1,8 +1,8 @@
-import { BaseParametrs } from 'src/app/shared/constants/base-parametrs';
+import { BaseParameters } from 'src/app/shared/constants/base-parameters';
 import { TransactionStatus } from '../enums/transaction-status';
 import { SortType } from '../enums/sort-type';
 
-export class OrderParametrs extends BaseParametrs {
+export class OrderParameters extends BaseParameters {
     public readonly transactionStatuses = [
         { name: TransactionStatus[TransactionStatus.Paid], value: TransactionStatus.Paid },
         { name: TransactionStatus[TransactionStatus.UnPaid], value: TransactionStatus.UnPaid }

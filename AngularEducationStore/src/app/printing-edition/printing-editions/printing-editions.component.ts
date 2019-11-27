@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterPrintingEditionModel } from 'src/app/shared/models/filter/filter-printing-edition-model';
 import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/PrintingEditionModel';
 import { PageEvent } from '@angular/material';
@@ -33,7 +33,7 @@ export class PrintingEditionsComponent implements OnInit {
   pageRows: number;
 
   constructor(private printingEditionService: PrintingEditionService,
-              private printingEditionParams: PrintingEditionsParametrs,
+              private printingEditionParams: PrintingEditionsParameters,
               private dataService: DataService, private router: Router) {
   }
   getIconStyle(pageSize: number) {

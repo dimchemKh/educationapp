@@ -7,7 +7,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 
-import { CartItemsComponent } from 'src/app/shared/cart-dialogs/cart-items/cart-items.component';
+import { CartItemsComponent } from 'src/app/shared/components/cart-dialogs/cart-items/cart-items.component';
 import { MatDialog } from '@angular/material';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 

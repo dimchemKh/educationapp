@@ -4,7 +4,7 @@ import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { OrderItemModelItem } from 'src/app/shared/models/order-item/OrderItemModelItem';
 import { Currency } from 'src/app/shared/enums/currency';
 import { Subscription } from 'rxjs';
@@ -34,7 +34,7 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
   quantities = Array<number>();
 
   constructor(private route: ActivatedRoute, private printingEditionService: PrintingEditionService,
-              private prinringEditionParametrs: PrintingEditionsParametrs, private cartService: CartService) {
+              private prinringEditionParametrs: PrintingEditionsParameters, private cartService: CartService) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'account', loadChildren: () => import('src/app/account/account.module').then(x => x.AccountModule) },
@@ -10,9 +11,7 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('src/app/printing-edition/printing-edition.module')
   .then(x => x.PrintingEditionModule) },
   { path: 'order', loadChildren: () => import('src/app/order/order.module').then(x => x.OrderModule) },
-  { path: '**', redirectTo: 'not-found' },
-  { path: 'not-found', loadChildren: () => import('src/app/not-found/not-found.module')
-  .then(x => x.NotFoundModule) }
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

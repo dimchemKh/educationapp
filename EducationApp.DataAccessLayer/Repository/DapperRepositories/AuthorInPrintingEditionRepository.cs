@@ -72,23 +72,17 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var sql = $"DELETE FROM AuthorInPrintingEditions WHERE AuthorId = {authorsId}";
 
-            using(var connection = SqlConnection())
-            {
-                await connection.QueryAsync(sql);
-            }
+            var result = await DeleteBySqlAsync(sql);
 
-            return true;
+            return result;
         }
         public async Task<bool> DeletePrintingEditionsById(long printingEditionId)
         {
             var sql = $"DELETE FROM AuthorInPrintingEditions WHERE PrintingEditionId = {printingEditionId}";
 
-            using (var connection = SqlConnection())
-            {
-                await connection.QueryAsync(sql);
-            }
+            var result = await DeleteBySqlAsync(sql);
 
-            return true;
+            return result;
         }
     }
 }

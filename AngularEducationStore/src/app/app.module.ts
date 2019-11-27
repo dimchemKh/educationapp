@@ -15,17 +15,16 @@ import { AuthorModule } from 'src/app/author/author.module';
 import { UserModule } from 'src/app/user/user.module';
 import { PrintingEditionModule } from 'src/app/printing-edition/printing-edition.module';
 import { OrderModule } from 'src/app/order/order.module';
-import { NotFoundModule } from 'src/app/not-found/not-found.module';
 
 
 import { ApiRoutes } from 'src/environments/api-routes';
 
 
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
-import { UserParametrs } from 'src/app/shared/constants/user-parametrs';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
-import { AuthorParametrs } from 'src/app/shared/constants/author-parametrs';
-import { OrderParametrs } from 'src/app/shared/constants/order-parametrs';
+import { UserParameters } from 'src/app/shared/constants/user-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
+import { AuthorParameters } from 'src/app/shared/constants/author-parameters';
+import { OrderParameters } from 'src/app/shared/constants/order-parameters';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from 'src/app/shared/interceptors/auth.interceptor';
@@ -51,17 +50,16 @@ export const HttpInterceptorProviders = [
     PrintingEditionModule,
     AuthorModule,
     UserModule,
-    OrderModule,
-    NotFoundModule
+    OrderModule
   ],
   providers: [ 
     HttpInterceptorProviders,
     ApiRoutes,
-    PrintingEditionsParametrs,
-    UserParametrs,
+    PrintingEditionsParameters,
+    UserParameters,
     ValidationPatterns,
-    AuthorParametrs,
-    OrderParametrs
+    AuthorParameters,
+    OrderParameters
   ],
   bootstrap: [AppComponent],
 })

@@ -1,11 +1,11 @@
 
 import { SortType } from 'src/app/shared/enums/sort-type';
 import { Injectable } from '@angular/core';
-import { BaseParametrs } from './base-parametrs';
+import { BaseParameters } from './base-parameters';
 
 Injectable();
 
-export class AuthorParametrs extends BaseParametrs {
+export class AuthorParameters extends BaseParameters {
 
     public readonly SortTypes = [
         { name: SortType[SortType.Id], value: SortType.Id },

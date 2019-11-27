@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Dapper.Contrib.Extensions;
 using EducationApp.DataAccessLayer.Entities.Base;
+using Dapper;
 
 namespace EducationApp.DataAccessLayer.Repository.Base
 {
@@ -54,8 +55,15 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             }
             var response = result ? 1 : 0;
             return response;
+        }        
+        protected async Task<bool> DeleteBySqlAsync(string sql)
+        {
+            using (var connection = SqlConnection())
+            {
+                await connection.QueryAsync(sql);
+            }
+            return true;
         }
-
         protected SqlConnection SqlConnection()
         {
             return new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);

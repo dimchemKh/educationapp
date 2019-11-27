@@ -7,7 +7,7 @@ namespace EducationApp.PresentationLayer.Middleware
 {
     public class ExceptionMiddleware
     {
-        private ILoggerNLog _logger;
+        private readonly ILoggerNLog _logger;
         private readonly RequestDelegate _next;
         public ExceptionMiddleware(RequestDelegate next, ILoggerNLog logger)
         {

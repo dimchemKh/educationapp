@@ -4,7 +4,7 @@ import { SortState } from 'src/app/shared/enums/sort-state';
 
 Injectable();
 
-export class BaseParametrs {
+export class BaseParameters {
     public readonly pageSizes = [
         PageSize.Six,
         PageSize.Twelve,

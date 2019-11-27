@@ -1,10 +1,10 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { FilterOrderModel } from 'src/app/shared/models/filter/filter-order-model';
 import { OrderModel } from 'src/app/shared/models/order/OrderModel';
-import { OrderParametrs } from 'src/app/shared/constants/order-parametrs';
+import { OrderParameters } from 'src/app/shared/constants/order-parameters';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { DataService } from 'src/app/shared/services/data.service';
-import { PrintingEditionsParametrs } from 'src/app/shared/constants/printing-editions-parametrs';
+import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { TransactionStatus } from 'src/app/shared/enums/transaction-status';
 import { MatSort, PageEvent, MatSelectChange } from '@angular/material';
 
@@ -29,8 +29,8 @@ export class OrdersAdminComponent implements OnInit {
   
   transactionStatus = [TransactionStatus.Paid, TransactionStatus.UnPaid];
 
-  constructor(public parametrs: OrderParametrs, public orderService: OrderService, public dataService: DataService,
-              public printingEditionParams: PrintingEditionsParametrs, public orderParametrs: OrderParametrs) {
+  constructor(public parametrs: OrderParameters, public orderService: OrderService, public dataService: DataService,
+              public printingEditionParams: PrintingEditionsParameters, public orderParametrs: OrderParameters) {
   }
 
   ngOnInit() {

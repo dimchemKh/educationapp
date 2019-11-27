@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PaymentModel } from '../models/payment/PaymentModel';
 import { MatDialog } from '@angular/material';
-import { CartSuccessComponent } from '../cart-dialogs/cart-success/cart-success.component';
+import { CartSuccessComponent } from '../components/cart-dialogs/cart-success/cart-success.component';
 import { OrderService } from './order.service';
 
 
