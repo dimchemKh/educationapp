@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PrintingEdiotionsManagerComponent } from 'src/app/printing-edition/printing-editions-manager/printing-editions-manager.component';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AuthorService } from 'src/app/shared/services/author.service';
+import { AuthorService } from 'src/app/shared/services';
 import { AuthorModel } from 'src/app/shared/models/authors/AuthorModel';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthorModelItem } from 'src/app/shared/models/authors/AuthorModelItem';
@@ -47,7 +47,7 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
   dataArray = new AuthorModel();
 
   authorsSubj = new BehaviorSubject<AuthorModelItem[]>([]);
-  authorsSubj$ = new Observable<AuthorModelItem[]>();
+  authorsSubj$ = this.authorsSubj.asObservable();
 
   filterModel = new FilterPrintingEditionModel();
 
@@ -62,7 +62,6 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
 
   ngOnInit() {
     this.filterModel.currency = this.data.currency;
-
     if (this.data.authors) {
       this.data.authors.forEach(element => {
         this.authorsId.push(element.id);
@@ -93,6 +92,7 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
     this.authorFilter.page += 1;
     this.offset += PageSize.Twelve;
   }
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
     this.data.authors = new Array<AuthorModelItem>();
     this.authorsId.forEach(element => {

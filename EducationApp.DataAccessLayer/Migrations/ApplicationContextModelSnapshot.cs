@@ -104,6 +104,10 @@ namespace EducationApp.DataAccessLayer.Migrations
 
                     b.Property<long>("AuthorId");
 
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<bool>("IsRemoved");
+
                     b.Property<long>("PrintingEditionId");
 
                     b.HasKey("Id");

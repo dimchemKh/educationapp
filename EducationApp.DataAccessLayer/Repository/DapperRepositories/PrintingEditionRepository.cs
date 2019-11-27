@@ -165,6 +165,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                         }
                         model.Authors.Add(new AuthorDataModel
                         {
+                            Id = author.Id,
                             Name = author.Name
                         });
 

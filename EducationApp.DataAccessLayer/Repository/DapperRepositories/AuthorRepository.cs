@@ -76,7 +76,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                         INNER JOIN (
 	                        SELECT a.Id, a.Name
 	                        FROM Authors AS a
-	                        WHERE a.IsRemoved = 0 ");
+	                        WHERE a.IsRemoved = 0 AND (LOWER(a.Name) LIKE '{filter.SearchString}%')");
 
             var mainBuilder = new StringBuilder(countBuilder.ToString()).Replace("COUNT(DISTINCT a.Id)", columnSql);
 
@@ -102,14 +102,18 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
                 var dict = new Dictionary<long, AuthorDataModel>();
 
-                authors = result.Read<AuthorDataModel, PrintingEdition, AuthorDataModel>(
+                authors = result.Read<Author, PrintingEdition, AuthorDataModel>(
                     (author, printingEdition) =>
                     {
                         AuthorDataModel model;
 
                         if (!dict.TryGetValue(author.Id, out model))
                         {
-                            model = author;
+                            model = new AuthorDataModel()
+                            {
+                                Id = author.Id,
+                                Name = author.Name
+                            };
 
                             model.PrintingEditionTitles = new List<string>();
 

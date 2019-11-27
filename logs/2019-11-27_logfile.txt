@@ -1,0 +1,10 @@
+2019-11-27 12:31:14.3341 ERROR Status Code: 200 => Exception message: The multi-part identifier "pe.Title" could not be bound.
+The multi-part identifier "pe.Title" could not be bound.
+2019-11-27 12:31:23.9805 ERROR Status Code: 200 => Exception message: The multi-part identifier "pe.Title" could not be bound.
+The multi-part identifier "pe.Title" could not be bound.
+2019-11-27 12:39:53.0855 ERROR Status Code: 200 => Exception message: Invalid column name 'CreationDate'.
+Invalid column name 'IsRemoved'.
+2019-11-27 12:49:32.6884 ERROR Status Code: 200 => Exception message: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_AuthorInPrintingEditions_Authors_AuthorId". The conflict occurred in database "EducationAppDb", table "dbo.Authors", column 'Id'.
+The statement has been terminated.
+2019-11-27 12:56:39.6425 ERROR Status Code: 200 => Exception message: The INSERT statement conflicted with the FOREIGN KEY constraint "FK_AuthorInPrintingEditions_Authors_AuthorId". The conflict occurred in database "EducationAppDb", table "dbo.Authors", column 'Id'.
+The statement has been terminated.

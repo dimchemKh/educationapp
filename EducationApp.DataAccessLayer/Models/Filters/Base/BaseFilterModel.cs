@@ -4,6 +4,7 @@ namespace EducationApp.DataAccessLayer.Models.Filters.Base
 {
     public class BaseFilterModel
     {
+        public string SearchString { get; set; }
         public Enums.SortState SortState { get; set; }
         public Enums.SortType SortType { get; set; }
         public int PageSize { get; set; }
