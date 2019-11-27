@@ -100,7 +100,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var orders = new List<OrderDataModel>();
             
-            using (var connection = SqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 var dict = new Dictionary<long, OrderDataModel>();
 
@@ -155,7 +155,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                          FROM Orders AS o
                          WHERE o.Id = {orderId})");
 
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                  await connection.QueryFirstOrDefaultAsync(sql.ToString());
             }

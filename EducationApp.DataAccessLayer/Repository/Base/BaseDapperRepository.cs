@@ -20,7 +20,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public async Task<long> CreateAsync(TEntity entity)
         {
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 return await connection.InsertAsync(entity);
             }
@@ -28,7 +28,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public async Task<int> DeleteAsync(TEntity entity)
         {
             var result = false;
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 entity.IsRemoved = true;
                 result = await connection.UpdateAsync(entity);
@@ -38,7 +38,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }
         public async Task<TEntity> GetByIdAsync(long id)
         {
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 return await connection.GetAsync<TEntity>(id);
             }
@@ -49,7 +49,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         public async Task<int> UpdateAsync(TEntity entity)
         {
             var result = false;
-            using (var connection = SqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 result = await connection.UpdateAsync(entity);
             }
@@ -58,13 +58,13 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         }        
         protected async Task<bool> DeleteBySqlAsync(string sql)
         {
-            using (var connection = SqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 await connection.QueryAsync(sql);
             }
             return true;
         }
-        protected SqlConnection SqlConnection()
+        protected SqlConnection GetSqlConnection()
         {
             return new SqlConnection(_configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value);
         }

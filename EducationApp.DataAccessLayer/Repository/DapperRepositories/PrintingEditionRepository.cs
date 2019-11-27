@@ -32,7 +32,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var queryResult = new List<dynamic>();
 
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 connection.Open();
 
@@ -144,7 +144,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var printingEditions = new List<PrintingEditionDataModel>();
             
-            using (var connection = SqlConnection())
+            using (var connection = GetSqlConnection())
             {
                 var dict = new Dictionary<long, PrintingEditionDataModel>();
 

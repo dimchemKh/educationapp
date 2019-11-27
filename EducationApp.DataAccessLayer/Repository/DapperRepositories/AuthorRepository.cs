@@ -30,7 +30,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                             SELECT COUNT(a.Id) FROM Authors AS a
                             WHERE a.IsRemoved = 0");
 
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 var result = await connection.QueryMultipleAsync(mainSql.ToString());
 
@@ -96,7 +96,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var authors = new List<AuthorDataModel>();
 
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 var result = await connection.QueryMultipleAsync(mainSql);
 

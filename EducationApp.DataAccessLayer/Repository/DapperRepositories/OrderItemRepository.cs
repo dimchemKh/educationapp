@@ -14,7 +14,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         }
         public async Task<int> CreateOrderItems(OrderItem[] orderItems)
         {
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 return await connection.InsertAsync(orderItems);
             }

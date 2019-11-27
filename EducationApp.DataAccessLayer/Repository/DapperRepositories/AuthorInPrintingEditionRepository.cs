@@ -30,7 +30,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     PrintingEditionId = printingEditionId
                 });    
             }
-            using (var connect = SqlConnection())
+            using (var connect = GetSqlConnection())
             {
                 return await connect.InsertAsync(entities);
             }
@@ -43,7 +43,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var authorsInPrintingEdition = new List<AuthorInPrintingEdition>();
 
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 authorsInPrintingEdition = (await connection.QueryAsync<AuthorInPrintingEdition>(sql)).ToList();
             }
@@ -58,7 +58,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var removedAuthors = authorsInPrintingEdition.ToArray(); // todo why range?
 
-            using(var connection = SqlConnection())
+            using(var connection = GetSqlConnection())
             {
                 await connection.DeleteAsync(removedAuthors);
             }
