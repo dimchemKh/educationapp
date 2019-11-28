@@ -24,7 +24,7 @@
             <th class="column-type" mat-header-cell *matHeaderCellDef > Product </th>
             <td class="column-type" mat-cell *matCellDef="let element">
                 <div *ngFor="let orderItem of element.orderItems">
-                    {{printingEditionTypes[orderItem.printingEditionType - 1].name}}
+                    {{productPresentationModels[orderItem.printingEditionType - 1].name}}
                 </div>
             </td>
         </ng-container>
@@ -60,8 +60,8 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnsOrders"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsOrders;"></tr>
     </table>
     <mat-paginator class="paginator" [length]="orderModel.itemsCount" [pageSize]="filterModel.pageSize"
         [pageIndex]="filterModel.page - 1" [pageSizeOptions]="pageSizes" [showFirstLastButtons]="true"

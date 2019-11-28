@@ -2,13 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FilterPrintingEditionModel } from 'src/app/shared/models/filter/filter-printing-edition-model';
 import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/PrintingEditionModel';
 import { PageEvent } from '@angular/material';
 import { PrintingEditionType } from 'src/app/shared/enums/printing-edition-type';
 import { DataService } from 'src/app/shared/services/data.service';
 import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
 import { Router } from '@angular/router';
+import { ProductPresentationModel } from 'src/app/shared/models/presentation/ProductPresenatationModel';
+import { CurrencyPresentationModel } from 'src/app/shared/models/presentation/CurrencyPresentationModel';
+import { SortStatesPresentationModel } from 'src/app/shared/models/presentation/SortStatesPresentationModel';
+import { PageSize } from 'src/app/shared/enums';
+import { GridFormatPresentationModel } from 'src/app/shared/models/presentation/GridFormatPresentationModel';
 
 @Component({
   selector: 'app-printing-editions',
@@ -18,47 +23,63 @@ import { Router } from '@angular/router';
 
 export class PrintingEditionsComponent implements OnInit {
 
-  printingEditionIcon = faBook;
+  printingEditionIcon: IconDefinition;
 
-  filterModel = new FilterPrintingEditionModel();
-  printingEditionModel = new PrintingEditionModel();
+  filterModel: FilterPrintingEditionModel;
+  printingEditionModel: PrintingEditionModel;
 
-  printingEditionTypes = this.printingEditionParams.printingEditionTypes;
-  currencyTypes = this.printingEditionParams.currencyTypes;
-  sortStates = this.printingEditionParams.sortStates;
-  pageSizes = this.printingEditionParams.pageSizes;
-  gridLayout = this.printingEditionParams.gridFormationPrintingEditions;
+  productPresentationModels: Array<ProductPresentationModel>;
+  currencyPresentationModels: Array<CurrencyPresentationModel>;
+  sortStateModels: Array<SortStatesPresentationModel>;
+  pageSizes: PageSize[];
+  gridLayout: GridFormatPresentationModel[];
   
   pageCols: number;
   pageRows: number;
 
   constructor(private printingEditionService: PrintingEditionService,
-              private printingEditionParams: PrintingEditionsParameters,
-              private dataService: DataService, private router: Router) {
+    private printingEditionParams: PrintingEditionsParameters,
+    private dataService: DataService,
+    private router: Router
+    ) {
+    this.pageSizes = this.printingEditionParams.pageSizes;
+    this.currencyPresentationModels = this.printingEditionParams.currencyPresentationModels;
+    this.productPresentationModels = this.printingEditionParams.productPresentationModels;
+    this.sortStateModels = this.printingEditionParams.sortStateModels;
+    this.printingEditionIcon = faBook;
+    this.filterModel = new FilterPrintingEditionModel();
+    this.printingEditionModel = new PrintingEditionModel();
+    this.gridLayout = this.printingEditionParams.gridFormationPrintingEditions;
   }
-  getIconStyle(pageSize: number) {
+
+  getIconStyle(pageSize: number): any {
     return this.printingEditionService.getIconStyle(pageSize);
   }
-  pageEvent(event: PageEvent) {
+
+  pageEvent(event: PageEvent): void {
     let page = event.pageIndex + 1;
+
     this.printingEditionModel.items = new Array<PrintingEditionModelItem>();
 
     if (event.pageSize !== this.filterModel.pageSize) {
       page = 1;
+
       this.filterModel.pageSize = event.pageSize;
+
       this.getGridParams(event.pageSize);
     }
 
     this.submit(page);
   }
-  submit(page: number = 1) {
-    this.filterModel.printingEditionTypes = [];
-    for (let i = 0; i < this.printingEditionTypes.length; i++) {
-      if (this.printingEditionTypes[i].checked === true) {
-
-        this.filterModel.printingEditionTypes.push(i + 1);
+  submit(page: number = 1): void {
+    this.filterModel.PrintingEditionTypes = [];
+    debugger
+    for (let i = 0; i < this.productPresentationModels.length; i++) {
+      if (this.productPresentationModels[i].checked === true) {
+        this.filterModel.PrintingEditionTypes.push(i + 1);
       }
     }
+    debugger
     this.filterModel.page = page;
 
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
@@ -66,7 +87,8 @@ export class PrintingEditionsComponent implements OnInit {
       this.printingEditionModel = data;
     });
   }
-  getGridParams(pageSize: number) {
+
+  getGridParams(pageSize: number): void {
     this.gridLayout.forEach(x => {
       if (x.value === pageSize) {
         this.pageCols = x.cols;
@@ -74,32 +96,39 @@ export class PrintingEditionsComponent implements OnInit {
       }
     });
   }
-  onChange(event, i: number) {
+
+  onChange(event, i: number): void {
     // tslint:disable-next-line: no-unused-expression
     let num = -1;
-    this.printingEditionTypes.forEach(x => {
+
+    this.productPresentationModels.forEach(x => {
       if (x.checked) {
         num = num + 1;
       }
     });
+
     if (num < 0) {
       event.source.toggle();
-      this.printingEditionParams.printingEditionTypes[i].checked = true;
+      this.printingEditionParams.productPresentationModels[i].checked = true;
     }
   }
-  ngOnInit() {
-    this.filterModel.printingEditionTypes = [
+
+  ngOnInit(): void {
+    this.filterModel.PrintingEditionTypes = [
       PrintingEditionType.Book,
       PrintingEditionType.Magazine,
       PrintingEditionType.Newspaper
     ];
+
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });
+
     this.getGridParams(this.filterModel.pageSize);
   }
-  getDetails(id: number, currency: number) {
+
+  getDetails(id: number, currency: number): void {
     this.router.navigate(['/details/', id], {state: {data: { _currency: currency}}});
   }
 }

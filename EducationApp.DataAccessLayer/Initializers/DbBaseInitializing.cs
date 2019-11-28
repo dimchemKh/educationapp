@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EducationApp.DataAccessLayer.Initializer
+namespace EducationApp.DataAccessLayer.Initializers
 {
     public class DbBaseInitializing
     {
@@ -38,20 +38,20 @@ namespace EducationApp.DataAccessLayer.Initializer
             {
                 Name = Constants.Roles.Admin
             }).GetAwaiter().GetResult();
+
             _roleManager.CreateAsync(new Role()
             {
                 Name = Constants.Roles.User
             }).GetAwaiter().GetResult();
 
-            var admin = new ApplicationUser
-            {
-                FirstName = Constants.AdminSettings.FirstName,
-                LastName = Constants.AdminSettings.LastName,
-                Email = Constants.AdminSettings.Email,
-                UserName = string.Concat(Constants.AdminSettings.FirstName, Constants.AdminSettings.LastName),
-                EmailConfirmed = true,
-                LockoutEnabled = false
-            };
+            var admin = new ApplicationUser();
+
+            admin.FirstName = Constants.AdminSettings.FirstName;
+            admin.LastName = Constants.AdminSettings.LastName;
+            admin.Email = Constants.AdminSettings.Email;
+            admin.UserName = string.Concat(Constants.AdminSettings.FirstName, Constants.AdminSettings.LastName);
+            admin.EmailConfirmed = true;
+            admin.LockoutEnabled = false;
 
             var result = _userManager.CreateAsync(admin, Constants.AdminSettings.Password).GetAwaiter().GetResult();
 

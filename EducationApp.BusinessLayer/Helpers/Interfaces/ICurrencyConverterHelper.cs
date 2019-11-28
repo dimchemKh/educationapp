@@ -1,6 +1,6 @@
 ﻿using EducationApp.DataAccessLayer.Entities.Enums;
 
-namespace EducationApp.BusinessLayer.Helpers.Interfaces
+namespace EducationApp.BusinessLogic.Helpers.Interfaces
 {
     public interface ICurrencyConverterHelper
     {

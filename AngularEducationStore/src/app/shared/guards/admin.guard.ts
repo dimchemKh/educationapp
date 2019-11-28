@@ -11,10 +11,13 @@ export class AdminGuard implements CanActivate {
 
     canActivate() {
         let role = this.dataService.getLocalStorage('userRole');
+
         if (role === 'admin') {
             return true;
         }
+
         this.router.navigate(['/']);
+        
         return false;
     }
 }

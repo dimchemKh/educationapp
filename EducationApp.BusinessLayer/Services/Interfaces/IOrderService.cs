@@ -1,10 +1,10 @@
-﻿using EducationApp.BusinessLayer.Models;
-using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.Orders;
-using EducationApp.BusinessLayer.Models.Payments;
+﻿using EducationApp.BusinessLogic.Models;
+using EducationApp.BusinessLogic.Models.Filters;
+using EducationApp.BusinessLogic.Models.Orders;
+using EducationApp.BusinessLogic.Models.Payments;
 using System.Threading.Tasks;
 
-namespace EducationApp.BusinessLayer.Services.Interfaces
+namespace EducationApp.BusinessLogic.Services.Interfaces
 {
     public interface IOrderService
     {

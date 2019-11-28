@@ -1,0 +1,25 @@
+2019-11-28 15:43:32.8154 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+2019-11-28 15:43:50.4686 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+2019-11-28 15:46:43.1306 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+2019-11-28 15:46:43.1306 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".
+Must declare the scalar variable "@PageSize".
+Must declare the scalar variable "@filter".
+2019-11-28 15:48:22.7817 ERROR Status Code: 200 => Exception message: Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+Must declare the scalar variable "@filter".
+2019-11-28 15:55:06.3288 ERROR Status Code: 200 => Exception message: The member filter of type EducationApp.DataAccessLayer.Models.Filters.Base.BaseFilterModel cannot be used as a parameter value
+2019-11-28 16:03:45.3447 ERROR Status Code: 200 => Exception message: Object reference not set to an instance of an object.
+2019-11-28 16:07:07.8443 ERROR Status Code: 200 => Exception message: When using the multi-mapping APIs ensure you set the splitOn param if you have keys other than Id
+Parameter name: splitOn
+2019-11-28 16:07:48.9491 ERROR Status Code: 200 => Exception message: When using the multi-mapping APIs ensure you set the splitOn param if you have keys other than Id
+Parameter name: splitOn
+2019-11-28 16:12:22.3662 ERROR Status Code: 200 => Exception message: Delegate to an instance method cannot have null 'this'.
+2019-11-28 16:14:30.6572 ERROR Status Code: 200 => Exception message: When using the multi-mapping APIs ensure you set the splitOn param if you have keys other than Id
+Parameter name: splitOn
+2019-11-28 16:19:50.5668 ERROR Status Code: 200 => Exception message: The offset specified in a OFFSET clause may not be negative.

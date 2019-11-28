@@ -1,8 +1,8 @@
-﻿using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+﻿using EducationApp.BusinessLogic.Helpers.Mappers.Interfaces;
 using System;
 using System.Linq;
 
-namespace EducationApp.BusinessLayer.Helpers.Mappers
+namespace EducationApp.BusinessLogic.Helpers.Mappers
 {
     public class MapperHelper : IMapperHelper
     {

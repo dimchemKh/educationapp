@@ -1,15 +1,15 @@
-﻿using EducationApp.BusinessLayer.Models.Authors;
-using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.BusinessLayer.Common.Constants;
+﻿using EducationApp.BusinessLogic.Models.Authors;
+using EducationApp.BusinessLogic.Services.Interfaces;
+using EducationApp.BusinessLogic.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Models.Authors;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using System.Threading.Tasks;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters.Base;
-using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
-using EducationApp.BusinessLayer.Models.Filters;
+using EducationApp.BusinessLogic.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLogic.Models.Filters;
 
-namespace EducationApp.BusinessLayer.Services
+namespace EducationApp.BusinessLogic.Services
 {
     public class AuthorService : IAuthorService 
     {

@@ -1,18 +1,18 @@
-﻿using EducationApp.BusinessLayer.Models.Users;
+﻿using EducationApp.BusinessLogic.Models.Users;
 using Microsoft.AspNetCore.Mvc;
-using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.PresentationLayer.Common;
+using EducationApp.BusinessLogic.Services.Interfaces;
+using EducationApp.Presentation.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
-using EducationApp.PresentationLayer.Helper.Interfaces;
+using EducationApp.Presentation.Helper.Interfaces;
 using System.Linq;
-using EducationApp.BusinessLayer.Common.Constants;
+using EducationApp.BusinessLogic.Common.Constants;
 using Microsoft.AspNetCore.Http;
 using System;
-using EducationApp.BusinessLayer.Models.Auth;
+using EducationApp.BusinessLogic.Models.Auth;
 
-namespace EducationApp.PresentationLayer.Controllers
+namespace EducationApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

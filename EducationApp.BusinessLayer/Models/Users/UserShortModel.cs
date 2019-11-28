@@ -1,6 +1,6 @@
-﻿using EducationApp.BusinessLayer.Models.Base;
+﻿using EducationApp.BusinessLogic.Models.Base;
 
-namespace EducationApp.BusinessLayer.Models.Users
+namespace EducationApp.BusinessLogic.Models.Users
 {
     public class UserShortModel : BaseModel
     {

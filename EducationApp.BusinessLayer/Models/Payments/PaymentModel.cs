@@ -1,6 +1,6 @@
-﻿using EducationApp.BusinessLayer.Models.Base;
+﻿using EducationApp.BusinessLogic.Models.Base;
 
-namespace EducationApp.BusinessLayer.Models.Payments
+namespace EducationApp.BusinessLogic.Models.Payments
 {
     public class PaymentModel : BaseModel
     {

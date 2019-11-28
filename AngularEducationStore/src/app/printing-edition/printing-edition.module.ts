@@ -11,7 +11,7 @@ import { PrintingEdiotionsManagerComponent } from 'src/app/printing-edition/prin
 // tslint:disable-next-line: max-line-length
 import { PrintingEditionEditDialogComponent } from 'src/app/printing-edition/printing-editions-manager/printing-edition-edit-dialog/printing-edition-edit-dialog.component';
 import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
-import { MaterialModule } from '../material.module';
+import { MaterialModule } from 'src/app/material.module';
 
 
 @NgModule({

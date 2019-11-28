@@ -8,26 +8,30 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-
 import { AccountService, DataService } from 'src/app/shared/services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private dataSerive: DataService, private accountService: AccountService) {
-  }
-  
-  private isRefreshing = false;
+  private isRefreshing: boolean;
+
+  constructor(private dataSerive: DataService,
+    private accountService: AccountService
+    ) {
+      this.isRefreshing = false;
+  }  
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let accessToken = this.dataSerive.getCookie('Access');
-    let refreshToken = this.dataSerive.getCookie('Refresh');
-    let expireRemember = this.dataSerive.getCookie('expire');
 
+    let refreshToken = this.dataSerive.getCookie('Refresh');
+
+    let expireRemember = this.dataSerive.getCookie('expire');
 
     if (accessToken && expireRemember) {
       req = this.addToken(req, accessToken);
     }
+
     if (!accessToken && expireRemember) {
       return next.handle(req).pipe(catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
@@ -43,22 +47,25 @@ export class AuthInterceptor implements HttpInterceptor {
       }
     }));
     }
-    return next.handle(req);
 
+    return next.handle(req);
 }
-  private handle401Error(req: HttpRequest<any>, next: HttpHandler) {
+  private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
+
       return this.accountService.refresh().pipe(
         switchMap((token: any) => {
           token = this.dataSerive.getCookie('Access');
+
           this.isRefreshing = false;
+
           return next.handle(this.addToken(req, token));
         }
       ));
     }
   }
-  private addToken(request: HttpRequest<any>, token: string) {
+  private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`

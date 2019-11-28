@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EducationApp.PresentationLayer.Common
+namespace EducationApp.Presentation.Common
 {
     public class AuthConfig
     {

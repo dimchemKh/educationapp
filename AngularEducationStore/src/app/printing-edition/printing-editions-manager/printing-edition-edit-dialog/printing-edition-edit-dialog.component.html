@@ -24,7 +24,7 @@
         <label class="content-label">Types</label>
         <mat-form-field [formGroup]="form">
             <mat-select class="types-content" [(ngModel)]="data.printingEditionType" formControlName="types">
-                <mat-option *ngFor="let item of printingEditionTypes" [value]="item.value">{{item.name}}</mat-option>
+                <mat-option *ngFor="let item of productPresentationModels" [value]="item.value">{{item.name}}</mat-option>
             </mat-select>
             <mat-error align="end" *ngIf="!form.valid">
                 {{form.hasError('required') ? '' : 'Empty type of book'}}
@@ -53,7 +53,7 @@
         <label class="content-label">Currency</label>
         <mat-form-field>
             <mat-select class="currency-content" [(ngModel)]="data.currency">
-                <mat-option *ngFor="let item of currencyTypes" [value]="item.value">{{item.name}}</mat-option>
+                <mat-option *ngFor="let item of currencyPresentationModels" [value]="item.value">{{item.name}}</mat-option>
             </mat-select>
         </mat-form-field>
     </div>

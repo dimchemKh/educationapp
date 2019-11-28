@@ -5,6 +5,6 @@ export class FilterPrintingEditionModel extends BaseFilterModel {
     currency = 1;
     PriceMinValue = 0;
     PriceMaxValue = 10000;
-    printingEditionTypes = new Array<number>();
+    PrintingEditionTypes = new Array<number>();
     pageSize = PageSize.Six;
 }

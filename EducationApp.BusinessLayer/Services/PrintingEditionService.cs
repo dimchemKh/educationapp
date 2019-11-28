@@ -1,18 +1,18 @@
-﻿using EducationApp.BusinessLayer.Models.PrintingEditions;
-using EducationApp.BusinessLayer.Services.Interfaces;
+﻿using EducationApp.BusinessLogic.Models.PrintingEditions;
+using EducationApp.BusinessLogic.Services.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.BusinessLayer.Common.Constants;
-using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Models.Filters;
+using EducationApp.BusinessLogic.Common.Constants;
+using EducationApp.BusinessLogic.Helpers.Interfaces;
+using EducationApp.BusinessLogic.Models.Filters;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
-using EducationApp.BusinessLayer.Helpers.Mappers;
+using EducationApp.BusinessLogic.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLogic.Helpers.Mappers;
 using EducationApp.DataAccessLayer.Entities.Enums;
 
-namespace EducationApp.BusinessLayer.Services
+namespace EducationApp.BusinessLogic.Services
 {
     public class PrintingEditionService : IPrintingEditionService
     {

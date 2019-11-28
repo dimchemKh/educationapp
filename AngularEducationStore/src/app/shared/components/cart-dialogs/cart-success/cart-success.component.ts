@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { Component, Inject } from '@angular/core';
+import { faCheckSquare, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { OrdersUserComponent } from 'src/app/order/orders-user/orders-user.component';
 
@@ -9,16 +9,17 @@ import { OrdersUserComponent } from 'src/app/order/orders-user/orders-user.compo
   templateUrl: './cart-success.component.html',
   styleUrls: ['./cart-success.component.scss']
 })
-export class CartSuccessComponent implements OnInit {
+export class CartSuccessComponent {
 
-  checkIcon = faCheckSquare;
+  checkIcon: IconDefinition;
 
-  constructor(public dialogRef: MatDialogRef<OrdersUserComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  ngOnInit() {
+  constructor(public dialogRef: MatDialogRef<OrdersUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) { 
+    this.checkIcon = faCheckSquare;
   }
 
-  submit() {
+  submit(): void {
     this.dialogRef.close();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RemoveModel } from 'src/app/shared/models';
 
@@ -12,15 +12,18 @@ import { RemoveModel } from 'src/app/shared/models';
 
 export class RemoveDialogComponent {
 
-  isExistedId = false;
+  isExistedId: boolean;
 
-  alertIcon = faExclamationCircle;
+  alertIcon: IconDefinition;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: RemoveModel, public dialogRef: MatDialogRef<RemoveDialogComponent>) {
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: RemoveModel,
+    public dialogRef: MatDialogRef<RemoveDialogComponent>
+    ) {
+    this.isExistedId = false;
+    this.alertIcon = faExclamationCircle;
   }
 
-  close() {
+  close(): void {
     this.dialogRef.close(this.isExistedId);
   }
 }

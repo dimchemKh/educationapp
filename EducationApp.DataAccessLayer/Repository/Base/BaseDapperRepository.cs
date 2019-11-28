@@ -55,12 +55,12 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             }
             var response = result ? 1 : 0;
             return response;
-        }        
-        protected async Task<bool> DeleteBySqlAsync(string sql)
+        }
+        protected async Task<bool> DeleteBySqlAsync(string sql, long id)
         {
             using (var connection = GetSqlConnection())
             {
-                await connection.QueryAsync(sql);
+                await connection.QueryAsync(sql, new { id });
             }
             return true;
         }

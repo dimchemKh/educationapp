@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
 import { FilterPrintingEditionModel } from 'src/app/shared/models/filter/filter-printing-edition-model';
 import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/PrintingEditionModel';
-import { faHighlighter } from '@fortawesome/free-solid-svg-icons';
+import { faHighlighter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
@@ -13,6 +13,7 @@ import { PrintingEditionModelItem } from 'src/app/shared/models/printing-edition
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { RemoveModel } from 'src/app/shared/models/dialogs/RemoveModel';
 import { DataService } from 'src/app/shared/services/data.service';
+import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
 
 @Component({
   selector: 'app-printing-editions-manager',
@@ -22,79 +23,98 @@ import { DataService } from 'src/app/shared/services/data.service';
 })
 export class PrintingEdiotionsManagerComponent implements OnInit {
 
-  editIcon = faHighlighter;
-  closeIcon = faTimes;
-  createIcon = faPlusCircle;
+  editIcon: IconDefinition;
+  closeIcon: IconDefinition;
+  createIcon: IconDefinition;
 
-  filterModel = new FilterPrintingEditionModel();
+  filterModel: FilterPrintingEditionModel;
 
-  displayedColumns: string[] = ['id', 'title', 'description', 'category', 'author', 'price', ' '];
+  columnsPrintingEditions: string[];
 
-  sortStates = this.printingEditionParams.sortStates;
-  sortTypes = this.printingEditionParams.sortTypes;
+  sortStateModels = this.printingEditionParams.sortStateModels;
+  sortProductModels = this.printingEditionParams.sortProductModels;
   pageSizes = this.printingEditionParams.pageSizes;
-  printingEditionTypes = this.printingEditionParams.printingEditionTypes;
+  productPresentationModels = this.printingEditionParams.productPresentationModels;
 
   isRequire: number;
 
-  printingEditionModel = new PrintingEditionModel();
+  printingEditionModel: PrintingEditionModel;
 
   constructor(private dialog: MatDialog, private printingEditionService: PrintingEditionService,
-              private printingEditionParams: PrintingEditionsParameters, private descriptionBar: MatSnackBar,
-              private dataService: DataService) {
+    private printingEditionParams: PrintingEditionsParameters, private descriptionBar: MatSnackBar,
+    private dataService: DataService, private columnsTitles: ColumnsTitles
+    ) {
+    this.editIcon = faHighlighter;
+    this.closeIcon = faTimes;
+    this.createIcon = faPlusCircle;
+    this.filterModel = new FilterPrintingEditionModel();
+    this.printingEditionModel = new PrintingEditionModel();
+    this.columnsPrintingEditions = this.columnsTitles.columnsPrintingEditions;
+    this.filterModel.PrintingEditionTypes = [PrintingEditionType.Book, PrintingEditionType.Magazine, PrintingEditionType.Newspaper];
   }
 
-  ngOnInit() {
-    this.filterModel.printingEditionTypes = [PrintingEditionType.Book, PrintingEditionType.Magazine, PrintingEditionType.Newspaper];
+  ngOnInit(): void {
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;
     });
   }
-  sortData(event: MatSort) {
 
-    let sortState = this.sortStates.find(x => x.direction.toLowerCase() === event.direction.toLowerCase());
+  sortData(event: MatSort): void {
+
+    let sortState = this.sortStateModels.find(x => x.direction.toLowerCase() === event.direction.toLowerCase());
+
     this.filterModel.sortState = sortState.value;
 
-    let sortTypes = this.sortTypes.find(x => x.name.toLowerCase() === event.active.toLowerCase());
+    let sortTypes = this.sortProductModels.find(x => x.name.toLowerCase() === event.active.toLowerCase());
+
     this.filterModel.sortType = sortTypes.value;
 
     this.submit();
   }
-  getType(id: number) {
+
+  getType(id: number): string {
     return PrintingEditionType[id];
   }
-  submit(page: number = 1) {
+
+  submit(page: number = 1): void {
     this.filterModel.page = page;
+
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data) => {
       this.printingEditionModel = data;
     });
   }
-  pageEvent(event: PageEvent) {
+
+  pageEvent(event: PageEvent): void {
     let page = event.pageIndex + 1;
 
     if (event.pageSize !== this.filterModel.pageSize) {
       page = 1;
       this.filterModel.pageSize = event.pageSize;
     }
+
     this.submit(page);
   }
-  closedTypeSelect(event: boolean) {
+
+  closedTypeSelect(event: boolean): void {
     if (!event) {
       this.submit();
     }
   }
-  changeTypeSelect(event: MatSelectChange) {
+  
+  changeTypeSelect(event: MatSelectChange): void {
     if (event.value.length === 1) {
       this.isRequire = event.value[0];
     }
+
     if (event.value.length === 0) {
       event.source.value = [this.isRequire];
-      this.filterModel.printingEditionTypes = [this.isRequire];
+      this.filterModel.PrintingEditionTypes = [this.isRequire];
     }
   }
-  openDescription(dataDescription: string) {
+
+  openDescription(dataDescription: string): void {
     this.descriptionBar.open(dataDescription, 'close', {
       data: dataDescription,
       horizontalPosition: 'center',
@@ -102,12 +122,13 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     });
   }
 
-  openCreateDialog() {
+  openCreateDialog(): void {
     let dialog = this.dialog.open(PrintingEditionEditDialogComponent, {
       data: {
         dialogTitle: 'Create new product'
       }
     });
+
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.printingEditionService.createPrintingEdition(result).subscribe(() => {
@@ -117,7 +138,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     });
   }
   
-  openEditDialog(element: PrintingEditionModelItem) {
+  openEditDialog(element: PrintingEditionModelItem): void {
     let dialog = this.dialog.open(PrintingEditionEditDialogComponent, {
       data: {
         dialogTitle: 'Change product',
@@ -130,6 +151,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
         price: element.price
       }
     });
+
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.printingEditionService.updatePrintingEdition(result).subscribe(() => {
@@ -138,7 +160,8 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
       }
     });
   }
-  openRemoveDialog(element) {
+
+  openRemoveDialog(element): void {
     let dialog = this.dialog.open(RemoveDialogComponent, {
       data: {
         message: 'Do you wan`t to delete: ' + element.title + '?',
@@ -147,6 +170,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
         id: element.id
       }
     });
+
     dialog.afterClosed().subscribe((result: RemoveModel) => {
       if (result) {
         this.printingEditionService.removePrintingEdition(result.id).subscribe(() => {
@@ -155,7 +179,8 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
       }
     });
   }
-  close() {
+
+  close(): void {
     this.descriptionBar.dismiss();
   }
 }

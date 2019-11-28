@@ -1,7 +1,7 @@
 ﻿using EducationApp.DataAccessLayer.Entities.Enums;
 using System.Collections.Generic;
 
-namespace EducationApp.BusinessLayer.Common.Constants
+namespace EducationApp.BusinessLogic.Common.Constants
 {
     public partial class Constants
     {

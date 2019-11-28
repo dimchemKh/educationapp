@@ -1,7 +1,9 @@
-﻿namespace EducationApp.BusinessLayer.Helpers.Interfaces
+﻿using Microsoft.Extensions.Configuration;
+
+namespace EducationApp.BusinessLogic.Helpers.Interfaces
 {
     public interface IPasswordHelper
     {
-        string GenerateRandomPassword();
+        string GenerateRandomPassword(IConfiguration configuration);
     }
 }

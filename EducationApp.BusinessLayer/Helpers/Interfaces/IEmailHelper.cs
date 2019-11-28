@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace EducationApp.BusinessLayer.Helpers.Interfaces
+namespace EducationApp.BusinessLogic.Helpers.Interfaces
 {
     public interface IEmailHelper
     {

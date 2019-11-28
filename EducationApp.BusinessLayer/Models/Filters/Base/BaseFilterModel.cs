@@ -1,10 +1,10 @@
-﻿using EducationApp.BusinessLayer.Common.Constants;
+﻿using EducationApp.BusinessLogic.Common.Constants;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.BusinessLayer.Models.Filters.Base
+namespace EducationApp.BusinessLogic.Models.Filters.Base
 {
     public class BaseFilterModel
     {

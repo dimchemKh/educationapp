@@ -1,9 +1,9 @@
-﻿using EducationApp.BusinessLayer.Models.Auth;
-using EducationApp.BusinessLayer.Models.Users;
-using EducationApp.PresentationLayer.Common;
+﻿using EducationApp.BusinessLogic.Models.Auth;
+using EducationApp.BusinessLogic.Models.Users;
+using EducationApp.Presentation.Common;
 using Microsoft.Extensions.Options;
 
-namespace EducationApp.PresentationLayer.Helper.Interfaces
+namespace EducationApp.Presentation.Helper.Interfaces
 {
     public interface IJwtHelper
     {

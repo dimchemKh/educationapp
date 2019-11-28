@@ -1,10 +1,10 @@
-﻿using EducationApp.BusinessLayer.Models.Base;
-using EducationApp.BusinessLayer.Models.OrderItems;
+﻿using EducationApp.BusinessLogic.Models.Base;
+using EducationApp.BusinessLogic.Models.OrderItems;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace EducationApp.BusinessLayer.Models.Orders
+namespace EducationApp.BusinessLogic.Models.Orders
 {
     public class OrderModelItem : BaseModel
     {

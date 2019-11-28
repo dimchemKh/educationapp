@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using EducationApp.BusinessLayer.Common.Interfaces;
+using EducationApp.BusinessLogic.Common.Interfaces;
 
-namespace EducationApp.PresentationLayer.Middleware
+namespace EducationApp.Presentation.Middleware
 {
     public class ExceptionMiddleware
     {

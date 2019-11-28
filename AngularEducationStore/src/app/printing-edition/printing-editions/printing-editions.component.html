@@ -7,9 +7,9 @@
             <label class="filter-categories-title">
                 Categories
             </label>
-            <label *ngFor="let type of printingEditionTypes; let i = index">
-                <mat-checkbox (change)="onChange($event, i)" [(ngModel)]="printingEditionTypes[i].checked">
-                    {{printingEditionTypes[i].name}}</mat-checkbox>
+            <label *ngFor="let type of productPresentationModels; let i = index">
+                <mat-checkbox (change)="onChange($event, i)" [(ngModel)]="productPresentationModels[i].checked">
+                    {{productPresentationModels[i].name}}</mat-checkbox>
             </label>
         </div>
         <mat-divider></mat-divider>
@@ -17,7 +17,7 @@
             <mat-form-field>
                 <mat-label>Currency</mat-label>
                 <mat-select [(ngModel)]="filterModel.currency">
-                    <mat-option *ngFor="let item of currencyTypes" [value]="item.value">
+                    <mat-option *ngFor="let item of currencyPresentationModels" [value]="item.value">
                         {{item.name}}
                     </mat-option>
                 </mat-select>
@@ -25,7 +25,7 @@
             <mat-form-field>
                 <mat-label>Sorting</mat-label>
                 <mat-select [(ngModel)]="filterModel.sortState">
-                    <mat-option *ngFor="let item of sortStates" [value]="item.value">
+                    <mat-option *ngFor="let item of sortStateModels" [value]="item.value">
                         {{item.name}}
                     </mat-option>
                 </mat-select>
@@ -70,7 +70,7 @@
                         </label>
                     </div>
                     <label class="item-price">
-                        {{currencyTypes[item.currency -1].symbol}} {{item.price | number:'1.1-2'}}
+                        {{currencyPresentationModels[item.currency -1].symbol}} {{item.price | number:'1.1-2'}}
                     </label>
                 </div>
             </button>

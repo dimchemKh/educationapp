@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EducationApp.BusinessLayer.Models.Base
+namespace EducationApp.BusinessLogic.Models.Base
 {
     public class BaseModel
     {

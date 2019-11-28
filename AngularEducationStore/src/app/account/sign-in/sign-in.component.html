@@ -17,7 +17,7 @@
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      <mat-hint>{{userRequest.errors || ((password.hasError('required') && password.touched) ? 'Empty password' : '')}}</mat-hint>
+      <mat-hint>{{userRequestModel.errors || ((password.hasError('required') && password.touched) ? 'Empty password' : '')}}</mat-hint>
       <mat-hint align="end"><a class="label-link" [routerLink]="['/account/forgotPassword']" routerLinkActive="router-link-active">Forgot your password?</a></mat-hint>
     </mat-form-field>
 

@@ -1,9 +1,9 @@
-﻿using EducationApp.BusinessLayer.Models.Authors;
-using EducationApp.BusinessLayer.Models.Base;
+﻿using EducationApp.BusinessLogic.Models.Authors;
+using EducationApp.BusinessLogic.Models.Base;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using System.Collections.Generic;
 
-namespace EducationApp.BusinessLayer.Models.PrintingEditions
+namespace EducationApp.BusinessLogic.Models.PrintingEditions
 {
     public class PrintingEditionModelItem : BaseModel
     {

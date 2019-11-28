@@ -1,8 +1,8 @@
-﻿using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.Users;
+﻿using EducationApp.BusinessLogic.Models.Filters;
+using EducationApp.BusinessLogic.Models.Users;
 using System.Threading.Tasks;
 
-namespace EducationApp.BusinessLayer.Services.Interfaces
+namespace EducationApp.BusinessLogic.Services.Interfaces
 {
     public interface IUserService
     {

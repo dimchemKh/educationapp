@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faBook, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -8,9 +8,10 @@ import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-ed
 import { OrderItemModelItem } from 'src/app/shared/models/order-item/OrderItemModelItem';
 import { Currency } from 'src/app/shared/enums/currency';
 import { Subscription } from 'rxjs';
-import { ConverterModel } from 'src/app/shared/models/ConverterModel';
+import { ConverterModel } from 'src/app/shared/models/converter/ConverterModel';
 import { CartService } from 'src/app/shared/services/cart.service';
 import { OrderModelItem } from 'src/app/shared/models/order/OrderModelItem';
+import { CurrencyPresentationModel } from 'src/app/shared/models/presentation/CurrencyPresentationModel';
 
 @Component({
   selector: 'app-printing-edition-details',
@@ -19,16 +20,16 @@ import { OrderModelItem } from 'src/app/shared/models/order/OrderModelItem';
 })
 export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
 
-  printingEdition = new PrintingEditionModelItem();
-  printingEditionIcon = faBook;
-  cartIcon = faShoppingCart;
+  printingEdition: PrintingEditionModelItem;
+  printingEditionIcon: IconDefinition;
+  cartIcon: IconDefinition;
 
-  currencyTypes = this.prinringEditionParametrs.currencyTypes;
+  currencyPresentationModels: Array<CurrencyPresentationModel>;
 
   cartSubscription: Subscription;
-  isPurchase = false;
+  isPurchase: boolean;
 
-  quantity = 1;
+  quantity: number;
   currency: number;
 
   quantities = Array<number>();
@@ -38,10 +39,15 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }
-
+    this.printingEditionIcon = faBook;
+    this.cartIcon = faShoppingCart;
+    this.isPurchase = false;
+    this.printingEdition = new PrintingEditionModelItem();
+    this.quantity = 1;
+    this.currencyPresentationModels = this.prinringEditionParametrs.currencyPresentationModels;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cartSubscription = this.cartService.cartSource.subscribe((numbers) => {
       if (!this.cartService.checkTheSame(numbers, +this.route.snapshot.paramMap.get('id'))) {
         this.isPurchase = false;
@@ -51,18 +57,18 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     let data = history.state.data;
     data === undefined ? this.getDetails() : this.getDetails(data._currency);
   }
-  convertPrice(currency: number) {
+  convertPrice(currency: number): void {
     this.quantity = 1;
     this.getDetails(currency);
   }
-  getDetails(currency: number = 1) {
+  getDetails(currency: number = 1): void {
     let printingEditionId = +this.route.snapshot.paramMap.get('id');
     this.currency = currency;
     this.printingEditionService.getPrintingEditionDetails(printingEditionId, currency).subscribe((data) => {
       this.printingEdition = data.items[0];
     });
   }
-  async addPurchase(printingEdition: PrintingEditionModelItem) {
+  async addPurchase(printingEdition: PrintingEditionModelItem): Promise<void> {
 
     let orders = this.cartService.getAllPurchases();
 
@@ -106,7 +112,7 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     await this.cartService.addOrder(orders);
     this.isPurchase = true;
   }
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.cartSubscription.unsubscribe();
   }
 }

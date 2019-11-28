@@ -73,8 +73,8 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnsPrintingEditions"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsPrintingEditions;"></tr>
     </table>
     <mat-paginator class="paginator" [length]="printingEditionModel.itemsCount" [pageSize]="filterModel.pageSize"
         [pageIndex]="filterModel.page - 1" [pageSizeOptions]="pageSizes" [showFirstLastButtons]="true"

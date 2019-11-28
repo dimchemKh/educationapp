@@ -1,4 +1,4 @@
-﻿namespace EducationApp.BusinessLayer.Common.Constants
+﻿namespace EducationApp.BusinessLogic.Common.Constants
 {
     public partial class Constants
     {

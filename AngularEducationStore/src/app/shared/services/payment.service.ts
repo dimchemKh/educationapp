@@ -4,18 +4,18 @@ import { MatDialog } from '@angular/material';
 import { CartSuccessComponent } from 'src/app/shared/components/cart-dialogs/cart-success/cart-success.component';
 import { OrderService } from 'src/app/shared/services/order.service';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
 
 export class PaymentService {
 
-  constructor(private dialog: MatDialog, private orderService: OrderService) {
+  constructor(private dialog: MatDialog, private orderService: OrderService
+    ) {
+
   }
 
-  openStripeDialog(payment: PaymentModel) {
+  openStripeDialog(payment: PaymentModel): void {
 
     let handler = (window as any).StripeCheckout.configure({
       key: 'pk_test_tlcMD8vu8ttNtVSH6RF3OAkp004sTIYGEr',

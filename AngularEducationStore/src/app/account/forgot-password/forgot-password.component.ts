@@ -11,18 +11,27 @@ import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns
 })
 export class ForgotPasswordComponent {
 
-  constructor(private accountService: AccountService, private patterns: ValidationPatterns) { }
+  userModel: UserLoginModel;
+  responseModel: BaseModel;
+  isSuccessForgot: boolean;
+  emailForm: FormControl;
 
-  userModel = new UserLoginModel();
-  responseModel = new BaseModel();
-  isSuccessForgot = false;
+  constructor(private accountService: AccountService, private patterns: ValidationPatterns) {
+    this.userModel = new UserLoginModel();
+    this.responseModel = new BaseModel();
+    this.isSuccessForgot = false;
+    this.initCountols();
+  }
 
-  emailForm = new FormControl('',
-    [
-      Validators.required,
-      Validators.pattern(this.patterns.emailPattern)
-    ]);
-  submit(userModel: UserLoginModel) {
+  initCountols(): void {
+    this.emailForm = new FormControl(null,
+      [
+        Validators.required,
+        Validators.pattern(this.patterns.emailPattern)
+      ]);
+  }
+
+  submit(userModel: UserLoginModel): void {
     if (!this.emailForm.invalid) {
       this.accountService.forgotPassword(userModel)
         .subscribe(
@@ -32,7 +41,7 @@ export class ForgotPasswordComponent {
           });
     }
   }
-  getErrorsFromApi() {
+  getErrorsFromApi(): void {
     if (this.responseModel.errors.length > 0) {
       return;
     }

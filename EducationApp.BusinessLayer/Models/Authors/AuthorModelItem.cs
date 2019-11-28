@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Models.Base;
+﻿using EducationApp.BusinessLogic.Models.Base;
 using System.Collections.Generic;
 
-namespace EducationApp.BusinessLayer.Models.Authors
+namespace EducationApp.BusinessLogic.Models.Authors
 {
     public class AuthorModelItem : BaseModel
     {

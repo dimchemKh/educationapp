@@ -1,16 +1,17 @@
-﻿using EducationApp.BusinessLayer.Services.Interfaces;
+﻿using EducationApp.BusinessLogic.Services.Interfaces;
 using System.Threading.Tasks;
-using EducationApp.BusinessLayer.Helpers.Interfaces;
+using EducationApp.BusinessLogic.Helpers.Interfaces;
 using System.Linq;
-using EducationApp.BusinessLayer.Models.Users;
-using EducationApp.BusinessLayer.Common.Constants;
+using EducationApp.BusinessLogic.Models.Users;
+using EducationApp.BusinessLogic.Common.Constants;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using EducationApp.DataAccessLayer.Entities;
-using EducationApp.BusinessLayer.Models.Base;
-using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
-using EducationApp.BusinessLayer.Common.Extensions;
+using EducationApp.BusinessLogic.Models.Base;
+using EducationApp.BusinessLogic.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLogic.Common.Extensions;
+using Microsoft.Extensions.Configuration;
 
-namespace EducationApp.BusinessLayer.Services
+namespace EducationApp.BusinessLogic.Services
 {
     public class AccountService : IAccountService
     {
@@ -18,13 +19,15 @@ namespace EducationApp.BusinessLayer.Services
         private readonly IPasswordHelper _passwordHelper;
         private readonly IEmailHelper _emailHelper;
         private readonly IMapperHelper _mapperHelper;
+        private readonly IConfiguration _configuration;
 
-        public AccountService(IUserRepository userRepository, IPasswordHelper passwordHelper, IEmailHelper emailHelper, IMapperHelper mapperHelper)
+        public AccountService(IUserRepository userRepository, IPasswordHelper passwordHelper, IEmailHelper emailHelper, IMapperHelper mapperHelper, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _passwordHelper = passwordHelper;
             _emailHelper = emailHelper;
             _mapperHelper = mapperHelper;
+            _configuration = configuration;
         }
         public async Task<UserInfoModel> SignInAsync(UserLoginModel loginModel)
         {
@@ -160,7 +163,7 @@ namespace EducationApp.BusinessLayer.Services
                 return responseModel;
             }
             var token = await _userRepository.GenerateResetPasswordTokenAsync(user);
-            var newTempPassword = _passwordHelper.GenerateRandomPassword();
+            var newTempPassword = _passwordHelper.GenerateRandomPassword(_configuration);
 
             string message = $"This is your Temp password {newTempPassword} ! Please change it`s, after succesfull authorization";
 

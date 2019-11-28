@@ -1,8 +1,8 @@
-﻿using EducationApp.BusinessLayer.Models;
-using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.Orders;
-using EducationApp.BusinessLayer.Models.Payments;
-using EducationApp.BusinessLayer.Services.Interfaces;
+﻿using EducationApp.BusinessLogic.Models;
+using EducationApp.BusinessLogic.Models.Filters;
+using EducationApp.BusinessLogic.Models.Orders;
+using EducationApp.BusinessLogic.Models.Payments;
+using EducationApp.BusinessLogic.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace EducationApp.PresentationLayer.Controllers
+namespace EducationApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

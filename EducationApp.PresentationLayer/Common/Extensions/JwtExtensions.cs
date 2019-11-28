@@ -1,20 +1,14 @@
-﻿using EducationApp.PresentationLayer.Helper;
-using EducationApp.PresentationLayer.Helper.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace EducationApp.PresentationLayer.Common.Extensions
+namespace EducationApp.Presentation.Common.Extensions
 {
     public static class JwtExtensions
     {
-        public static void AddJwt(IServiceCollection services, IConfiguration configuration)
+        public static void AddJwt(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtConfig = configuration.GetSection("JwtConfig");
 
@@ -49,8 +43,6 @@ namespace EducationApp.PresentationLayer.Common.Extensions
                 options.SaveToken = true;
                 options.TokenValidationParameters = tokenValidationParameter;
             });
-
-            services.AddScoped<IJwtHelper, JwtHelper>();
         }
     }
 }

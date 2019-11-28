@@ -49,8 +49,8 @@
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnsAuthors"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsAuthors;"></tr>
     </table>
     <mat-paginator class="paginator" [length]="authorModel.itemsCount" [pageSize]="filterModel.pageSize"
         [pageIndex]="filterModel.page - 1" [pageSizeOptions]="pageSizes" [showFirstLastButtons]="true"

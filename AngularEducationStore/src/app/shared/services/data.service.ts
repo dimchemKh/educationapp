@@ -6,27 +6,36 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DataService {
   
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService
+    ) { 
 
-  getCookie(name: string) {
+  }
+
+  getCookie(name: string): string {
     return this.cookieService.get(name);
   }
-  setCookie(name: string, value: string, expires?: Date | number) {
+
+  setCookie(name: string, value: string, expires?: Date | number): void {
     return this.cookieService.set(name, value, expires, '/');
   }
-  deleteAllCookie(path: string) {
+
+  deleteAllCookie(path: string): void {
     this.cookieService.deleteAll(path);
   }
-  getLocalStorage(name: string) {
+
+  getLocalStorage(name: string): string {
     return localStorage.getItem(name);
   }
-  setLocalStorage(name: string, value: string) {
+
+  setLocalStorage(name: string, value: string): void {
     return localStorage.setItem(name, value);
   }
-  deleteItemLocalStorage(name: string) {
+
+  deleteItemLocalStorage(name: string): void {
     localStorage.removeItem(name);
   }
-  clearLocalStorage() {
+
+  clearLocalStorage(): void {
     localStorage.clear();
   }
 }

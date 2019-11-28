@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.Orders;
-using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.BusinessLayer.Common.Constants;
+using EducationApp.BusinessLogic.Models.Filters;
+using EducationApp.BusinessLogic.Models.Orders;
+using EducationApp.BusinessLogic.Services.Interfaces;
+using EducationApp.BusinessLogic.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
-using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
-using EducationApp.BusinessLayer.Helpers.Mappers;
-using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Models;
-using EducationApp.BusinessLayer.Models.Payments;
+using EducationApp.BusinessLogic.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLogic.Helpers.Mappers;
+using EducationApp.BusinessLogic.Helpers.Interfaces;
+using EducationApp.BusinessLogic.Models;
+using EducationApp.BusinessLogic.Models.Payments;
 
-namespace EducationApp.BusinessLayer.Services
+namespace EducationApp.BusinessLogic.Services
 {
     public class OrderService : IOrderService
     {

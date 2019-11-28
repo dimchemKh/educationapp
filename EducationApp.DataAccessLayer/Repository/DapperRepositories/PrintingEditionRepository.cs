@@ -28,7 +28,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             var sql = new StringBuilder($@"SELECT b.Id, b.Title, b.Price, b.Description, b.Currency, b.PrintingEditionType, t.Name
                                            FROM PrintingEditions as b
                                            LEFT JOIN AuthorInPrintingEditions as ap ON ap.PrintingEditionId = b.Id 
-                                           LEFT JOIN Authors as t ON t.Id = ap.AuthorId WHERE b.Id = {printingEditionId}");
+                                           LEFT JOIN Authors as t ON t.Id = ap.AuthorId WHERE b.Id = @printingEditionId");
 
             var queryResult = new List<dynamic>();
 
@@ -36,7 +36,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 connection.Open();
 
-                queryResult = (await connection.QueryAsync(sql.ToString())).ToList();
+                queryResult = (await connection.QueryAsync(sql.ToString(), new { printingEditionId })).ToList();
             }
 
             printingEditionData = queryResult.Select(x => new PrintingEditionDataModel
@@ -70,20 +70,20 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 searchSql.Append($@"AND (COALESCE((
 						SELECT TOP(1) CASE
-						WHEN (LOWER(aut.Name)) LIKE '{filter.SearchString}%'
+						WHEN (LOWER(aut.Name)) LIKE @SearchString+'%'
 						THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
 						END
 						FROM AuthorInPrintingEditions AS aPe
 						INNER JOIN Authors AS aut ON aut.Id = aPe.AuthorId
 						WHERE pe.Id = aPe.PrintingEditionId
-					    ),0) = 1) OR (LOWER(pe.Title) LIKE '{filter.SearchString}%')");
+					    ),0) = 1) OR (LOWER(pe.Title) LIKE @SearchString+'%')");
             }
 
             var sortTypeSql = "Id";
 
             if (!isAdmin)
             {
-                priceSql = $"AND pe.Price BETWEEN {filter.PriceMinValue} AND {filter.PriceMaxValue} ";
+                priceSql = $@"AND pe.Price BETWEEN @PriceMinValue AND @PriceMaxValue ";
                 sortTypeSql = "Price";
             }
 
@@ -130,7 +130,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             var endBuilder = $@") AS pe ON AiNP.PrintingEditionId = pe.Id;";
 
             var newOrderSql = new StringBuilder($@"{orderBy}
-                                OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT {filter.PageSize} ROWS ONLY
+                                OFFSET (@Page - 1) * @PageSize ROWS FETCH NEXT @PageSize ROWS ONLY
                             ) AS pe ON AiNP.PrintingEditionId = pe.Id
                             {orderBy};");
 
@@ -148,7 +148,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 var dict = new Dictionary<long, PrintingEditionDataModel>();
 
-                var result = await connection.QueryMultipleAsync(resultSql);
+                var result = await connection.QueryMultipleAsync(resultSql, filter);
 
                 printingEditions = result.Read<PrintingEditionDataModel, Author, PrintingEditionDataModel>(
                     (pe, author) =>
@@ -174,7 +174,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     .Distinct()
                     .ToList();
 
-                responseModel.CollectionCount = result.Read<int>().FirstOrDefault();
+                responseModel.CollectionCount = result.Read<int>().FirstOrDefault();                            
             }
 
             responseModel.Collection = printingEditions;

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EducationApp.BusinessLayer\EducationApp.BusinessLayer.csproj" />
+    <ProjectReference Include="..\EducationApp.BusinessLayer\EducationApp.BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>

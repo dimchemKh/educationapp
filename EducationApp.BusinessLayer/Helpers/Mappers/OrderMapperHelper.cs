@@ -1,38 +1,34 @@
-﻿using EducationApp.BusinessLayer.Models.OrderItems;
-using EducationApp.BusinessLayer.Models.Orders;
+﻿using EducationApp.BusinessLogic.Models.OrderItems;
+using EducationApp.BusinessLogic.Models.Orders;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Entities.Enums;
 using EducationApp.DataAccessLayer.Models.Orders;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EducationApp.BusinessLayer.Helpers.Mappers
+namespace EducationApp.BusinessLogic.Helpers.Mappers
 {
     public static class OrderMapperHelper
     {
 
         public static OrderItem MapToEntity(this OrderItemModelItem orderItemModel)
         {
-            var orderItem = new OrderItem
-            {
-                PrintingEditionId = orderItemModel.PrintingEditionId,
-                Count = orderItemModel.Count,
-                Amount = orderItemModel.Count * orderItemModel.Price,
-                Currency = orderItemModel.Currency
-            };
+            var orderItem = new OrderItem();
+            orderItem.PrintingEditionId = orderItemModel.PrintingEditionId;
+            orderItem.Count = orderItemModel.Count;
+            orderItem.Amount = orderItemModel.Count * orderItemModel.Price;
+            orderItem.Currency = orderItemModel.Currency;
 
             return orderItem;
         }
         public static OrderModelItem MapToModel(this OrderDataModel orderDataModel)
         {
-            var orderItem = new OrderModelItem
-            {
-                Id = orderDataModel.Id,
-                Date = orderDataModel.CreationDate,
-                Email = orderDataModel.Email,
-                UserName = $"{orderDataModel.FirstName} {orderDataModel.LastName}", 
-                Amount = orderDataModel.Amount
-            };
+            var orderItem = new OrderModelItem();
+            orderItem.Id = orderDataModel.Id;
+            orderItem.Date = orderDataModel.CreationDate;
+            orderItem.Email = orderDataModel.Email;
+            orderItem.UserName = $"{orderDataModel.FirstName} {orderDataModel.LastName}";
+            orderItem.Amount = orderDataModel.Amount;
 
             var result = orderDataModel.PaymentId == null ? Enums.TransactionStatus.UnPaid : Enums.TransactionStatus.Paid;
             orderItem.TransactionStatus = result;

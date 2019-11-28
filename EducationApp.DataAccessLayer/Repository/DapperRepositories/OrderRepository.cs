@@ -20,7 +20,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         public OrderRepository(IConfiguration configuration) : base(configuration)
         {
         }
-        public async Task<GenericModel<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filterOrder, long userId)
+        public async Task<GenericModel<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filter, long userId)
         {
             var responseModel = new GenericModel<OrderDataModel>();
 
@@ -34,26 +34,26 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             if (userId > 1)
             {
-                searchUserSql = $"AND o.UserId = {userId}";
+                searchUserSql = $@"AND o.UserId = @userId";
             }
             var transactionSql = string.Empty;
-            if (filterOrder.TransactionStatus.Equals(TransactionStatus.Paid))
+            if (filter.TransactionStatus.Equals(TransactionStatus.Paid))
             {
                 transactionSql = $"AND pa.TransactionId IS NOT NULL ";
             }
-            if (filterOrder.TransactionStatus.Equals(TransactionStatus.UnPaid))
+            if (filter.TransactionStatus.Equals(TransactionStatus.UnPaid))
             {
                 transactionSql = $"AND pa.TransactionId IS NULL ";
             }
 
             var sortType = $"Id";
 
-            if (filterOrder.SortType.Equals(SortType.Amount))
+            if (filter.SortType.Equals(SortType.Amount))
             {
                 sortType = $"Amount";
             }
 
-            if (filterOrder.SortType.Equals(SortType.Date))
+            if (filter.SortType.Equals(SortType.Date))
             {
                 sortType = $"CreationDate";
             }
@@ -62,12 +62,12 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var sort = string.Empty;
 
-            if (filterOrder.SortState.Equals(SortState.Asc))
+            if (filter.SortState.Equals(SortState.Asc))
             {
                 sort = "ASC";
             }
 
-            if (filterOrder.SortState.Equals(SortState.Desc))
+            if (filter.SortState.Equals(SortState.Desc))
             {
                 sort = "DESC";
             }
@@ -92,7 +92,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             var mainBuilder = new StringBuilder(countBuilder.ToString().Replace("COUNT(DISTINCT o.Id)", columnSql));
 
             orderSql = $@"ORDER BY {filterTypeSql} {sort}
-                          OFFSET {(filterOrder.Page - 1) * filterOrder.PageSize} ROWS FETCH NEXT {filterOrder.PageSize} ROWS ONLY";
+                          OFFSET (@Page - 1) * @PageSize ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             var resultSql = mainBuilder.Append(orderSql)
                                        .Append(endSql)
@@ -104,7 +104,11 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 var dict = new Dictionary<long, OrderDataModel>();
 
-                var result = await connection.QueryMultipleAsync(resultSql);
+                var result = await connection.QueryMultipleAsync(resultSql, new {
+                    Page = filter.Page,
+                    PageSize = filter.PageSize,
+                    userId = userId
+                });
 
                 orders = result.Read<OrderItem, PrintingEdition, Order, Payment, ApplicationUser, OrderDataModel>(
                     (orderItem, printingEdition, order, payment, user) =>
@@ -140,6 +144,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     splitOn: "Id")
                     .Distinct()
                     .ToList();
+
                 responseModel.CollectionCount = result.Read<int>().FirstOrDefault();                    
             }
 

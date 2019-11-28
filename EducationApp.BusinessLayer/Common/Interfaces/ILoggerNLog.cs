@@ -1,5 +1,4 @@
-﻿
-namespace EducationApp.BusinessLayer.Common.Interfaces
+﻿namespace EducationApp.BusinessLogic.Common.Interfaces
 {
     public interface ILoggerNLog
     {

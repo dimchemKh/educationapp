@@ -35,14 +35,14 @@
                 <mat-form-field class="currency-selector">
                     <mat-label>Currency</mat-label>
                     <mat-select [(ngModel)]="currency" (closed)="convertPrice(currency)">
-                        <mat-option *ngFor="let item of currencyTypes" [value]="item.value">
+                        <mat-option *ngFor="let item of currencyPresentationModels" [value]="item.value">
                             {{item.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <span class="span-content"></span>
                 <label class="amount-value">
-                    {{currencyTypes[printingEdition.currency - 1]?.symbol}} {{printingEdition?.price * quantity | number:'1.1-2'}}
+                    {{currencyPresentationModels[printingEdition.currency - 1]?.symbol}} {{printingEdition?.price * quantity | number:'1.1-2'}}
                 </label>
             </div>
 

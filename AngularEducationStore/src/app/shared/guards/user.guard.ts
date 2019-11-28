@@ -11,10 +11,13 @@ export class UserGuard implements CanActivate {
 
     canActivate() {
         let role = this.dataService.getLocalStorage('userRole');
+
         if (role === 'user') {
             return true;
         }
+
         this.router.navigate(['/']);
+        
         return false;
     }
 }

@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Models.Auth;
-using EducationApp.BusinessLayer.Common.Constants;
-using EducationApp.PresentationLayer.Common;
-using EducationApp.PresentationLayer.Helper.Interfaces;
+﻿using EducationApp.BusinessLogic.Models.Auth;
+using EducationApp.BusinessLogic.Common.Constants;
+using EducationApp.Presentation.Common;
+using EducationApp.Presentation.Helper.Interfaces;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -10,9 +10,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using EducationApp.BusinessLayer.Models.Users;
+using EducationApp.BusinessLogic.Models.Users;
 
-namespace EducationApp.PresentationLayer.Helper
+namespace EducationApp.Presentation.Helper
 {
     public class JwtHelper : IJwtHelper
     {

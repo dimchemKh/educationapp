@@ -1,6 +1,6 @@
 ﻿using EducationApp.DataAccessLayer.Entities.Enums;
 
-namespace EducationApp.BusinessLayer.Models
+namespace EducationApp.BusinessLogic.Models
 {
     public class ConverterModel
     {

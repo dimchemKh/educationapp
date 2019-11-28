@@ -1,6 +1,6 @@
-﻿using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.Users;
-using EducationApp.BusinessLayer.Services.Interfaces;
+﻿using EducationApp.BusinessLogic.Models.Filters;
+using EducationApp.BusinessLogic.Models.Users;
+using EducationApp.BusinessLogic.Services.Interfaces;
 using EducationApp.DataAccessLayer.Common.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace EducationApp.PresentationLayer.Controllers
+namespace EducationApp.Presentation.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]

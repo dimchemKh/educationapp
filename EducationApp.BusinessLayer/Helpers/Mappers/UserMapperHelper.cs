@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Models.Users;
+﻿using EducationApp.BusinessLogic.Models.Users;
 using EducationApp.DataAccessLayer.Entities;
 
-namespace EducationApp.BusinessLayer.Helpers.Mappers
+namespace EducationApp.BusinessLogic.Helpers.Mappers
 {
     public static class UserMapperHelper
     {
@@ -17,16 +17,13 @@ namespace EducationApp.BusinessLayer.Helpers.Mappers
         }
         public static T MapToModel<T>(this ApplicationUser source) where T : UserModelItem, new()
         {
-            var instance = new T
-            {
-                FirstName = source.FirstName,
-                LastName = source.LastName,
-                Email = source.Email,
-                Id = source.Id
-            };
+            var instance = new T();
+            instance.FirstName = source.FirstName;
+            instance.LastName = source.LastName;
+            instance.Email = source.Email;
+            instance.Id = source.Id;
 
-            var resultBlocked = (source.LockoutEnd != null) ? true : false;
-            instance.IsBlocked = resultBlocked;
+            instance.IsBlocked = (source.LockoutEnd != null) ? true : false;
 
             return instance;
         }

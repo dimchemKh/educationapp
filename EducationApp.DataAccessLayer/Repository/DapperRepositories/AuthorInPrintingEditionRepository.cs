@@ -69,17 +69,17 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
         public async Task<bool> DeleteAuthorsById(long authorsId)
         {
-            var sql = $@"DELETE FROM AuthorInPrintingEditions WHERE AuthorId = @authorsId";
+            var sql = $@"DELETE FROM AuthorInPrintingEditions WHERE AuthorId = @id";
 
-            var result = await DeleteBySqlAsync(sql);
+            var result = await DeleteBySqlAsync(sql, authorsId);
 
             return result;
         }
         public async Task<bool> DeletePrintingEditionsById(long printingEditionId)
         {
-            var sql = $@"DELETE FROM AuthorInPrintingEditions WHERE PrintingEditionId = @printingEditionId";
+            var sql = $@"DELETE FROM AuthorInPrintingEditions WHERE PrintingEditionId = @id";
 
-            var result = await DeleteBySqlAsync(sql);
+            var result = await DeleteBySqlAsync(sql, printingEditionId);
 
             return result;
         }

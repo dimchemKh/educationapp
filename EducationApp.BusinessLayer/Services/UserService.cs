@@ -1,18 +1,18 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using EducationApp.BusinessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Models.Users;
-using EducationApp.BusinessLayer.Services.Interfaces;
-using EducationApp.BusinessLayer.Common.Constants;
+using EducationApp.BusinessLogic.Models.Filters;
+using EducationApp.BusinessLogic.Models.Users;
+using EducationApp.BusinessLogic.Services.Interfaces;
+using EducationApp.BusinessLogic.Common.Constants;
 using EducationApp.DataAccessLayer.Entities;
 using EducationApp.DataAccessLayer.Repository.Interfaces;
 using DataFilter = EducationApp.DataAccessLayer.Models.Filters;
-using EducationApp.BusinessLayer.Helpers.Mappers.Interfaces;
+using EducationApp.BusinessLogic.Helpers.Mappers.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using EducationApp.BusinessLayer.Helpers.Mappers;
+using EducationApp.BusinessLogic.Helpers.Mappers;
 
-namespace EducationApp.BusinessLayer.Services
+namespace EducationApp.BusinessLogic.Services
 {
     public class UserService : IUserService
     {

@@ -10,28 +10,34 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 
-  public userImageSubject = new BehaviorSubject<string>(null);
+  public userImageSubject: BehaviorSubject<string>;
 
-
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes) { }
+  constructor(private http: HttpClient, private apiRoutes: ApiRoutes
+    ) {
+      this.userImageSubject = new BehaviorSubject<string>(null);
+  }
 
   getUserOne(): Observable<UserUpdateModel> {
     return this.http.post<UserUpdateModel>(this.apiRoutes.userRoute + 'get', {
       withCredentials: true
     });
   }
+
   getAllUsers(filterModel: FilterUserModel): Observable<UserModel> {
     return this.http.post<UserModel>(this.apiRoutes.userRoute + 'getAll', filterModel, {
       withCredentials: true
     }).pipe();
   }
+
   updateUser(userModel: UserUpdateModel): Observable<UserUpdateModel> {
     return this.http.post<UserUpdateModel>(this.apiRoutes.userRoute + 'update', userModel);
   }
+
   blockUser(userModel: UserModelItem): Observable<UserModel> {
     return this.http.post<UserModel>(this.apiRoutes.userRoute + 'block', userModel);
   }
-  removeUser(userId: number) {
+  
+  removeUser(userId: number): Observable<Object> {
     return this.http.delete(this.apiRoutes.userRoute + 'delete?userid=' + userId);
   }
 }

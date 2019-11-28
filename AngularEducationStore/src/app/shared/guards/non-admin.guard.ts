@@ -13,7 +13,9 @@ export class NonAdminGuard implements CanActivate {
         if (this.dataService.getLocalStorage('userRole') !== 'admin') {
             return true;
         }
+
         this.router.navigate(['/printing-edition/manager']);
+        
         return false;
     }
 }

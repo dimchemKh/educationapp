@@ -1,8 +1,8 @@
-﻿using EducationApp.BusinessLayer.Models.Authors;
-using EducationApp.BusinessLayer.Models.Filters;
+﻿using EducationApp.BusinessLogic.Models.Authors;
+using EducationApp.BusinessLogic.Models.Filters;
 using System.Threading.Tasks;
 
-namespace EducationApp.BusinessLayer.Services.Interfaces
+namespace EducationApp.BusinessLogic.Services.Interfaces
 {
     public interface IAuthorService
     {

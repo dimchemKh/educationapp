@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCheckSquare, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { DataService } from 'src/app/shared/services';
 
 @Component({
@@ -10,9 +10,12 @@ import { DataService } from 'src/app/shared/services';
 })
 export class ConfirmEmailComponent implements OnInit {
 
-  checkIcon = faCheckSquare;
+  checkIcon: IconDefinition;
   error: string;
-  constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService) { }
+
+  constructor(private router: Router, private route: ActivatedRoute, private dataService: DataService) {
+    this.checkIcon = faCheckSquare;
+   }
 
   ngOnInit() {
     this.error = this.route.snapshot.queryParamMap.get('error');

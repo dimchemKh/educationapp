@@ -1,4 +1,4 @@
-﻿namespace EducationApp.BusinessLayer.Helpers.Mappers.Interfaces
+﻿namespace EducationApp.BusinessLogic.Helpers.Mappers.Interfaces
 {
     public interface IMapperHelper
     {

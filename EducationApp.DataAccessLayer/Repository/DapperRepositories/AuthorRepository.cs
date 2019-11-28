@@ -77,7 +77,12 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                         INNER JOIN (
 	                        SELECT a.Id, a.Name
 	                        FROM Authors AS a
-	                        WHERE a.IsRemoved = 0 AND (LOWER(a.Name) LIKE '{filter.SearchString}%')");
+	                        WHERE a.IsRemoved = 0");
+
+            if(!string.IsNullOrWhiteSpace(filter.SearchString))
+            {
+                countBuilder.Append($@"AND (LOWER(a.Name) LIKE @SearchString+'%')");
+            }
 
             var mainBuilder = new StringBuilder(countBuilder.ToString()).Replace("COUNT(DISTINCT a.Id)", columnSql);
 
@@ -87,7 +92,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             orderSql = $" ORDER BY {filterSql} {sort} ";
 
-            offset = $@"OFFSET {(filter.Page - 1) * filter.PageSize} ROWS FETCH NEXT @filter.PageSize ROWS ONLY ";
+            offset = $@"OFFSET (@Page - 1) * @PageSize ROWS FETCH NEXT @PageSize ROWS ONLY ";
 
             mainBuilder.Append(orderSql)
                        .Append(offset)
@@ -101,7 +106,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 connection.Open();
 
-                var result = await connection.QueryMultipleAsync(mainSql, new { filter });
+                var result = await connection.QueryMultipleAsync(mainSql, filter);
 
                 var dict = new Dictionary<long, AuthorDataModel>();
 

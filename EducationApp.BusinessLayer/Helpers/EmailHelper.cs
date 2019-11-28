@@ -1,10 +1,10 @@
-﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
+﻿using EducationApp.BusinessLogic.Helpers.Interfaces;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace EducationApp.BusinessLayer.Helpers
+namespace EducationApp.BusinessLogic.Helpers
 {
     public class EmailHelper : IEmailHelper
     {

@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AccountService, CartService, DataService, UserService } from 'src/app/shared/services';
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { faBookOpen, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
-
 import { CartItemsComponent } from 'src/app/shared/components/cart-dialogs/cart-items/cart-items.component';
 import { MatDialog } from '@angular/material';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
@@ -21,18 +20,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
   cartSubscribe: Subscription;
-
-  isAuth = false;
-  image: SafeUrl = null;
+  isAuth: boolean;
+  image: SafeUrl;
   userImage: string;
-
-
   countOrders: number;
-
-  faUser = faUser;
-  faBookOpen = faBookOpen;
-  faUserCircle = faUserCircle;
-  faShoppingCart = faShoppingCart;
+  faUser: IconDefinition;
+  faBookOpen: IconDefinition;
+  faUserCircle: IconDefinition;
+  faShoppingCart: IconDefinition;
 
   get userName(): string {
     return this.dataService.getLocalStorage('userName');
@@ -40,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   get userRole(): string {
     return this.dataService.getLocalStorage('userRole');
   }
-  getUserImage() {
+  getUserImage(): void {
     this.userImage = this.dataService.getLocalStorage('userImage');
 
     if (this.userImage) {
@@ -48,8 +43,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private authService: AccountService, private userService: UserService, private dialog: MatDialog,
-              private cartService: CartService, private dataService: DataService, private sanitizer: DomSanitizer) {
+  constructor(private authService: AccountService,
+    private userService: UserService,
+    private dialog: MatDialog,
+    private cartService: CartService,
+    private dataService: DataService,
+    private sanitizer: DomSanitizer
+    ) {
+    this.isAuth = false;
+    this.image = null;
+    this.faUser = faUser;
+    this.faBookOpen = faBookOpen;
+    this.faUserCircle = faUserCircle;
+    this.faShoppingCart = faShoppingCart;
   }
 
   ngOnInit() {
@@ -57,10 +63,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userImage = image;
       this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
     });
+
     this.subscription = this.authService.authNavStatus$.subscribe(status => {
       this.isAuth = status;
       this.getUserImage();
     });
+
     this.cartService.cartSource.subscribe((data) => {
       if (data) {
         this.countOrders = data.length;
@@ -68,17 +76,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
     
   }
-  openCart() {
+  openCart(): void {
     let dialog = this.dialog.open(CartItemsComponent, {
       data: {
 
       }
     });
+
     dialog.afterClosed().subscribe(() => {
 
     });
   }
-  signOut() {
+  signOut(): void {
     let dialog = this.dialog.open(RemoveDialogComponent, {
       data: {
         message: 'Do you wan`t leave?',
@@ -86,6 +95,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         removeTitle: 'Ok'
       }
     });
+
     dialog.afterClosed().subscribe((result) => {
       if (result) {
         this.authService.signOut();
@@ -94,7 +104,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

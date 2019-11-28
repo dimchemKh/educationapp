@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Models.Users;
+﻿using EducationApp.BusinessLogic.Models.Users;
 using EducationApp.DataAccessLayer.Entities;
 
-namespace EducationApp.BusinessLayer.Common.Extensions
+namespace EducationApp.BusinessLogic.Common.Extensions
 {
     public static class UserExtensions
     {

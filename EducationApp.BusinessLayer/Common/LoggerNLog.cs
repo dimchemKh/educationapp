@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Common.Interfaces;
+﻿using EducationApp.BusinessLogic.Common.Interfaces;
 using NLog;
 
-namespace EducationApp.BusinessLayer.Common
+namespace EducationApp.BusinessLogic.Common
 {
     public class LoggerNLog : ILoggerNLog
     {

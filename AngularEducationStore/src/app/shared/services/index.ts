@@ -1,5 +1,4 @@
 export { AccountService } from 'src/app/shared/services/account.service';
-
 export { CartService } from 'src/app/shared/services/cart.service';
 export { AuthorService } from 'src/app/shared/services/author.service';
 export { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';

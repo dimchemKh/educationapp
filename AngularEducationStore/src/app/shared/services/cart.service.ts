@@ -10,9 +10,17 @@ import { ConverterModel, OrderModelItem } from 'src/app/shared/models';
 })
 export class CartService {  
 
-  cartSource = new BehaviorSubject<number[]>([]);
+  cartSource: BehaviorSubject<number[]>;
 
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes, private dataService: DataService) { 
+  constructor(private http: HttpClient,
+    private apiRoutes: ApiRoutes,
+    private dataService: DataService
+    ) { 
+    this.cartSource = new BehaviorSubject<number[]>([]);
+    this.initPurcheses();
+  }
+
+  initPurcheses(): void {
     let orders = this.getAllPurchases();
     if (orders) {
       let values = this.cartSource.value;
@@ -25,34 +33,39 @@ export class CartService {
     this.cartSource.next([]);
   }
 
-  getAllPurchases() {
+  getAllPurchases(): OrderModelItem {
     let orderModel: OrderModelItem = JSON.parse(this.dataService.getLocalStorage('cartItems'));
     if (orderModel) {
       return orderModel;
     }
     return null;
   }
-  async addOrder(orders: OrderModelItem) {
+  async addOrder(orders: OrderModelItem): Promise<void> {
     await this.dataService.setLocalStorage('cartItems', JSON.stringify(orders));
   }
-  convertToCart(converterModel: ConverterModel) { 
+
+  convertToCart(converterModel: ConverterModel): Promise<number> { 
     return this.http.post<number>(this.apiRoutes.orderRoute + 'converting', converterModel).toPromise();
   }
-  async removeOrderItem(printingEditionId: number) {
+
+  async removeOrderItem(printingEditionId: number): Promise<void> {
     let orders = this.getAllPurchases();
+
     orders.orderItems = orders.orderItems.filter(x => x.printingEditionId !== printingEditionId);
 
     let cartItems = this.cartSource.value.filter(x => x !== printingEditionId);
 
     this.cartSource.next(cartItems);
+
     if (orders.orderItems.length === 0) {
       this.dataService.deleteItemLocalStorage('cartItems');
       return;
     }
+
     await this.addOrder(orders);
-    
   }
-  checkTheSame(printignEditionsId: number[], printignEditionId: number) {
+
+  checkTheSame(printignEditionsId: number[], printignEditionId: number): boolean {
     if (printignEditionsId) {
       let items = printignEditionsId.filter(id => id === printignEditionId);
       if (items.length === 1) {

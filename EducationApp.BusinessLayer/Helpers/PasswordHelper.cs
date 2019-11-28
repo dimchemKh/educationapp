@@ -1,24 +1,41 @@
-﻿using EducationApp.BusinessLayer.Helpers.Interfaces;
-using EducationApp.BusinessLayer.Common.Constants;
+﻿using EducationApp.BusinessLogic.Helpers.Interfaces;
+using EducationApp.BusinessLogic.Common.Constants;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
-namespace EducationApp.BusinessLayer.Helpers
+namespace EducationApp.BusinessLogic.Helpers
 {
     public class PasswordHelper : IPasswordHelper
     {
-        public string GenerateRandomPassword()
+        private bool ParseBoolData(IConfigurationSection section, string sectionName)
         {
+            if(bool.TryParse(section.GetSection(sectionName).Value, out bool _result)){
+                return _result;
+            }
+            return false;
+        }
+        private int ParseIntData(IConfigurationSection section, string sectionName)
+        {
+            if (int.TryParse(section.GetSection(sectionName).Value, out int _result))
+            {
+                return _result;
+            }
+            return 0;
+        }
+        public string GenerateRandomPassword(IConfiguration configuration)
+        {
+            var section = configuration.GetSection("PasswordOptions");
             var options = new PasswordOptions()
             {
-                RequireLowercase = Constants.PasswordOptions.RequireLowercase,
-                RequireUppercase = Constants.PasswordOptions.RequireUppercase,
-                RequireDigit = Constants.PasswordOptions.RequireDigit,
-                RequiredLength = Constants.PasswordOptions.RequiredLength,
-                RequiredUniqueChars = Constants.PasswordOptions.RequiredUniqueChars,
-                RequireNonAlphanumeric = Constants.PasswordOptions.RequireNonAlphanumeric
+                RequireLowercase = ParseBoolData(section, "RequireLowercase"),
+                RequireUppercase = ParseBoolData(section, "RequireUppercase"),
+                RequireDigit = ParseBoolData(section, "RequireDigit"),
+                RequiredLength = ParseIntData(section, "RequiredLength"),
+                RequiredUniqueChars = ParseIntData(section, "RequiredUniqueChars"),
+                RequireNonAlphanumeric = ParseBoolData(section, "RequireNonAlphanumeric"),
             };
        
             var random = new Random(Environment.TickCount);

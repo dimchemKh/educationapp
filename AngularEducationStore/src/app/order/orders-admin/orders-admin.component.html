@@ -2,12 +2,6 @@
     <span>Orders managment</span>
 </div>
 <div class="header-row">
-    <div>
-        <mat-form-field class="filter-search">
-            <input matInput placeholder="Search" [(ngModel)]="filterModel.searchString">
-        </mat-form-field>
-        <button class="search-button" mat-raised-button color="accent">Find</button>
-    </div>
 </div>
 <div class="table-container">
     <table mat-table [dataSource]="orderModel.items" matSort matSortActive="id" matSortDisableClear
@@ -32,7 +26,7 @@
             <th class="column-name" mat-header-cell *matHeaderCellDef > Product </th>
             <td class="column-name" mat-cell *matCellDef="let element">
                 <div *ngFor="let orderItem of element.orderItems">
-                    {{printingEditionTypes[orderItem.printingEditionType - 1].name}}
+                    {{productPresentationModels[orderItem.printingEditionType - 1].name}}
                 </div>
             </td>
         </ng-container>
@@ -59,17 +53,17 @@
         <ng-container matColumnDef="transactionStatus">
             <th class="column-name" mat-header-cell *matHeaderCellDef>
                 <mat-select class="select-types" [(ngModel)]="transactionStatus" (openedChange)="closedTypeSelect($event)" (selectionChange)="changeTypeSelect($event)" multiple>
-                    <mat-option *ngFor="let item of transactionStatuses" [value]="item.value">{{item.name}}
+                    <mat-option *ngFor="let item of orderStatusModels" [value]="item.value">{{item.name}}
                     </mat-option>
                 </mat-select>
             </th>
             <td class="column-name" mat-cell *matCellDef="let element">
-                {{transactionStatuses[element.transactionStatus - 1].name}}
+                {{orderStatusModels[element.transactionStatus - 1].name}}
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnsOrders"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsOrders;"></tr>
     </table>
     <mat-paginator class="paginator" [length]="orderModel.itemsCount" [pageSize]="filterModel.pageSize"
         [pageIndex]="filterModel.page - 1" [pageSizeOptions]="pageSizes" [showFirstLastButtons]="true"

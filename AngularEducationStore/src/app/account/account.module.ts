@@ -7,10 +7,9 @@ import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/account/account-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { ValidationPatterns } from '../shared/constants/validation-patterns';
-import { MaterialModule } from '../material.module';
+import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
+import { MaterialModule } from 'src/app/material.module';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 @NgModule({

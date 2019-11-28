@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Models.Base;
+﻿using EducationApp.BusinessLogic.Models.Base;
 using System.Collections.Generic;
 
-namespace EducationApp.BusinessLayer.Models.Users
+namespace EducationApp.BusinessLogic.Models.Users
 {
     public class UserModel : BaseModel
     {

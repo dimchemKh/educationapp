@@ -1,7 +1,7 @@
-﻿using EducationApp.BusinessLayer.Models.Base;
+﻿using EducationApp.BusinessLogic.Models.Base;
 using System.Collections.Generic;
 
-namespace EducationApp.BusinessLayer.Models.PrintingEditions
+namespace EducationApp.BusinessLogic.Models.PrintingEditions
 {
     public class PrintingEditionModel : BaseModel
     {
