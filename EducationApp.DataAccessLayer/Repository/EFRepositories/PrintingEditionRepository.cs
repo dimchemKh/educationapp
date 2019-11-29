@@ -53,6 +53,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 predicate = x => x.Title;
             }
+
             if (filter.SortType.Equals(Enums.SortType.Price))
             {
                 predicate = x => x.Price;

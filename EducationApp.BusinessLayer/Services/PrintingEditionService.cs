@@ -37,6 +37,7 @@ namespace EducationApp.BusinessLogic.Services
             {
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
             }
+
             return responseModel;
         }
 
@@ -92,6 +93,7 @@ namespace EducationApp.BusinessLogic.Services
                 responseModel.Errors.Add(Constants.Errors.OccuredProcessing);
                 return responseModel;
             }
+
             if (!isAdmin)
             {
                 repositoryFilter.PriceMinValue = _currencyConverterHelper.Convert(repositoryFilter.Currency, Enums.Currency.USD, repositoryFilter.PriceMinValue);
@@ -103,10 +105,12 @@ namespace EducationApp.BusinessLogic.Services
             foreach (var printingEdition in printingEditionsModel.Collection)
             {
                 var modelItem = printingEdition.MapToModel(filter.Currency);
+
                 if (!isAdmin)
                 {
                     modelItem.Price = _currencyConverterHelper.Convert(Enums.Currency.USD, filter.Currency, modelItem.Price);
                 }
+
                 responseModel.Items.Add(modelItem);
             }
 
@@ -171,6 +175,7 @@ namespace EducationApp.BusinessLogic.Services
                 responseModel.Errors.Add(Constants.Errors.InvalidData);
                 return responseModel;
             }
+
             printingEdition.Price = _currencyConverterHelper.Convert(printingEditionsModelItem.Currency, Enums.Currency.USD, printingEditionsModelItem.Price);
 
             var updateResult = await _printingEditionRepository.UpdateAsync(printingEdition);

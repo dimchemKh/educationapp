@@ -34,7 +34,9 @@ namespace EducationApp.BusinessLogic.Helpers.Mappers
             orderItem.TransactionStatus = result;
 
             orderItem.Currency = orderDataModel.OrderItems.Select(x => x.Currency).FirstOrDefault();
+
             orderItem.OrderItems = new List<OrderItemModelItem>();
+
             foreach (var item in orderDataModel.OrderItems)
             {
                 orderItem.OrderItems.Add(new OrderItemModelItem

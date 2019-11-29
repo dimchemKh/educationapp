@@ -9,7 +9,6 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
     {
         public PaymentRepository(IConfiguration configuration) : base(configuration)
         {
-
         }
     }
 }

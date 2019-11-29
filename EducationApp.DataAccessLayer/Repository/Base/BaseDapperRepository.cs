@@ -18,6 +18,7 @@ namespace EducationApp.DataAccessLayer.Repository.Base
         {
             _configuration = configuration;
         }
+
         public async Task<long> CreateAsync(TEntity entity)
         {
             using(var connection = GetSqlConnection())
@@ -25,15 +26,19 @@ namespace EducationApp.DataAccessLayer.Repository.Base
                 return await connection.InsertAsync(entity);
             }
         }
+
         public async Task<int> DeleteAsync(TEntity entity)
         {
             var result = false;
+
             using(var connection = GetSqlConnection())
             {
                 entity.IsRemoved = true;
                 result = await connection.UpdateAsync(entity);
             }
+
             var response = result ? 1 : 0;
+
             return response;
         }
         public async Task<TEntity> GetByIdAsync(long id)

@@ -21,50 +21,60 @@ namespace EducationApp.DataAccessLayer.Repository.Base
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
+
         public async Task<TEntity> GetByIdAsync(long id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
+
         public IQueryable<TEntity> ReadAll()
         {
             return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false);
         }
+
         public IQueryable<TEntity> ReadWhere(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.AsNoTracking().Where(x => x.IsRemoved == false).Where(predicate);
         }
+
         public async Task<long> CreateAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity.Id;
         }
+
         public async Task<int> DeleteAsync(TEntity entity)
         {
             _dbSet.Attach(entity);
             entity.IsRemoved = true;
             return await _context.SaveChangesAsync();
         }
+
         public async Task<int> UpdateAsync(TEntity entity)
         {
             _context.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
         }
+
         public async Task<int> SaveAsync()
         {
             return await _context.SaveChangesAsync();
         }       
+
         protected async Task<IEnumerable<TModel>> PaginationAsync<TModel>(BaseFilterModel filter, Expression<Func<TModel, object>> predicate, IQueryable<TModel> entities)
         {
             if (filter.SortState.Equals(Enums.SortState.Asc))
             {
                 entities = entities.OrderBy(predicate);
             }
+
             if (filter.SortState.Equals(Enums.SortState.Desc))
             {
                 entities = entities.OrderByDescending(predicate);
             }
+
             var result = await entities
                 .Skip((filter.Page - 1) * filter.PageSize)
                 .Take(filter.PageSize)

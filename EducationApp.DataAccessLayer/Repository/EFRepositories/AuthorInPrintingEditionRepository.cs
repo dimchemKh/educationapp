@@ -15,6 +15,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
         public AuthorInPrintingEditionRepository(ApplicationContext context) : base(context)
         {
         }
+
         public async Task<int> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var authorsInPrintingEdition = _context.AuthorInPrintingEditions
@@ -52,11 +53,12 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                     PrintingEditionId = printingEditionId
                 });
             }
+
             await _context.AuthorInPrintingEditions.AddRangeAsync(authorInPrintingEditions);
 
             return await SaveAsync();
         }
-        // TODO: when remove Author too need remove PE with this the last Author
+
         public async Task<bool> DeleteAuthorsById(long authorsId)
         {
             var query = await _context.AuthorInPrintingEditions
@@ -64,8 +66,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 .ToListAsync();
 
             _context.AuthorInPrintingEditions.RemoveRange(query);
+
             return true;
         }
+
         public async Task<bool> DeletePrintingEditionsById(long printingEditionId)
         {
             var query = await _context.AuthorInPrintingEditions
@@ -73,6 +77,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 .ToListAsync();
 
             _context.AuthorInPrintingEditions.RemoveRange(query);
+
             return true;
         }
     }

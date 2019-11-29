@@ -89,6 +89,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 sortTypeSql = "Title";
             }
+
             if (filter.SortType.Equals(Enums.SortType.Price))
             {
                 sortTypeSql = "Price";
@@ -98,10 +99,12 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 sort = "ASC";
             }
+
             if (filter.SortState.Equals(Enums.SortState.Desc))
             {
                 sort = "DESC";
             }
+
             var orderBySql = $"pe.{sortTypeSql}";
 
             var orderBy = $"ORDER BY {orderBySql} {sort}";

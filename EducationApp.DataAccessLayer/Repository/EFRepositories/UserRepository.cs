@@ -23,6 +23,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         public async Task<IEnumerable<IdentityError>> SignUpAsync(ApplicationUser user, string password)
         {            
             var result = await _userManager.CreateAsync(user, password);
@@ -32,59 +33,78 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 await _userManager.AddToRoleAsync(user, Constants.Roles.User);
                 await _signInManager.SignInAsync(user, isPersistent: true);
             }            
+
             return result.Errors;
         }
+
         public async Task<IList<string>> GetRoleAsync(ApplicationUser user)
         {
             return await _userManager.GetRolesAsync(user);
         }
+
         public async Task<string> GetEmailConfirmTokenAsync(ApplicationUser user)
         {
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
+
         public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             return user;
         }
+
         public async Task<SignInResult> CheckPasswordAsync(ApplicationUser user, string password, bool isAdmin = false)
         {
             if(!isAdmin)
             {
                 return await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
             }
+
             return SignInResult.Success;
         }
+
         public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token)
         {
             var result = await _userManager.ConfirmEmailAsync(user, token);
+
             return result.Succeeded;
         }
+
         public async Task<bool> UpdateUserAsync(ApplicationUser user)
         {
             var result = await _userManager.UpdateAsync(user);
+
             return result.Succeeded;
         }
+
         public async Task<ApplicationUser> GetUserByIdAsync(long userId)
         {            
             var user = await _userManager.FindByIdAsync(userId.ToString());
+
             return user;
         }
+
         public async Task<IEnumerable<IdentityError>> ChangePasswordAsync(ApplicationUser user, string currentPassword, string newPassword)
         {
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
             return result.Errors;
         }
+
         public async Task<string> GenerateResetPasswordTokenAsync(ApplicationUser user)
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
             return token;
         }
+
         public async Task<bool> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
         {
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
             return result.Succeeded;
         }
+
         public async Task<GenericModel<ApplicationUser>> GetFilteredDataAsync(FilterUserModel filter)
         {
             var users = _userManager.Users.Where(user => user.IsRemoved == false);
@@ -100,6 +120,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 users = users.Where(x => x.LockoutEnd != null);
             }
+
             if (filter.IsBlocked.Equals(Enums.BlockState.False))
             {
                 users = users.Where(x => x.LockoutEnd == null);
@@ -121,6 +142,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 users = users.OrderBy(predicate);
             }
+
             if (filter.SortState.Equals(Enums.SortState.Desc))
             {
                 users = users.OrderByDescending(predicate);
@@ -144,6 +166,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 await _userManager.SetLockoutEndDateAsync(user, DateTime.Now.AddYears(1));
             }
+
             if(isBlocked)
             {
                 await _userManager.SetLockoutEndDateAsync(user, null);

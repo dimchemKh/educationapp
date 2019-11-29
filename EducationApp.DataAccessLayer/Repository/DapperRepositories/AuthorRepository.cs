@@ -35,6 +35,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                 var result = await connection.QueryMultipleAsync(mainSql.ToString());
 
                 responseModel.Collection = await result.ReadAsync<AuthorDataModel>();
+
                 responseModel.CollectionCount = (await result.ReadAsync<int>()).FirstOrDefault();
             }
 

@@ -20,6 +20,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         public OrderRepository(IConfiguration configuration) : base(configuration)
         {
         }
+
         public async Task<GenericModel<OrderDataModel>> GetAllOrdersAsync(FilterOrderModel filter, long userId)
         {
             var responseModel = new GenericModel<OrderDataModel>();
@@ -130,6 +131,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
                             dict.Add(model.Id, model);
                         }
+
                         model.OrderItems.Add(new OrderItemDataModel
                         {
                             PrintingEditionType = printingEdition.PrintingEditionType,
@@ -162,6 +164,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                  await connection.QueryFirstOrDefaultAsync(sql.ToString());
             }
+
             return true;
         }
     }

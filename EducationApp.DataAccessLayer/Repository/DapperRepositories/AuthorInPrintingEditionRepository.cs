@@ -29,11 +29,13 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                     PrintingEditionId = printingEditionId
                 });    
             }
+
             using (var connect = GetSqlConnection())
             {
                 return await connect.InsertAsync(entities);
             }
         }
+
         public async Task<int> UpdateAuthorsInPrintingEditionAsync(long printingEditionId, long[] authorsId)
         {
             var sql = $@"SELECT aPe.Id, aPe.AuthorId, aPe.PrintingEditionId

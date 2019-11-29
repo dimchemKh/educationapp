@@ -21,6 +21,7 @@ namespace EducationApp.DataAccessLayer.Initializers
             _userManager = userManager;
             _roleManager = roleManager;
         }
+
         public void Initialize()
         {
             if(!_roleManager.Roles.Any(role => role.Name == Constants.Roles.Admin || role.Name == Constants.Roles.User))

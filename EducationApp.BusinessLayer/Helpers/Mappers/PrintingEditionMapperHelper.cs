@@ -29,24 +29,6 @@ namespace EducationApp.BusinessLogic.Helpers.Mappers
             
             return instance;
         }
-        public static PrintingEditionDataModel MapToData(this PrintingEditionModelItem source)
-        {
-            var instance = new PrintingEditionDataModel();
-            instance.Id = source.Id;
-            instance.Price = source.Price;
-            instance.PrintingEditionType = source.PrintingEditionType;
-            instance.Title = source.Title;
-            instance.Description = source.Description;
-
-            instance.Authors = source.Authors.Select(x => new AuthorDataModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                PrintingEditionTitles = x.PrintingEditionTitles
-            }).ToList();
-
-            return instance;
-        }
         public static PrintingEdition MapToEntity(this PrintingEditionModelItem source, PrintingEdition instance)
         {
             instance.Id = source.Id;

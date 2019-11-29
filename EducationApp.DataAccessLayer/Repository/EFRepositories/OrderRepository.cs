@@ -38,6 +38,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 query = query.Where(x => x.Payment.TransactionId != null);
             }
+
             if (filterOrder.TransactionStatus.Equals(TransactionStatus.UnPaid))
             {
                 query = query.Where(x => x.Payment.TransactionId == null);
@@ -69,6 +70,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 predicate = x => x.Amount;
             }
+
             if (filterOrder.SortType.Equals(SortType.Date))
             {
                 predicate = x => x.CreationDate;
@@ -78,6 +80,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 CollectionCount = orders.Count()
             };
+
             var ordersPage = await PaginationAsync(filterOrder, predicate, orders);
 
             responseModel.Collection = ordersPage;
@@ -104,6 +107,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             {
                 return false;
             }
+
             return true;
         }
     }

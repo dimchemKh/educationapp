@@ -12,6 +12,7 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         public OrderItemRepository(IConfiguration  configuration) : base(configuration)
         {
         }
+
         public async Task<int> CreateOrderItems(OrderItem[] orderItems)
         {
             using(var connection = GetSqlConnection())
