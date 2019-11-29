@@ -234,9 +234,11 @@ namespace EducationApp.BusinessLogic.Services
             return user.MapToInfoModel(userInfoModel, role);
         }
 
-        public async Task LogOutAsync()
+        public async Task<BaseModel> SignOutAsync()
         {
-            await _userRepository.LogOutAsync();
+            var responseModel = new BaseModel();
+            await _userRepository.SignOutAsync();
+            return responseModel;
         }
     }    
 }

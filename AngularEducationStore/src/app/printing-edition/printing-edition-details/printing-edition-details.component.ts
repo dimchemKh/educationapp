@@ -83,10 +83,14 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
       this.isPurchase = true;
     }
 
-    this.createOrderItem();
+    let localPrintingEdition = await this.createOrderItem(printingEdition);    
 
-    
+    await this.addOrders(orders, localPrintingEdition);       
 
+    this.isPurchase = true;
+  }
+
+  private async addOrders(orders: OrderModelItem, localPrintingEdition: OrderItemModelItem): Promise<void> {
     if (!orders) {
       orders = new OrderModelItem();
 
@@ -102,12 +106,9 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     orders.orderItems.push(localPrintingEdition);
 
     await this.cartService.addOrder(orders);
-
-    this.isPurchase = true;
   }
 
-  private async createOrderItem(printingEdition: PrintingEditionModelItem): Promise<void> {
-    let localPrintingEdition = new OrderItemModelItem();
+  private async createOrderItem(printingEdition: PrintingEditionModelItem): Promise<OrderItemModelItem> {
 
     if (this.currency !== Currency.USD) {
       let converterModel = new ConverterModel();
@@ -121,13 +122,21 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
       });
     }
 
+    let localPrintingEdition = this.MapPrintingEdition(printingEdition);
+
+    return localPrintingEdition;
+  }
+
+  private MapPrintingEdition(printingEdition: PrintingEditionModelItem): OrderItemModelItem {
+    let localPrintingEdition = new OrderItemModelItem();
+
     localPrintingEdition.printingEditionId = printingEdition.id;
     localPrintingEdition.title = printingEdition.title;
     localPrintingEdition.price = printingEdition.price;
     localPrintingEdition.count = this.quantity;
     localPrintingEdition.currency = Currency.USD;
-
-    return 
+    
+    return localPrintingEdition;
   }
 
   ngOnDestroy(): void {

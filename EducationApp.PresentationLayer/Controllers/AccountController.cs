@@ -11,6 +11,7 @@ using System;
 using EducationApp.BusinessLogic.Models.Auth;
 using EducationApp.Presentation.Common.Models.Configs;
 using EducationApp.BusinessLogic.Models.Configs;
+using System.Security.Claims;
 
 namespace EducationApp.Presentation.Controllers
 {
@@ -29,12 +30,17 @@ namespace EducationApp.Presentation.Controllers
             _jwtHelper = jwtHelper;
             _emailConfigs = emailConfigs;
         }
-        // TODO: implement
-        [AllowAnonymous]
-        [HttpPost()]
-        public async Task LogOut()
+
+        [HttpGet("signOut")]
+        public async Task<IActionResult> LogOut()
         {
-            await _accountService.LogOutAsync();
+            var res = HttpContext.User as ClaimsPrincipal;
+            // TODO ?
+            SignOut();
+
+            var responseModel = await _accountService.SignOutAsync();
+
+            return Ok(responseModel);
         }
 
         [AllowAnonymous]

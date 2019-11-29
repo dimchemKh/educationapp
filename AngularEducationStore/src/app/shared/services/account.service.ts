@@ -72,7 +72,6 @@ export class AccountService {
 
   signOut(): void {
     this.dataService.clearLocalStorage();
-
     
     this.dataService.deleteAllCookie('/');
 
@@ -80,8 +79,7 @@ export class AccountService {
 
     this.cartService.nextCartSource([]);
 
-    // TODO: IMPLEMENT
-    this.http.post(this.apiRoutes.accountRoute + '')
+    this.http.get(this.apiRoutes.accountRoute + 'signOut').subscribe();
 
     this.router.navigate(['/account/signIn']);
   }

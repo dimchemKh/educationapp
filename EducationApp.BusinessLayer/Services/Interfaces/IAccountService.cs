@@ -13,6 +13,6 @@ namespace EducationApp.BusinessLogic.Services.Interfaces
         Task<BaseModel> ResetPasswordAsync(string email);
         Task SendRegistrationMailAsync(long userId, string callbackUrl);
         Task<UserInfoModel> IdentifyUser(UserInfoModel authModel);
-        Task LogOutAsync();
+        Task<BaseModel> SignOutAsync();
     }
 }

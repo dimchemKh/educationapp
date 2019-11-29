@@ -173,7 +173,7 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
             }
         }
 
-        public async Task LogOutAsync()
+        public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
         }
