@@ -12,13 +12,15 @@ export class UserService {
 
   public userImageSubject: BehaviorSubject<string>;
 
-  get userImageSubject$(): Observable<string> {
-    return this.userImageSubject.asObservable();
-  }
-
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes
+  constructor(
+    private http: HttpClient,
+    private apiRoutes: ApiRoutes
     ) {
       this.userImageSubject = new BehaviorSubject<string>(null);
+  }
+
+  get userImageSubject$(): Observable<string> {
+    return this.userImageSubject.asObservable();
   }
 
   getUserOne(): Observable<UserUpdateModel> {

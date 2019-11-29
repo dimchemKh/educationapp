@@ -27,8 +27,12 @@ export class ProfileComponent implements OnInit {
   image: SafeUrl;
   userUpdateModel: UserUpdateModel;
 
-  constructor(private userService: UserService, private fb: FormBuilder, private sanitizer: DomSanitizer,
-    private patterns: ValidationPatterns, private dataService: DataService
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer,
+    private patterns: ValidationPatterns,
+    private dataService: DataService
     ) {
     this.userIcon = faUser;
     this.editIcon = faEdit;
@@ -43,11 +47,11 @@ export class ProfileComponent implements OnInit {
 
   initFormGroup(): void {
     this.form = this.fb.group({
-      firstName: new FormControl(this.userUpdateModel.firstName, Validators.pattern(this.patterns.namePattern)),
-      lastName: new FormControl(this.userUpdateModel.lastName, Validators.pattern(this.patterns.namePattern)),
-      email: new FormControl(this.userUpdateModel.email, Validators.pattern(this.patterns.emailPattern)),
-      currentPassword: new FormControl(this.userUpdateModel.currentPassword, Validators.required),
-      newPassword: new FormControl(this.userUpdateModel.newPassword)
+      firstName: new FormControl(null, Validators.pattern(this.patterns.namePattern)),
+      lastName: new FormControl(null, Validators.pattern(this.patterns.namePattern)),
+      email: new FormControl(null, Validators.pattern(this.patterns.emailPattern)),
+      currentPassword: new FormControl(null, Validators.required),
+      newPassword: new FormControl(null)
     });
   }
   ngOnInit(): void {

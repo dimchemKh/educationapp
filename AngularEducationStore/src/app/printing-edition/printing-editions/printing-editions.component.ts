@@ -48,6 +48,11 @@ export class PrintingEditionsComponent implements OnInit {
     this.filterModel = new FilterPrintingEditionModel();
     this.printingEditionModel = new PrintingEditionModel();
     this.gridLayout = this.printingEditionParams.gridFormationPrintingEditions;
+    this.filterModel.PrintingEditionTypes = [
+      PrintingEditionType.Book,
+      PrintingEditionType.Magazine,
+      PrintingEditionType.Newspaper
+    ];
   }
 
   getIconStyle(pageSize: number): any {
@@ -86,7 +91,7 @@ export class PrintingEditionsComponent implements OnInit {
     });
   }
 
-  getGridParams(pageSize: number): void {
+  private getGridParams(pageSize: number): void {
     this.gridLayout.forEach(x => {
       if (x.value === pageSize) {
         this.pageCols = x.cols;
@@ -96,12 +101,11 @@ export class PrintingEditionsComponent implements OnInit {
   }
 
   onChange(event, i: number): void {
-    // tslint:disable-next-line: no-unused-expression
     let num = -1;
 
     this.productPresentationModels.forEach(x => {
       if (x.checked) {
-        num = num + 1;
+        num++;
       }
     });
 
@@ -112,12 +116,6 @@ export class PrintingEditionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterModel.PrintingEditionTypes = [
-      PrintingEditionType.Book,
-      PrintingEditionType.Magazine,
-      PrintingEditionType.Newspaper
-    ];
-
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
     .subscribe((data: PrintingEditionModel) => {
       this.printingEditionModel = data;

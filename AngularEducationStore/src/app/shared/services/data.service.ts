@@ -6,7 +6,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class DataService {
   
-  constructor(private cookieService: CookieService
+  constructor(
+    private cookieService: CookieService
     ) { 
 
   }

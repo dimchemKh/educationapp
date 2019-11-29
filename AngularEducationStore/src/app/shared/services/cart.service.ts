@@ -12,7 +12,8 @@ export class CartService {
 
   private cartSource: BehaviorSubject<number[]>;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private apiRoutes: ApiRoutes,
     private dataService: DataService
     ) { 
@@ -50,9 +51,11 @@ export class CartService {
 
   getAllPurchases(): OrderModelItem {
     let orderModel: OrderModelItem = JSON.parse(this.dataService.getLocalStorage('cartItems'));
+    
     if (orderModel) {
       return orderModel;
     }
+
     return null;
   }
   async addOrder(orders: OrderModelItem): Promise<void> {

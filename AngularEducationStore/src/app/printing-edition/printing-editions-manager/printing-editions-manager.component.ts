@@ -1,18 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
-import { FilterPrintingEditionModel } from 'src/app/shared/models/filter/filter-printing-edition-model';
-import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/PrintingEditionModel';
-import { faHighlighter, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { PrintingEditionService, DataService } from 'src/app/shared/services';
+import { FilterPrintingEditionModel, PrintingEditionModel, PrintingEditionModelItem } from 'src/app/shared/models';
+import { faHighlighter, faTimes, faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { PrintingEditionType } from 'src/app/shared/enums/printing-edition-type';
 import { MatSort, PageEvent, MatDialog, MatSnackBar, MatSelectChange } from '@angular/material';
 import { PrintingEditionEditDialogComponent } from './printing-edition-edit-dialog/printing-edition-edit-dialog.component';
-import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
 import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
 import { RemoveModel } from 'src/app/shared/models/dialogs/RemoveModel';
-import { DataService } from 'src/app/shared/services/data.service';
 import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
 import { ProductPresentationModel } from 'src/app/shared/models/presentation/ProductPresenatationModel';
 import { PageSize } from 'src/app/shared/enums';
@@ -44,9 +39,12 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   isRequire: number;
 
 
-  constructor(private dialog: MatDialog, private printingEditionService: PrintingEditionService,
-    private printingEditionParams: PrintingEditionsParameters, private descriptionBar: MatSnackBar,
-    private dataService: DataService, private columnsTitles: ColumnsTitles
+  constructor(private dialog: MatDialog,
+    private printingEditionService: PrintingEditionService,
+    private printingEditionParams: PrintingEditionsParameters,
+    private descriptionBar: MatSnackBar,
+    private dataService: DataService,
+    private columnsTitles: ColumnsTitles
     ) {
     this.editIcon = faHighlighter;
     this.closeIcon = faTimes;
@@ -69,7 +67,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   }
 
   sortData(event: MatSort): void {
-
     let sortState = this.sortStateModels.find(x => x.direction.toLowerCase() === event.direction.toLowerCase());
 
     this.filterModel.sortState = sortState.value;
@@ -86,7 +83,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   }
 
   submit(page: number = 1): void {
-    debugger
     this.filterModel.page = page;
 
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
@@ -170,7 +166,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     });
   }
 
-  openRemoveDialog(element): void {
+  openRemoveDialog(element: PrintingEditionModelItem): void {
     let dialog = this.dialog.open(RemoveDialogComponent, {
       data: {
         message: 'Do you wan`t to delete: ' + element.title + '?',

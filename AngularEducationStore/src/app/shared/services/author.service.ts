@@ -11,12 +11,13 @@ import { scan } from 'rxjs/operators';
 export class AuthorService {
 
   private authorsSubj: BehaviorSubject<AuthorModelItem[]>;
-  
 
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes
-    ) { 
-      
-      this.authorsSubj = new BehaviorSubject<AuthorModelItem[]>([]);
+
+  constructor(
+    private http: HttpClient,
+    private apiRoutes: ApiRoutes
+  ) {
+    this.authorsSubj = new BehaviorSubject<AuthorModelItem[]>([]);
   }
   getAuthorsSubj(): Observable<AuthorModelItem[]> {
     return this.authorsSubj.asObservable();
