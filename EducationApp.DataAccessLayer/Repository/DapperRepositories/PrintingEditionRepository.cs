@@ -34,8 +34,6 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             using(var connection = GetSqlConnection())
             {
-                connection.Open();
-
                 queryResult = (await connection.QueryAsync(sql.ToString(), new { printingEditionId })).ToList();
             }
 

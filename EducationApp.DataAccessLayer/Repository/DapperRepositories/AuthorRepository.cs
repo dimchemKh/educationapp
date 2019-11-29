@@ -104,8 +104,6 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             using(var connection = GetSqlConnection())
             {
-                connection.Open();
-
                 var result = await connection.QueryMultipleAsync(mainSql, filter);
 
                 var dict = new Dictionary<long, AuthorDataModel>();
