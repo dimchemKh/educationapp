@@ -23,8 +23,12 @@ import { FooterComponent } from 'src/app/shared/components/footer/footer.compone
 import { CartItemsComponent } from 'src/app/shared/components/cart-dialogs/cart-items/cart-items.component';
 import { CartSuccessComponent } from 'src/app/shared/components/cart-dialogs/cart-success/cart-success.component';
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
+import { AuthHelper } from 'src/app/shared/helpers/auth-helper';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 
-
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
@@ -45,7 +49,12 @@ import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     FontAwesomeModule,
-    MaterialModule
+    MaterialModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter
+      }
+    })
   ],
   bootstrap: [],
   providers: [
@@ -57,7 +66,9 @@ import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found
     DataService,
     OrderService,
     AuthGuard,
-    PaymentService
+    PaymentService,
+    AuthHelper,
+    JwtHelperService
   ],
   entryComponents: [RemoveDialogComponent, CartItemsComponent, CartSuccessComponent]
 })

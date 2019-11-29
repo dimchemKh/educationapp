@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 using EducationApp.Presentation.Helper.Interfaces;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using System;
-using EducationApp.BusinessLogic.Models.Auth;
 using EducationApp.Presentation.Common.Models.Configs;
 using EducationApp.BusinessLogic.Models.Configs;
-using System.Security.Claims;
 
 namespace EducationApp.Presentation.Controllers
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class AccountController : Controller
     {
@@ -34,16 +32,13 @@ namespace EducationApp.Presentation.Controllers
         [HttpGet("signOut")]
         public async Task<IActionResult> LogOut()
         {
-            var res = HttpContext.User as ClaimsPrincipal;
-            // TODO ?
-            SignOut();
-
             var responseModel = await _accountService.SignOutAsync();
+
+            SignOut();
 
             return Ok(responseModel);
         }
 
-        [AllowAnonymous]
         [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserLoginModel userModel)
         {
@@ -52,13 +47,10 @@ namespace EducationApp.Presentation.Controllers
             return Ok(responseModel);
         }
 
-        [AllowAnonymous]
         [HttpGet("refresh")]
-        public async Task<IActionResult> RefreshTokenAsync()
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] string refreshToken)
         {      
-            var token = Request.Cookies["Refresh"];
-
-            var userInfoModel = _jwtHelper.ValidateData(token);
+            var userInfoModel = _jwtHelper.ValidateData(refreshToken);
 
             if (userInfoModel.Errors.Any())
             {
@@ -67,14 +59,11 @@ namespace EducationApp.Presentation.Controllers
 
             userInfoModel = await _accountService.IdentifyUser(userInfoModel);
 
-            var result = _jwtHelper.Generate(userInfoModel, _configOptions);
+            var authModel = _jwtHelper.Generate(userInfoModel);
 
-            GenerateCookie(result);
-
-            return Ok(userInfoModel);
+            return Ok(authModel);
         }
 
-        [AllowAnonymous]
         [HttpPost("signUp")]
         public async Task<IActionResult> SignUpAsync([FromBody]UserRegistrationModel registrationModel)
         {
@@ -104,7 +93,6 @@ namespace EducationApp.Presentation.Controllers
             return Ok(responseModel);
         }
 
-        [AllowAnonymous]
         [HttpPost("signIn")]
         public async Task<IActionResult> SignInAsync([FromBody]UserLoginModel loginModel)
         {
@@ -115,11 +103,9 @@ namespace EducationApp.Presentation.Controllers
                 return Ok(userInfoModel);
             }
 
-            var result = _jwtHelper.Generate(userInfoModel, _configOptions);
+            var authModel = _jwtHelper.Generate(userInfoModel);
 
-            GenerateCookie(result);
-
-            return Ok(userInfoModel);
+            return Ok(authModel);
         }        
         
         [HttpGet("confirmEmail")]
@@ -137,18 +123,5 @@ namespace EducationApp.Presentation.Controllers
 
             return Redirect(url);
         }        
-
-        private void GenerateCookie(AuthModel result)
-        {
-            Response.Cookies.Append(_configOptions.Value.AccessName, result.AccessToken, new CookieOptions()
-            {
-                Expires = DateTime.Now.Add(_configOptions.Value.AccessTokenExpiration)
-            });
-
-            Response.Cookies.Append(_configOptions.Value.RefreshName, result.RefreshToken, new CookieOptions()
-            {
-                Expires = DateTime.Now.Add(_configOptions.Value.RefreshTokenExpiration)
-            });
-        }
     }
 }

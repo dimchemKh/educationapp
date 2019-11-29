@@ -6,6 +6,7 @@ import { AccountService, DataService } from 'src/app/shared/services';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { MustMatch } from 'src/app/shared/helpers/match-helper';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,12 +30,13 @@ export class SignUpComponent {
   baseModel: BaseModel;
   isSuccessSignUp: boolean;
 
-  constructor(private accountService: AccountService,
+  constructor(
+    private accountService: AccountService,
     private patterns: ValidationPatterns,
     private dataService: DataService,
     private fb: FormBuilder,
     private sanitizer: DomSanitizer
-    ) {
+  ) {
     this.diameter = 25;
     this.isLoading = false;
     this.hidePassword = true;
@@ -57,7 +59,10 @@ export class SignUpComponent {
         ]),
       password: new FormControl(null, [Validators.required]),
       confirmPassword: new FormControl(null, [Validators.required])
-    });
+    },
+      {
+        validators: MustMatch(this.form.controls.password.value, this.form.controls.confirmPassword.value)
+      });
   }
 
   isControlInvalid(controlName: string): boolean {
@@ -67,18 +72,19 @@ export class SignUpComponent {
 
     return result;
   }
-  isSamePasswords(controlName: string): boolean {
-    let control = this.form.controls[controlName];
+  // TODO
+  // isSamePasswords(controlName: string): boolean {
+  //   let control = this.form.controls[controlName];
 
-    let result = control.touched && (control.value !== this.form.controls.password.value);
+  //   let result = control.touched && (control.value !== this.form.controls.password.value);
 
-    if (result) {
-      this.form.controls.confirmPassword.setErrors(Validators.required);
-      return true;
-    }
+  //   if (result) {
+  //     this.form.controls.confirmPassword.setErrors(Validators.required);
+  //     return true;
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
   onFileChange(files: FileList): void {
     this.fileToUpload = files.item(0);
@@ -113,7 +119,7 @@ export class SignUpComponent {
         });
     }
   }
-  
+
   private checkErrors(): void {
     if (this.baseModel.errors.length === 0) {
       this.dataService.setLocalStorage('confirmUserName', this.form.controls.firstName.value + ' ' + this.form.controls.lastName.value);

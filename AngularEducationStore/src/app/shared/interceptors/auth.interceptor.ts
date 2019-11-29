@@ -8,14 +8,17 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { AccountService, DataService } from 'src/app/shared/services';
+import { DataService, AccountService } from 'src/app/shared/services';
+import { AuthHelper } from 'src/app/shared/helpers/auth-helper';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   private isRefreshing: boolean;
 
-  constructor(private dataSerive: DataService,
+  constructor(
+    private dataSerive: DataService,
+    private authHelper: AuthHelper,
     private accountService: AccountService
     ) {
       this.isRefreshing = false;
@@ -39,7 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
             return this.handle401Error(req, next);
           }
           if (!expireRemember || !refreshToken) {
-            this.accountService.signOut();
+            this.authHelper.signOut();
           }
           return throwError('');
         } else {

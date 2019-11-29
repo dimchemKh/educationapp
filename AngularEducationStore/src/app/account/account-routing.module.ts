@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 import { SignUpComponent } from 'src/app/account/sign-up/sign-up.component';
 import { SignInComponent } from 'src/app/account/sign-in/sign-in.component';
@@ -13,9 +12,4 @@ export const routes: Routes = [
     { path: 'confirmEmail/:error', component: ConfirmEmailComponent },
 ];
 
-@NgModule({
-    imports: [],
-    exports: [],
-    declarations: [],
-})
 export class AccountRoutingModule { }

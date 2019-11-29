@@ -10,7 +10,8 @@ import { OrderService } from 'src/app/shared/services/order.service';
 
 export class PaymentService {
 
-  constructor(private dialog: MatDialog,
+  constructor(
+    private dialog: MatDialog,
     private orderService: OrderService
     ) {
 

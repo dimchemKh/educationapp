@@ -1,20 +1,25 @@
-import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserLoginModel } from 'src/app/shared/models/user/UserLoginModel';
 import { AccountService, DataService } from 'src/app/shared/services';
 import { UserRequestModel } from 'src/app/shared/models/user/UserRequestModel';
 import { faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
+import { AuthHelper } from 'src/app/shared/helpers/auth-helper';
+import { Component } from '@angular/core';
+import { AuthModel } from 'src/app/shared/models/auth/auth.model';
 
+const key = 'USER_KEY';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
+
+
 export class SignInComponent {
 
-  title: string;
+  readonly title = 'SignIn';
   userIcon: IconDefinition;
   userModel: UserLoginModel;
   userRequestModel: UserRequestModel;
@@ -23,11 +28,12 @@ export class SignInComponent {
   password: FormControl;
   checkedRemember: boolean;
 
-  constructor(private accountService: AccountService,
+  constructor(
+    private accountService: AccountService,
     private patterns: ValidationPatterns,
-    private dataService: DataService
-    ) {
-    this.title = 'SignIn';
+    private dataService: DataService,
+    private authHelper: AuthHelper
+  ) {
     this.userIcon = faUser;
     this.userModel = new UserLoginModel();
     this.userRequestModel = new UserRequestModel();
@@ -48,50 +54,35 @@ export class SignInComponent {
   submit(model: UserLoginModel): void {
     if (!this.email.invalid && !this.password.invalid) {
       this.accountService.signInUser(model)
-        .subscribe((data: UserRequestModel) => {
-          this.userRequestModel = data;
-          if (this.checkErrors()) {
-            this.signInUser();
-            this.isRemember();
-          }
+        .subscribe((data: AuthModel) => {          
+          this.authHelper.signIn(data);
+          // this.signInUser();
+          // this.isRemember();
         });
     }
   }
 
-  private checkErrors(): boolean {
-    if (this.userRequestModel.errors.length > 0) {
-      return false;
-    }
+  // private signInUser(): void {
+  //   this.dataService.setLocalStorage('userName', this.userRequestModel.userName);
 
-    if (!this.userRequestModel.userName || !this.userRequestModel.userRole) {
-      this.userRequestModel.errors.push('Occuring process');
-      return false;
-    }
+  //   this.dataService.setLocalStorage('userRole', this.userRequestModel.userRole);
 
-    return true;    
-  }
+  //   if (this.userRequestModel.image) {
+  //     this.dataService.setLocalStorage('userImage', this.userRequestModel.image);
+  //   }
+  // }
 
-  private signInUser(): void {
-    this.dataService.setLocalStorage('userName', this.userRequestModel.userName);
+  // private isRemember(): void {
+  //   let date = new Date();
 
-    this.dataService.setLocalStorage('userRole', this.userRequestModel.userRole);
+  //   if (!this.checkedRemember) {
+  //     this.dataService.setCookie('expire', 'time', date.setHours(date.getHours() + 12));
+  //   }
 
-    if (this.userRequestModel.image) {
-      this.dataService.setLocalStorage('userImage', this.userRequestModel.image);
-    }
-  }
+  //   if (this.checkedRemember) {
+  //     this.dataService.setCookie('expire', 'time', date.setMonth(date.getMonth() + 2));
+  //   }
 
-  private isRemember(): void {
-    let date = new Date();
-
-    if (!this.checkedRemember) {
-      this.dataService.setCookie('expire', 'time', date.setHours(date.getHours() + 12));
-    }
-
-    if (this.checkedRemember) {
-      this.dataService.setCookie('expire', 'time', date.setMonth(date.getMonth() + 2));
-    }
-    
-    this.accountService.signIn();
-  }
+  //   this.authHelper.signIn();
+  // }
 }

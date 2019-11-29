@@ -10,7 +10,9 @@ import { PageSize } from 'src/app/shared/enums/page-size';
 })
 export class PrintingEditionService {
 
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes
+  constructor(
+    private http: HttpClient,
+    private apiRoutes: ApiRoutes
     ) {
 
   }

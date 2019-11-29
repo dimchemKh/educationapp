@@ -17,7 +17,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     SignUpComponent,
     SignInComponent,
     ConfirmEmailComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

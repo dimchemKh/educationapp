@@ -1,2 +1,4 @@
 2019-11-29 12:07:24.2421 ERROR Status Code: 200 => Exception message: Session has not been configured for this application or request.
 2019-11-29 12:07:32.9467 ERROR Status Code: 200 => Exception message: Session has not been configured for this application or request.
+2019-11-29 16:46:13.9799 ERROR Status Code: 200 => Exception message: Value cannot be null.
+Parameter name: type

@@ -7,11 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AccountModule } from 'src/app/account/account.module';
-import { AuthorModule } from 'src/app/author/author.module';
-import { UserModule } from 'src/app/user/user.module';
-import { PrintingEditionModule } from 'src/app/printing-edition/printing-edition.module';
-import { OrderModule } from 'src/app/order/order.module';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 import { UserParameters } from 'src/app/shared/constants/user-parametrs';
@@ -21,6 +16,7 @@ import { OrderParameters } from 'src/app/shared/constants/order-parameters';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from 'src/app/shared/interceptors/auth.interceptor';
 import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
+import { NgxLocalStorageModule } from 'ngx-localstorage';
 
 export const HttpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -37,7 +33,8 @@ export const HttpInterceptorProviders = [
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    NgxLocalStorageModule.forRoot()
   ],
   providers: [ 
     HttpInterceptorProviders,

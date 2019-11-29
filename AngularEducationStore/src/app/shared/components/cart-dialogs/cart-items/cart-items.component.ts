@@ -24,7 +24,8 @@ export class CartItemsComponent implements OnInit {
   orders: OrderModelItem;
   currencyPresentationModels: CurrencyPresentationModel[];
 
-  constructor(public dialogRef: MatDialogRef<PrintingEditionDetailsComponent>,
+  constructor(
+    public dialogRef: MatDialogRef<PrintingEditionDetailsComponent>,
     private cartService: CartService,
     private parametrs: PrintingEditionsParameters,
     private orderService: OrderService,

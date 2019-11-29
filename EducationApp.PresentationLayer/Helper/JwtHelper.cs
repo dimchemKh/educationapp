@@ -16,7 +16,13 @@ namespace EducationApp.Presentation.Helper
 {
     public class JwtHelper : IJwtHelper
     {
-        public const string SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
+        private readonly IOptions<AuthConfig> _authConfig;
+        private const string SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
+
+        public JwtHelper(IOptions<AuthConfig> authConfig)
+        {
+            _authConfig = authConfig;
+        }
 
         private List<Claim> GetAccessTokenClaims(UserInfoModel authModel)
         {
@@ -24,6 +30,7 @@ namespace EducationApp.Presentation.Helper
 
             claims.Add(new Claim(ClaimTypes.Role, authModel.UserRole));
             claims.Add(new Claim(ClaimTypes.Name, authModel.UserName));
+            claims.Add(new Claim(nameof(authModel.Image), authModel.Image));
 
             return claims;
         }
@@ -36,15 +43,15 @@ namespace EducationApp.Presentation.Helper
 
             return claims;
         }
-        private string Generate(List<Claim> claims, IOptions<AuthConfig> configOptions, TimeSpan tokenExpiration)
+        private string Generate(List<Claim> claims, TimeSpan tokenExpiration)
         {
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configOptions.Value.JwtKey));
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_authConfig.Value.JwtKey));
 
             var credential = new SigningCredentials(key, SecurityAlgorithm);
 
             var token = new JwtSecurityToken(
-             issuer: configOptions.Value.JwtIssuer,
-             audience: configOptions.Value.JwtAudience,
+             issuer: _authConfig.Value.JwtIssuer,
+             audience: _authConfig.Value.JwtAudience,
              claims: claims,
              expires: DateTime.Now.Add(tokenExpiration),
              signingCredentials: credential);
@@ -75,7 +82,7 @@ namespace EducationApp.Presentation.Helper
 
             return userInfoModel;
         }
-        public AuthModel Generate(UserInfoModel userInfoModel, IOptions<AuthConfig> configOptions)
+        public AuthModel Generate(UserInfoModel userInfoModel)
         {
             var result = new AuthModel();
 
@@ -83,9 +90,9 @@ namespace EducationApp.Presentation.Helper
 
             var refreshClaims = GetRefreshTokenClaims(userInfoModel);
 
-            result.AccessToken = Generate(accessClaims, configOptions, configOptions.Value.AccessTokenExpiration);
+            result.AccessToken = Generate(accessClaims, _authConfig.Value.AccessTokenExpiration);
 
-            result.RefreshToken = Generate(refreshClaims, configOptions, configOptions.Value.RefreshTokenExpiration);
+            result.RefreshToken = Generate(refreshClaims, _authConfig.Value.RefreshTokenExpiration);
 
             return result;
         }

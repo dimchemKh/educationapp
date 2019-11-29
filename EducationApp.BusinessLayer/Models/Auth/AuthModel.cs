@@ -1,4 +1,6 @@
-﻿namespace EducationApp.BusinessLogic.Models.Auth
+﻿using EducationApp.BusinessLogic.Models.Base;
+
+namespace EducationApp.BusinessLogic.Models.Auth
 {
     public class AuthModel
     {

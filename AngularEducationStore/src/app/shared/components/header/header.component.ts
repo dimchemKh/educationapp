@@ -9,6 +9,7 @@ import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/r
 import { CartItemsComponent } from 'src/app/shared/components/cart-dialogs/cart-items/cart-items.component';
 import { MatDialog } from '@angular/material';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { AuthHelper } from '../../helpers/auth-helper';
 
 
 @Component({
@@ -43,12 +44,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private accountService: AccountService,
+  constructor(
+    private accountService: AccountService,
     private userService: UserService,
     private dialog: MatDialog,
     private cartService: CartService,
     private dataService: DataService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authHelper: AuthHelper
     ) {
     this.isAuth = false;
     this.image = null;
@@ -64,7 +67,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
     });
 
-    this.subscription = this.accountService.getAuthNavStatus().subscribe(status => {
+    this.subscription = this.authHelper.getAuthNavStatus().subscribe(status => {
       this.isAuth = status;
       this.getUserImage();
     });
@@ -98,7 +101,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        this.accountService.signOut();
+        this.authHelper.signOut();
       }
     });
   }

@@ -1,0 +1,79 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { CartService, DataService } from 'src/app/shared/services';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { ApiRoutes } from 'src/environments/api-routes';
+import { AuthModel } from 'src/app/shared/models/auth/auth.model';
+import { LocalStorageService } from 'ngx-localstorage';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AuthHelper {
+
+    private authNavStatusSource: BehaviorSubject<boolean>;
+
+    constructor(
+        private http: HttpClient,
+        private dataService: DataService,
+        private router: Router,
+        private cartService: CartService,
+        private apiRoutes: ApiRoutes,
+        private _localStorage: LocalStorageService,
+        private jwtHelperService: JwtHelperService
+    ) {
+        this.authNavStatusSource = new BehaviorSubject<boolean>(false);
+        this.authNavStatusSource.next(this.isAuth());
+    }
+
+    getAuthNavStatus(): Observable<boolean> {
+        return this.authNavStatusSource.asObservable();
+    }
+
+    isAuth(): boolean {
+        if (this.dataService.getLocalStorage('userName') !== null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    signIn(data: AuthModel): void {
+
+        const name = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier';        
+        debugger
+        this._localStorage.set('access_token', 'UaGtYNk1XeFNmMzgyR2w5Zld4UzA5bDhLeEppMlZWc1l1MkJrN2xDajE4VVNnMGY2MGE5dHZWb2xYUDZ1RjdUbGJDcWsrMmZtV3krWG1yOVpQMWNlVXpQbGNlMEhEWDFmblZWLzZrdTYrT3dkdC90OEdBSVpKYzVTVCtjbk83NTluZWFkYjE2NjJyWEEyVnZ6TS9xWjFNbmxGV1EvQ1hlaHN2S3FiU2VMWS9xaStWUnpUVWJlbk5sVVcrdExtNTdmZ202WXhOcmx6bm5XanZCdmY3YjVySG1tdzI5ZHZ2RytnOGx0N3Q5Wi9yajZZeGVISnZVeThkTzY2bGloYzJ1QjBRZ0I1eHpUdGZyTmYxdTVxbytxSzcyL0V2aVRpekZJS1h2VEV6cFcrTkg3Rk1aa1loTnJBSFErc2xJNjhlRVU1bWN2bEFlMWRsaVdSa1hyRjl2M1ZlU25pbU5xT205emkvY1puTnJCd2hrbDNudmRiWDk4NUZlTERZYjI5OUk5eGIwbVVhb04rWm5kWDdodHM3a1MvcFVvYVF6K2FLS0cwNi83UmJBcytWUlhhcXU2RnBZSlpJZUVjZ3U4NUpldTNQanZtL0d0N09UUmJXellFZVMzcSt1NlAxcTYxRHdkRGF2czhXS1BsdXFLSk93UTkvNWR2NzV5cmhlQzZzN21PSW5HNEhzQWFmK0hGN2RPSTNyOVpxdTEydTZzSFJYTDQ0ZDF0UEZ5cGJiT09kMEtsOVF4Z1ZxRHVRWjR2M0hUdnFRNk95VWg5N3I5YmtadmJteW1IaTdsSndtMHBrK3o5M2dJcENEYXRNbTJrNE8wenJuOVBmRnU0cTczS2VRNG0zdkZadFlCNUgzZXJKWTBlbjI2Y0toai9XUHhia2RiUmFGUHRaaTFOUkVrSEJhTUZ0WFBTT1FmZWE4OU9saVdkbk96OUVib1dicW9hYXpPVDFUSHBYVVdudmNySWY2ZHpYNXQxbmRKSjFETGttcmNhOG5CSU5BOXBIM1hrK1ZSdlR0OFNQcmwxMVltdE5Nbzc3bHRxT3B0RnJqbFBTV1NDRklxWkl3VEd1azF2bm42QTBiby92SXVYczd6TnNkOVdxTlNkeGJITjU3ZmI0MHN1WFczbnRkRDJ0N2NoNy9zR0lOc3ArOFQveVUzOHk1MWpBKzhsN2VLWEc0b3RiRHRSYjhKd3FseE9HQ0pPbTl0ZVdCSER4aHZ3eGZJSnZPdmU1eUk4V1NVcDFQMGg2L3MrZ01sTGJkR0wxUEYwY1U5N2hEUFpVd01FT1NrKzB4cm00MzZscUlHbHFMSXpYaVdGRjdPamtYNkdnMnI3UEZzaDdQdDhiWjJqeGMwRXJVMUx0cnk3MmZVZWp0VWVxbDltdlJlVjJNZUFmVlVBWGl2ZGZuU2lNNmtTdG9LcFBUUk1MQWJwSjBOSnZYUzFNbk5kT282MGE5cWpkWGx1UzNlVis5OXpxVEwrbUpRa2xIMm45MklJbVQ5STN4d3cvNVRMWXFCQ2s5VnhsYm44YVdjYlIwYnczU2JSVEd2eTdjVnJPSG43NTc3NVVMQXAycmpHc3FrOU5VTnRkMWgvOUxsWEdkeVJjMTI2anJ2OVZWZlZSYkhhcWZzUXhWSUkvbWkvcG1lNGZYZXBNQzV6U1p6ZWxRSnF1enhiSkNIK3VkMVdYelB1VlVXaitZUExidFkrL1Z3cEVVUkMvVDdzUnhjV2xPSDFSN1czaWRjM3FoTXFGem5TQzczS2QxWnFQVGRLNmdZOW04bmltTjZOYzNMdy9WVWJLaDJra3Z0ZjhnVEs4TDZiMno4cllPakxCWlBnZ1U5SG53NkljOWg4TzNONUgrdG5oSEY1Ym1kalR2aFZScVI0TmxkMFo0TFBUeGI3ZjB3MUN0UVI3VWdkc2c4RjRmVkZjMW5zN29kSzZvOUlNTVJLM1dvQS9uRis3b1pzSXB2ZWpOVUFWUzgzRnJ2S2dkTGZKZWF6MXNFalM5MTJ3OTNPT2YrTFgrM0p0Y2EwQzVLMkZWYWVkMFBGZlFpV3hlUjdONUhjbGtWVTZsRmNpdGp6RFp2cXQ4K3p1T3krR2EzbHRyL2F4ZGVyRE52dVdvcWRsNjl6RjNremhwNkE0aHUxZmV2amcwejhqM2NOUWxTV2Z4Mlc3NC8zNjhVRW56MGhuY3VqTVBHZWRVQ0ZMS0JZRlM3VkRxY2F5VktGTG9Zd1hhK2pjSmQrSmhubXUvZnNuY0wwTzFCdG5KMytVNFNJL2R5N1EzemtPazF1anRLd2xydnM0UXBnOHpyL3Y1WEErYTRkcWpBbllaZ1FBR0FnRU1CQUlZQ0FRd0VBaGdJQkRBUUNDQWdVQUFBNEVBQmdJQkRBUUNHQWdFTUJBSVlDQVF3RUFnZ0lGQUFBT0JBQVlDQVF3RUFoZ0lCREFRQ0dBZ0VNQkFJSUNCUUFBRGdRQUdBZ0VNQkFJWUNBUXdFQWhnSUJEQVFDQ0FnVUFBQTRFQUJnSUJEQVFDR0FnRU1CQUlZQ0FRd0VBZ2dJRkFBQU9CQUFZQ0FRd0VBaGdJQkRBUUNHQWdFTUJBSUlDQlFBQURnUUFHQWdFTUJBSVlDQVF3RUFoZ0lCREFRQ0NBZ1VBQUE0RUFCZ0lCREFRQ0dBZ0VNQkFJWUNBUXdFQWdnSUZBQUFPQkFBWUNBUXdFQWhnSUJEQVFDR0FnRU1CQUlJQ0JRQUFEZ1FBR0FnRU1CQUlZQ0FRd0VBaGdJQkRBOEgvMjQ4MVRNNE5jRVFBQUFBQkpSVTVFcmtKZ2dnPT0iLCJleHAiOjE1NzUwNDQ4NjQsImlzcyI6IkVkdWNhdGlvbkFwcCIsImF1ZCI6IldlYkFwaUVkdWNhdGlvbkFwcCJ9.EmEmGG8QbpJut6MPiNlsBLD3FEE4bNRLQK4YRYqMrgQ');
+        debugger
+        let result = this.jwtHelperService.decodeToken('UaGtYNk1XeFNmMzgyR2w5Zld4UzA5bDhLeEppMlZWc1l1MkJrN2xDajE4VVNnMGY2MGE5dHZWb2xYUDZ1RjdUbGJDcWsrMmZtV3krWG1yOVpQMWNlVXpQbGNlMEhEWDFmblZWLzZrdTYrT3dkdC90OEdBSVpKYzVTVCtjbk83NTluZWFkYjE2NjJyWEEyVnZ6TS9xWjFNbmxGV1EvQ1hlaHN2S3FiU2VMWS9xaStWUnpUVWJlbk5sVVcrdExtNTdmZ202WXhOcmx6bm5XanZCdmY3YjVySG1tdzI5ZHZ2RytnOGx0N3Q5Wi9yajZZeGVISnZVeThkTzY2bGloYzJ1QjBRZ0I1eHpUdGZyTmYxdTVxbytxSzcyL0V2aVRpekZJS1h2VEV6cFcrTkg3Rk1aa1loTnJBSFErc2xJNjhlRVU1bWN2bEFlMWRsaVdSa1hyRjl2M1ZlU25pbU5xT205emkvY1puTnJCd2hrbDNudmRiWDk4NUZlTERZYjI5OUk5eGIwbVVhb04rWm5kWDdodHM3a1MvcFVvYVF6K2FLS0cwNi83UmJBcytWUlhhcXU2RnBZSlpJZUVjZ3U4NUpldTNQanZtL0d0N09UUmJXellFZVMzcSt1NlAxcTYxRHdkRGF2czhXS1BsdXFLSk93UTkvNWR2NzV5cmhlQzZzN21PSW5HNEhzQWFmK0hGN2RPSTNyOVpxdTEydTZzSFJYTDQ0ZDF0UEZ5cGJiT09kMEtsOVF4Z1ZxRHVRWjR2M0hUdnFRNk95VWg5N3I5YmtadmJteW1IaTdsSndtMHBrK3o5M2dJcENEYXRNbTJrNE8wenJuOVBmRnU0cTczS2VRNG0zdkZadFlCNUgzZXJKWTBlbjI2Y0toai9XUHhia2RiUmFGUHRaaTFOUkVrSEJhTUZ0WFBTT1FmZWE4OU9saVdkbk96OUVib1dicW9hYXpPVDFUSHBYVVdudmNySWY2ZHpYNXQxbmRKSjFETGttcmNhOG5CSU5BOXBIM1hrK1ZSdlR0OFNQcmwxMVltdE5Nbzc3bHRxT3B0RnJqbFBTV1NDRklxWkl3VEd1azF2bm42QTBiby92SXVYczd6TnNkOVdxTlNkeGJITjU3ZmI0MHN1WFczbnRkRDJ0N2NoNy9zR0lOc3ArOFQveVUzOHk1MWpBKzhsN2VLWEc0b3RiRHRSYjhKd3FseE9HQ0pPbTl0ZVdCSER4aHZ3eGZJSnZPdmU1eUk4V1NVcDFQMGg2L3MrZ01sTGJkR0wxUEYwY1U5N2hEUFpVd01FT1NrKzB4cm00MzZscUlHbHFMSXpYaVdGRjdPamtYNkdnMnI3UEZzaDdQdDhiWjJqeGMwRXJVMUx0cnk3MmZVZWp0VWVxbDltdlJlVjJNZUFmVlVBWGl2ZGZuU2lNNmtTdG9LcFBUUk1MQWJwSjBOSnZYUzFNbk5kT282MGE5cWpkWGx1UzNlVis5OXpxVEwrbUpRa2xIMm45MklJbVQ5STN4d3cvNVRMWXFCQ2s5VnhsYm44YVdjYlIwYnczU2JSVEd2eTdjVnJPSG43NTc3NVVMQXAycmpHc3FrOU5VTnRkMWgvOUxsWEdkeVJjMTI2anJ2OVZWZlZSYkhhcWZzUXhWSUkvbWkvcG1lNGZYZXBNQzV6U1p6ZWxRSnF1enhiSkNIK3VkMVdYelB1VlVXaitZUExidFkrL1Z3cEVVUkMvVDdzUnhjV2xPSDFSN1czaWRjM3FoTXFGem5TQzczS2QxWnFQVGRLNmdZOW04bmltTjZOYzNMdy9WVWJLaDJra3Z0ZjhnVEs4TDZiMno4cllPakxCWlBnZ1U5SG53NkljOWg4TzNONUgrdG5oSEY1Ym1kalR2aFZScVI0TmxkMFo0TFBUeGI3ZjB3MUN0UVI3VWdkc2c4RjRmVkZjMW5zN29kSzZvOUlNTVJLM1dvQS9uRis3b1pzSXB2ZWpOVUFWUzgzRnJ2S2dkTGZKZWF6MXNFalM5MTJ3OTNPT2YrTFgrM0p0Y2EwQzVLMkZWYWVkMFBGZlFpV3hlUjdONUhjbGtWVTZsRmNpdGp6RFp2cXQ4K3p1T3krR2EzbHRyL2F4ZGVyRE52dVdvcWRsNjl6RjNremhwNkE0aHUxZmV2amcwejhqM2NOUWxTV2Z4Mlc3NC8zNjhVRW56MGhuY3VqTVBHZWRVQ0ZMS0JZRlM3VkRxY2F5VktGTG9Zd1hhK2pjSmQrSmhubXUvZnNuY0wwTzFCdG5KMytVNFNJL2R5N1EzemtPazF1anRLd2xydnM0UXBnOHpyL3Y1WEErYTRkcWpBbllaZ1FBR0FnRU1CQUlZQ0FRd0VBaGdJQkRBUUNDQWdVQUFBNEVBQmdJQkRBUUNHQWdFTUJBSVlDQVF3RUFnZ0lGQUFBT0JBQVlDQVF3RUFoZ0lCREFRQ0dBZ0VNQkFJSUNCUUFBRGdRQUdBZ0VNQkFJWUNBUXdFQWhnSUJEQVFDQ0FnVUFBQTRFQUJnSUJEQVFDR0FnRU1CQUlZQ0FRd0VBZ2dJRkFBQU9CQUFZQ0FRd0VBaGdJQkRBUUNHQWdFTUJBSUlDQlFBQURnUUFHQWdFTUJBSVlDQVF3RUFoZ0lCREFRQ0NBZ1VBQUE0RUFCZ0lCREFRQ0dBZ0VNQkFJWUNBUXdFQWdnSUZBQUFPQkFBWUNBUXdFQWhnSUJEQVFDR0FnRU1CQUlJQ0JRQUFEZ1FBR0FnRU1CQUlZQ0FRd0VBaGdJQkRBOEgvMjQ4MVRNNE5jRVFBQUFBQkpSVTVFcmtKZ2dnPT0iLCJleHAiOjE1NzUwNDQ4NjQsImlzcyI6IkVkdWNhdGlvbkFwcCIsImF1ZCI6IldlYkFwaUVkdWNhdGlvbkFwcCJ9.EmEmGG8QbpJut6MPiNlsBLD3FEE4bNRLQK4YRYqMrgQ');
+
+        // data.AccessToken.
+
+        this._localStorage.set('qwe', null);
+
+
+
+        // let result = this.jwtHelper.decodeToken(data.AccessToken);
+
+        this.authNavStatusSource.next(this.isAuth());
+
+        this.router.navigate(['/printing-edition/manager']);
+    }
+
+    signOut(): void {
+        this.dataService.clearLocalStorage();
+
+        this.dataService.deleteAllCookie('/');
+
+        this.authNavStatusSource.next(false);
+
+        this.cartService.nextCartSource([]);
+
+        this.http.get(this.apiRoutes.accountRoute + 'signOut').subscribe();
+
+        this.router.navigate(['/account/signIn']);
+    }
+}
