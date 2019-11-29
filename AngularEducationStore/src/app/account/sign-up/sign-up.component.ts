@@ -56,7 +56,6 @@ export class SignUpComponent {
     });
   }
 
-
   isControlInvalid(controlName: string): boolean {
     let control = this.form.controls[controlName];
 
@@ -65,7 +64,6 @@ export class SignUpComponent {
     return result;
   }
   isSamePasswords(controlName: string): boolean {
-
     let control = this.form.controls[controlName];
 
     let result = control.touched && (control.value !== this.form.controls.password.value);

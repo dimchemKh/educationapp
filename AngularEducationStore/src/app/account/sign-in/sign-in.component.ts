@@ -23,7 +23,10 @@ export class SignInComponent {
   password: FormControl;
   checkedRemember: boolean;
 
-  constructor(private accountService: AccountService, private patterns: ValidationPatterns, private dataService: DataService) {
+  constructor(private accountService: AccountService,
+    private patterns: ValidationPatterns,
+    private dataService: DataService
+    ) {
     this.title = 'SignIn';
     this.userIcon = faUser;
     this.userModel = new UserLoginModel();
@@ -47,20 +50,28 @@ export class SignInComponent {
       this.accountService.signInUser(model)
         .subscribe((data: UserRequestModel) => {
           this.userRequestModel = data;
-          this.checkErrors();
+          if (this.checkErrors()) {
+            this.signInUser();
+            this.isRemember();
+          }
         });
     }
   }
-  checkErrors(): void {
+
+  checkErrors(): boolean {
     if (this.userRequestModel.errors.length > 0) {
-      return;
+      return false;
     }
 
     if (!this.userRequestModel.userName || !this.userRequestModel.userRole) {
       this.userRequestModel.errors.push('Occuring process');
-      return;
+      return false;
     }
 
+    return true;    
+  }
+
+  private signInUser(): void {
     this.dataService.setLocalStorage('userName', this.userRequestModel.userName);
 
     this.dataService.setLocalStorage('userRole', this.userRequestModel.userRole);
@@ -68,7 +79,9 @@ export class SignInComponent {
     if (this.userRequestModel.image) {
       this.dataService.setLocalStorage('userImage', this.userRequestModel.image);
     }
+  }
 
+  private isRemember(): void {
     let date = new Date();
 
     if (!this.checkedRemember) {

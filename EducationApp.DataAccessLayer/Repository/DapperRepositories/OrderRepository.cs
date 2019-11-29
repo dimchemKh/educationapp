@@ -24,23 +24,24 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
         {
             var responseModel = new GenericModel<OrderDataModel>();
 
-
             var columnSql = $"oi.Id, oi.Count, pe.Id, pe.Title, pe.PrintingEditionType, o.Id, o.CreationDate, o.Amount, pa.Id, pa.TransactionId, u.Id, u.FirstName, u.LastName, u.Email";
 
             var searchUserSql = string.Empty;
-
             var offsetSql = string.Empty;
-
+            var sort = string.Empty;
+            var orderSql = string.Empty;
+            var transactionSql = string.Empty;
 
             if (userId > 1)
             {
                 searchUserSql = $@"AND o.UserId = @userId";
             }
-            var transactionSql = string.Empty;
+
             if (filter.TransactionStatus.Equals(TransactionStatus.Paid))
             {
                 transactionSql = $"AND pa.TransactionId IS NOT NULL ";
             }
+
             if (filter.TransactionStatus.Equals(TransactionStatus.UnPaid))
             {
                 transactionSql = $"AND pa.TransactionId IS NULL ";
@@ -60,7 +61,6 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
 
             var filterTypeSql = $"o.{sortType}";
 
-            var sort = string.Empty;
 
             if (filter.SortState.Equals(SortState.Asc))
             {
@@ -71,8 +71,6 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
             {
                 sort = "DESC";
             }
-
-            var orderSql = string.Empty;
 
             var countBuilder = new StringBuilder($@"
                                 SELECT COUNT(DISTINCT o.Id)
@@ -105,9 +103,9 @@ namespace EducationApp.DataAccessLayer.Repository.DapperRepositories
                 var dict = new Dictionary<long, OrderDataModel>();
 
                 var result = await connection.QueryMultipleAsync(resultSql, new {
-                    Page = filter.Page,
-                    PageSize = filter.PageSize,
-                    userId = userId
+                    filter.Page,
+                    filter.PageSize,
+                    userId
                 });
 
                 orders = result.Read<OrderItem, PrintingEdition, Order, Payment, ApplicationUser, OrderDataModel>(

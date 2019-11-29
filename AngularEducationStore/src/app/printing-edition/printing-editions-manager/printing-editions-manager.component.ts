@@ -14,6 +14,10 @@ import { RemoveDialogComponent } from 'src/app/shared/components/remove-dialog/r
 import { RemoveModel } from 'src/app/shared/models/dialogs/RemoveModel';
 import { DataService } from 'src/app/shared/services/data.service';
 import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
+import { ProductPresentationModel } from 'src/app/shared/models/presentation/ProductPresenatationModel';
+import { PageSize } from 'src/app/shared/enums';
+import { SortTypesPresentationModel } from 'src/app/shared/models/presentation/SortTypesPresentationModel';
+import { SortStatesPresentationModel } from 'src/app/shared/models/presentation/SortStatesPresentationModel';
 
 @Component({
   selector: 'app-printing-editions-manager',
@@ -28,17 +32,17 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   createIcon: IconDefinition;
 
   filterModel: FilterPrintingEditionModel;
+  printingEditionModel: PrintingEditionModel;
 
   columnsPrintingEditions: string[];
 
-  sortStateModels = this.printingEditionParams.sortStateModels;
-  sortProductModels = this.printingEditionParams.sortProductModels;
-  pageSizes = this.printingEditionParams.pageSizes;
-  productPresentationModels = this.printingEditionParams.productPresentationModels;
+  sortStateModels: SortStatesPresentationModel[];
+  sortProductModels: SortTypesPresentationModel[];
+  pageSizes: PageSize[];
+  productPresentationModels: Array<ProductPresentationModel>;
 
   isRequire: number;
 
-  printingEditionModel: PrintingEditionModel;
 
   constructor(private dialog: MatDialog, private printingEditionService: PrintingEditionService,
     private printingEditionParams: PrintingEditionsParameters, private descriptionBar: MatSnackBar,
@@ -51,6 +55,10 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     this.printingEditionModel = new PrintingEditionModel();
     this.columnsPrintingEditions = this.columnsTitles.columnsPrintingEditions;
     this.filterModel.PrintingEditionTypes = [PrintingEditionType.Book, PrintingEditionType.Magazine, PrintingEditionType.Newspaper];
+    this.productPresentationModels = this.printingEditionParams.productPresentationModels;
+    this.sortStateModels = this.printingEditionParams.sortStateModels;
+    this.sortProductModels = this.printingEditionParams.sortProductModels;
+    this.pageSizes = this.printingEditionParams.pageSizes;
   }
 
   ngOnInit(): void {
@@ -78,6 +86,7 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   }
 
   submit(page: number = 1): void {
+    debugger
     this.filterModel.page = page;
 
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)

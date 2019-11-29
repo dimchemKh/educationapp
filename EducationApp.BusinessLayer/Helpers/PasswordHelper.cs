@@ -5,37 +5,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace EducationApp.BusinessLogic.Helpers
 {
     public class PasswordHelper : IPasswordHelper
     {
-        private bool ParseBoolData(IConfigurationSection section, string sectionName)
+        private readonly IOptions<PasswordOptions> _passwordOptions;
+        public PasswordHelper(IOptions<PasswordOptions> passwordOptions)
         {
-            if(bool.TryParse(section.GetSection(sectionName).Value, out bool _result)){
-                return _result;
-            }
-            return false;
-        }
-        private int ParseIntData(IConfigurationSection section, string sectionName)
-        {
-            if (int.TryParse(section.GetSection(sectionName).Value, out int _result))
-            {
-                return _result;
-            }
-            return 0;
+            _passwordOptions = passwordOptions;
         }
         public string GenerateRandomPassword(IConfiguration configuration)
         {
             var section = configuration.GetSection("PasswordOptions");
             var options = new PasswordOptions()
             {
-                RequireLowercase = ParseBoolData(section, "RequireLowercase"),
-                RequireUppercase = ParseBoolData(section, "RequireUppercase"),
-                RequireDigit = ParseBoolData(section, "RequireDigit"),
-                RequiredLength = ParseIntData(section, "RequiredLength"),
-                RequiredUniqueChars = ParseIntData(section, "RequiredUniqueChars"),
-                RequireNonAlphanumeric = ParseBoolData(section, "RequireNonAlphanumeric"),
+                RequireLowercase = _passwordOptions.Value.RequireLowercase,
+                RequireUppercase = _passwordOptions.Value.RequireUppercase,
+                RequireDigit = _passwordOptions.Value.RequireDigit,
+                RequiredLength = _passwordOptions.Value.RequiredLength,
+                RequiredUniqueChars = _passwordOptions.Value.RequiredUniqueChars,
+                RequireNonAlphanumeric = _passwordOptions.Value.RequireNonAlphanumeric
             };
        
             var random = new Random(Environment.TickCount);

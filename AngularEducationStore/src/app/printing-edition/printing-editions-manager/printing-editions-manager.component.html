@@ -29,14 +29,17 @@
 
         <ng-container matColumnDef="description">
             <th class="column-description" mat-header-cell *matHeaderCellDef> Description </th>
-            <td class="column-description" mat-cell *matCellDef="let element" (click)="openDescription(element.description)" > {{element.description | slice:0:75}}...</td>
+            <td class="column-description" mat-cell *matCellDef="let element"
+                (click)="openDescription(element.description)"> {{element.description | slice:0:75}}...</td>
 
         </ng-container>
 
         <ng-container matColumnDef="category">
             <th class="column-category" mat-header-cell *matHeaderCellDef>
-                <mat-select class="select-types" [(ngModel)]="filterModel.printingEditionTypes" (closed)="closedTypeSelect($event)" (selectionChange)="changeTypeSelect($event)" multiple>
-                    <mat-option *ngFor="let item of printingEditionTypes" [value]="item.value">{{item.name}}
+                <mat-select class="select-types" (closed)="closedTypeSelect($event)"
+                    (selectionChange)="changeTypeSelect($event)" [(ngModel)]="filterModel.PrintingEditionTypes"
+                    multiple>
+                    <mat-option *ngFor="let item of productPresentationModels" [value]="item.value">{{item.name}}
                     </mat-option>
                 </mat-select>
             </th>

@@ -2,16 +2,36 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { FilterAuthorModel, AuthorModelItem, AuthorModel } from 'src/app/shared/models';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { scan } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorService {
 
+  private authorsSubj: BehaviorSubject<AuthorModelItem[]>;
+  
+
   constructor(private http: HttpClient, private apiRoutes: ApiRoutes
     ) { 
+      
+      this.authorsSubj = new BehaviorSubject<AuthorModelItem[]>([]);
+  }
+  getAuthorsSubj(): Observable<AuthorModelItem[]> {
+    return this.authorsSubj.asObservable();
+  }
 
+  getAuthorsSubjScan(): Observable<any> {
+    return this.authorsSubj.asObservable().pipe(
+      scan((acc, curr) => {
+        return [...acc, ...curr];
+      }, [])
+    );
+  }
+
+  nextAuthorSubj(models: Array<AuthorModelItem>): void {
+    return this.authorsSubj.next(models);
   }
 
   getAuthorsInPrintingEditions(filterModel: FilterAuthorModel): Observable<AuthorModel> {

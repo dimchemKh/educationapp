@@ -1,16 +1,16 @@
 ﻿using EducationApp.BusinessLogic.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using EducationApp.BusinessLogic.Services.Interfaces;
-using EducationApp.Presentation.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using EducationApp.Presentation.Helper.Interfaces;
 using System.Linq;
-using EducationApp.BusinessLogic.Common.Constants;
 using Microsoft.AspNetCore.Http;
 using System;
 using EducationApp.BusinessLogic.Models.Auth;
+using EducationApp.Presentation.Common.Models.Configs;
+using EducationApp.BusinessLogic.Models.Configs;
 
 namespace EducationApp.Presentation.Controllers
 {
@@ -21,12 +21,15 @@ namespace EducationApp.Presentation.Controllers
         private readonly IAccountService _accountService;
         private readonly IOptions<AuthConfig> _configOptions;
         private readonly IJwtHelper _jwtHelper;
-        public AccountController(IAccountService accountService, IOptions<AuthConfig> configOptions, IJwtHelper jwtHelper)
+        private readonly IOptions<EmailConfig> _emailConfigs;
+        public AccountController(IAccountService accountService, IOptions<AuthConfig> authConfigs, IJwtHelper jwtHelper, IOptions<EmailConfig> emailConfigs)
         {
             _accountService = accountService;
-            _configOptions = configOptions;
+            _configOptions = authConfigs;
             _jwtHelper = jwtHelper;
+            _emailConfigs = emailConfigs;
         }
+
         [AllowAnonymous]
         [HttpPost("forgotPassword")]
         public async Task<IActionResult> ForgorPasswordAsync([FromBody]UserLoginModel userModel)
@@ -35,6 +38,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [AllowAnonymous]
         [HttpGet("refresh")]
         public async Task<IActionResult> RefreshTokenAsync()
@@ -56,6 +60,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(userInfoModel);
         }
+
         [AllowAnonymous]
         [HttpPost("signUp")]
         public async Task<IActionResult> SignUpAsync([FromBody]UserRegistrationModel registrationModel)
@@ -66,6 +71,7 @@ namespace EducationApp.Presentation.Controllers
             {
                 return Ok(responseModel);
             }
+
             var userModel = await _accountService.GetEmailConfirmTokenAsync(registrationModel.Email);
 
             if (userModel.Errors.Any())
@@ -84,6 +90,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [AllowAnonymous]
         [HttpPost("signIn")]
         public async Task<IActionResult> SignInAsync([FromBody]UserLoginModel loginModel)
@@ -100,13 +107,14 @@ namespace EducationApp.Presentation.Controllers
             GenerateCookie(result);
 
             return Ok(userInfoModel);
-        }         
+        }        
+        
         [HttpGet("confirmEmail")]
         public async Task<IActionResult> ConfirmEmailAsync(string userId, string confirmToken)
         {
             var regModel = await _accountService.ConfirmEmailAsync(userId, confirmToken);
 
-            string url = Constants.SmtpSettings.ConfirmEmailUrl;
+            string url = _emailConfigs.Value.ConfirmEmailUrl;
 
             if (regModel.Errors.Any())
             {
@@ -116,6 +124,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Redirect(url);
         }        
+
         private void GenerateCookie(AuthModel result)
         {
             Response.Cookies.Append(_configOptions.Value.AccessName, result.AccessToken, new CookieOptions()

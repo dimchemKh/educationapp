@@ -20,7 +20,6 @@ export class CartItemsComponent implements OnInit {
   quantities = Array<number>();
   quantity: number;
   columnsCart: string[];
-  invalidError: any;
 
   converterModel: ConverterModel;
   orders: OrderModelItem;
@@ -74,7 +73,7 @@ export class CartItemsComponent implements OnInit {
       if (data.errors.length <= 0) {
         this.dataService.deleteItemLocalStorage('cartItems');
 
-        this.cartService.cartSource.next([]);
+        this.cartService.nextCartSource([]);
 
         payment.orderId = data.items[0].id;
       }

@@ -3,6 +3,5 @@ import { PageSize } from 'src/app/shared/enums/page-size';
 import { IsBlocked } from 'src/app/shared/enums/is-blocked';
 
 export class FilterUserModel extends BaseFilterModel {
-    pageSize = 3;
     isBlocked: IsBlocked;
 }

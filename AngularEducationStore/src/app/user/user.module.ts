@@ -4,8 +4,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from 'src/app/user/user-routing.module';
 import { ProfileComponent } from 'src/app/user/profile/profile.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-    MaterialModule } from 'src/app/material.module';
+import { MaterialModule } from 'src/app/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UsersAllComponent } from 'src/app/user/users-all/users-all.component';
 import { UserEditDialogComponent } from 'src/app/user/users-all/user-edit-dialog/user-edit-dialog.component';

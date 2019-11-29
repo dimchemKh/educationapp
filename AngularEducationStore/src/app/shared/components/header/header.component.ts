@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private authService: AccountService,
+  constructor(private accountService: AccountService,
     private userService: UserService,
     private dialog: MatDialog,
     private cartService: CartService,
@@ -64,12 +64,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
     });
 
-    this.subscription = this.authService.authNavStatus$.subscribe(status => {
+    this.subscription = this.accountService.getAuthNavStatus().subscribe(status => {
       this.isAuth = status;
       this.getUserImage();
     });
 
-    this.cartService.cartSource.subscribe((data) => {
+    this.cartService.getCartSource().subscribe((data) => {
       if (data) {
         this.countOrders = data.length;
       }
@@ -98,8 +98,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        this.authService.signOut();
-        this.cartService.cartSource.next([]);
+        this.accountService.signOut();
       }
     });
   }

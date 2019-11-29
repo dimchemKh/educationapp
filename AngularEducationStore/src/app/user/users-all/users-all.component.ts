@@ -28,18 +28,20 @@ export class UsersAllComponent implements OnInit {
   filterModel: FilterUserModel;
   userModel: UserModel;
 
+  selectedBlockTypes: IsBlocked[];
+
   constructor(private dialog: MatDialog,
     private userService: UserService,
     private userParametrs: UserParameters,
     private columnsTitles: ColumnsTitles
     ) {
+    this.filterModel = new FilterUserModel();
+    this.userModel = new UserModel();
     this.filterModel.pageSize = 3;
     this.columnsUsers = this.columnsTitles.columnsUsers;
     this.editIcon = faHighlighter;
     this.closeIcon = faTimes;
     this.isLoading = true;
-    this.filterModel = new FilterUserModel();
-    this.userModel = new UserModel();
     this.selectedBlockTypes = [IsBlocked.Block, IsBlocked.Unblock];
   }
 
@@ -47,7 +49,6 @@ export class UsersAllComponent implements OnInit {
   sortTypes = this.userParametrs.sortTypes;
   blockedTypes = this.userParametrs.blockedTypes;
 
-  selectedBlockTypes: IsBlocked[];
 
   ngOnInit(): void {
     this.userService.getAllUsers(this.filterModel).subscribe((data: UserModel) => {

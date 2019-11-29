@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { DataService } from 'src/app/shared/services/data.service';
 import { HttpClient } from '@angular/common/http';
@@ -10,7 +10,7 @@ import { ConverterModel, OrderModelItem } from 'src/app/shared/models';
 })
 export class CartService {  
 
-  cartSource: BehaviorSubject<number[]>;
+  private cartSource: BehaviorSubject<number[]>;
 
   constructor(private http: HttpClient,
     private apiRoutes: ApiRoutes,
@@ -20,16 +20,31 @@ export class CartService {
     this.initPurcheses();
   }
 
+  getCartSource(): Observable<number[]> {
+    return this.cartSource.asObservable();
+  }
+
+  getAllValuesSource(): number[] {
+    return this.cartSource.value;
+  }
+
+  nextCartSource(numbers: number[]): void {
+    this.cartSource.next(numbers);
+  }
+  
   initPurcheses(): void {
     let orders = this.getAllPurchases();
+
     if (orders) {
       let values = this.cartSource.value;
       orders.orderItems.forEach((x) => {
         values.push(x.printingEditionId);
       });
+
       this.cartSource.next(values);
       return;
     }
+
     this.cartSource.next([]);
   }
 

@@ -9,7 +9,8 @@ import { FilterOrderModel, OrderModel, OrderModelItem, PaymentModel } from 'src/
 })
 export class OrderService {
 
-  constructor(private http: HttpClient, private apiRoutes: ApiRoutes
+  constructor(private http: HttpClient,
+    private apiRoutes: ApiRoutes
     ) {
 
   }
@@ -22,7 +23,7 @@ export class OrderService {
     return this.http.post<OrderModel>(this.apiRoutes.orderRoute + 'create?role=' + role, orderModel).toPromise();
   }
 
-  updateOrder(payment: PaymentModel): Promise<Object> {
-    return this.http.post(this.apiRoutes.orderRoute + 'update', payment).toPromise();
+  updateOrder(payment: PaymentModel): Promise<OrderModel> {
+    return this.http.post<OrderModel>(this.apiRoutes.orderRoute + 'update', payment).toPromise();
   }
 }

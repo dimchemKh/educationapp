@@ -23,12 +23,14 @@ namespace EducationApp.Presentation.Controllers
         {
             _orderService = orderService;
         }
+
         [HttpPost("converting")]
         public async Task<IActionResult> ConvertPriceAsync([FromBody] ConverterModel converterModel)
         {
             var resultConverting = await _orderService.ConvertPriceAsync(converterModel);
             return Ok(resultConverting);
         }
+
         [HttpPost("get")]
         public async Task<IActionResult> GetOrdersAsync(string role, [FromBody]FilterOrderModel filterOrder)
         {
@@ -48,6 +50,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [Authorize(Roles = Constants.Roles.User)]
         [HttpPost("create")]
         public async Task<IActionResult> CreateOrderAsync(string role, [FromBody] OrderModelItem orderModelItem)
@@ -63,6 +66,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [HttpPost("update")]
         public async Task<IActionResult> UpdateOrderTransactionAsync([FromBody] PaymentModel payment)
         {

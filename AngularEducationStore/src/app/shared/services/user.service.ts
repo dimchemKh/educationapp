@@ -12,6 +12,10 @@ export class UserService {
 
   public userImageSubject: BehaviorSubject<string>;
 
+  get userImageSubject$(): Observable<string> {
+    return this.userImageSubject.asObservable();
+  }
+
   constructor(private http: HttpClient, private apiRoutes: ApiRoutes
     ) {
       this.userImageSubject = new BehaviorSubject<string>(null);
@@ -37,7 +41,7 @@ export class UserService {
     return this.http.post<UserModel>(this.apiRoutes.userRoute + 'block', userModel);
   }
   
-  removeUser(userId: number): Observable<Object> {
-    return this.http.delete(this.apiRoutes.userRoute + 'delete?userid=' + userId);
+  removeUser(userId: number): Observable<UserModel> {
+    return this.http.delete<UserModel>(this.apiRoutes.userRoute + 'delete?userid=' + userId);
   }
 }

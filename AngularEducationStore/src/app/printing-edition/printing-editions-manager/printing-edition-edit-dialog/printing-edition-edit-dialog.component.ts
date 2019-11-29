@@ -26,11 +26,9 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
   offset: number;
 
   dataArray = new AuthorModel();
-
-  authorsSubj: BehaviorSubject<AuthorModelItem[]>;
-  authorsSubj$: Observable<AuthorModelItem[]>;
-
   filterModel: FilterPrintingEditionModel;
+
+  authorsSubj$: Observable<AuthorModelItem[]>;
 
   authorFilter: FilterAuthorModel;
   authorsModel: AuthorModel;
@@ -42,34 +40,31 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
   form: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<PrintingEdiotionsManagerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private printingEditionParams: PrintingEditionsParameters,
-    private fb: FormBuilder, private authorService: AuthorService, private changeDetector: ChangeDetectorRef
-    ) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private printingEditionParams: PrintingEditionsParameters,
+    private fb: FormBuilder, 
+    private authorService: AuthorService, 
+    private changeDetector: ChangeDetectorRef
+  ) {
+    this.initFormGroup();
     this.isExistedData = false;
     this.authorsModel = new AuthorModel();
     this.authorFilter = new FilterAuthorModel();
     this.filterModel = new FilterPrintingEditionModel();
     this.authorsId = new Array<number>();
-    this.authorsSubj = new BehaviorSubject<AuthorModelItem[]>([]);
-    this.authorsSubj$ = this.authorsSubj.asObservable();
     this.productPresentationModels = this.printingEditionParams.productPresentationModels;
     this.currencyPresentationModels = this.printingEditionParams.currencyPresentationModels;
     this.offset = 0;
-
-    this.authorsSubj$ = this.authorsSubj.asObservable().pipe(
-      scan((acc, curr) => {
-        return [...acc, ...curr];
-      }, [])
-    );
+    this.authorsSubj$ = this.authorService.getAuthorsSubjScan();
   }
 
   initFormGroup(): void {
     this.form = this.fb.group({
-      title: new FormControl('', [Validators.required]),
-      textarea: new FormControl('', [Validators.required]),
-      types: new FormControl('', [Validators.required]),
-      authors: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required]),
+      title: new FormControl(null, [Validators.required]),
+      textarea: new FormControl(null, [Validators.required]),
+      types: new FormControl(null, [Validators.required]),
+      authors: new FormControl(null, [Validators.required]),
+      price: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -85,7 +80,7 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
         this.authorsId.push(element.id);
       });
 
-      this.authorsSubj.next(this.data.authors);
+      this.authorService.nextAuthorSubj(this.data.authors);
     }
 
     this.getNextAuthors();
@@ -109,7 +104,7 @@ export class PrintingEditionEditDialogComponent implements OnInit, AfterContentC
         }
       }
 
-      this.authorsSubj.next(arr);
+      this.authorService.nextAuthorSubj(arr);
     });
 
     this.authorFilter.page += 1;

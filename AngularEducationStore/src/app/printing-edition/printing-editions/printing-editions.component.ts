@@ -24,10 +24,8 @@ import { GridFormatPresentationModel } from 'src/app/shared/models/presentation/
 export class PrintingEditionsComponent implements OnInit {
 
   printingEditionIcon: IconDefinition;
-
   filterModel: FilterPrintingEditionModel;
   printingEditionModel: PrintingEditionModel;
-
   productPresentationModels: Array<ProductPresentationModel>;
   currencyPresentationModels: Array<CurrencyPresentationModel>;
   sortStateModels: Array<SortStatesPresentationModel>;
@@ -73,13 +71,13 @@ export class PrintingEditionsComponent implements OnInit {
   }
   submit(page: number = 1): void {
     this.filterModel.PrintingEditionTypes = [];
-    debugger
+
     for (let i = 0; i < this.productPresentationModels.length; i++) {
       if (this.productPresentationModels[i].checked === true) {
         this.filterModel.PrintingEditionTypes.push(i + 1);
       }
     }
-    debugger
+
     this.filterModel.page = page;
 
     this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)

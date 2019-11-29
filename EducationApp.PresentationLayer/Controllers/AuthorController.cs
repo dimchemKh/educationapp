@@ -19,6 +19,7 @@ namespace EducationApp.Presentation.Controllers
         {
             _authorService = authorService;
         }
+
         [HttpPost("getAll")]
         public async Task<IActionResult> GetAllAuthorsAsync([FromBody]FilterAuthorModel filterModel)
         {
@@ -26,6 +27,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(response);
         }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateAuthorAsync([FromBody]AuthorModelItem authorModel)
         {
@@ -33,6 +35,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [HttpPost("get")]
         public async Task<IActionResult> GetAuthorsInPrintingEditionAsync([FromBody]FilterAuthorModel authorFilterModel)
         {
@@ -40,6 +43,7 @@ namespace EducationApp.Presentation.Controllers
             
             return Ok(responseModel);
         } 
+
         [HttpPut("update")]
         public async Task<IActionResult> UpdateAuthorAsync([FromBody]AuthorModelItem authorModelItem)
         {
@@ -47,6 +51,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [HttpDelete("delete")]
         public async Task<IActionResult> DeleteAuthorAsync(long authorId)
         {

@@ -44,6 +44,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [Authorize(Roles = Constants.Roles.User)]
         [HttpGet("details")]
         public async Task<IActionResult> GetPrintingEditionDetails(long printingEditionId, Enums.Currency currency)
@@ -52,6 +53,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [Authorize(Roles = Constants.Roles.Admin)]
         [HttpPost("create")]
         public async Task<IActionResult> CreatePrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
@@ -60,6 +62,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [Authorize(Roles = Constants.Roles.Admin)]
         [HttpPut("update")]
         public async Task<IActionResult> UpdatePrintingEditionAsync([FromBody]PrintingEditionModelItem printingEditionsModelItem)
@@ -68,6 +71,7 @@ namespace EducationApp.Presentation.Controllers
 
             return Ok(responseModel);
         }
+
         [Authorize(Roles = Constants.Roles.Admin)]
         [HttpDelete("delete")]
         public async Task<IActionResult> DeletePrintingEditionAsync(long printingEditionId)

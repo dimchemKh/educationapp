@@ -7,7 +7,6 @@
 <button class="search-button" mat-raised-button color="accent" (click)="submit()">Find</button>
 <div class="table-container">
 
-
   <table mat-table [dataSource]="userModel.items" matSort matSortActive="userName" matSortDisableClear
     matSortDirection="desc" (matSortChange)="sortData($event)">
 
@@ -48,8 +47,8 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="columnsUsers"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsUsers;"></tr>
   </table>
   <mat-paginator class="paginator" [length]="userModel.itemsCount" [pageSize]="filterModel.pageSize"
     (page)="pageEvent($event)" [pageSizeOptions]="[3, 5, 10]" [showFirstLastButtons]="true"></mat-paginator>

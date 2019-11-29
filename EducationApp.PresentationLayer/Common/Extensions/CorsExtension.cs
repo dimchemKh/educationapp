@@ -1,20 +1,20 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EducationApp.BusinessLogic.Models.Configs;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace EducationApp.Presentation.Common.Extensions
 {
     public static class CorsExtension
     {
-        public static void AddCors(this IServiceCollection services, IConfiguration configuration)
+        public static void AddCorsWithOrigin(this IServiceCollection services)
         {
-            var origin = configuration.GetSection("Cors").GetSection("Origins").Value;
-            var policyName = configuration.GetSection("Cors").GetSection("PolicyName").Value;
+            var corsService = services.BuildServiceProvider().GetService<IOptions<CorsConfig>>();
 
             services.AddCors(opt =>
             {
-                opt.AddPolicy(policyName, builder =>
+                opt.AddPolicy(corsService.Value.PolicyName, builder =>
                 {
-                    builder.WithOrigins(origin)
+                    builder.WithOrigins(corsService.Value.Origins)
                            .AllowCredentials()
                            .AllowAnyMethod()
                            .AllowAnyHeader();

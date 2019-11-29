@@ -27,6 +27,7 @@ namespace EducationApp.DataAccessLayer.Initializers
             {
                 SeedAdminAndUserRoles();
             }
+
             if (!_context.Authors.Any())
             {
                 SeedEntitiesAsync();
@@ -37,12 +38,14 @@ namespace EducationApp.DataAccessLayer.Initializers
             _roleManager.CreateAsync(new Role()
             {
                 Name = Constants.Roles.Admin
-            }).GetAwaiter().GetResult();
+            }).GetAwaiter()
+              .GetResult();
 
             _roleManager.CreateAsync(new Role()
             {
                 Name = Constants.Roles.User
-            }).GetAwaiter().GetResult();
+            }).GetAwaiter()
+              .GetResult();
 
             var admin = new ApplicationUser();
 
@@ -53,11 +56,15 @@ namespace EducationApp.DataAccessLayer.Initializers
             admin.EmailConfirmed = true;
             admin.LockoutEnabled = false;
 
-            var result = _userManager.CreateAsync(admin, Constants.AdminSettings.Password).GetAwaiter().GetResult();
+            var result = _userManager.CreateAsync(admin, Constants.AdminSettings.Password)
+                                     .GetAwaiter()
+                                     .GetResult();
 
             if (result.Succeeded)
             {
-                _userManager.AddToRoleAsync(admin, Constants.Roles.Admin).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(admin, Constants.Roles.Admin)
+                            .GetAwaiter()
+                            .GetResult();
             }
             
         }
@@ -72,6 +79,7 @@ namespace EducationApp.DataAccessLayer.Initializers
                 PrintingEditionType = Enums.PrintingEditionType.Book,
                 Currency = Enums.Currency.USD
             };
+
             var printingEdition2 = new PrintingEdition()
             {
                 Title = "New business",
@@ -81,6 +89,7 @@ namespace EducationApp.DataAccessLayer.Initializers
                 PrintingEditionType = Enums.PrintingEditionType.Newspaper,
                 Currency = Enums.Currency.USD
             };
+
             var printingEdition3 = new PrintingEdition()
             {
                 Title = "Concepts",
@@ -96,11 +105,13 @@ namespace EducationApp.DataAccessLayer.Initializers
                 Name = "Bob Mart",
                 CreationDate = DateTime.Now
             };
+
             var author2 = new Author()
             {
                 Name = "Avreliy Berk",
                 CreationDate = DateTime.Now
             };
+
             var author3 = new Author()
             {
                 Name = "Edward Berilog",
@@ -120,6 +131,7 @@ namespace EducationApp.DataAccessLayer.Initializers
                     PrintingEdition = printingEdition1
                 }
             };
+
             printingEdition2.AuthorInPrintingEditions = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition
@@ -133,6 +145,7 @@ namespace EducationApp.DataAccessLayer.Initializers
                     PrintingEdition = printingEdition2
                 }
             };
+
             printingEdition3.AuthorInPrintingEditions = new List<AuthorInPrintingEdition>()
             {
                 new AuthorInPrintingEdition
@@ -140,8 +153,7 @@ namespace EducationApp.DataAccessLayer.Initializers
                     Author = author2,
                     PrintingEdition = printingEdition3
                 }
-            };
-            
+            };            
 
             _context.Authors.AddRange(new List<Author>()
             {

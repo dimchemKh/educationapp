@@ -34,8 +34,11 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
 
   quantities = Array<number>();
 
-  constructor(private route: ActivatedRoute, private printingEditionService: PrintingEditionService,
-              private prinringEditionParametrs: PrintingEditionsParameters, private cartService: CartService) {
+  constructor(private route: ActivatedRoute,
+    private printingEditionService: PrintingEditionService,
+    private prinringEditionParametrs: PrintingEditionsParameters,
+    private cartService: CartService
+    ) {
     for (let i = 1; i < 10; i++) {
       this.quantities.push(i);
     }
@@ -48,7 +51,7 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.cartSubscription = this.cartService.cartSource.subscribe((numbers) => {
+    this.cartSubscription = this.cartService.getCartSource().subscribe((numbers) => {
       if (!this.cartService.checkTheSame(numbers, +this.route.snapshot.paramMap.get('id'))) {
         this.isPurchase = false;
       }
@@ -57,25 +60,30 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     let data = history.state.data;
     data === undefined ? this.getDetails() : this.getDetails(data._currency);
   }
+
   convertPrice(currency: number): void {
     this.quantity = 1;
     this.getDetails(currency);
   }
+
   getDetails(currency: number = 1): void {
     let printingEditionId = +this.route.snapshot.paramMap.get('id');
+    
     this.currency = currency;
+
     this.printingEditionService.getPrintingEditionDetails(printingEditionId, currency).subscribe((data) => {
       this.printingEdition = data.items[0];
     });
   }
+
   async addPurchase(printingEdition: PrintingEditionModelItem): Promise<void> {
 
     let orders = this.cartService.getAllPurchases();
 
-    let cartSource = this.cartService.cartSource.value;
+    let cartSource = this.cartService.getAllValuesSource();
     cartSource.push(printingEdition.id);
 
-    this.cartService.cartSource.next(cartSource);
+    this.cartService.nextCartSource(cartSource);
 
     if (cartSource && this.cartService.checkTheSame(cartSource, printingEdition.id)) {
       this.isPurchase = true;

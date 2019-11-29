@@ -37,12 +37,7 @@ export const HttpInterceptorProviders = [
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    SharedModule,
-    AccountModule,
-    PrintingEditionModule,
-    AuthorModule,
-    UserModule,
-    OrderModule
+    SharedModule
   ],
   providers: [ 
     HttpInterceptorProviders,

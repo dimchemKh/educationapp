@@ -22,7 +22,6 @@ namespace EducationApp.DataAccessLayer.Initializers
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
-            #region Repositories
             services.AddTransient<IUserRepository, UserRepository>();
             //services.AddTransient<IUserRepository, UserRepository>();
             //services.AddTransient<IPrintingEditionRepository, PrintingEditionRepository>();
@@ -30,18 +29,14 @@ namespace EducationApp.DataAccessLayer.Initializers
             //services.AddTransient<IAuthorRepository, AuthorRepository>();
             //services.AddTransient<IOrderRepository, OrderRepository>();
             //services.AddTransient<IPaymentRepository, PaymentRepository>();
-            #endregion
 
-            #region
+
             services.AddTransient<IPrintingEditionRepository, dapper.PrintingEditionRepository>();
             services.AddTransient<IAuthorInPrintingEditionRepository, dapper.AuthorInPrintingEditionRepository>();
             services.AddTransient<IAuthorRepository, dapper.AuthorRepository>();
             services.AddTransient<IOrderRepository, dapper.OrderRepository>();
             services.AddTransient<IOrderItemRepository, dapper.OrderItemRepository>();
             services.AddTransient<IPaymentRepository, dapper.PaymentRepository>();
-
-            #endregion
-
         }
     }
 }

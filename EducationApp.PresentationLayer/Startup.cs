@@ -9,8 +9,6 @@ using EducationApp.Presentation.Common.Extensions;
 using NLog;
 using System.IO;
 using PresentationInitializers = EducationApp.Presentation.Initializers;
-using BusinessLogicInitializers = EducationApp.BusinessLogic.Initializers;
-using DataAccessInitializers = EducationApp.DataAccessLayer.Initializers;
 
 namespace EducationApp.Presentation
 {
@@ -32,11 +30,7 @@ namespace EducationApp.Presentation
                 options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;                
             });
 
-            PresentationInitializers.InitializerServices.Initialize(services, Configuration);
-
-            BusinessLogicInitializers.InitializerServices.Initialize(services);
-
-            DataAccessInitializers.InitializerServices.Initialize(services, Configuration);
+            PresentationInitializers.InitializerServices.Initialize(services, Configuration);        
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

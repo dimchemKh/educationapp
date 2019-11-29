@@ -13,7 +13,6 @@ import { CartService } from 'src/app/shared/services/cart.service';
 export class AccountService {
 
   private authNavStatusSource: BehaviorSubject<boolean>;
-  authNavStatus$: Observable<boolean>;
   
   constructor(private dataService: DataService,
     private router: Router,
@@ -22,8 +21,12 @@ export class AccountService {
     private cartService: CartService
     ) {
     this.authNavStatusSource = new BehaviorSubject<boolean>(false);
-    this.authNavStatus$ = this.authNavStatusSource.asObservable();
+
     this.authNavStatusSource.next(this.isAuth());
+  }
+
+  getAuthNavStatus(): Observable<boolean> {
+    return this.authNavStatusSource.asObservable();
   }
 
   isAuth(): boolean {
@@ -48,8 +51,8 @@ export class AccountService {
     return this.http.post<UserRequestModel>(this.apiRoutes.accountRoute + 'signIn', userModel, httpOptions);
   }
 
-  signUpUser(user: UserRegistrationModel) {
-      return this.http.post(this.apiRoutes.accountRoute + 'signUp', user);
+  signUpUser(user: UserRegistrationModel): Observable<BaseModel> {
+      return this.http.post<BaseModel>(this.apiRoutes.accountRoute + 'signUp', user);
   }
 
   forgotPassword(userModel: UserLoginModel): Observable<BaseModel> {
@@ -74,7 +77,7 @@ export class AccountService {
 
     this.authNavStatusSource.next(false);
 
-    this.cartService.cartSource.next([]);
+    this.cartService.nextCartSource([]);
 
     this.router.navigate(['/account/signIn']);
   }
