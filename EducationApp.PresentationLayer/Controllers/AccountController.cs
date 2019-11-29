@@ -29,6 +29,13 @@ namespace EducationApp.Presentation.Controllers
             _jwtHelper = jwtHelper;
             _emailConfigs = emailConfigs;
         }
+        // TODO: implement
+        [AllowAnonymous]
+        [HttpPost()]
+        public async Task LogOut()
+        {
+            await _accountService.LogOutAsync();
+        }
 
         [AllowAnonymous]
         [HttpPost("forgotPassword")]

@@ -29,8 +29,12 @@ export class SignUpComponent {
   baseModel: BaseModel;
   isSuccessSignUp: boolean;
 
-  constructor(private accountService: AccountService, private patterns: ValidationPatterns, private dataService: DataService,
-              private fb: FormBuilder, private sanitizer: DomSanitizer) {
+  constructor(private accountService: AccountService,
+    private patterns: ValidationPatterns,
+    private dataService: DataService,
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer
+    ) {
     this.diameter = 25;
     this.isLoading = false;
     this.hidePassword = true;
@@ -42,7 +46,7 @@ export class SignUpComponent {
     this.initFormGroup();
   }
 
-  initFormGroup(): void {
+  private initFormGroup(): void {
     this.form = this.fb.group({
       firstName: new FormControl(null, [Validators.required, Validators.pattern(this.patterns.namePattern)]),
       lastName: new FormControl(null, [Validators.required, Validators.pattern(this.patterns.namePattern)]),
@@ -75,18 +79,20 @@ export class SignUpComponent {
 
     return false;
   }
+
   onFileChange(files: FileList): void {
     this.fileToUpload = files.item(0);
 
     if (files && this.fileToUpload) {
       let reader = new FileReader();
 
-      reader.onload = this._handleReaderLoaded.bind(this);
+      reader.onload = this.handleReaderLoaded.bind(this);
 
       reader.readAsBinaryString(this.fileToUpload);
     }
   }
-  _handleReaderLoaded(readerEvt): void {
+
+  private handleReaderLoaded(readerEvt): void {
     let binaryString = readerEvt.target.result;
 
     this.userModel.image = 'data:image/jpeg;base64,' + btoa(binaryString);
@@ -107,7 +113,8 @@ export class SignUpComponent {
         });
     }
   }
-  checkErrors(): void {
+  
+  private checkErrors(): void {
     if (this.baseModel.errors.length === 0) {
       this.dataService.setLocalStorage('confirmUserName', this.form.controls.firstName.value + ' ' + this.form.controls.lastName.value);
       this.isSuccessSignUp = true;

@@ -33,8 +33,11 @@ export class AuthorsComponent implements OnInit {
 
   columnsAuthors: string[];
 
-  constructor(private dialog: MatDialog, private authorService: AuthorService, private authorParametrs: AuthorParameters,
-              private columnTitles: ColumnsTitles) {
+  constructor(private dialog: MatDialog,
+    private authorService: AuthorService,
+    private authorParametrs: AuthorParameters,
+    private columnTitles: ColumnsTitles
+    ) {
     this.editIcon = faHighlighter;
     this.closeIcon = faTimes;
     this.createIcon = faPlusCircle;
@@ -117,7 +120,7 @@ export class AuthorsComponent implements OnInit {
     });
   }
 
-  openRemoveDialog(element): void {
+  openRemoveDialog(element: AuthorModelItem): void {
     let dialog = this.dialog.open(RemoveDialogComponent, {
       data: {
         closeTitle: 'Close',

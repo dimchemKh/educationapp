@@ -172,5 +172,10 @@ namespace EducationApp.DataAccessLayer.Repository.EFRepository
                 await _userManager.SetLockoutEndDateAsync(user, null);
             }
         }
+
+        public async Task LogOutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

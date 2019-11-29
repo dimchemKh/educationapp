@@ -36,7 +36,7 @@ export class SignInComponent {
     this.initControls();
   }
 
-  initControls(): void {
+  private initControls(): void {
     this.email = new FormControl(null,
       [
         Validators.required,
@@ -58,7 +58,7 @@ export class SignInComponent {
     }
   }
 
-  checkErrors(): boolean {
+  private checkErrors(): boolean {
     if (this.userRequestModel.errors.length > 0) {
       return false;
     }

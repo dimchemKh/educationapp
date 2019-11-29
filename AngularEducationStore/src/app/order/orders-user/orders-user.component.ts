@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterOrderModel, OrderModel, PaymentModel } from 'src/app/shared/models';
+import { FilterOrderModel, OrderModel, PaymentModel, OrderModelItem } from 'src/app/shared/models';
 import { OrderParameters } from 'src/app/shared/constants/order-parameters';
 import { OrderService, DataService, PaymentService } from 'src/app/shared/services';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
@@ -27,11 +27,11 @@ export class OrdersUserComponent extends OrdersAdminComponent implements OnInit 
     public columnsTitles: ColumnsTitles
     ) {
     super(orderService, dataService, printingEditionParams, orderParameters, columnsTitles);
-    this.columnsOrders = this.columnsTitles.columnsOrdersUser;
     this.filterModel = new FilterOrderModel();
     this.orderModel = new OrderModel();
+    this.columnsOrders = this.columnsTitles.columnsOrdersUser;
   }
-  pay(order): void {
+  pay(order: OrderModelItem): void {
     let payment = new PaymentModel();
     
     payment.orderId = order.id;

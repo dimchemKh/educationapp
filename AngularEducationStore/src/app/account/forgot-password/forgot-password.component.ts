@@ -23,7 +23,7 @@ export class ForgotPasswordComponent {
     this.initCountols();
   }
 
-  initCountols(): void {
+  private initCountols(): void {
     this.emailForm = new FormControl(null,
       [
         Validators.required,
@@ -41,7 +41,8 @@ export class ForgotPasswordComponent {
           });
     }
   }
-  getErrorsFromApi(): void {
+
+  private getErrorsFromApi(): void {
     if (this.responseModel.errors.length > 0) {
       return;
     }

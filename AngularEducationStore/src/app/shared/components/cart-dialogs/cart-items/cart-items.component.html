@@ -16,7 +16,7 @@
                     price
                 </th>
                 <td class="column-price" mat-cell *matCellDef="let element">
-                    {{currencyTypes[element.currency - 1].symbol}} {{element.price | number:'1.1-2'}} </td>
+                    {{currencyPresentationModels[element.currency - 1].symbol}} {{element.price | number:'1.1-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="qty">
@@ -45,8 +45,8 @@
                 </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns" sticky></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-header-row *matHeaderRowDef="columnsCart" sticky></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsCart;"></tr>
         </table>
 
         <div class="total-price">

@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FilterOrderModel } from 'src/app/shared/models/filter/filter-order-model';
-import { OrderModel } from 'src/app/shared/models/order/OrderModel';
+import { FilterOrderModel, OrderModel } from 'src/app/shared/models';
 import { OrderParameters } from 'src/app/shared/constants/order-parameters';
-import { OrderService } from 'src/app/shared/services/order.service';
-import { DataService } from 'src/app/shared/services/data.service';
+import { OrderService, DataService } from 'src/app/shared/services';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
-import { TransactionStatus } from 'src/app/shared/enums/transaction-status';
 import { MatSort, PageEvent, MatSelectChange } from '@angular/material';
 import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
-import { PageSize } from 'src/app/shared/enums';
+import { PageSize, TransactionStatus } from 'src/app/shared/enums';
 import { ProductPresentationModel } from 'src/app/shared/models/presentation/ProductPresenatationModel';
 import { SortStatesPresentationModel } from 'src/app/shared/models/presentation/SortStatesPresentationModel';
 import { SortTypesPresentationModel } from 'src/app/shared/models/presentation/SortTypesPresentationModel';
@@ -25,20 +22,20 @@ export class OrdersAdminComponent implements OnInit {
   orderModel: OrderModel;
   isRequire: number;
   columnsOrders: string[];
-
   pageSizes: PageSize[];
   productPresentationModels: Array<ProductPresentationModel>;
-
   orderStatusModels: Array<OrderStatusPresentationModel>;
-
   sortStatesModels: Array<SortStatesPresentationModel>;
   sortTypesModels: Array<SortTypesPresentationModel>;
   
   transactionStatus: TransactionStatus[];
 
-  constructor(public orderService: OrderService, public dataService: DataService,
-              public printingEditionParams: PrintingEditionsParameters, public orderParametrs: OrderParameters,
-              public columnsTitles: ColumnsTitles) {
+  constructor(public orderService: OrderService,
+    public dataService: DataService,
+    public printingEditionParams: PrintingEditionsParameters,
+    public orderParametrs: OrderParameters,
+    public columnsTitles: ColumnsTitles
+    ) {
     this.filterModel = new FilterOrderModel();
     this.orderModel = new OrderModel();
     this.columnsOrders = this.columnsTitles.columnsOrdersAdmin;
@@ -65,6 +62,7 @@ export class OrdersAdminComponent implements OnInit {
 
     this.submit();
   }
+
   changeTypeSelect(event: MatSelectChange): void {
     if (event.value.length === 1) {
       this.isRequire = event.value[0];
@@ -75,11 +73,13 @@ export class OrdersAdminComponent implements OnInit {
       this.transactionStatus = [this.isRequire];
     }
   }
+
   closedTypeSelect(event: boolean): void {
     if (!event) {
       this.submit();
     }
   }
+
   pageEvent(event: PageEvent): void {
     let page = event.pageIndex + 1;
 
@@ -90,6 +90,7 @@ export class OrdersAdminComponent implements OnInit {
 
     this.submit(page);
   }
+
   submit(page: number = 1): void {
     this.filterModel.page = page;
 

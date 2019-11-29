@@ -1,16 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
+import { PrintingEditionModelItem, OrderModelItem, OrderItemModelItem } from 'src/app/shared/models';
 import { faBook, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
-import { PrintingEditionService } from 'src/app/shared/services/printing-edition.service';
+import { PrintingEditionService, CartService } from 'src/app/shared/services';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
-import { OrderItemModelItem } from 'src/app/shared/models/order-item/OrderItemModelItem';
 import { Currency } from 'src/app/shared/enums/currency';
 import { Subscription } from 'rxjs';
 import { ConverterModel } from 'src/app/shared/models/converter/ConverterModel';
-import { CartService } from 'src/app/shared/services/cart.service';
-import { OrderModelItem } from 'src/app/shared/models/order/OrderModelItem';
 import { CurrencyPresentationModel } from 'src/app/shared/models/presentation/CurrencyPresentationModel';
 
 @Component({
@@ -23,15 +20,11 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
   printingEdition: PrintingEditionModelItem;
   printingEditionIcon: IconDefinition;
   cartIcon: IconDefinition;
-
   currencyPresentationModels: Array<CurrencyPresentationModel>;
-
   cartSubscription: Subscription;
   isPurchase: boolean;
-
   quantity: number;
   currency: number;
-
   quantities = Array<number>();
 
   constructor(private route: ActivatedRoute,
@@ -58,6 +51,7 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     });
 
     let data = history.state.data;
+
     data === undefined ? this.getDetails() : this.getDetails(data._currency);
   }
 
@@ -66,7 +60,7 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     this.getDetails(currency);
   }
 
-  getDetails(currency: number = 1): void {
+  private getDetails(currency: number = 1): void {
     let printingEditionId = +this.route.snapshot.paramMap.get('id');
     
     this.currency = currency;
@@ -77,10 +71,10 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
   }
 
   async addPurchase(printingEdition: PrintingEditionModelItem): Promise<void> {
-
     let orders = this.cartService.getAllPurchases();
 
     let cartSource = this.cartService.getAllValuesSource();
+
     cartSource.push(printingEdition.id);
 
     this.cartService.nextCartSource(cartSource);
@@ -89,10 +83,35 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
       this.isPurchase = true;
     }
 
+    this.createOrderItem();
+
+    
+
+    if (!orders) {
+      orders = new OrderModelItem();
+
+      orders.orderItems.push(localPrintingEdition);
+
+      await this.cartService.addOrder(orders);
+
+      this.isPurchase = true;
+
+      return;
+    }
+
+    orders.orderItems.push(localPrintingEdition);
+
+    await this.cartService.addOrder(orders);
+
+    this.isPurchase = true;
+  }
+
+  private async createOrderItem(printingEdition: PrintingEditionModelItem): Promise<void> {
     let localPrintingEdition = new OrderItemModelItem();
 
     if (this.currency !== Currency.USD) {
       let converterModel = new ConverterModel();
+
       converterModel.currencyFrom = this.currency;
 
       converterModel.price = printingEdition.price;
@@ -108,18 +127,9 @@ export class PrintingEditionDetailsComponent implements OnInit, OnDestroy {
     localPrintingEdition.count = this.quantity;
     localPrintingEdition.currency = Currency.USD;
 
-    if (!orders) {
-      orders = new OrderModelItem();
-      orders.orderItems.push(localPrintingEdition);
-      await this.cartService.addOrder(orders);
-      this.isPurchase = true;
-      return;
-    }
-
-    orders.orderItems.push(localPrintingEdition);
-    await this.cartService.addOrder(orders);
-    this.isPurchase = true;
+    return 
   }
+
   ngOnDestroy(): void {
     this.cartSubscription.unsubscribe();
   }

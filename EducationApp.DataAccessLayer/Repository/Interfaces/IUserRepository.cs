@@ -23,5 +23,6 @@ namespace EducationApp.DataAccessLayer.Repository.Interfaces
         Task<bool> UpdateUserAsync(ApplicationUser user);
         Task<GenericModel<ApplicationUser>> GetFilteredDataAsync(FilterUserModel model);
         Task BlockUserAsync(ApplicationUser user, bool isBlocked);
+        Task LogOutAsync();
     }
 }

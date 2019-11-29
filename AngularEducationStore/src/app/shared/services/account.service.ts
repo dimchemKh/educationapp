@@ -73,11 +73,15 @@ export class AccountService {
   signOut(): void {
     this.dataService.clearLocalStorage();
 
+    
     this.dataService.deleteAllCookie('/');
 
     this.authNavStatusSource.next(false);
 
     this.cartService.nextCartSource([]);
+
+    // TODO: IMPLEMENT
+    this.http.post(this.apiRoutes.accountRoute + '')
 
     this.router.navigate(['/account/signIn']);
   }

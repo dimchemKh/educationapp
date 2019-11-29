@@ -11,5 +11,6 @@ namespace EducationApp.BusinessLogic.Services.Interfaces
         Task<UserModel> GetAllUsersAsync(FilterUserModel filterUserModel);
         Task<UserModel> DeleteUserAsync(long userId);
         Task<UserModel> BlockUserAsync(long userId, bool isBlocked);
+
     }
 }

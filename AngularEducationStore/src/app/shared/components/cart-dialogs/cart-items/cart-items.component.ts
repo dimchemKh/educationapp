@@ -20,10 +20,8 @@ export class CartItemsComponent implements OnInit {
   quantities = Array<number>();
   quantity: number;
   columnsCart: string[];
-
   converterModel: ConverterModel;
   orders: OrderModelItem;
-
   currencyPresentationModels: CurrencyPresentationModel[];
 
   constructor(public dialogRef: MatDialogRef<PrintingEditionDetailsComponent>,
