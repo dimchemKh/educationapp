@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { UserRegistrationModel } from 'src/app/shared/models/user/UserRegistrationModel';
 import { BaseModel } from 'src/app/shared/models/base/BaseModel';
-import { AccountService, DataService } from 'src/app/shared/services';
+import { AccountService } from 'src/app/shared/services';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -33,7 +33,6 @@ export class SignUpComponent {
   constructor(
     private accountService: AccountService,
     private patterns: ValidationPatterns,
-    private dataService: DataService,
     private fb: FormBuilder,
     private sanitizer: DomSanitizer
   ) {
@@ -61,8 +60,12 @@ export class SignUpComponent {
       confirmPassword: new FormControl(null, [Validators.required])
     },
       {
-        validators: MustMatch(this.form.controls.password.value, this.form.controls.confirmPassword.value)
+        validators: MustMatch('password', 'confirmPassword')
       });
+  }
+
+  get formControls() {
+    return this.form.controls;
   }
 
   isControlInvalid(controlName: string): boolean {
@@ -122,7 +125,7 @@ export class SignUpComponent {
 
   private checkErrors(): void {
     if (this.baseModel.errors.length === 0) {
-      this.dataService.setLocalStorage('confirmUserName', this.form.controls.firstName.value + ' ' + this.form.controls.lastName.value);
+      // this.dataService.setLocalStorage('confirmUserName', this.form.controls.firstName.value + ' ' + this.form.controls.lastName.value);
       this.isSuccessSignUp = true;
     }
     this.isLoading = false;

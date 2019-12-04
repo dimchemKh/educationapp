@@ -19,6 +19,7 @@ export class AuthorService {
   ) {
     this.authorsSubj = new BehaviorSubject<AuthorModelItem[]>([]);
   }
+  
   getAuthorsSubj(): Observable<AuthorModelItem[]> {
     return this.authorsSubj.asObservable();
   }

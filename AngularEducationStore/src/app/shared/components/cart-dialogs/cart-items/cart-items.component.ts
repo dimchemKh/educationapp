@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material';
 import { Currency } from '../../../enums/currency';
 import { ConverterModel, PaymentModel, OrderModelItem } from 'src/app/shared/models';
 import { PrintingEditionDetailsComponent } from 'src/app/printing-edition/printing-edition-details/printing-edition-details.component';
-import { OrderService, PaymentService, CartService, DataService } from 'src/app/shared/services';
+import { OrderService, PaymentService, CartService } from 'src/app/shared/services';
 import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
 import { CurrencyPresentationModel } from 'src/app/shared/models/presentation/CurrencyPresentationModel';
 
@@ -29,7 +29,6 @@ export class CartItemsComponent implements OnInit {
     private cartService: CartService,
     private parametrs: PrintingEditionsParameters,
     private orderService: OrderService,
-    private dataService: DataService,
     private paymentService: PaymentService,
     private columnsTitles: ColumnsTitles) {
     this.initQuantities();
@@ -63,23 +62,23 @@ export class CartItemsComponent implements OnInit {
     return this.converterModel.price;
   }
 
-  pay(order: OrderModelItem): void {
-    let payment = new PaymentModel();
+  // pay(order: OrderModelItem): void {
+  //   let payment = new PaymentModel();
 
-    this.dialogRef.close();
+  //   this.dialogRef.close();
 
-    this.orderService.createOrder(this.dataService.getLocalStorage('userRole'), order).then((data) => {
-      if (data.errors.length <= 0) {
-        this.dataService.deleteItemLocalStorage('cartItems');
+  //   this.orderService.createOrder(this.dataService.getLocalStorage('userRole'), order).then((data) => {
+  //     if (data.errors.length <= 0) {
+  //       // this.dataService.deleteItemLocalStorage('cartItems');
 
-        this.cartService.nextCartSource([]);
+  //       this.cartService.nextCartSource([]);
 
-        payment.orderId = data.items[0].id;
-      }
-    });
+  //       payment.orderId = data.items[0].id;
+  //     }
+  //   });
 
-    this.paymentService.openStripeDialog(payment);
-  }
+  //   this.paymentService.openStripeDialog(payment);
+  // }
 
   getOrdersAmount(): number {
     this.converterModel.price = 0;

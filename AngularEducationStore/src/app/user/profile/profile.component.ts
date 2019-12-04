@@ -5,8 +5,8 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { UserUpdateModel } from 'src/app/shared/models/user/UserUpdateModel';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
-import { DataService } from 'src/app/shared/services/data.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AuthHelper } from 'src/app/shared/helpers/auth-helper';
 
 @Component({
   selector: 'app-profile',
@@ -32,8 +32,8 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private sanitizer: DomSanitizer,
     private patterns: ValidationPatterns,
-    private dataService: DataService
-    ) {
+    private authHelper: AuthHelper
+  ) {
     this.userIcon = faUser;
     this.editIcon = faEdit;
     this.hidePassword = true;
@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.userService.userImageSubject.subscribe((image) => {
+    this.authHelper.userImageSubject$.subscribe((image) => {
       this.userUpdateModel.image = image;
 
       this.image = this.sanitizer.bypassSecurityTrustUrl(image);
@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
         this.userUpdateModel.errors = data.errors;
 
         this.existedErrors = true;
-        
+
         return;
       }
 
@@ -74,7 +74,7 @@ export class ProfileComponent implements OnInit {
 
       this.image = this.sanitizer.bypassSecurityTrustUrl(data.image);
 
-      this.dataService.setLocalStorage('user', JSON.stringify(this.userUpdateModel));
+      // this.dataService.setLocalStorage('user', JSON.stringify(this.userUpdateModel));
     });
   }
   submit(userModel: UserUpdateModel): void {
@@ -91,11 +91,11 @@ export class ProfileComponent implements OnInit {
 
         const userName = this.userUpdateModel.firstName.concat(' ', this.userUpdateModel.lastName);
 
-        this.dataService.setLocalStorage('userName', userName);
+        // this.dataService.setLocalStorage('userName', userName);
 
-        this.dataService.setLocalStorage('userImage', this.userUpdateModel.image);
+        // this.dataService.setLocalStorage('userImage', this.userUpdateModel.image);
 
-        this.userService.userImageSubject.next(this.userUpdateModel.image);
+        this.authHelper.setUserImageSubject(this.userUpdateModel.image);
 
         this.changeTemplate();
       });
@@ -103,15 +103,16 @@ export class ProfileComponent implements OnInit {
   }
   onFileChange(files: FileList): void {
     this.fileToUpload = files.item(0);
-    
+
     if (files && this.fileToUpload) {
       let reader = new FileReader();
-      
+
       reader.onload = this.handleReaderLoaded.bind(this);
 
       reader.readAsBinaryString(this.fileToUpload);
     }
   }
+
   handleReaderLoaded(readerEvt): void {
     let binaryString = readerEvt.target.result;
 
@@ -119,19 +120,21 @@ export class ProfileComponent implements OnInit {
 
     this.image = this.sanitizer.bypassSecurityTrustUrl(this.userUpdateModel.image);
   }
+
   close(): void {
-    let tempUser: UserUpdateModel = JSON.parse(this.dataService.getLocalStorage('user'));
+    // let tempUser: UserUpdateModel = JSON.parse(this.dataService.getLocalStorage('user'));
 
-    this.userUpdateModel.firstName = tempUser.firstName;
+    // this.userUpdateModel.firstName = tempUser.firstName;
 
-    this.userUpdateModel.lastName = tempUser.lastName;
+    // this.userUpdateModel.lastName = tempUser.lastName;
 
-    this.userUpdateModel.email = tempUser.email;
+    // this.userUpdateModel.email = tempUser.email;
 
-    this.userUpdateModel.image = tempUser.image;
+    // this.userUpdateModel.image = tempUser.image;
 
     this.changeTemplate();
   }
+  
   changeTemplate(): void {
     this.isDisabled = !this.isDisabled;
 
@@ -139,6 +142,6 @@ export class ProfileComponent implements OnInit {
   }
   // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy(): void {
-    this.dataService.deleteItemLocalStorage('user');
+    // this.dataService.deleteItemLocalStorage('user');
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { PrintingEditionService, DataService } from 'src/app/shared/services';
+import { PrintingEditionService } from 'src/app/shared/services';
 import { FilterPrintingEditionModel, PrintingEditionModel, PrintingEditionModelItem } from 'src/app/shared/models';
 import { faHighlighter, faTimes, faPlusCircle, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
@@ -43,7 +43,6 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
     private printingEditionService: PrintingEditionService,
     private printingEditionParams: PrintingEditionsParameters,
     private descriptionBar: MatSnackBar,
-    private dataService: DataService,
     private columnsTitles: ColumnsTitles
     ) {
     this.editIcon = faHighlighter;
@@ -60,10 +59,10 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
-    .subscribe((data: PrintingEditionModel) => {
-      this.printingEditionModel = data;
-    });
+    // this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
+    // .subscribe((data: PrintingEditionModel) => {
+    //   this.printingEditionModel = data;
+    // });
   }
 
   sortData(event: MatSort): void {
@@ -85,10 +84,10 @@ export class PrintingEdiotionsManagerComponent implements OnInit {
   submit(page: number = 1): void {
     this.filterModel.page = page;
 
-    this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
-    .subscribe((data) => {
-      this.printingEditionModel = data;
-    });
+    // this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
+    // .subscribe((data) => {
+    //   this.printingEditionModel = data;
+    // });
   }
 
   pageEvent(event: PageEvent): void {

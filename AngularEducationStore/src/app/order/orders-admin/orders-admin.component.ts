@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FilterOrderModel, OrderModel } from 'src/app/shared/models';
 import { OrderParameters } from 'src/app/shared/constants/order-parameters';
-import { OrderService, DataService } from 'src/app/shared/services';
+import { OrderService } from 'src/app/shared/services';
 import { PrintingEditionsParameters } from 'src/app/shared/constants/printing-editions-parameters';
 import { MatSort, PageEvent, MatSelectChange } from '@angular/material';
 import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
@@ -30,8 +30,8 @@ export class OrdersAdminComponent implements OnInit {
   
   transactionStatus: TransactionStatus[];
 
-  constructor(public orderService: OrderService,
-    public dataService: DataService,
+  constructor(
+    public orderService: OrderService,
     public printingEditionParams: PrintingEditionsParameters,
     public orderParametrs: OrderParameters,
     public columnsTitles: ColumnsTitles
@@ -96,9 +96,9 @@ export class OrdersAdminComponent implements OnInit {
 
     this.filterModel.transactionStatus = this.transactionStatus.length > 1 ? TransactionStatus.All : this.transactionStatus[0];
 
-    this.orderService.getOrders(this.dataService.getLocalStorage('userRole'), this.filterModel)
-    .subscribe((data) => {
-      this.orderModel = data;
-    });
+    // this.orderService.getOrders(this.dataService.getLocalStorage('userRole'), this.filterModel)
+    // .subscribe((data) => {
+    //   this.orderModel = data;
+    // });
   }
 }

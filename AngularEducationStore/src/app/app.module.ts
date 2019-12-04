@@ -16,13 +16,13 @@ import { OrderParameters } from 'src/app/shared/constants/order-parameters';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from 'src/app/shared/interceptors/auth.interceptor';
 import { ColumnsTitles } from 'src/app/shared/constants/columns-titles';
-import { NgxLocalStorageModule } from 'ngx-localstorage';
+import { StorageModule } from '@ngx-pwa/local-storage';
 
 export const HttpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 ];
 
-@NgModule({
+@NgModule({ 
   declarations: [
     AppComponent
   ],
@@ -34,7 +34,7 @@ export const HttpInterceptorProviders = [
     RouterModule,
     HttpClientModule,
     SharedModule,
-    NgxLocalStorageModule.forRoot()
+    StorageModule.forRoot({ IDBNoWrap: true })
   ],
   providers: [ 
     HttpInterceptorProviders,

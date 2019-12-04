@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiRoutes } from 'src/environments/api-routes';
 import { FilterUserModel, UserUpdateModel, UserModel, UserModelItem } from 'src/app/shared/models';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -10,17 +10,10 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class UserService {
 
-  public userImageSubject: BehaviorSubject<string>;
-
   constructor(
     private http: HttpClient,
     private apiRoutes: ApiRoutes
     ) {
-      this.userImageSubject = new BehaviorSubject<string>(null);
-  }
-
-  get userImageSubject$(): Observable<string> {
-    return this.userImageSubject.asObservable();
   }
 
   getUserOne(): Observable<UserUpdateModel> {

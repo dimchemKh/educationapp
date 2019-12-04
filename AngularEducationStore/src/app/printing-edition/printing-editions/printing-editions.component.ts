@@ -6,7 +6,6 @@ import { faBook, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { PrintingEditionModel } from 'src/app/shared/models/printing-editions/PrintingEditionModel';
 import { PageEvent } from '@angular/material';
 import { PrintingEditionType } from 'src/app/shared/enums/printing-edition-type';
-import { DataService } from 'src/app/shared/services/data.service';
 import { PrintingEditionModelItem } from 'src/app/shared/models/printing-editions/PrintingEditionModelItem';
 import { Router } from '@angular/router';
 import { ProductPresentationModel } from 'src/app/shared/models/presentation/ProductPresenatationModel';
@@ -35,9 +34,9 @@ export class PrintingEditionsComponent implements OnInit {
   pageCols: number;
   pageRows: number;
 
-  constructor(private printingEditionService: PrintingEditionService,
+  constructor(
+    private printingEditionService: PrintingEditionService,
     private printingEditionParams: PrintingEditionsParameters,
-    private dataService: DataService,
     private router: Router
     ) {
     this.pageSizes = this.printingEditionParams.pageSizes;
@@ -85,10 +84,10 @@ export class PrintingEditionsComponent implements OnInit {
 
     this.filterModel.page = page;
 
-    this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
-    .subscribe((data: PrintingEditionModel) => {
-      this.printingEditionModel = data;
-    });
+    // this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
+    // .subscribe((data: PrintingEditionModel) => {
+    //   this.printingEditionModel = data;
+    // });
   }
 
   private getGridParams(pageSize: number): void {
@@ -116,10 +115,10 @@ export class PrintingEditionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
-    .subscribe((data: PrintingEditionModel) => {
-      this.printingEditionModel = data;
-    });
+    // this.printingEditionService.getPrintingEditions(this.dataService.getLocalStorage('userRole'), this.filterModel)
+    // .subscribe((data: PrintingEditionModel) => {
+    //   this.printingEditionModel = data;
+    // });
 
     this.getGridParams(this.filterModel.pageSize);
   }

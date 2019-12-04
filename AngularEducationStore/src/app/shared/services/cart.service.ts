@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiRoutes } from 'src/environments/api-routes';
-import { DataService } from 'src/app/shared/services/data.service';
 import { HttpClient } from '@angular/common/http';
 import { ConverterModel, OrderModelItem } from 'src/app/shared/models';
 
@@ -10,13 +9,13 @@ import { ConverterModel, OrderModelItem } from 'src/app/shared/models';
 })
 export class CartService {  
 
-  private cartSource: BehaviorSubject<number[]>;
+  private cartSource =new  BehaviorSubject<number[]>([]);
 
   constructor(
     private http: HttpClient,
-    private apiRoutes: ApiRoutes,
-    private dataService: DataService
+    private apiRoutes: ApiRoutes
     ) { 
+
     this.cartSource = new BehaviorSubject<number[]>([]);
     this.initPurcheses();
   }
@@ -50,16 +49,16 @@ export class CartService {
   }
 
   getAllPurchases(): OrderModelItem {
-    let orderModel: OrderModelItem = JSON.parse(this.dataService.getLocalStorage('cartItems'));
+    // let orderModel: OrderModelItem = JSON.parse(this.dataService.getLocalStorage('cartItems'));
     
-    if (orderModel) {
-      return orderModel;
-    }
+    // if (orderModel) {
+    //   return orderModel;
+    // }
 
     return null;
   }
   async addOrder(orders: OrderModelItem): Promise<void> {
-    await this.dataService.setLocalStorage('cartItems', JSON.stringify(orders));
+    // await this.dataService.setLocalStorage('cartItems', JSON.stringify(orders));
   }
 
   convertToCart(converterModel: ConverterModel): Promise<number> { 
@@ -76,7 +75,7 @@ export class CartService {
     this.cartSource.next(cartItems);
 
     if (orders.orderItems.length === 0) {
-      this.dataService.deleteItemLocalStorage('cartItems');
+      // this.dataService.deleteItemLocalStorage('cartItems');
       return;
     }
 

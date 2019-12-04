@@ -1,4 +1,4 @@
 export class AuthModel {
-    public AccessToken: string;
-    public RefreshToken: string;
+    public accessToken: string;
+    public refreshToken: string;
 }

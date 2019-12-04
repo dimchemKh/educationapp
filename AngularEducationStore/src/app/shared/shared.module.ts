@@ -12,7 +12,6 @@ import {
   AuthorService,
   PrintingEditionService,
   UserService,
-  DataService,
   PaymentService,
   CookieService
 } from 'src/app/shared/services';
@@ -24,11 +23,7 @@ import { CartItemsComponent } from 'src/app/shared/components/cart-dialogs/cart-
 import { CartSuccessComponent } from 'src/app/shared/components/cart-dialogs/cart-success/cart-success.component';
 import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found.component';
 import { AuthHelper } from 'src/app/shared/helpers/auth-helper';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
-
-export function tokenGetter() {
-  return localStorage.getItem('access_token');
-}
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -49,12 +44,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     FontAwesomeModule,
-    MaterialModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter
-      }
-    })
+    MaterialModule
   ],
   bootstrap: [],
   providers: [
@@ -63,7 +53,6 @@ export function tokenGetter() {
     CookieService,
     UserService,
     PrintingEditionService,
-    DataService,
     OrderService,
     AuthGuard,
     PaymentService,

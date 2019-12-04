@@ -64,7 +64,8 @@
             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
             <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-hint align="end" formControl="validators" >
+        <mat-hint align="end"  >
+                <div *ngIf="formControls.confirmPassword.errors.mustMatch">Passwords must match</div>
             <!-- {{}} -->
         </mat-hint>
     </mat-form-field>

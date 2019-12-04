@@ -30,7 +30,6 @@ namespace EducationApp.Presentation.Helper
 
             claims.Add(new Claim(ClaimTypes.Role, authModel.UserRole));
             claims.Add(new Claim(ClaimTypes.Name, authModel.UserName));
-            claims.Add(new Claim(nameof(authModel.Image), authModel.Image));
 
             return claims;
         }

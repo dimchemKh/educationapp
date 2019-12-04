@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AccountService, CartService, DataService, UserService } from 'src/app/shared/services';
+import { AccountService, CartService, UserService } from 'src/app/shared/services';
 import { faBookOpen, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -31,28 +31,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   faShoppingCart: IconDefinition;
 
   get userName(): string {
-    return this.dataService.getLocalStorage('userName');
+    return this.authHelper.getUserNameFromToken();
   }
   get userRole(): string {
-    return this.dataService.getLocalStorage('userRole');
+    return this.authHelper.getUserRoleFromToken();
   }
-  getUserImage(): void {
-    this.userImage = this.dataService.getLocalStorage('userImage');
 
-    if (this.userImage) {
-      this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
-    }
-  }
 
   constructor(
-    private accountService: AccountService,
     private userService: UserService,
     private dialog: MatDialog,
     private cartService: CartService,
-    private dataService: DataService,
     private sanitizer: DomSanitizer,
     private authHelper: AuthHelper
-    ) {
+  ) {
     this.isAuth = false;
     this.image = null;
     this.faUser = faUser;
@@ -62,7 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userService.userImageSubject.subscribe((image) => {
+    this.authHelper.userImageSubject$.subscribe((image) => {
       this.userImage = image;
       this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
     });
@@ -77,8 +69,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.countOrders = data.length;
       }
     });
-    
+
   }
+
+  getUserImage(): void {
+    this.userImage = this.authHelper.getUserImageFromToken();
+
+    if (this.userImage) {
+      this.image = this.sanitizer.bypassSecurityTrustUrl(this.userImage);
+    }
+  }
+
   openCart(): void {
     let dialog = this.dialog.open(CartItemsComponent, {
       data: {
@@ -90,6 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     });
   }
+
   signOut(): void {
     let dialog = this.dialog.open(RemoveDialogComponent, {
       data: {
@@ -101,7 +103,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     dialog.afterClosed().subscribe((result) => {
       if (result) {
-        this.authHelper.signOut();
+        this.authHelper.logout();
       }
     });
   }

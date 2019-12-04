@@ -6,5 +6,6 @@ namespace EducationApp.BusinessLogic.Models.Auth
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
+        public string Image { get; set; }
     }
 }

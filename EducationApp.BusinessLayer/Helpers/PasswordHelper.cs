@@ -18,7 +18,6 @@ namespace EducationApp.BusinessLogic.Helpers
         }
         public string GenerateRandomPassword(IConfiguration configuration)
         {
-            var section = configuration.GetSection("PasswordOptions");
             var options = new PasswordOptions()
             {
                 RequireLowercase = _passwordOptions.Value.RequireLowercase,
@@ -30,6 +29,7 @@ namespace EducationApp.BusinessLogic.Helpers
             };
        
             var random = new Random(Environment.TickCount);
+
             var listCharsOfPassword = new List<char>();
 
             if (options.RequireLowercase)
@@ -37,11 +37,13 @@ namespace EducationApp.BusinessLogic.Helpers
                 listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count),
                     Constants.PasswordGenerationParams.ListCharsForPassword[0][random.Next(0, Constants.PasswordGenerationParams.ListCharsForPassword[0].Length)]);
             }
+
             if (options.RequireUppercase)
             {
                 listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count), 
                     Constants.PasswordGenerationParams.ListCharsForPassword[1][random.Next(0, Constants.PasswordGenerationParams.ListCharsForPassword[1].Length)]);
             }
+
             if (options.RequireDigit)
             {
                 listCharsOfPassword.Insert(random.Next(0, listCharsOfPassword.Count), 

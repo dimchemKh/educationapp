@@ -11,9 +11,9 @@ import { AuthGuard } from 'src/app/shared/guards/auth.guard';
 
 
 export const routes: Routes = [
-    { path: '', component: PrintingEditionsComponent, canActivate: [NonAdminGuard] },
-    { path: 'details/:id', component: PrintingEditionDetailsComponent, canActivate: [AuthGuard] },
-    { path: 'manager', component: PrintingEdiotionsManagerComponent, canActivate: [AdminGuard] },
+    { path: '', component: PrintingEditionsComponent, canActivate: [] },
+    { path: 'details/:id', component: PrintingEditionDetailsComponent, canActivate: [] },
+    { path: 'manager', component: PrintingEdiotionsManagerComponent, canActivate: [] },
 ];
 
 @NgModule({

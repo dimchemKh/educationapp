@@ -1,14 +1,12 @@
 import { FormControl, Validators } from '@angular/forms';
 import { UserLoginModel } from 'src/app/shared/models/user/UserLoginModel';
-import { AccountService, DataService } from 'src/app/shared/services';
+import { AccountService } from 'src/app/shared/services';
 import { UserRequestModel } from 'src/app/shared/models/user/UserRequestModel';
 import { faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ValidationPatterns } from 'src/app/shared/constants/validation-patterns';
 import { AuthHelper } from 'src/app/shared/helpers/auth-helper';
 import { Component } from '@angular/core';
 import { AuthModel } from 'src/app/shared/models/auth/auth.model';
-
-const key = 'USER_KEY';
 
 @Component({
   selector: 'app-sign-in',
@@ -31,7 +29,6 @@ export class SignInComponent {
   constructor(
     private accountService: AccountService,
     private patterns: ValidationPatterns,
-    private dataService: DataService,
     private authHelper: AuthHelper
   ) {
     this.userIcon = faUser;
@@ -53,36 +50,10 @@ export class SignInComponent {
 
   submit(model: UserLoginModel): void {
     if (!this.email.invalid && !this.password.invalid) {
-      this.accountService.signInUser(model)
-        .subscribe((data: AuthModel) => {          
-          this.authHelper.signIn(data);
-          // this.signInUser();
-          // this.isRemember();
+      this.accountService.signInUser(model).subscribe((data: AuthModel) => {          
+          this.authHelper.login(data);
+          this.authHelper.isRemember(this.checkedRemember);
         });
     }
-  }
-
-  // private signInUser(): void {
-  //   this.dataService.setLocalStorage('userName', this.userRequestModel.userName);
-
-  //   this.dataService.setLocalStorage('userRole', this.userRequestModel.userRole);
-
-  //   if (this.userRequestModel.image) {
-  //     this.dataService.setLocalStorage('userImage', this.userRequestModel.image);
-  //   }
-  // }
-
-  // private isRemember(): void {
-  //   let date = new Date();
-
-  //   if (!this.checkedRemember) {
-  //     this.dataService.setCookie('expire', 'time', date.setHours(date.getHours() + 12));
-  //   }
-
-  //   if (this.checkedRemember) {
-  //     this.dataService.setCookie('expire', 'time', date.setMonth(date.getMonth() + 2));
-  //   }
-
-  //   this.authHelper.signIn();
-  // }
+  }  
 }

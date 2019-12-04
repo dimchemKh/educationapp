@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 export function MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
-        debugger
+
         const control = formGroup.controls[controlName];
         const matchingControl = formGroup.controls[matchingControlName];
 

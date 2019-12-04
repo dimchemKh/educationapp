@@ -61,6 +61,8 @@ namespace EducationApp.Presentation.Controllers
 
             var authModel = _jwtHelper.Generate(userInfoModel);
 
+            authModel.Image = userInfoModel.Image;
+
             return Ok(authModel);
         }
 
@@ -104,6 +106,8 @@ namespace EducationApp.Presentation.Controllers
             }
 
             var authModel = _jwtHelper.Generate(userInfoModel);
+
+            authModel.Image = userInfoModel.Image;
 
             return Ok(authModel);
         }        

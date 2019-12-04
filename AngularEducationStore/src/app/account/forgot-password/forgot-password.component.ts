@@ -16,7 +16,10 @@ export class ForgotPasswordComponent {
   isSuccessForgot: boolean;
   emailForm: FormControl;
 
-  constructor(private accountService: AccountService, private patterns: ValidationPatterns) {
+  constructor(
+    private accountService: AccountService,
+    private patterns: ValidationPatterns
+  ) {
     this.userModel = new UserLoginModel();
     this.responseModel = new BaseModel();
     this.isSuccessForgot = false;
@@ -33,12 +36,11 @@ export class ForgotPasswordComponent {
 
   submit(userModel: UserLoginModel): void {
     if (!this.emailForm.invalid) {
-      this.accountService.forgotPassword(userModel)
-        .subscribe(
-          (data: BaseModel) => {
-            this.responseModel = data;
-            this.getErrorsFromApi();
-          });
+      this.accountService.forgotPassword(userModel).subscribe(
+        (data: BaseModel) => {
+          this.responseModel = data;
+          this.getErrorsFromApi();
+        });
     }
   }
 
